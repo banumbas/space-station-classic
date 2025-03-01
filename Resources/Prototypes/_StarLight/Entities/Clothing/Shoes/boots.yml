@@ -1,0 +1,11 @@
+- type: entity
+  parent: ClothingShoesBaseButcherable
+  id: ClothingShoesBootsClockwork
+  name: clockwork treads
+  description: Industrial boots made of brass. They're very heavy.
+  components:
+  - type: Sprite
+    sprite: _Starlight/Clothing/Shoes/Boots/clockwork.rsi
+  - type: Clothing
+    sprite: _Starlight/Clothing/Shoes/Boots/clockwork.rsi
+  - type: Matchbox

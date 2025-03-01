@@ -1,6 +1,6 @@
 - type: entity
   id: BaseLathe
-  parent: [ BaseMachinePowered, ConstructibleMachine ]
+  parent: [ BaseMachine, ConstructibleMachine ]
   abstract: true
   name: lathe
   components:
@@ -35,7 +35,6 @@
   - type: WiresPanel
   - type: ActivatableUI
     key: enum.LatheUiKey.Key
-  - type: ActivatableUIRequiresPower
   - type: UserInterface
     interfaces:
       enum.LatheUiKey.Key:
@@ -49,11 +48,18 @@
     price: 800
   - type: ResearchClient
   - type: TechnologyDatabase
+  
+- type: entity
+  id: BaseLathePowered
+  parent: [ BaseMachinePowered, BaseLathe ]
+  abstract: true
+  components:
+  - type: ActivatableUIRequiresPower
 
 # a lathe that can be sped up with space lube / slowed down with glue
 - type: entity
   abstract: true
-  parent: BaseLathe
+  parent: BaseLathePowered
   id: BaseLatheLube
   components:
   - type: ReagentSpeed

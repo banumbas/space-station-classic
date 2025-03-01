@@ -1,0 +1,31 @@
+- type: entity
+  id: Workshop
+  parent: BaseLathe
+  name: "ratvar's workshop"
+  description: "A workshop of elder god. Has unique brass tools to manipulate both power and metal to make fine clockwork piec…"
+  components:
+  - type: Sprite
+    sprite: _Starlight/Structures/Machines/clockwork_workshop.rsi
+    snapCardinals: true
+    layers:
+    - state: icon
+      map: ["enum.LatheVisualLayers.IsRunning"]
+    - state: unlit
+      shader: unshaded
+      map: ["enum.PowerDeviceVisualLayers.Powered"]
+    - state: inserting
+      map: ["enum.MaterialStorageVisualLayers.Inserting"]
+    - state: panel
+      map: ["enum.WiresVisualLayers.MaintenancePanel"]
+  - type: MaterialStorage
+    whitelist:
+      tags:
+        - Brass
+  - type: Lathe
+    idleState: icon
+    runningState: building
+    unlitIdleState: unlit
+    unlitRunningState: unlit-building
+    staticRecipes: []
+  - type: EmagLatheRecipes
+    emagStaticRecipes: []

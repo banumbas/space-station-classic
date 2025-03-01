@@ -38,3 +38,17 @@
     sprite: _Starlight/Clothing/Hands/Gloves/securityglovesfingerlessred.rsi
   - type: Fiber
     fiberMaterial: fibers-red-and-black-woven
+  
+- type: entity
+  parent: ClothingHandsButcherable
+  id: ClothingHandsGlovesClockwork
+  name: clockwork gauntlets
+  description: Heavy, fire-resistant gauntlets with brass reinforcement.
+  components:
+  - type: Sprite
+    sprite: _Starlight/Clothing/Hands/Gloves/clockwork.rsi
+  - type: Clothing
+    sprite: _Starlight/Clothing/Hands/Gloves/clockwork.rsi
+  - type: Fiber
+    fiberMaterial: fibers-brass
+  - type: FingerprintMask

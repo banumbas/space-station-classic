@@ -316,3 +316,15 @@
     sprite: _Starlight/Clothing/Uniforms/Jumpsuit/formal_blueshield.rsi
 
 # Fashion-O-Mat END
+
+# Clockwork cult
+- type: entity
+  parent: [UnsensoredClothingUniformBase, BaseMajorContraband]
+  id: ClothingUniformJumpsuitClockwork
+  name: clock robes
+  description: A set of robes worn by the followers of a clockwork cult.
+  components:
+  - type: Sprite
+    sprite: _Starlight/Clothing/Uniforms/Jumpsuit/clockwork.rsi
+  - type: Clothing
+    sprite: _Starlight/Clothing/Uniforms/Jumpsuit/clockwork.rsi

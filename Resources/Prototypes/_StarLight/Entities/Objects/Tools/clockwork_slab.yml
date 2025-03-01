@@ -1,0 +1,21 @@
+- type: entity
+  name: clockwork slab
+  parent: BaseItem
+  id: ClockworkSlab
+  description: 'A strange metal tablet. A clock in the center turns around and around.'
+  components:
+  - type: Sprite
+    sprite: _Starlight/Objects/Tools/clockwork_slab.rsi
+    state: clock_slab
+  - type: Item
+    sprite: _Starlight/Objects/Tools/clockwork_slab.rsi
+  - type: Tool
+    qualities:
+      - Anchoring
+    useSound:
+      path: /Audio/Items/ratchet.ogg
+  - type: PhysicalComposition
+    materialComposition:
+      Brass: 100
+  - type: StaticPrice
+    price: 222

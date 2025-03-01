@@ -174,3 +174,29 @@
   - type: Tag
     tags:
     - SecurityHelmet
+
+   
+# Clockwork helmet
+- type: entity
+  parent: ClothingHeadHelmetBase
+  id: ClothingHeadHelmetClockwork
+  name: clockwork helmet
+  description: A heavy helmet made of brass.
+  components:
+  - type: Pierceable
+    level: Metal
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.55
+        Slash: 0.35
+        Piercing: 0.90
+        Heat: 1
+  - type: ExplosionResistance
+    damageCoefficient: 1
+  - type: Sprite
+    sprite: _Starlight/Clothing/Head/Helmets/clockwork.rsi
+  - type: Clothing
+    sprite: _Starlight/Clothing/Head/Helmets/clockwork.rsi
+  - type: Tag
+    tags: [] # No chameleon

@@ -124,6 +124,11 @@
     - brass
     - brass_2
     - brass_3
+  - type: Tag
+    tags:
+    - Sheet
+    - Metal
+    - Brass
   - type: Sprite
     state: brass_3
     layers:
