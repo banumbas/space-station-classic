@@ -8,11 +8,13 @@ using Robust.Client.GameObjects;
 using Robust.Client.Graphics;
 using Robust.Client.UserInterface;
 using Robust.Client.UserInterface.Controls;
+using Robust.Client.UserInterface.Themes;
 using Robust.Shared.Input;
 using Robust.Shared.Timing;
 using Robust.Shared.Utility;
 using static Robust.Client.UserInterface.Controls.BoxContainer;
 using static Robust.Client.UserInterface.Controls.TextureRect;
+using static Robust.Client.UserInterface.Controls.AnimatedTextureRect;
 using Direction = Robust.Shared.Maths.Direction;
 
 namespace Content.Client.UserInterface.Systems.Actions.Controls;
@@ -40,16 +42,16 @@ public sealed class ActionButton : Control, IEntityControl
 
     private BoundKeyFunction? _keybind;
 
-    public readonly TextureRect Button;
+    public readonly AnimatedTextureRect Button;
     public readonly PanelContainer HighlightRect;
-    private readonly TextureRect _bigActionIcon;
-    private readonly TextureRect _smallActionIcon;
+    private readonly AnimatedTextureRect _bigActionIcon;
+    private readonly AnimatedTextureRect _smallActionIcon;
     public readonly Label Label;
     public readonly CooldownGraphic Cooldown;
     private readonly SpriteView _smallItemSpriteView;
     private readonly SpriteView _bigItemSpriteView;
 
-    private Texture? _buttonBackgroundTexture;
+    private SpriteSpecifier? _buttonBackgroundTexture;
 
     public EntityUid? ActionId { get; private set; }
     private BaseActionComponent? _action;
@@ -68,31 +70,31 @@ public sealed class ActionButton : Control, IEntityControl
         _controller = controller;
 
         MouseFilter = MouseFilterMode.Pass;
-        Button = new TextureRect
+        Button = new AnimatedTextureRect
         {
             Name = "Button",
-            TextureScale = new Vector2(2, 2)
         };
+        Button.DisplayRect.TextureScale = new Vector2(2, 2);
         HighlightRect = new PanelContainer
         {
             StyleClasses = {StyleNano.StyleClassHandSlotHighlight},
             MinSize = new Vector2(32, 32),
             Visible = false
         };
-        _bigActionIcon = new TextureRect
+        _bigActionIcon = new AnimatedTextureRect
         {
             HorizontalExpand = true,
             VerticalExpand = true,
-            Stretch = StretchMode.Scale,
             Visible = false
         };
-        _smallActionIcon = new TextureRect
+        _bigActionIcon.DisplayRect.Stretch = StretchMode.Scale;
+        _smallActionIcon = new AnimatedTextureRect
         {
             HorizontalAlignment = HAlignment.Right,
             VerticalAlignment = VAlignment.Bottom,
-            Stretch = StretchMode.Scale,
             Visible = false
         };
+        _smallActionIcon.DisplayRect.Stretch = StretchMode.Scale;
         Label = new Label
         {
             Name = "Label",
@@ -161,7 +163,7 @@ public sealed class ActionButton : Control, IEntityControl
     protected override void OnThemeUpdated()
     {
         base.OnThemeUpdated();
-        _buttonBackgroundTexture = Theme.ResolveTexture("SlotBackground");
+        _buttonBackgroundTexture = new SpriteSpecifier.Texture(new($"{UITheme.DefaultPath}/{UITheme.DefaultName}/SlotBackground.png"));
         Label.FontColorOverride = Theme.ResolveColorOrSpecified("whiteText");
     }
 
@@ -245,29 +247,26 @@ public sealed class ActionButton : Control, IEntityControl
         }
     }
 
-    private void SetActionIcon(Texture? texture)
+    private void SetActionIcon(SpriteSpecifier? spriteSpecifier)
     {
-        if (_action == null || texture == null)
+        if (_action == null || spriteSpecifier == null)
         {
-            _bigActionIcon.Texture = null;
             _bigActionIcon.Visible = false;
-            _smallActionIcon.Texture = null;
             _smallActionIcon.Visible = false;
         }
         else if (_action.EntityIcon != null && _action.ItemIconStyle == ItemActionIconStyle.BigItem)
         {
-            _smallActionIcon.Texture = texture;
+            _smallActionIcon.SetFromSpriteSpecifier(spriteSpecifier);
             _smallActionIcon.Modulate = _action.IconColor;
             _smallActionIcon.Visible = true;
-            _bigActionIcon.Texture = null;
             _bigActionIcon.Visible = false;
         }
         else
         {
-            _bigActionIcon.Texture = texture;
+            _bigActionIcon.SetFromSpriteSpecifier(spriteSpecifier);
             _bigActionIcon.Modulate = _action.IconColor;
             _bigActionIcon.Visible = true;
-            _smallActionIcon.Texture = null;
+            _smallActionIcon.SetFromSpriteSpecifier(spriteSpecifier);
             _smallActionIcon.Visible = false;
         }
     }
@@ -288,33 +287,31 @@ public sealed class ActionButton : Control, IEntityControl
         if ((_controller.SelectingTargetFor == ActionId || _action.Toggled))
         {
             if (_action.IconOn != null)
-                SetActionIcon(_spriteSys.Frame0(_action.IconOn));
+                SetActionIcon(_action.IconOn);
             else if (_action.Icon != null)
-                SetActionIcon(_spriteSys.Frame0(_action.Icon));
+                SetActionIcon(_action.Icon);
             else
                 SetActionIcon(null);
 
             if (_action.BackgroundOn != null)
-                _buttonBackgroundTexture = _spriteSys.Frame0(_action.BackgroundOn);
+                _buttonBackgroundTexture = _action.BackgroundOn;
         }
         else
         {
-            SetActionIcon(_action.Icon != null ? _spriteSys.Frame0(_action.Icon) : null);
-            _buttonBackgroundTexture = Theme.ResolveTexture("SlotBackground");
+            SetActionIcon(_action.Icon != null ? _action.Icon : null);
+            _buttonBackgroundTexture = new SpriteSpecifier.Texture(new($"{UITheme.DefaultPath}/{UITheme.DefaultName}/SlotBackground.png"));
         }
     }
 
     public void UpdateBackground()
     {
         _controller ??= UserInterfaceManager.GetUIController<ActionUIController>();
-        if (_action != null ||
-            _controller.IsDragging && GetPositionInParent() == Parent?.ChildCount - 1)
-        {
-            Button.Texture = _buttonBackgroundTexture;
-        }
+        if (_action != null || _controller.IsDragging && GetPositionInParent() == Parent?.ChildCount - 1)
+            if (_buttonBackgroundTexture != null)
+                Button.SetFromSpriteSpecifier(_buttonBackgroundTexture);
         else
         {
-            Button.Texture = null;
+            Button.Visible = false;
         }
     }
 

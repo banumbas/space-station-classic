@@ -40,6 +40,9 @@
   name: steel
   suffix: Full
   components:
+  - type: MidaseTransformable
+    targetEntity: SheetBrass1
+    transformStack: true
   - type: Material
   - type: PhysicalComposition
     materialComposition:
@@ -181,6 +184,9 @@
   name: plasteel
   suffix: Full
   components:
+  - type: MidaseTransformable
+    targetEntity: SheetBrass1
+    transformStack: true
   - type: Material
   - type: PhysicalComposition
     materialComposition:

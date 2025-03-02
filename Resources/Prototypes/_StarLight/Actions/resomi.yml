@@ -7,7 +7,7 @@
   - type: WorldTargetAction
     useDelay: 30
     icon:
-      sprite: _Starlight/Actions/resomi.rsi
+      sprite: _Starlight/Interface/Actions/resomi.rsi
       state: jump
     itemIconStyle: NoItem
     checkCanAccess: false

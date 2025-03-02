@@ -54,6 +54,9 @@
   id: SheetGlass
   suffix: Full
   components:
+  - type: MidaseTransformable
+    targetEntity: SheetClockworkGlass1
+    transformStack: true
   - type: PhysicalComposition
     materialComposition:
       Glass: 100
@@ -124,6 +127,9 @@
   description: A reinforced sheet of glass.
   suffix: Full
   components:
+  - type: MidaseTransformable
+    targetEntity: SheetClockworkGlass1
+    transformStack: true
   - type: PhysicalComposition
     materialComposition:
       ReinforcedGlass: 100
@@ -204,6 +210,9 @@
   description: A sheet of translucent plasma.
   suffix: Full
   components:
+  - type: MidaseTransformable
+    targetEntity: SheetClockworkGlass1
+    transformStack: true
   - type: PhysicalComposition
     materialComposition:
       PlasmaGlass: 100
@@ -279,6 +288,9 @@
   description: A reinforced sheet of translucent plasma.
   suffix: Full
   components:
+  - type: MidaseTransformable
+    targetEntity: SheetClockworkGlass1
+    transformStack: true
   - type: PhysicalComposition
     materialComposition:
       ReinforcedPlasmaGlass: 100
@@ -334,6 +346,9 @@
   description: A sheet of uranium glass.
   suffix: Full
   components:
+  - type: MidaseTransformable
+    targetEntity: SheetClockworkGlass1
+    transformStack: true
   - type: PhysicalComposition
     materialComposition:
       UraniumGlass: 100
@@ -408,6 +423,9 @@
   name: reinforced uranium glass
   description: A reinforced sheet of uranium.
   components:
+  - type: MidaseTransformable
+    targetEntity: SheetClockworkGlass1
+    transformStack: true
   - type: PhysicalComposition
     materialComposition:
       ReinforcedUraniumGlass: 100

@@ -1,0 +1,15 @@
+- type: entity
+  id: ActionMidaseToggle
+  name: magical aura
+  description: A sinister looking aura that distorts the flow of reality around it.
+  components:
+  - type: InstantAction
+    itemIconStyle: NoItem
+    icon:
+      sprite: _Starlight/Interface/Actions/actions_clockwork.rsi
+      state: midace_hand
+    iconOn:
+      sprite: _Starlight/Interface/Actions/actions_clockwork.rsi
+      state: midace_hand_active
+    event: !type:MidaseToggleEvent
+    useDelay: 1

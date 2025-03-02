@@ -151,9 +151,9 @@ public sealed class ScreenSystem : VisualizerSystem<ScreenVisualsComponent>
         
         if (args.AppearanceData.TryGetValue(TextScreenVisuals.AlertLevel, out var alertLevel))
         {
-            if (TryComp<ScreenComponent>(uid, out var screenComp) && TryComp<SpriteComponent>(uid, out var sprite))
+            if (TryComp<ScreenComponent>(uid, out var screenComp))
             {
-                if (!sprite.LayerMapTryGet(TextScreenVisuals.AlertLevel, out var layerId) || !sprite.TryGetLayer(layerId, out var layer))
+                if (!args.Sprite.LayerMapTryGet(TextScreenVisuals.AlertLevel, out var layerId) || !args.Sprite.TryGetLayer(layerId, out var layer))
                     return;
                 
                 layer.SetRsi(null);
