@@ -1,0 +1,42 @@
+- type: latheRecipe
+  id: ClockworkSlab
+  result: ClockworkSlab
+  category: Tools
+  completetime: 2
+  materials:
+    Brass: 1000
+    
+- type: latheRecipe
+  id: ClothingUniformJumpsuitClockwork
+  result: ClothingUniformJumpsuitClockwork
+  completetime: 1
+  materials:
+    Brass: 200
+    
+- type: latheRecipe
+  id: ClothingOuterArmorClockwork
+  result: ClothingOuterArmorClockwork
+  completetime: 8
+  materials:
+    Brass: 3000
+    
+- type: latheRecipe
+  id: ClothingHeadHelmetClockwork
+  result: ClothingHeadHelmetClockwork
+  completetime: 5
+  materials:
+    Brass: 1000
+    
+- type: latheRecipe
+  id: ClothingShoesBootsClockwork
+  result: ClothingShoesBootsClockwork
+  completetime: 5
+  materials:
+    Brass: 1000
+    
+- type: latheRecipe
+  id: ClothingHandsGlovesClockwork
+  result: ClothingHandsGlovesClockwork
+  completetime: 5
+  materials:
+    Brass: 1000
