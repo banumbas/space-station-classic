@@ -30,4 +30,8 @@
     drawdepth: FloorObjects
     layers:
     - state: base-off
+      map: ["enum.ClockworkAltarVisualLayers.Base"]
+    - state: base-glow
+      map: ["enum.ClockworkAltarVisualLayers.Glow"]
+      visible: false
   - type: Appearance
