@@ -29,7 +29,7 @@ public abstract class SharedMidaseSystem : EntitySystem
             _appearance.SetData(uid, MidaseVisuals.Enabled, component.MidaseEnabled, appearance);
     }
     
-    private void OnStartup(EntityUid uid, MidaseUserComponent component, ComponentStartup args)
+    private void OnStartup(EntityUid uid, MidaseUserComponent component, ref ComponentStartup args)
     {
         if (!TryComp(uid, out ActionsComponent? comp))
             return;

@@ -12,8 +12,6 @@ public sealed partial class MidaseSystem : SharedMidaseSystem
     public override void Initialize()
     {
         SubscribeLocalEvent<MidaseUserComponent, AppearanceChangeEvent>(OnAppearanceChange);
-
-        base.Initialize();
     }
 
     private void OnAppearanceChange(EntityUid uid, MidaseUserComponent component, ref AppearanceChangeEvent args)

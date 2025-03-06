@@ -12,8 +12,6 @@ public sealed partial class MidaseSystem : SharedMidaseSystem
     public override void Initialize()
     {
         SubscribeLocalEvent<MidaseTransformableComponent, GotEquippedHandEvent>(OnEquipHand);
-
-        base.Initialize();
     }
     
     private void OnEquipHand(EntityUid uid, MidaseTransformableComponent component, GotEquippedHandEvent args)

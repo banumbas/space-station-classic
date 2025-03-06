@@ -1,0 +1,33 @@
+- type: entity
+  id: ClockworkAltar
+  parent: BaseMachine
+  name: credence
+  description: "A strange brass platform with spinning cogs inside. It demands something in exchange for goods..."
+  components:
+  - type: Altar
+  - type: Animateable
+  - type: Clickable
+  - type: InteractionOutline
+  - type: Physics
+    bodyType: Static
+    canCollide: false
+  - type: Strap
+    position: Stand
+  - type: Transform
+    anchored: true
+    noRot: true
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeAabb
+          bounds: "-0.45,-0.45,0.45,0.00"
+        density: 190
+        mask:
+          - MachineMask
+  - type: Sprite
+    sprite: _Starlight/Structures/Specific/Clockwork/altar.rsi
+    drawdepth: FloorObjects
+    layers:
+    - state: base-off
+  - type: Appearance
