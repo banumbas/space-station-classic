@@ -12,12 +12,14 @@ public sealed partial class BrassBeaconComponent : Component
     public int range = 0;
     
     [DataField]
-    public int rangeLimit = 10;
+    public int rangeLimit = 40;
+
+    public HashSet<Entity<BeaconTransformableComponent>> EntitiesToTransform = new();
     
     [DataField("nextUpdate", customTypeSerializer: typeof(TimeOffsetSerializer))]
     [AutoPausedField]
     public TimeSpan NextUpdateTime;
 
     [DataField]
-    public TimeSpan Delay = TimeSpan.FromSeconds(60);
+    public TimeSpan Delay = TimeSpan.FromSeconds(10);
 }

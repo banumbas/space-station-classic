@@ -1,6 +1,8 @@
+using System.Numerics;
 using Content.Shared.Starlight.Antags.Clockwork.Components;
 using Robust.Shared.GameObjects;
 using Robust.Shared.Timing;
+using Robust.Shared.Random;
 
 namespace Content.Server.Starlight.Antags.Clockwork.EntitySystems;
 
@@ -8,6 +10,7 @@ public sealed partial class BrassBeaconSystem : EntitySystem
 {
     [Dependency] private readonly EntityLookupSystem _lookup = default!;
     [Dependency] protected readonly IGameTiming Timing = default!;
+    [Dependency] private readonly IRobustRandom _random = default!;
     
     public override void Update(float frameTime)
     {
@@ -16,6 +19,9 @@ public sealed partial class BrassBeaconSystem : EntitySystem
         var query = EntityQueryEnumerator<BrassBeaconComponent>();
         while (query.MoveNext(out var uid, out var component))
         {
+            if (component.range >= component.rangeLimit)
+                continue;
+            
             if (component.NextUpdateTime == TimeSpan.FromSeconds(0))
                 component.NextUpdateTime = Timing.CurTime;
             
@@ -24,17 +30,22 @@ public sealed partial class BrassBeaconSystem : EntitySystem
 
             component.NextUpdateTime += component.Delay;
             
-            if (component.range < component.rangeLimit)
-                component.range++;
+            var centerCoords = Transform(uid).Coordinates;
             
-            // Get Entities in range and transform
-            foreach (var entity in _lookup.GetEntitiesInRange(uid, component.range, LookupFlags.Approximate | LookupFlags.Dynamic | LookupFlags.Static | LookupFlags.Sundries))
+            if (component.EntitiesToTransform.Count < 6)
             {
-                if (TryComp<BeaconTransformableComponent>(entity, out var transformTo) && transformTo.TargetEntity != null)
-                {
-                    Spawn(transformTo.TargetEntity.Value, Transform(entity).Coordinates);
-                    QueueDel(entity);
-                }
+                component.range = Math.Min(component.rangeLimit, component.range + 2);
+                component.EntitiesToTransform = _lookup.GetEntitiesInRange<BeaconTransformableComponent>(centerCoords, component.range, LookupFlags.Approximate | LookupFlags.Dynamic | LookupFlags.Static | LookupFlags.Sundries);
+            }
+            
+            var entity = _random.Pick(component.EntitiesToTransform);
+            component.EntitiesToTransform.Remove(entity);
+                
+            if (TryComp<BeaconTransformableComponent>(entity, out var transformTo) && transformTo.TargetEntity != null)
+            {
+                Spawn(transformTo.TargetEntity.Value, Transform(entity).Coordinates);
+                QueueDel(entity);
+                break;
             }
         }
     }
