@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "license": "CC-BY-SA-3.0",
+  "copyright": "Taken from tgstation at https://github.com/tgstation/tgstation/blob/HEAD/icons/obj/mining_zones/dead_ratvar.dmi",
+  "size": {
+    "x": 254,
+    "y": 196
+  },
+  "metaAtlas": false,
+  "states": [
+    {
+      "name": "ratvar_dead"
+    }
+  ]
+}
