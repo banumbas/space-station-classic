@@ -1,0 +1,8 @@
+- type: parallax
+  id: ScorchedWasteland
+  layers:
+    - texture:
+        !type:ImageParallaxTextureSource
+        path: "/Textures/_Starlight/Parallaxes/ratvar.png"
+      slowness: 0.98
+      scale: 1,1
