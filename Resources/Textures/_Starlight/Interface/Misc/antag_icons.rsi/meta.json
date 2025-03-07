@@ -1,0 +1,37 @@
+{
+    "version": 1,
+    "license": "CC-BY-SA-3.0",
+    "copyright": "Starlight, master based on tg 'cultmaster'",
+    "size": {
+        "x": 9,
+        "y": 9
+    },
+    "states": [
+        {
+            "name": "clockwork",
+            "delays": [
+              [
+                0.35,
+                0.15,
+                0.15,
+                0.15,
+                0.15,
+                0.15
+              ]
+            ]
+        },
+        {
+            "name": "clockwork-master",
+            "delays": [
+              [
+                0.80,
+                0.05,
+                0.05,
+                0.05,
+                0.05,
+                0.15
+              ]
+            ]
+        }
+    ]
+}
