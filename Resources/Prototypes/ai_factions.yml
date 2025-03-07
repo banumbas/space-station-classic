@@ -12,6 +12,7 @@
     - Abyss
     - Vampire
     - Changeling
+    - Clockwork
     - AllHostile
     - Wizard
 
@@ -28,6 +29,7 @@
   - Abyss
   - Vampire
   - Changeling
+  - Clockwork
   - AllHostile
   - Wizard
 
@@ -69,6 +71,7 @@
   - Abyss
   - Vampire
   - Changeling
+  - Clockwork
   - AllHostile
   - Wizard
   - Dragon
@@ -89,6 +92,7 @@
   - Abyss
   - Vampire
   - Changeling
+  - Clockwork
   - AllHostile
   - Wizard
 
@@ -106,6 +110,7 @@
   - Abyss
   - Vampire
   - Changeling
+  - Clockwork
   - AllHostile
   - Wizard
   - Dragon
@@ -125,6 +130,7 @@
   - Abyss
   - Vampire
   - Changeling
+  - Clockwork
   - AllHostile
   - Wizard
   - Dragon
@@ -141,6 +147,7 @@
   - Abyss
   - Vampire
   - Changeling
+  - Clockwork
   - AllHostile
   
 - type: npcFaction
@@ -150,6 +157,7 @@
   - Syndicate
   - Zombie
   - Revolutionary
+  - Clockwork
   - AllHostile
   
 - type: npcFaction
@@ -161,6 +169,7 @@
   - Revolutionary
   - Xeno
   - Changeling
+  - Clockwork
   - AllHostile
   
 - type: npcFaction
@@ -171,6 +180,7 @@
   - Passive
   - PetsNT
   - Zombie
+  - Clockwork
   - AllHostile
   - Wizard
 
@@ -181,6 +191,7 @@
   - Syndicate
   - Xeno
   - Zombie
+  - Clockwork
   - AllHostile
   
 - type: npcFaction
@@ -200,6 +211,7 @@
   - HonkNeutral
   - HonkHostile
   - Vampire
+  - Clockwork
   - Changeling
   - Wizard
 

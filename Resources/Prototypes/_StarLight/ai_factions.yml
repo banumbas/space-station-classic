@@ -14,6 +14,7 @@
   - Revolutionary
   - Vampire
   - Changeling
+  - Clockwork
   - AllHostile
 
 - type: npcFaction
@@ -30,6 +31,7 @@
   - Abyss
   - Vampire
   - Changeling
+  - Clockwork
   - AllHostile
 
 - type: npcFaction
@@ -41,6 +43,22 @@
   - PetsNT
   - Syndicate
   - DungeonSoviet
+  - Zombie
+  - Revolutionary
+  - Abyss
+  - Vampire
+  - Changeling
+  - Clockwork
+  - AllHostile
+
+- type: npcFaction
+  id: Clockwork
+  hostile:
+  - SimpleHostile
+  - Syndicate
+  - DungeonSyndicate
+  - DungeonSoviet
+  - Xeno
   - Zombie
   - Revolutionary
   - Abyss
