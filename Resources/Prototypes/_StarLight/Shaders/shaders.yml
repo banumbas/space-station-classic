@@ -28,3 +28,9 @@
   path: "/Textures/_Starlight/Shaders/brightness.swsl"
   params:
     brightness: 1.5
+
+- type: shader
+  id: NormalShader
+  kind: source
+  blend_mode: Add
+  path: "/Textures/_Starlight/Shaders/normal.swsl"

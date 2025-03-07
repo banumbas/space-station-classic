@@ -132,8 +132,17 @@
   id: WeaponPistolDP
   description: A pistol that packs a punch for brig defense, just as NanoTransen intended.
   components:
+  - type: LightPositionForwarder
   - type: Sprite
     sprite: _Starlight/Objects/Weapons/Guns/Pistols/dp.rsi
+    layers:
+    - state: base
+      map: ["enum.GunVisualLayers.Base"]
+    - state: base_normal
+      shader: NormalShader
+      map: ["enum.GunVisualLayers.BaseNormal"]
+    - state: mag-0
+      map: ["enum.GunVisualLayers.Mag"]
   - type: Clothing
     sprite: _Starlight/Objects/Weapons/Guns/Pistols/dp.rsi
   - type: Gun

@@ -14,7 +14,16 @@
             "name": "base"
         },
         {
+            "name": "base_hight"
+        },
+        {
+            "name": "base_normal"
+        },
+        {
             "name": "bolt-open"
+        },
+        {
+            "name": "bolt-open_normal"
         },
         {
             "name": "mag-0"

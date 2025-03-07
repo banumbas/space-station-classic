@@ -28,6 +28,7 @@ public enum GunVisualLayers : byte
 {
     Base,
     BaseUnshaded,
+    BaseNormal, // 🌟Starlight🌟
     Mag,
     MagUnshaded,
     Tip, // 🌟Starlight🌟

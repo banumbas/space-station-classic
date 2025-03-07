@@ -1,9 +1,10 @@
-using Content.Client.Weapons.Ranged.Components;
+﻿using Content.Client.Weapons.Ranged.Components;
 using Content.Shared.Weapons.Ranged;
 using Content.Shared.Weapons.Ranged.Components;
 using Content.Shared.Weapons.Ranged.Events;
 using Content.Shared.Weapons.Ranged.Systems;
 using Robust.Client.GameObjects;
+using Robust.Client.Graphics;
 using Robust.Shared.Containers;
 using Robust.Shared.Random;
 
@@ -47,6 +48,16 @@ public sealed partial class GunSystem
         {
             args.Sprite.LayerSetState(boltLayer, boltOpen);
         }
+
+        // 🌟Starlight🌟 start
+        var normalState = boltClosed ? $"{baseLayer}_normal": $"{boltOpen}_normal";
+        if (args.Sprite.LayerMapTryGet(GunVisualLayers.BaseNormal, out var normalLayerId)
+            && args.Sprite.TryGetLayer(normalLayerId, out var layer)
+            && layer.ActualRsi is not null
+            && layer.ActualRsi.TryGetState(new RSI.StateId(normalState), out var state))
+
+            args.Sprite.LayerSetState(normalLayerId, new RSI.StateId(normalState));
+        // 🌟Starlight🌟 end
     }
 
     protected override void OnMagazineSlotChange(EntityUid uid, MagazineAmmoProviderComponent component, ContainerModifiedMessage args)

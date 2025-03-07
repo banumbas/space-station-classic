@@ -1,0 +1,33 @@
+uniform lowp int lightCount;
+uniform highp vec2[3] lpositions; 
+uniform lowp vec4[3] lcolors;     
+
+void fragment()
+{
+    lowp vec4 baseColor = zTexture(UV);
+
+    if (baseColor.a == 0.0) {
+        discard;
+    }
+
+    lowp vec3 normal = normalize(baseColor.rgb * 2.0 - 1.0);
+    normal.z = sqrt(1.0 - clamp(dot(normal.xy, normal.xy), 0.0, 1.0));
+
+    lowp vec3 lightResult = vec3(0.0);
+
+    for (lowp int i = 0; i < lightCount; i++)
+    {
+        highp vec3 lightDir = normalize(vec3(lpositions[i], 1.0));
+        lowp vec3  lightColor = lcolors[i].rgb;
+
+        highp float diff = max(dot(normal, lightDir), 0.0);
+
+        lightResult += diff * lightColor * 1.2;
+    }
+
+    lightResult = clamp(lightResult, 0.0, 1.0);
+
+    lowp float alphaValue = (lightResult.r + lightResult.g + lightResult.b) / 3.0;
+
+    COLOR = vec4(lightResult, alphaValue * 0.5);
+}

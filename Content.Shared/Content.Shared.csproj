@@ -26,6 +26,7 @@
   <ItemGroup>
     <Folder Include="_Starlight\Movement\" />
     <Folder Include="Power\Components\" />
+    <Folder Include="_Starlight\Shader\Normal\" />
     <Folder Include="_Starlight\Spells\" />
   </ItemGroup>
   <ItemGroup>
