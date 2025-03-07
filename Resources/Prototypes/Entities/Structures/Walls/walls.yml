@@ -60,6 +60,8 @@
   id: WallBrick
   name: brick wall
   components:
+  - type: BeaconTransformable
+    targetEntity: WallClock
   - type: Pierceable
     level: Metal
   - type: Ricochetable
@@ -130,6 +132,8 @@
   id: WallClown
   name: bananium wall
   components:
+  - type: BeaconTransformable
+    targetEntity: WallClock
   - type: Tag
     tags:
       - Wall
@@ -167,6 +171,8 @@
   name: meat wall
   description: Sticky.
   components:
+  - type: BeaconTransformable
+    targetEntity: WallClock
   - type: Tag
     tags:
       - Wall
@@ -260,6 +266,8 @@
   id: WallDiamond
   name: diamond wall
   components:
+  - type: BeaconTransformable
+    targetEntity: WallClock
   - type: Ricochetable
     chance: 1
   - type: Tag
@@ -295,6 +303,8 @@
   id: WallGold
   name: gold wall
   components:
+  - type: BeaconTransformable
+    targetEntity: WallClock
   - type: Tag
     tags:
       - Wall
@@ -340,6 +350,8 @@
   id: WallIce
   name: ice wall
   components:
+  - type: BeaconTransformable
+    targetEntity: WallClock
   - type: Tag
     tags:
       - Wall
@@ -369,6 +381,8 @@
   id: WallPlasma
   name: plasma wall
   components:
+  - type: BeaconTransformable
+    targetEntity: WallClock
   - type: Tag
     tags:
       - Wall
@@ -416,6 +430,8 @@
   id: WallPlastic
   name: plastic wall
   components:
+  - type: BeaconTransformable
+    targetEntity: WallClock
   - type: Ricochetable
     chance: 0.1
   - type: Tag
@@ -464,6 +480,8 @@
   name: plastitanium wall
   suffix: indestructible
   components:
+    - type: BeaconTransformable
+      targetEntity: WallClock
     - type: Ricochetable
       chance: 1
     - type: Tag
@@ -510,6 +528,8 @@
     snap:
     - Wall
   components:
+  - type: BeaconTransformable
+    targetEntity: WallClock
   - type: Sprite
     drawdepth: Walls
     sprite: Structures/Walls/plastitanium_diagonal.rsi
@@ -554,6 +574,8 @@
     snap:
     - Wall
   components:
+  - type: BeaconTransformable
+    targetEntity: WallClock
   - type: Transform
     anchored: true
   - type: Clickable
@@ -598,6 +620,8 @@
   id: WallReinforced
   name: reinforced wall
   components:
+  - type: BeaconTransformable
+    targetEntity: WallClock
   - type: Pierceable
     level: HardenedMetal
   - type: Ricochetable
@@ -706,6 +730,8 @@
     snap:
     - Wall
   components:
+  - type: BeaconTransformable
+    targetEntity: WallClock
   - type: Tag
     tags:
     - Diagonal
@@ -1032,6 +1058,8 @@
   id: WallSolid
   name: solid wall
   components:
+  - type: BeaconTransformable
+    targetEntity: WallClock
   - type: Tag
     tags:
       - Wall

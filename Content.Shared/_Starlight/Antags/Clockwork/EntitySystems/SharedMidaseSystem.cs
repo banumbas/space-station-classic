@@ -34,7 +34,7 @@ public abstract class SharedMidaseSystem : EntitySystem
         if (!TryComp(uid, out ActionsComponent? comp))
             return;
         
-        Logger.Warning("MIDASE Trying to insert action");
+        Logger.DebugS("Midase", "MIDASE Trying to insert action");
         
         _action.AddAction(uid, ref component.MidaseToggleActionEntity, component.MidaseToggleAction, component: comp);
         
@@ -43,7 +43,7 @@ public abstract class SharedMidaseSystem : EntitySystem
     
     private void OnShutdown(EntityUid uid, MidaseUserComponent component, ComponentShutdown args)
     {
-        Logger.Warning("MIDASE Trying to remove action");
+        Logger.DebugS("Midase", "MIDASE Trying to remove action");
         
         _action.RemoveAction(uid, component.MidaseToggleActionEntity);
     }
