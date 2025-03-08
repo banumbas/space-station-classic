@@ -1,0 +1,9 @@
+- type: latheRecipePack
+  id: ClockworkStatic
+  recipes:
+    - ClockworkSlab
+    - ClothingUniformJumpsuitClockwork
+    - ClothingOuterArmorClockwork
+    - ClothingHeadHelmetClockwork
+    - ClothingShoesBootsClockwork
+    - ClothingHandsGlovesClockwork

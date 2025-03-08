@@ -43,10 +43,13 @@ public sealed partial class BrassBeaconSystem : EntitySystem
                 
             if (TryComp<BeaconTransformableComponent>(entity, out var transformTo) && transformTo.TargetEntity != null)
             {
+                component.TransformedCount++;
                 Spawn(transformTo.TargetEntity.Value, Transform(entity).Coordinates);
                 QueueDel(entity);
-                break;
             }
+            
+            if (component.TransformedCount % 5 == 0)
+                Spawn(component.BatteryProtoId, centerCoords);
         }
     }
 }

@@ -37,3 +37,47 @@
   - type: Stack
     stackType: SheetPrinter
     count: 1
+    
+- type: entity
+  abstract: true
+  parent: BaseItem
+  id: ClockworkBatteryBase
+  description: A brass battery.
+  components:
+  - type: Sprite
+    sprite: _Starlight/Objects/Specific/Clockwork/battery.rsi
+  - type: Item
+    size: Normal
+  - type: StaticPrice
+    price: 0
+  - type: Tag
+    tags:
+    - Metal
+    - Brass
+  - type: Damageable
+    damageContainer: Inorganic
+    damageModifierSet: Metallic
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 100
+      behaviors:
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
+
+- type: entity
+  parent: ClockworkBatteryBase
+  id: ClockworkBattery
+  name: clockwork battery
+  components:
+  - type: Material
+  - type: PhysicalComposition
+    materialComposition:
+      ClockworkBattery: 100
+  - type: Sprite
+    state: item
+    layers:
+    - state: item
+      map: ["base"]
+  - type: Appearance

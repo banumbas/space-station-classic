@@ -1,4 +1,5 @@
 using Robust.Shared.GameStates;
+using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom;
 
 namespace Content.Shared.Starlight.Antags.Clockwork.Components;
@@ -22,4 +23,10 @@ public sealed partial class BrassBeaconComponent : Component
 
     [DataField]
     public TimeSpan Delay = TimeSpan.FromSeconds(10);
+    
+    [DataField]
+    public int TransformedCount = 0;
+    
+    [DataField]
+    public EntProtoId BatteryProtoId = "ClockworkBattery";
 }

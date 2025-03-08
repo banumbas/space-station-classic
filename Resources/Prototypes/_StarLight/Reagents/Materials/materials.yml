@@ -5,3 +5,11 @@
   icon: { sprite: Objects/Misc/bureaucracy.rsi, state: paper }
   color: "#ffffff"
   price: 0.05
+  
+- type: material
+  id: ClockworkBattery
+  stackEntity: ClockworkBattery
+  name: materials-clockwork-battery
+  icon: { sprite: _Starlight/Objects/Specific/Clockwork/battery.rsi, state: item }
+  color: "#ffffff"
+  price: 0.05
