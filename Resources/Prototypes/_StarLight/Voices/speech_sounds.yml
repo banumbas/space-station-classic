@@ -1,0 +1,8 @@
+- type: speechSounds
+  id: ClockworkHawk
+  saySound:
+    path: /Audio/_Starlight/SpeechSounds/clockwork_hawk.ogg
+  askSound:
+    path: /Audio/_Starlight/SpeechSounds/clockwork_hawk3.ogg
+  exclaimSound:
+    path: /Audio/_Starlight/SpeechSounds/clockwork_hawk2.ogg

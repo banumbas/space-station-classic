@@ -1,0 +1,94 @@
+- type: entity
+  id: BaseClockwork
+  abstract: true
+  components:
+  - type: ClockworkCultist
+  - type: TextToSpeech
+  - type: Tag
+    tags:
+      - DoorBumpOpener
+  - type: Access
+  - type: MindContainer
+    showExamineInfo: true
+  - type: NpcFactionMember
+    factions:
+      - Clockwork
+  - type: Alerts
+  - type: HTN
+    rootTask:
+      task: SimpleHostileCompound
+
+- type: entity
+  name: hawk
+  parent: [ SimpleMobBase, BaseClockwork, FlyingMobBase, MobCombat ]
+  id: ClockworkHawk
+  description: A mechanical hawk, designed to keep the clockworld clear of pests.
+  components:
+  - type: MovementSpeedModifier
+    baseSprintSpeed: 9
+    baseWalkSpeed: 6
+  - type: Sprite
+    drawdepth: Mobs
+    layers:
+      - map: [ "enum.DamageStateVisualLayers.Base", "movement"]
+        sprite: _Starlight/Mobs/Clockwork/clockwork_hawk.rsi
+        state: hawk_sit
+  - type: SpriteMovement
+    movementLayers:
+      movement:
+        state: hawk_fly
+    noMovementLayers:
+      movement:
+        state: hawk_sit
+  - type: TypingIndicator
+    proto: clockwork0
+  - type: Speech
+    speechVerb: Vox
+    speechSounds: ClockworkHawk
+  - type: Fixtures
+    fixtures:
+      fix1:
+        density: 10
+        layer:
+          - FlyingMobLayer
+        mask:
+          - FlyingMobMask
+        shape: !type:PhysShapeCircle
+          radius: 0.15
+  - type: MobThresholds
+    thresholds:
+      0: Alive
+      60: Dead
+  - type: DamageStateVisuals
+    states:
+      Alive:
+        Base: hawk_sit
+      Critical:
+        Base: hawk_dead
+      Dead:
+        Base: hawk_dead
+  - type: MeleeWeapon
+    angle: 0
+    animation: WeaponArcBite
+    damage:
+      types:
+        Blunt: 8
+        Piercing: 8
+    soundHit:
+      path: /Audio/_Starlight/Effects/beak_strikes.ogg
+  - type: Grammar
+    attributes:
+      gender: female
+      proper: true
+  - type: GhostRole
+    makeSentient: true
+    allowMovement: true
+    allowSpeech: true
+    name: ghost-role-clockwork-hawk-name
+    description: ghost-role-clockwork-hawk-description
+    rules: ghost-role-clockwork-hawk-rules
+    mindRoles:
+    - MindRoleGhostRoleTeamAntagonist
+    raffle:
+      settings: short
+  - type: GhostTakeoverAvailable

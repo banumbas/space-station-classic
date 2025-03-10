@@ -54,6 +54,7 @@
 - type: npcFaction
   id: Clockwork
   hostile:
+  - NanoTrasen
   - SimpleHostile
   - Syndicate
   - DungeonSyndicate
