@@ -133,3 +133,5 @@ tiles-wood-large = large wood
 
 tiles-abyss-floor = abyss floor
 tiles-abductor-floor = abductor floor
+
+tiles-clockwork-floor = clockwork floor

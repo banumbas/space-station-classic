@@ -86,3 +86,26 @@
   - type: Appearance
   - type: Ricochetable
     chance: 1
+
+
+- type: entity
+  parent: BaseWall
+  id: WallClockSimple
+  name: clockwork wall
+  components:
+  - type: Tag
+    tags:
+      - Wall
+  - type: Sprite
+    sprite: _Starlight/Structures/Walls/ratvar_simple.rsi
+  - type: Icon
+    sprite: _Starlight/Structures/Walls/ratvar_simple.rsi
+    state: full
+  - type: IconSmooth
+    key: walls
+    base: state
+  - type: RadiationBlocker
+    resistance: 5
+  - type: Appearance
+  - type: Ricochetable
+    chance: 1
