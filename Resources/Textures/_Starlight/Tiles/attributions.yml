@@ -1,0 +1,14 @@
+- files: ["abductor_tile.png"]
+  license: "CC-BY-SA-3.0"
+  copyright: "TG station"
+  source: "https://github.com/tgstation/tgstation/"
+
+- files: ["floor_ratvar.png"]
+  license: "CC-BY-SA-3.0"
+  copyright: "Starlight edit based on tgstation"
+  source: "https://github.com/tgstation/tgstation/"
+
+- files: ["lattice_ratvar*.png"]
+  license: "CC-BY-SA-3.0"
+  copyright: "Starlight edit based on tgstation commit 8abb19545828230d92ba18827feeb42a67a55d49"
+  source: "https://github.com/tgstation/tgstation/"

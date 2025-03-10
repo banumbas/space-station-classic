@@ -1,0 +1,31 @@
+- type: tile
+  id: LatticeClockwork
+  name: tiles-lattice
+  sprite: /Textures/_Starlight/Tiles/lattice_ratvar.png
+  edgeSpritePriority: -1
+  edgeSprites:
+    South: /Textures/_Starlight/Tiles/lattice_ratvar_4.png
+    East: /Textures/_Starlight/Tiles/lattice_ratvar_5.png
+    North: /Textures/_Starlight/Tiles/lattice_ratvar_6.png
+    West: /Textures/_Starlight/Tiles/lattice_ratvar_2.png
+  baseTurf: Space
+  isSubfloor: true
+  deconstructTools: [ Cutting ]
+  weather: true
+  footstepSounds:
+    collection: FootstepCatwalk
+  friction: 0.2
+  isSpace: true
+  itemDrop: PartRodMetal1
+  heatCapacity: 10000
+  
+- type: tile
+  id: FloorClockwork
+  name: tiles-clockwork-floor
+  sprite: /Textures/_Starlight/Tiles/floor_ratvar.png
+  isSubfloor: false
+  footstepSounds:
+    collection: FootstepHull
+  heatCapacity: 10000
+  weather: true
+  indestructible: true
