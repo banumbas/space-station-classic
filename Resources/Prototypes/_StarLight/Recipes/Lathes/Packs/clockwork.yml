@@ -7,3 +7,10 @@
     - ClothingHeadHelmetClockwork
     - ClothingShoesBootsClockwork
     - ClothingHandsGlovesClockwork
+    - BrassHandcuffs
+    
+- type: latheRecipePack
+  id: ClockworkCreationsStatic
+  recipes:
+    - ClockworkHawk
+    - ClockworkMarauder

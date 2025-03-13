@@ -12,16 +12,15 @@
   result: ClothingUniformJumpsuitClockwork
   completetime: 1
   materials:
-    Brass: 200
-    ClockworkBattery: 100
-    
+    Brass: 100
+
 - type: latheRecipe
   id: ClothingOuterArmorClockwork
   result: ClothingOuterArmorClockwork
   completetime: 8
   materials:
     Brass: 3000
-    ClockworkBattery: 1000
+    ClockworkBattery: 100
     
 - type: latheRecipe
   id: ClothingHeadHelmetClockwork
@@ -29,20 +28,43 @@
   completetime: 5
   materials:
     Brass: 1000
-    ClockworkBattery: 200
     
 - type: latheRecipe
   id: ClothingShoesBootsClockwork
   result: ClothingShoesBootsClockwork
   completetime: 5
   materials:
-    Brass: 1000
-    ClockworkBattery: 50
+    Brass: 500
     
 - type: latheRecipe
   id: ClothingHandsGlovesClockwork
   result: ClothingHandsGlovesClockwork
   completetime: 5
   materials:
+    Brass: 500
+
+    
+- type: latheRecipe
+  id: BrassHandcuffs
+  result: BrassHandcuffs
+  completetime: 2
+  materials:
+    Brass: 300
+
+#creations
+    
+- type: latheRecipe
+  id: ClockworkHawk
+  result: ClockworkHawk
+  completetime: 120
+  materials:
     Brass: 1000
-    ClockworkBattery: 50
+    ClockworkBattery: 200
+    
+- type: latheRecipe
+  id: ClockworkMarauder
+  result: ClockworkMarauder
+  completetime: 180
+  materials:
+    Brass: 1500
+    ClockworkBattery: 400

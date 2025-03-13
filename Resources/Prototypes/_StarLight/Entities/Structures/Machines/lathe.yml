@@ -29,3 +29,35 @@
     unlitRunningState: unlit-building
     staticPacks:
     - ClockworkStatic
+
+- type: entity
+  id: Watchmaker
+  parent: BaseLathe
+  name: "ratvar's watchmaker"
+  description: "A workshop of the Clockwork Cult, equipped with unique brass tools to manipulate both power and metal, crafting precise and intricate clockwork creations."
+  components:
+  - type: Sprite
+    sprite: _Starlight/Structures/Machines/watchmaker.rsi
+    snapCardinals: true
+    layers:
+    - state: icon
+      map: ["enum.LatheVisualLayers.IsRunning"]
+    - state: unlit
+      shader: unshaded
+      map: ["enum.PowerDeviceVisualLayers.Powered"]
+    - state: inserting
+      map: ["enum.MaterialStorageVisualLayers.Inserting"]
+    - state: panel
+      map: ["enum.WiresVisualLayers.MaintenancePanel"]
+  - type: MaterialStorage
+    ignoreColor: true
+    whitelist:
+      tags:
+        - Brass
+  - type: Lathe
+    idleState: icon
+    runningState: building
+    unlitIdleState: unlit
+    unlitRunningState: unlit-building
+    staticPacks:
+    - ClockworkCreationsStatic
