@@ -64,8 +64,11 @@ public sealed partial class BrassBeaconSystem : EntitySystem
                 var tile = _random.Pick(component.TilesToTransform);
                 component.TilesToTransform.Remove(tile);
                 
-                if (tile.Tile.GetContentTileDefinition().BrassToTransform is { } brassToTransform)
+                var tileProto = tile.Tile.GetContentTileDefinition();
+                if (tileProto.BrassToTransform is { } brassToTransform)
                 {
+                    //if (tileProto.TransformEffectProto != null)
+                    //    Spawn(tileProto.TransformEffectProto.Value, Transform(entity).Coordinates); Someday
                     component.TransformedCount++;
                     var trasformTo = (ContentTileDefinition) _tiledef[brassToTransform];
                     _tile.ReplaceTile(tile, trasformTo);
@@ -80,6 +83,8 @@ public sealed partial class BrassBeaconSystem : EntitySystem
                 {
                     component.TransformedCount++;
                     Spawn(transformTo.TargetEntity.Value, Transform(entity).Coordinates);
+                    if (transformTo.EffectProto != null)
+                        Spawn(transformTo.EffectProto.Value, Transform(entity).Coordinates);
                     QueueDel(entity);
                 }
             }

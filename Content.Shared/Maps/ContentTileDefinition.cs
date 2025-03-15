@@ -121,5 +121,7 @@ namespace Content.Shared.Maps
         }
         
         [DataField("trasformTo")] public ProtoId<ContentTileDefinition>? BrassToTransform = null; // Starlight-edit
+        
+        [DataField("trasformEffect")] public EntProtoId? TransformEffectProto = null;
     }
 }
