@@ -1,5 +1,6 @@
 using Robust.Shared.GameStates;
 using Robust.Shared.Prototypes;
+using Robust.Shared.Map;
 using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom;
 
 namespace Content.Shared.Starlight.Antags.Clockwork.Components;
@@ -16,6 +17,8 @@ public sealed partial class BrassBeaconComponent : Component
     public int rangeLimit = 40;
 
     public HashSet<Entity<BeaconTransformableComponent>> EntitiesToTransform = new();
+    
+    public HashSet<TileRef> TilesToTransform = new();
     
     [DataField("nextUpdate", customTypeSerializer: typeof(TimeOffsetSerializer))]
     [AutoPausedField]

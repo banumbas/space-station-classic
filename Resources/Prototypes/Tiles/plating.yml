@@ -3,6 +3,7 @@
   name: tiles-plating
   sprite: /Textures/Tiles/plating.png
   baseTurf: Lattice
+  trasformTo: PlatingBrass
   isSubfloor: true
   footstepSounds:
     collection: FootstepPlating
@@ -19,6 +20,7 @@
   - 1.0
   - 1.0
   baseTurf: Lattice
+  trasformTo: PlatingBrass
   isSubfloor: true
   footstepSounds:
     collection: FootstepPlating
@@ -30,6 +32,7 @@
   name: tiles-asteroid-plating
   sprite: /Textures/Tiles/Asteroid/asteroid_plating.png
   baseTurf: Lattice
+  trasformTo: PlatingBrass
   isSubfloor: true
   footstepSounds:
     collection: FootstepPlating
@@ -52,6 +55,7 @@
   name: tiles-snow-plating
   sprite: /Textures/Tiles/snow_plating.png #Not in the snow planet RSI because it doesn't have any metadata. Should probably be moved to its own folder later.
   baseTurf: Lattice
+  trasformTo: PlatingBrass
   isSubfloor: true
   footstepSounds:
     collection: FootstepPlating

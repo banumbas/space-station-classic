@@ -119,5 +119,7 @@ namespace Content.Shared.Maps
         {
             TileId = id;
         }
+        
+        [DataField("trasformTo")] public ProtoId<ContentTileDefinition>? BrassToTransform = null; // Starlight-edit
     }
 }
