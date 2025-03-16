@@ -13,3 +13,15 @@
       state: midace_hand_active
     event: !type:MidaseToggleEvent
     useDelay: 1
+    
+- type: entity
+  id: ActionItemEnchant
+  name: enchant item
+  description: enchant an object to do something.
+  components:
+  - type: InstantAction
+    icon:
+      sprite: _Starlight/Interface/Actions/actions_clockwork.rsi
+      state: enchant_item
+    event: !type:ClockworkItemEnchantEvent
+    useDelay: 1

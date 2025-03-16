@@ -8,4 +8,7 @@ public sealed partial class BeaconTransformableComponent : Component
 {
     [DataField("targetEntity")]
     public EntProtoId? TargetEntity;
+    
+    [DataField]
+    public EntProtoId? EffectProto = null;
 }

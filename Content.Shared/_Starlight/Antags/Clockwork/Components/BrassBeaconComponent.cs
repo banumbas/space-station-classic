@@ -20,9 +20,6 @@ public sealed partial class BrassBeaconComponent : Component
     
     public HashSet<TileRef> TilesToTransform = new();
     
-    [DataField]
-    public EntProtoId? EffectProto = null;
-    
     [DataField("nextUpdate", customTypeSerializer: typeof(TimeOffsetSerializer))]
     [AutoPausedField]
     public TimeSpan NextUpdateTime;
