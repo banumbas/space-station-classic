@@ -311,6 +311,9 @@ namespace Content.Server.RoundEnd
                 case RoundEndBehavior.InstantEnd:
                     EndRound();
                     break;
+                case RoundEndBehavior.DelayedEnd: // 🌟Starlight🌟
+                    EndRound(time);
+                    break;
                 case RoundEndBehavior.ShuttleCall:
                     // Check is shuttle called or not. We should only dispatch announcement if it's already called
                     if (IsRoundEndRequested())
@@ -392,6 +395,11 @@ namespace Content.Server.RoundEnd
         /// Call shuttle with custom announcement
         /// </summary>
         ShuttleCall,
+
+        /// <summary> 🌟Starlight🌟
+        /// End round
+        /// </summary>
+        DelayedEnd,
 
         /// <summary>
         /// Do nothing

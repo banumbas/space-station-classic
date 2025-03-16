@@ -43,13 +43,35 @@
   materials:
     Brass: 500
 
-    
 - type: latheRecipe
   id: BrassHandcuffs
   result: BrassHandcuffs
   completetime: 2
   materials:
+    Brass: 200
+
+- type: latheRecipe
+  id: ClothingMaskGasClockwork
+  result: ClothingMaskGasClockwork
+  completetime: 2
+  materials:
+    Brass: 200
+    ClockworkBattery: 100
+
+- type: latheRecipe
+  id: ClothingBackpackPouchesClockwork
+  result: ClothingBackpackPouchesClockwork
+  completetime: 2
+  materials:
+    Brass: 400
+
+- type: latheRecipe
+  id: ClothingClockworkBelt
+  result: ClothingClockworkBelt
+  completetime: 2
+  materials:
     Brass: 300
+
 
 #creations
     

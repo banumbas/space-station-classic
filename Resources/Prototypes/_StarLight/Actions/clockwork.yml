@@ -25,3 +25,34 @@
       state: enchant_item
     event: !type:ClockworkItemEnchantEvent
     useDelay: 1
+
+- type: entity
+  id: ActionClockworkExitConsole
+  name: Exit console
+  description: Exit console.
+  components:
+  - type: InstantAction
+    priority: -20
+    itemIconStyle: BigAction
+    icon:
+      sprite: _Starlight/Interface/Actions/actions_clockwork.rsi
+      state: exit
+    event: !type:ExitConsoleEvent
+
+- type: entity
+  id: ActionClockworkPortal
+  name: Open portal
+  components:
+  - type: WorldTargetAction
+    useDelay: 10
+    priority: -19
+    range: -1
+    checkCanAccess: false
+    itemIconStyle: BigAction
+    icon:
+      sprite: _Starlight/Interface/Actions/actions_clockwork.rsi
+      state: portal
+    event: !type:ClockworkConsoleOpenPortalEvent
+      spot: ClockworkArch
+      effect: ClockworkRitualPortal
+      portal: ClockworkPortal

@@ -11,11 +11,14 @@
       "name": "jobicon"
     },
     {
+      "name": "antagicon"
+    },
+    {
       "name": "green"
     },
-	{
-	  "name": "magistrate"
-	},
+    {
+      "name": "magistrate"
+    },
     {
       "name": "ntrep"
     },
@@ -30,6 +33,12 @@
     },
     {
       "name": "mailtech"
+    },
+    {
+      "name": "clockwork_master"
+    },
+    {
+      "name": "clockwork"
     }
   ]
 }

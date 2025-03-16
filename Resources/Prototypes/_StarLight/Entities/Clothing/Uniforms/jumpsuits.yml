@@ -328,3 +328,14 @@
     sprite: _Starlight/Clothing/Uniforms/Jumpsuit/clockwork.rsi
   - type: Clothing
     sprite: _Starlight/Clothing/Uniforms/Jumpsuit/clockwork.rsi
+
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformJumpsuitClockworkMaster
+  name: prophet's robe
+  description: A garment woven from pure righteousness.
+  components:
+  - type: Sprite
+    sprite: _Starlight/Clothing/Uniforms/Jumpsuit/prophet.rsi
+  - type: Clothing
+    sprite: _Starlight/Clothing/Uniforms/Jumpsuit/prophet.rsi

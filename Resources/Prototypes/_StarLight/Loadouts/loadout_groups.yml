@@ -67,3 +67,13 @@
   loadouts:
   - BlueShieldGlasses
   - BlueShieldHud
+
+- type: loadoutGroup
+  id: SurvivalClockwork
+  name: loadout-group-survival-syndicate
+  minLimit: 2
+  hidden: true
+  loadouts:
+  - EmergencyNitrogenClockwork
+  - EmergencyOxygenClockwork
+  - LoadoutSpeciesVoxNitrogen

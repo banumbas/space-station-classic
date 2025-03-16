@@ -1,4 +1,4 @@
-using Robust.Shared.Serialization;
+﻿using Robust.Shared.Serialization;
 
 namespace Content.Shared.Eye
 {
@@ -9,7 +9,7 @@ namespace Content.Shared.Eye
         None   = 0,
         Normal = 1 << 0,
         Ghost  = 1 << 1,
-        Abductor  = 1 << 2,
-        Subfloor = 1 << 3,
+        Subfloor = 1 << 2,
+        Net  = 1 << 15 // 32768 🌟Starlight🌟
     }
 }

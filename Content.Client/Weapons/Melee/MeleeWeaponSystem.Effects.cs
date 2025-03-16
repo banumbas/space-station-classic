@@ -1,4 +1,4 @@
-using System.Numerics;
+﻿using System.Numerics;
 using Content.Client.Animations;
 using Content.Client.Weapons.Melee.Components;
 using Content.Shared.Weapons.Melee;
@@ -68,6 +68,13 @@ public sealed partial class MeleeWeaponSystem
                 track = EnsureComp<TrackUserComponent>(animationUid);
                 track.User = user;
                 _animation.Play(animationUid, GetSlashAnimation(sprite, angle, spriteRotation), SlashAnimationKey);
+                if (arcComponent.Fadeout)
+                    _animation.Play(animationUid, GetFadeAnimation(sprite, 0.065f, 0.065f + 0.05f), FadeAnimationKey);
+                break;
+            case WeaponArcAnimation.ReverseSlash: // 🌟Starlight🌟
+                track = EnsureComp<TrackUserComponent>(animationUid);
+                track.User = user;
+                _animation.Play(animationUid, GetSlashAnimation(sprite, -angle, spriteRotation), SlashAnimationKey);
                 if (arcComponent.Fadeout)
                     _animation.Play(animationUid, GetFadeAnimation(sprite, 0.065f, 0.065f + 0.05f), FadeAnimationKey);
                 break;

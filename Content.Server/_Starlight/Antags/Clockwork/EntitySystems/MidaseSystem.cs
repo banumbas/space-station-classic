@@ -27,37 +27,38 @@ public sealed partial class MidaseSystem : SharedMidaseSystem
         {
             if (TryComp<MidaseTransformableComponent>(item, out var transformable))
             {
-                TransformItem(item, transformable, out var transformedItem)
+                TransformItem(item.Value, transformable, out var transformedItem);
                 _hands.TryPickupAnyHand(uid, transformedItem, true, false, false);
             }
             //else if (TryComp<Enchantable>) TODO: enchanting
         }
         component.MidaseEnabled = !component.MidaseEnabled;
         
-        _action.SetToggled(component.MidaseToggleActionEntity, component.MidaseEnabled);
+        //_action.SetToggled(component.MidaseToggleActionEntity, component.MidaseEnabled);
         
-        if (TryComp<AppearanceComponent>(uid, out var appearance) && !_net.IsClient)
-            _appearance.SetData(uid, MidaseVisuals.Enabled, component.MidaseEnabled, appearance);
+        //if (TryComp<AppearanceComponent>(uid, out var appearance) && !_net.IsClient)
+        //    _appearance.SetData(uid, MidaseVisuals.Enabled, component.MidaseEnabled, appearance);
     }
     
     private void TransformItem(EntityUid uid, MidaseTransformableComponent component, out EntityUid item)
     {
-        if (component.TransformStack && TryComp<StackComponent>(uid, out var stack))
-            for (int i = stack.Count; i > 0; i--)
-            {
-                item = Spawn(component.TargetEntity.Value, Transform(args.User).Coordinates);
-                _stack.TryMergeToContacts(item);
-            }
-        else
-            item = Spawn(component.TargetEntity.Value, Transform(uid).Coordinates);
-        QueueDel(uid);
+        item = default;
+        //if (component.TransformStack && TryComp<StackComponent>(uid, out var stack))
+        //    for (int i = stack.Count; i > 0; i--)
+        //    {
+        //        item = Spawn(component.TargetEntity.Value, Transform(args.User).Coordinates);
+        //        _stack.TryMergeToContacts(item);
+        //    }
+        //else
+        //    item = Spawn(component.TargetEntity.Value, Transform(uid).Coordinates);
+        //QueueDel(uid);
     }
     
     private void OnEquipHand(EntityUid uid, MidaseTransformableComponent component, GotEquippedHandEvent args)
     {
         if (TryComp<MidaseUserComponent>(args.User, out var midaceUser) && midaceUser.MidaseEnabled && component.TargetEntity != null)
         {
-            TransformItem(uid, component, out var transformedItem)
+            TransformItem(uid, component, out var transformedItem);
             _hands.TryPickupAnyHand(args.User, transformedItem, true, false, false);
         }
     }

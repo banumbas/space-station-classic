@@ -31,7 +31,6 @@
   <ItemGroup>
     <Folder Include="Objectives\Interfaces\" />
     <Folder Include="_Starlight\Achievement\" />
-    <Folder Include="_Starlight\Antags\Cult\Clockwork\" />
   </ItemGroup>
   <ItemGroup>
     <None Update="build.json">

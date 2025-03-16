@@ -106,3 +106,7 @@ guide-entry-sl-nano-trasen-employee-sop-bso = BlueShield Officer
 guide-entry-sl-nano-trasen-employee-sop-magistrate = Magistrate
 guide-entry-sl-nano-trasen-employee-sop-iaa = Internal Affairs Agent
 
+guide-entry-changelings = Changelings
+guide-entry-vampires = Vampires
+guide-entry-abductors = Abductors
+guide-entry-clockwork = Clockwork Cult

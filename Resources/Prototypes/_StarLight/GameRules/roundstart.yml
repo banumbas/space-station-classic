@@ -1,0 +1,70 @@
+- type: entity
+  parent: BaseGameRule
+  id: ClockworkRule
+  components:
+  - type: RandomMetadata
+    nameSegments:
+    - clockworkPrefix
+    - clockworkSuffix
+  - type: CultRule
+  - type: RuleGrids
+  - type: AntagLoadProfileRule
+    speciesOverride: Human
+    speciesOverrideBlacklist:
+  - type: GameRule
+    minPlayers: 20
+  - type: LoadMapRule
+    mapPath: /Maps/_Starlight/clockworld.yml 
+  - type: AntagSelection
+    selectionTime: PrePlayerSpawn
+    definitions:
+    - prefRoles: [ ClockworkMaster ]
+      fallbackRoles: [ ClockworkCultist ]
+      spawnerPrototype: SpawnPointClockworkMaster
+      startingGear: ClockworkMasterGear
+      blacklist:
+        tags:
+          - Resomi
+          - Vox
+      roleLoadout:
+      - RoleSurvivalClockwork
+      components:
+      - type: ClockworkMaster
+      - type: ClockworkMind
+      - type: EnchantUser
+      - type: MidaseUser
+      - type: RandomMetadata
+        nameSegments:
+        - clockwork-role-master
+        - Prophet
+      - type: NpcFactionMember
+        factions:
+        - Clockwork
+      mindRoles:
+      - MindRoleClockworkMaster
+
+    - prefRoles: [ ClockworkCultist ]
+      fallbackRoles: [ ClockworkMaster ]
+      spawnerPrototype: SpawnPointClockworkCultist
+      startingGear: ClockworkCultistGear
+      max: 6
+      playerRatio: 20
+      blacklist:
+        tags:
+          - Resomi
+      roleLoadout:
+      - RoleSurvivalClockwork
+      components:
+      - type: ClockworkCultist
+      - type: ClockworkMind
+      - type: EnchantUser
+      - type: MidaseUser
+      - type: RandomMetadata
+        nameSegments:
+        - clockworkPrefix
+        - clockworkSuffix
+      - type: NpcFactionMember
+        factions:
+        - Clockwork
+      mindRoles:
+      - MindRoleClockworkServant

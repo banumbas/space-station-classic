@@ -2,6 +2,9 @@
   id: BaseClockwork
   abstract: true
   components:
+  - type: Damageable
+    damageContainer: Clockwork
+  - type: ClockworkMind
   - type: ClockworkCultist
   - type: TextToSpeech
   - type: Tag
@@ -10,17 +13,19 @@
   - type: Access
   - type: MindContainer
     showExamineInfo: true
-  - type: NpcFactionMember
-    factions:
-      - Clockwork
   - type: Alerts
-  - type: HTN
-    rootTask:
-      task: SimpleHostileCompound
-
+  - type: PassiveDamage 
+    allowedStates:
+    - Alive
+    damageCap: 200
+    damage:
+      groups:
+        Brute: -0.1
+        Burn: -0.1
+      
 - type: entity
   name: hawk
-  parent: [ SimpleMobBase, BaseClockwork, FlyingMobBase, MobCombat ]
+  parent: [ SimpleSpaceMobBase, FlyingMobBase, MobCombat, BaseClockwork ]
   id: ClockworkHawk
   description: A mechanical hawk, designed to keep the clockworld clear of pests.
   components:
@@ -92,16 +97,30 @@
     raffle:
       settings: short
   - type: GhostTakeoverAvailable
+  - type: HTN
+    rootTask:
+      task: SimpleHostileCompound
+  - type: NpcFactionMember
+    factions:
+      - Clockwork
 
 - type: entity
   name: marauder
-  parent: [ SimpleMobBase, BaseClockwork, MobCombat ]
+  parent: [ SimpleSpaceMobBase, MobCombat, BaseClockwork ]
   id: ClockworkMarauder
   description: A soul burning with righteous fury, clad in brass armor.
   components:
   - type: MovementSpeedModifier
     baseWalkSpeed: 4
     baseSprintSpeed: 5.5
+  - type: Puller
+    needsHands: false
+  - type: Prying 
+    pryPowered: true
+    force: true
+    speedModifier: 1.5
+    useSound:
+      path: /Audio/Items/crowbar.ogg
   - type: Sprite
     drawdepth: Mobs
     layers:
@@ -116,17 +135,25 @@
   - type: Fixtures
     fixtures:
       fix1:
-        density: 10
-        layer:
-          - FlyingMobLayer
-        mask:
-          - FlyingMobMask
-        shape: !type:PhysShapeCircle
+        shape:
+          !type:PhysShapeCircle
           radius: 0.35
+        density: 80
+        mask:
+        - MobMask
+        layer:
+        - MobLayer
   - type: MobThresholds
     thresholds:
       0: Alive
       180: Dead
+  - type: SlowOnDamage
+    speedModifierThresholds:
+      30: 0.9
+      60: 0.8
+      90: 0.7
+      120: 0.6
+      150: 0.5
   - type: DamageStateVisuals
     states:
       Alive:
@@ -136,13 +163,16 @@
       Dead:
         Base: dead
   - type: MeleeWeapon
-    angle: 0
-    animation: WeaponArcBite
+    altDisarm: false
+    attackRate: 2.0
+    angle: 90
+    animation: WeaponSwordSwung1
+    soundHit:
+      path: /Audio/_Starlight/Effects/sword_swung.ogg
     damage:
       types:
-        Slash: 10
-    soundHit:
-      path: /Audio/_Starlight/Effects/beak_strikes.ogg
+        Slash: 6
+        Structural: 6
   - type: Grammar
     attributes:
       gender: male
@@ -150,11 +180,17 @@
     makeSentient: true
     allowMovement: true
     allowSpeech: true
-    name: ghost-role-clockwork-hawk-name
-    description: ghost-role-clockwork-hawk-description
-    rules: ghost-role-clockwork-hawk-rules
+    name: ghost-role-clockwork-marauder-name
+    description: ghost-role-clockwork-marauder-description
+    rules: ghost-role-clockwork-marauder-rules
     mindRoles:
     - MindRoleGhostRoleTeamAntagonist
     raffle:
       settings: short
   - type: GhostTakeoverAvailable
+  - type: HTN
+    rootTask:
+      task: SimpleHostileCompound
+  - type: NpcFactionMember
+    factions:
+      - Clockwork

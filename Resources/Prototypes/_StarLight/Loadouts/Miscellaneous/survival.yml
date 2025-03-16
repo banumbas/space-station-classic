@@ -1,0 +1,18 @@
+# Syndicate
+- type: loadout
+  id: EmergencyOxygenClockwork
+  effects:
+  - !type:GroupLoadoutEffect
+    proto: OxygenBreather
+  storage:
+    back:
+    - BoxSurvivalClockwork
+
+- type: loadout
+  id: EmergencyNitrogenClockwork
+  effects:
+  - !type:GroupLoadoutEffect
+    proto: NitrogenBreather
+  storage:
+    back:
+    - BoxSurvivalClockworkNitrogen

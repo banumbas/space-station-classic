@@ -7,3 +7,21 @@
     exclusiveAntag: true
     antagPrototype: LoneAbductorAntag
   - type: Abductor
+
+- type: entity
+  parent: BaseMindRoleAntag
+  id: MindRoleClockworkMaster
+  name: Clockwork Prophet
+  components:
+  - type: MindRole
+    antagPrototype: ClockworkMaster
+  - type: CultLeaderRole
+
+- type: entity
+  parent: BaseMindRoleAntag
+  id: MindRoleClockworkServant
+  name: Clockwork Servant
+  components:
+  - type: MindRole
+    antagPrototype: ClockworkCultist
+  - type: CultRole

@@ -1,2 +1,3 @@
 ﻿contraband-examine-text-soviet = [color=crimson]This item is highly illegal Soviet contraband![/color]
+contraband-examine-text = [color=crimson]This item is highly illegal contraband![/color]
 contraband-examine-text-advancedcyberlimbs = [color=gray]This item is highly illegal Cybernetic contraband![/color]

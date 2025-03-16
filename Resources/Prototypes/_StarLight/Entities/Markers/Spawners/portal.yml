@@ -1,0 +1,11 @@
+
+#- type: entity
+#  categories: [ Spawner ]
+#  parent: MarkerBase
+#  id: SpawnPointClockworkPortal
+#  components:
+#  - type: Sprite
+#    sprite: _Starlight/Markers/portal.rsi
+#    layers:
+#      - state: cross
+#      - state: portal

@@ -36,5 +36,5 @@ void fragment() {
         }
 
     // Output to screen
-    COLOR = vec4(colour,1.0);
+    COLOR = vec4(colour, zTextureSpec(TEXTURE, UV).a); // 🌟Starlight🌟
 }

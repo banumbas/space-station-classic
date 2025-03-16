@@ -10,6 +10,18 @@
 		{
 			"name": "enchant_item"
 		},
+    {
+			"name": "exit"
+		},
+    {
+			"name": "gears"
+		},
+    {
+			"name": "background"
+		},
+    {
+			"name": "portal"
+		},
 		{
 			"name": "midace_hand"
 		},

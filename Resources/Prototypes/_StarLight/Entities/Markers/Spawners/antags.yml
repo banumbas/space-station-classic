@@ -1,0 +1,35 @@
+- type: entity
+  categories: [ Spawner ]
+  parent: BaseAntagSpawner
+  id: SpawnPointClockworkCultist
+  components:
+  - type: GhostRole
+    name: roles-antag-clockwork-cultist-name
+    description: roles-antag-clockwork-cultist-objective
+    rules: roles-antag-clockwork-cultist-rules
+    mindRoles:
+    - MindRoleGhostRoleSoloAntagonist
+  - type: Sprite
+    sprite: _Starlight/Markers/jobs.rsi
+    layers:
+      - state: green
+      - state: clockwork
+      - state: antagicon
+
+- type: entity
+  categories: [ Spawner ]
+  parent: SpawnPointClockworkCultist
+  id: SpawnPointClockworkMaster
+  components:
+  - type: GhostRole
+    name: roles-antag-clockwork-master-name
+    description: roles-antag-clockwork-master-objective
+    rules: roles-antag-clockwork-master-rules
+    mindRoles:
+    - MindRoleGhostRoleTeamAntagonist
+  - type: Sprite
+    sprite: _Starlight/Markers/jobs.rsi
+    layers:
+      - state: green
+      - state: clockwork_master
+      - state: antagicon

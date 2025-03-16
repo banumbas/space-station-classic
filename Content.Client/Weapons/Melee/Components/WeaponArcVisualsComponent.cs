@@ -1,4 +1,4 @@
-namespace Content.Client.Weapons.Melee.Components;
+﻿namespace Content.Client.Weapons.Melee.Components;
 
 /// <summary>
 /// Used for melee attack animations. Typically just has a fadeout.
@@ -20,4 +20,5 @@ public enum WeaponArcAnimation : byte
     None,
     Thrust,
     Slash,
+    ReverseSlash, // 🌟Starlight🌟
 }

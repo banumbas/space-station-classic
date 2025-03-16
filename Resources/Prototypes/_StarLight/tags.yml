@@ -2,7 +2,10 @@
   
 - type: Tag
   id: Arachnid
-  
+    
+- type: Tag
+  id: Brass
+
 - type: Tag
   id: CantInteract
   
@@ -14,7 +17,10 @@
   
 - type: Tag
   id: ClownKudzu
-  
+    
+- type: Tag
+  id: Clockwork
+
 - type: Tag
   id: Diona
   
@@ -86,6 +92,3 @@
   
 - type: Tag
   id: Table
-  
-- type: Tag
-  id: Brass

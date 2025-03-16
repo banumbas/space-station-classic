@@ -1,0 +1,19 @@
+- type: entity
+  id: WeaponSwordSwung1
+  parent: WeaponArcSlash
+  categories: [ HideSpawnMenu ]
+  components:
+    - type: WeaponArcVisuals
+      animation: Slash
+    - type: Sprite
+      sprite: _Starlight/Effects/sword_swung.rsi
+      state: clockwork_sword
+      drawdepth: Effects
+      
+- type: entity
+  id: WeaponSwordSwung2
+  parent: WeaponSwordSwung1
+  categories: [ HideSpawnMenu ]
+  components:
+    - type: WeaponArcVisuals
+      animation: ReverseSlash

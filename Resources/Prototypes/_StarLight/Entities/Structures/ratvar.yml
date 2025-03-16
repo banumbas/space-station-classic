@@ -1,0 +1,25 @@
+- type: entity
+  id: RatvarDead
+  parent: [ BaseMachinePowered]
+  name: ratvar
+  description: An omen of something.
+  components:
+  - type: Physics
+    bodyType: Static
+    canCollide: true
+  - type: Transform
+    anchored: true
+    noRot: true
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeAabb
+          bounds: "-0.45,-0.45,0.45,0.00"
+        density: 190
+        mask:
+          - MachineMask
+  - type: Sprite
+    sprite: /Textures/_Starlight/Mobs/Clockwork/ratvar.rsi
+    state: ratvar_dead
+  - type: CollideOnAnchor

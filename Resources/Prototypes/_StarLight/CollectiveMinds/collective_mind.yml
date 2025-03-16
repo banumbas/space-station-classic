@@ -72,3 +72,11 @@
   requiredTags: 
   - Resomi
   #- Avali #Add avali here later
+
+- type: collectiveMind
+  id: Clockwork
+  name: collective-mind-ratvar
+  keycode: 'x'
+  color: "#DCD87C"
+  requiredComponents:
+  - ClockworkMind

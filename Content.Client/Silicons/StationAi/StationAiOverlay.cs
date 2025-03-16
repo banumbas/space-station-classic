@@ -1,4 +1,4 @@
-using System.Numerics;
+﻿using System.Numerics;
 using Content.Shared.Movement.Components;
 using Content.Shared.Silicons.StationAi;
 using Robust.Client.Graphics;
@@ -69,6 +69,10 @@ public sealed class StationAiOverlay : Overlay
             var lookups = _entManager.System<EntityLookupSystem>();
             var xforms = _entManager.System<SharedTransformSystem>();
 
+            var color = Color.White; // 🌟Starlight🌟
+            if (stationAiOverlay is not null) // 🌟Starlight🌟
+                color = color.WithAlpha(stationAiOverlay.Alfa); // 🌟Starlight🌟
+
             if (_accumulator <= 0f)
             {
                 _accumulator = MathF.Max(0f, _accumulator + _updateRate);
@@ -99,9 +103,9 @@ public sealed class StationAiOverlay : Overlay
                 worldHandle.SetTransform(invMatrix);
                 var shader = _proto.Index<ShaderPrototype>("CameraStatic").Instance();
                 worldHandle.UseShader(shader);
-                worldHandle.DrawRect(worldBounds, Color.White);
+                worldHandle.DrawRect(worldBounds, color);  // 🌟Starlight🌟
             },
-            Color.Black);
+            Color.Transparent); // 🌟Starlight🌟
         }
         // Not on a grid
         else

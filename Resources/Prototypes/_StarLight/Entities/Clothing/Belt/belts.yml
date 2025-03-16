@@ -230,3 +230,16 @@
   - type: Clothing
     sprite: _Starlight/Clothing/Belt/corpsmanbelt.rsi
   - type: Appearance
+
+- type: entity
+  parent: ClothingSovietBelt
+  id: ClothingClockworkBelt
+  name: brass chain belt
+  description: Can hold various things.
+  components:
+  - type: Sprite
+    sprite: _Starlight/Clothing/Belt/clockwork.rsi
+  - type: Clothing
+    sprite: _Starlight/Clothing/Belt/clockwork.rsi
+  - type: Contraband
+    severity: Clockwork

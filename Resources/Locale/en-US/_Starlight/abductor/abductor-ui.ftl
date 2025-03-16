@@ -1,6 +1,5 @@
 # Teleport tab
 
-abductors-ui-beacons = Beacons
 abductors-ui-teleport = Teleport
 abductors-ui-attract = Attract
 

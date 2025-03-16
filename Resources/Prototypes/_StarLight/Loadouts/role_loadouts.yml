@@ -80,3 +80,10 @@
   - Survival
   - Trinkets
   - GroupSpeciesBreathTool
+
+- type: roleLoadout
+  id: RoleSurvivalClockwork
+  groups:
+  - SurvivalClockwork
+  - GroupSpeciesBreathTool
+  - GroupPocketTankDouble

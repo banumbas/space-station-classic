@@ -22,3 +22,7 @@ public sealed partial class ClockworkMasterComponent : Component
     [DataField]
     public ProtoId<FactionIconPrototype> StatusIcon { get; set; } = "ClockworkMasterFaction";
 }
+[RegisterComponent, NetworkedComponent]
+public sealed partial class ClockworkMindComponent : Component
+{
+}

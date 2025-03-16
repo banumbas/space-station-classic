@@ -33,6 +33,8 @@
   - type: IgnoreUIRange
   - type: StationAiHeld
   - type: StationAiOverlay
+  - type: Visibility
+    layer: 32768
   - type: ShowElectrocutionHUD
   - type: ActionGrant
     actions:
@@ -436,6 +438,9 @@
     - Silicon
   - type: Eye
     drawFov: false
+    visMask:
+      - Normal
+      - Net
   - type: Examiner
   - type: InputMover
   - type: Speech

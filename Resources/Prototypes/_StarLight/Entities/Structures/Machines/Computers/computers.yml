@@ -46,7 +46,7 @@
   parent: BaseComputer
   id: AbductorConsole
   name: abductor console
-  description: A computer that is used for spying on the station.
+  description: Use this to set teleporter destination or retrieve people marked by scientist tools. Also used for buying replacement gear and linking the agent's vest.
   components:
   - type: AbductorConsole
   - type: Sprite
@@ -100,20 +100,28 @@
   parent: BaseComputer
   id: AbductorHumanObservationConsole
   name: human observation console
-  description: Use this to set teleporter destination or retrieve people marked by scientist tools. Also used for buying replacement gear and linking the agent's vest.
+  description: A computer that is used for spying on the station.
   components:
   - type: Sprite
     sprite: _Starlight/Structures/Machines/abductor_camera_console.rsi
     layers:
     - map: ["console"]
       state: console
-  - type: AbductorHumanObservationConsole
+  - type: RemoteEyeConsole
+    remoteEntityProto: AbductorHumanObservationConsoleEye
+    color: "#A04B81"
+    requiredComponents:
+    - type: Abductor
+    actions:
+    - ActionExitConsole
+    - ActionSendYourself
+    - ActionGizmoMark
   - type: ActivatableUI
-    key: enum.AbductorCameraConsoleUIKey.Key
+    key: enum.RemoteEyeUIKey.Key
   - type: UserInterface
     interfaces:
-     enum.AbductorCameraConsoleUIKey.Key:
-        type: AbductorCameraConsoleBui
+     enum.RemoteEyeUIKey.Key:
+        type: RemoteEyeConsoleBui
   - type: PointLight
     enabled: true
     radius: 1.5
@@ -125,8 +133,8 @@
   - Incorporeal
   - BaseMob
   id: AbductorHumanObservationConsoleEye
-  name: abductor eye
-  description: The abductor's viewer.
+  name: "???"
+  description: "ERROR"
   categories: [ HideSpawnMenu ]
   suffix: DO NOT MAP
   components:
@@ -135,10 +143,80 @@
     follow: true
   - type: Eye
     pvsScale: 1.5
+    visMask:
+      - Normal
+      - Net
+  - type: StationAiOverlay
+    allowCrossGrid: true
   - type: Visibility
-    layer: 4
+    layer: 32768
   - type: Sprite
     sprite: _Starlight/Structures/Machines/abductor_camera_console.rsi
+    layers:
+    - state: eye
+      shader: unshaded
+  - type: Tag
+    tags:
+    - CantInteract
+
+
+#clockwork
+- type: entity
+  parent: BaseComputer
+  id: ClockworkConsole
+  name: clockwork console
+  description: A computer that is used for spying on the station.
+  components:
+  - type: Sprite
+    sprite: _Starlight/Structures/Machines/clockwork_console.rsi
+    layers:
+    - map: ["console"]
+      state: console
+  - type: RemoteEyeConsole
+    remoteEntityProto: ClockworkConsoleEye
+    color: "#9E974A"
+    requiredComponents:
+    - type: MidaseUser
+    actions:
+    - ActionClockworkExitConsole
+    - ActionClockworkPortal
+  - type: ActivatableUI
+    key: enum.RemoteEyeUIKey.Key
+  - type: UserInterface
+    interfaces:
+     enum.RemoteEyeUIKey.Key:
+        type: RemoteEyeConsoleBui
+  - type: PointLight
+    enabled: true
+    radius: 1.5
+    energy: 1.6
+    color: "#22CC33"
+
+- type: entity
+  id: ClockworkConsoleEye
+  parent:
+  - Incorporeal
+  - BaseMob
+  name: "???"
+  description: "ERROR"
+  categories: [ HideSpawnMenu ]
+  suffix: DO NOT MAP
+  components:
+  - type: NoFTL
+  - type: WarpPoint
+    follow: true
+  - type: Eye
+    pvsScale: 1.5
+    visMask:
+      - Normal
+      - Net
+  - type: StationAiOverlay
+    allowCrossGrid: true
+    alfa: 0.2
+  - type: Visibility
+    layer: 32768
+  - type: Sprite
+    sprite: _Starlight/Structures/Machines/clockwork_console.rsi
     layers:
     - state: eye
       shader: unshaded

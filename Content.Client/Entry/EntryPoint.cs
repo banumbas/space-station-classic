@@ -1,4 +1,5 @@
-﻿using Content.Client._Starlight.Managers;
+﻿using Content.Client._Starlight;
+using Content.Client._Starlight.Managers;
 using Content.Client.Administration.Managers;
 using Content.Client.Changelog;
 using Content.Client.Chat.Managers;
@@ -124,6 +125,9 @@ namespace Content.Client.Entry
             _prototypeManager.RegisterIgnore("alertLevels");
             _prototypeManager.RegisterIgnore("nukeopsRole");
             _prototypeManager.RegisterIgnore("ghostRoleRaffleDecider");
+
+            foreach (var comp in StarlightConstants.ServerSideComponents) //🌟Starlight🌟
+                _prototypeManager.RegisterIgnore(comp);
 
             _componentFactory.GenerateNetIds();
             _adminManager.Initialize();

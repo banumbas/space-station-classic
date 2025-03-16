@@ -21,11 +21,6 @@
   text: "/ServerInfo/Guidebook/Antagonist/Traitors.xml"
 
 - type: guideEntry
-  id: Changelings
-  name: guide-entry-changelings
-  text: "/ServerInfo/Guidebook/Antagonist/Changelings.xml"
-
-- type: guideEntry
   id: NuclearOperatives
   name: guide-entry-nuclear-operatives
   text: "/ServerInfo/Guidebook/Antagonist/Nuclear Operatives.xml"
@@ -54,16 +49,6 @@
   id: Thieves
   name: guide-entry-thieves
   text: "/ServerInfo/Guidebook/Antagonist/Thieves.xml"
-
-- type: guideEntry
-  id: Vampires
-  name: guide-entry-vampires
-  text: "/ServerInfo/Guidebook/Antagonist/Vampires.xml"
-  
-- type: guideEntry
-  id: Abductors
-  name: guide-entry-abductors
-  text: "/ServerInfo/Guidebook/Antagonist/Abductors.xml"
   
 - type: guideEntry
   id: Wizard

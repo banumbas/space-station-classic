@@ -1,0 +1,50 @@
+- type: entity
+  id: ClockworkRitual
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: TimedDespawn
+    lifetime: 1.8
+  - type: Sprite
+    sprite: /Textures/_Starlight/Effects/clockwork/ritual_small.rsi
+    state: ritual
+    drawdepth: Overdoors
+
+- type: entity
+  id: ClockworkRitualPortal
+  #categories: [ HideSpawnMenu ]
+  components:
+  - type: TimedDespawn
+    lifetime: 2
+  - type: Sprite
+    sprite: /Textures/_Starlight/Effects/clockwork/ritual_small.rsi
+    state: ritual
+    offset: 0,-0.5
+    drawdepth: FloorObjects
+
+- type: entity
+  parent: BasePortal
+  id: ClockworkPortal
+  #categories: [ HideSpawnMenu ]
+  components:
+  - type: Appearance
+  - type: EntityStateMachine
+    lifetimes: 
+      Spawn: 0.6
+      Despawn: 2.0
+  - type: Sprite
+    sprite: /Textures/_Starlight/Effects/clockwork/portal.rsi
+    drawdepth: Overdoors
+    layers:
+    - state: opening
+      map: ["enum.EntityStateMachine.Spawn"]
+    - state: portal
+      map: ["enum.EntityStateMachine.Idle"]
+    - state: closing
+      map: ["enum.EntityStateMachine.Despawn"]
+  - type: Portal
+    canTeleportToOtherMaps: true
+  - type: AmbientSound
+    volume: 35
+    range: 5
+    sound:
+      path: /Audio/Machines/energyshield_ambient.ogg

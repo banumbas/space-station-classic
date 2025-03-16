@@ -1,4 +1,4 @@
-using Content.Server.AlertLevel;
+﻿using Content.Server.AlertLevel;
 using Content.Server.Audio;
 using Content.Server.Chat.Systems;
 using Content.Server.Explosion.EntitySystems;
@@ -580,6 +580,7 @@ public sealed class NukeSystem : EntitySystem
         RaiseLocalEvent(new NukeExplodedEvent()
         {
             OwningStation = transform.GridUid,
+            OwningMap = transform.MapID // 🌟Starlight🌟
         });
 
         _sound.StopStationEventMusic(uid, StationEventMusicType.Nuke);
@@ -650,6 +651,7 @@ public sealed class NukeSystem : EntitySystem
 public sealed class NukeExplodedEvent : EntityEventArgs
 {
     public EntityUid? OwningStation;
+    public MapId OwningMap; // 🌟Starlight🌟
 }
 
 /// <summary>
