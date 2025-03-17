@@ -21,3 +21,9 @@ public abstract class BaseClockworkEnchantAction
     [field:NonSerialized]
     public EntityUid User { get; set; }
 }
+
+[Serializable, NetSerializable]
+public enum EnchantUIKey
+{
+    Key
+}

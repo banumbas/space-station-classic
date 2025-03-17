@@ -7,24 +7,59 @@ namespace Content.Shared.Starlight.Antags.Clockwork.EntitySystems;
 
 public abstract class SharedEnchantSystem : EntitySystem
 {
+    [Dependency] private readonly SharedActionsSystem _action = default!;
     [Dependency] private readonly ActionContainerSystem _actionContainer = default!;
     
     public override void Initialize()
     {
-        SubscribeLocalEvent<EnchantableComponent, GetItemActionsEvent>(OnGetActions);
-        SubscribeLocalEvent<EnchantableComponent, MapInitEvent>(OnMapInit);
+        SubscribeLocalEvent<EnchantableComponent, GotEquippedHandEvent>(OnHandEquip);
+        SubscribeLocalEvent<EnchantableComponent, GotUnequippedHandEvent>(OnHandUnequip);
+        SubscribeLocalEvent<EnchantableComponent, GotEquippedEvent>(OnEquip);
+        SubscribeLocalEvent<EnchantableComponent, GotUnequippedEvent>(OnUnequip);
         base.Initialize();
     }
     
-    private void OnMapInit(EntityUid uid, EnchantableComponent component, MapInitEvent args)
+    private void OnHandEquip(EntityUid uid, EnchantableComponent component, GotEquippedHandEvent args)
     {
-        _actionContainer.EnsureAction(uid, ref component.EnchantActionEntity, component.EnchantAction);
-        Dirty(uid, component);
+        EquipItem(uid, args.User);
     }
     
-    private void OnGetActions(EntityUid uid, EnchantableComponent component, GetItemActionsEvent args)
+    private void OnEquip(EntityUid uid, EnchantableComponent component, GotEquippedEvent args)
     {
-        if (HasComp<EnchantUserComponent>(args.User))
-            args.AddAction(component.EnchantActionEntity);
+        EquipItem(uid, args.Equipee);
+    }
+    
+    private void EquipItem(EntityUid uid, EntityUid user)
+    {
+        if (TryComp<EnchantUserComponent>(user, out var enchantUser))
+        {
+            enchantUser.EntitiesToEnchant.Add(uid);
+            if (enchantUser.EnchantActionEntity == null)
+                _action.AddAction(user, ref enchantUser.EnchantActionEntity, enchantUser.EnchantAction);
+        }
+    }
+    
+    private void OnHandUnequip(EntityUid uid, EnchantableComponent component, GotUnequippedHandEvent args)
+    {
+        RemoveItem(uid, args.User);
+    }
+    
+    private void OnUnequip(EntityUid uid, EnchantableComponent component, GotUnequippedEvent args)
+    {
+        RemoveItem(uid, args.Equipee);
+    }
+    
+    private void RemoveItem(EntityUid uid, EntityUid user)
+    {
+        if (TryComp<EnchantUserComponent>(user, out var enchantUser))
+        {
+            enchantUser.EntitiesToEnchant.Remove(uid);
+            if (enchantUser.EntitiesToEnchant.Count == 0 && enchantUser.EnchantActionEntity != null)
+            {
+                _action.RemoveAction(user, enchantUser.EnchantActionEntity);
+                _actionContainer.RemoveAction(enchantUser.EnchantActionEntity.Value);
+                enchantUser.EnchantActionEntity = null;
+            }
+        }
     }
 }
