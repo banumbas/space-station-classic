@@ -11,6 +11,7 @@ using Robust.Client.UserInterface.XAML;
 using Robust.Shared.Timing;
 using Robust.Shared.Utility;
 using Robust.Shared.Graphics.RSI;
+using Robust.Client.Utility;
 
 namespace Content.Client._Starlight.Antags.Clockwork.UI;
 
@@ -22,6 +23,7 @@ public sealed partial class EnchantMenu : RadialMenu
     [Dependency] private readonly IResourceCache _resourceCache = default!;
     
     public event Action<EntityUid>? OnItemSelected;
+    public event Action<(EntityUid, EnchantAction)>? OnEnchantSelected;
     
     private EntityUid _tracked;
 
@@ -40,12 +42,9 @@ public sealed partial class EnchantMenu : RadialMenu
             Close();
             return;
         }
-
-        BuildButtons();
-        UpdatePosition();
     }
     
-    private void BuildButtons()
+    public void BuildItemButtons()
     {
         if (!_entManager.TryGetComponent<EnchantUserComponent>(_tracked, out var enchantUser))
             return;
@@ -87,6 +86,55 @@ public sealed partial class EnchantMenu : RadialMenu
             button.OnPressed += args =>
             {
                 OnItemSelected?.Invoke(item);
+            };
+            
+            main.AddChild(button);
+        }
+    }
+    
+    public void BuildEnchantButtons(EntityUid item)
+    {
+        if (!_entManager.TryGetComponent<EnchantableComponent>(item, out var enchantableComp))
+            return;
+        
+        var main = FindControl<RadialContainer>("Main");
+        main.DisposeAllChildren();
+        var spriteSystem = _entManager.System<SpriteSystem>();
+        
+        foreach (var action in enchantableComp.Actions)
+        {
+            // Button
+            var button = new EnchantMenuActionButton(item, action)
+            {
+                SetSize = new Vector2(64f, 64f),
+            };
+            
+            
+            // Texture
+            if (action.Icon != null)
+            {
+                Logger.DebugS("EnchantMenu", "Trying to insert new icon in button");
+                var texture = action.Icon.Frame0();
+                var scale = Vector2.One;
+                
+                if (texture.Width <= 32)
+                    scale *= 2;
+                
+                var rect = new TextureRect
+                {
+                    VerticalAlignment = VAlignment.Center,
+                    HorizontalAlignment = HAlignment.Center,
+                    Texture = texture,
+                    TextureScale = scale,
+                };
+
+                button.AddChild(rect);
+            }
+            
+            // Event
+            button.OnPressed += args =>
+            {
+                OnEnchantSelected?.Invoke((item, action));
                 Close();
             };
             
@@ -100,7 +148,7 @@ public sealed partial class EnchantMenu : RadialMenu
         UpdatePosition();
     }
     
-    private void UpdatePosition()
+    public void UpdatePosition()
     {
         if (!_entManager.TryGetComponent(_tracked, out TransformComponent? xform))
         {
@@ -129,4 +177,10 @@ public sealed partial class EnchantMenu : RadialMenu
 public sealed class EnchantMenuItemButton(EntityUid item) : RadialMenuTextureButtonWithSector
 {
     public EntityUid Item = item;
+}
+
+public sealed class EnchantMenuActionButton(EntityUid item, EnchantAction action) : RadialMenuTextureButtonWithSector
+{
+    public EntityUid Item = item;
+    public EnchantAction Action = action;
 }

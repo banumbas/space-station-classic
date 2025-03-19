@@ -29,7 +29,7 @@ public abstract class SharedEnchantSystem : EntitySystem
         EquipItem(uid, args.Equipee);
     }
     
-    private void EquipItem(EntityUid uid, EntityUid user)
+    public virtual void EquipItem(EntityUid uid, EntityUid user)
     {
         if (TryComp<EnchantUserComponent>(user, out var enchantUser))
         {
@@ -49,7 +49,7 @@ public abstract class SharedEnchantSystem : EntitySystem
         RemoveItem(uid, args.Equipee);
     }
     
-    private void RemoveItem(EntityUid uid, EntityUid user)
+    public virtual void RemoveItem(EntityUid uid, EntityUid user)
     {
         if (TryComp<EnchantUserComponent>(user, out var enchantUser))
         {
