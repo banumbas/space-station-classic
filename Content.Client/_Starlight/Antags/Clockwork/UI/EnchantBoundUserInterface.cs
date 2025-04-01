@@ -1,16 +1,14 @@
 using Content.Shared.Starlight.Antags.Clockwork.Components;
+using JetBrains.Annotations;
 using Robust.Client.UserInterface;
 
 namespace Content.Client._Starlight.Antags.Clockwork.UI;
 
-public sealed class EnchantBoundUserInterface : BoundUserInterface
+[UsedImplicitly]
+public sealed class EnchantBoundUserInterface(EntityUid owner, Enum uiKey) : BoundUserInterface(owner, uiKey)
 {
     private EnchantMenu? _menu;
     private EntityUid? _item;
-
-    public EnchantBoundUserInterface(EntityUid owner, Enum uiKey) : base(owner, uiKey)
-    {
-    }
     
     public void ToggleWindow()
     {
@@ -23,6 +21,7 @@ public sealed class EnchantBoundUserInterface : BoundUserInterface
     protected override void Open()
     {
         base.Open();
+        
         _menu = this.CreateWindow<EnchantMenu>();
         _menu.Track(Owner);
         _menu.BuildItemButtons();
@@ -34,14 +33,12 @@ public sealed class EnchantBoundUserInterface : BoundUserInterface
             _menu.BuildEnchantButtons(args);
         };
         
-        _menu.OnEnchantSelected += args =>
+        _menu.OnEnchantSelected += args => 
         {
-            SendPredictedMessage(new ClockworkEnchantMessage()
-            {
-                Item = base.EntMan.GetNetEntity(args.Item1),
-                Action = args.Item2,
-            });
+            SendMessage(new ClockworkEnchantMessage(base.EntMan.GetNetEntity(args.Item1), args.Item2));
         };
+        
+        _menu.OnClose += Close;
     }
     
     public override void Update()

@@ -23,6 +23,12 @@ public sealed class ClockworkEnchantMessage : BoundUserInterfaceMessage
 {
     public NetEntity Item = default!;
     public EnchantAction Action = default!;
+    
+    public ClockworkEnchantMessage(NetEntity item, EnchantAction action)
+    {
+        Item = item;
+        Action = action;
+    }
 }
 
 [Serializable, NetSerializable]
@@ -60,6 +66,8 @@ public partial class EnchantAction
     public virtual void Action(EnchantActionArgs args)
     {
         entMan = args.EntityManager;
+        
+        Logger.DebugS("EnchantSystem", "Trying to enchant item");
         
         var _appearance = entMan.System<SharedAppearanceSystem>();
         

@@ -9,8 +9,11 @@ public sealed partial class EnchantSystem : SharedEnchantSystem
 {
     public override void Initialize()
     {
-        SubscribeLocalEvent<ClockworkEnchantMessage>(OnItemEnchantMessage);
         SubscribeLocalEvent<EnchantedComponent, MeleeHitEvent>(OnAttack);
+        Subs.BuiEvents<EnchantUserComponent>(EnchantUIKey.Key, subs =>
+        {
+            subs.Event<ClockworkEnchantMessage>(OnItemEnchantMessage);
+        });
         base.Initialize();
     }
     
@@ -20,12 +23,11 @@ public sealed partial class EnchantSystem : SharedEnchantSystem
             component.Action.Attack(args.User, args.Weapon, args.HitEntities);
     }
     
-    private void OnItemEnchantMessage(ClockworkEnchantMessage ev)
+    private void OnItemEnchantMessage(EntityUid uid, EnchantUserComponent component, ClockworkEnchantMessage ev)
     {
-        if (!TryGetEntity(ev.Entity, out var target))
-            return;
-
-        var actionArgs = new EnchantActionArgs(target.Value, GetEntity(ev.Item), EntityManager);
+        Logger.Warning("EnchantSystem: Trying to start enchant action");
+        
+        var actionArgs = new EnchantActionArgs(uid, GetEntity(ev.Item), EntityManager);
         ev.Action.Action(actionArgs);
     }
 }

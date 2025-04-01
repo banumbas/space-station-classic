@@ -15,20 +15,35 @@ public sealed partial class EnchantSystem : SharedEnchantSystem
     
     public override void Initialize()
     {
-        base.Initialize();
+        SubscribeLocalEvent<EnchantableComponent, GotEquippedHandEvent>(OnHandEquip);
+        SubscribeLocalEvent<EnchantableComponent, GotUnequippedHandEvent>(OnHandUnequip);
+        SubscribeLocalEvent<EnchantableComponent, GotEquippedEvent>(OnEquip);
+        SubscribeLocalEvent<EnchantableComponent, GotUnequippedEvent>(OnUnequip);
         SubscribeLocalEvent<EnchantUserComponent, ClockworkItemEnchantEvent>(OnEnchant);
     }
     
-    public override void EquipItem(EntityUid uid, EntityUid user)
+    private void OnHandEquip(EntityUid uid, EnchantableComponent component, GotEquippedHandEvent args)
     {
-        base.EquipItem(uid, user);
-        UpdateUI(user);
+        base.EquipItem(uid, args.User);
+        UpdateUI(args.User);
     }
-
-    public override void RemoveItem(EntityUid uid, EntityUid user)
+    
+    private void OnEquip(EntityUid uid, EnchantableComponent component, GotEquippedEvent args)
     {
-        base.RemoveItem(uid, user);
-        UpdateUI(user);
+        base.EquipItem(uid, args.Equipee);
+        UpdateUI(args.Equipee);
+    }
+    
+    private void OnHandUnequip(EntityUid uid, EnchantableComponent component, GotUnequippedHandEvent args)
+    {
+        base.RemoveItem(uid, args.User);
+        UpdateUI(args.User);
+    }
+    
+    private void OnUnequip(EntityUid uid, EnchantableComponent component, GotUnequippedEvent args)
+    {
+        base.RemoveItem(uid, args.Equipee);
+        UpdateUI(args.Equipee);
     }
     
     private void OnEnchant(EntityUid uid, EnchantUserComponent component, ClockworkItemEnchantEvent args)

@@ -6,8 +6,7 @@ namespace Content.Shared.Starlight.Antags.Clockwork.Components;
 [RegisterComponent]
 public sealed partial class EnchantableComponent : Component
 {
-    [DataField("actions", serverOnly: true)]
-    [NonSerialized]
+    [DataField("actions")]
     public List<EnchantAction> Actions = new();
     
     [DataField]

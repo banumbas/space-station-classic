@@ -15,18 +15,7 @@ public abstract class SharedMidaseSystem : EntitySystem
     {
         SubscribeLocalEvent<MidaseUserComponent, ComponentStartup>(OnStartup);
         SubscribeLocalEvent<MidaseUserComponent, ComponentShutdown>(OnShutdown);
-        SubscribeLocalEvent<MidaseUserComponent, MidaseToggleEvent>(OnMidaseToggle);
         base.Initialize();
-    }
-    
-    private void OnMidaseToggle(EntityUid uid, MidaseUserComponent component, ref MidaseToggleEvent args)
-    {
-        component.MidaseEnabled = !component.MidaseEnabled;
-        
-        _action.SetToggled(component.MidaseToggleActionEntity, component.MidaseEnabled);
-        
-        if (TryComp<AppearanceComponent>(uid, out var appearance) && !_net.IsClient)
-            _appearance.SetData(uid, MidaseVisuals.Enabled, component.MidaseEnabled, appearance);
     }
     
     private void OnStartup(EntityUid uid, MidaseUserComponent component, ref ComponentStartup args)

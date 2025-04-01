@@ -104,7 +104,7 @@ public sealed partial class EnchantMenu : RadialMenu
         foreach (var action in enchantableComp.Actions)
         {
             // Button
-            var button = new EnchantMenuActionButton(item, action)
+            var enchantButton = new EnchantMenuActionButton(item, action)
             {
                 SetSize = new Vector2(64f, 64f),
             };
@@ -128,17 +128,17 @@ public sealed partial class EnchantMenu : RadialMenu
                     TextureScale = scale,
                 };
 
-                button.AddChild(rect);
+                enchantButton.AddChild(rect);
             }
             
             // Event
-            button.OnPressed += args =>
+            enchantButton.OnPressed += _ =>
             {
                 OnEnchantSelected?.Invoke((item, action));
                 Close();
             };
             
-            main.AddChild(button);
+            main.AddChild(enchantButton);
         }
     }
     

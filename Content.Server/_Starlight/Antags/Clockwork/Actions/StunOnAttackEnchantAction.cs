@@ -15,7 +15,7 @@ public sealed partial class StunOnAttackEnchantAction : EnchantAction
         if (entMan == null)
             return;
 
-        var enchanted = entMan.AddComponent<EnchantedComponent>(args.Enchanter);
+        var enchanted = entMan.AddComponent<EnchantedComponent>(args.Item);
         
         enchanted.Action = this;
         enchanted.RiseActionOnAttack = true;
