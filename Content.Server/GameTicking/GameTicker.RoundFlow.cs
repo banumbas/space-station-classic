@@ -97,6 +97,13 @@ namespace Content.Server.GameTicking
             /* if (_map.MapExists(DefaultMap))
                 return; */
 
+            //check if all the maps exist
+            foreach (var map in DefaultMap)
+            {
+                if (_map.MapExists(map))
+                    return;
+            }
+
             AddGamePresetRules();
 
             var maps = new List<GameMapPrototype>();
