@@ -94,8 +94,8 @@ namespace Content.Server.GameTicking
         /// </remarks>
         private void LoadMaps()
         {
-            if (_map.MapExists(DefaultMap))
-                return;
+            /* if (_map.MapExists(DefaultMap))
+                return; */
 
             AddGamePresetRules();
 
@@ -113,9 +113,18 @@ namespace Content.Server.GameTicking
 
             // Small chance the above could return no map.
             // ideally SelectMapByConfigRules will always find a valid map
+            //starlight start
+            var defaultMaps = new List<GameMapPrototype>();
             if (mainStationMap != null)
             {
+                var elligibleMaps = _gameMapManager.CurrentlyEligibleMaps();
+                //select a random
+                var selected = _robustRandom.Pick(elligibleMaps.ToList());
                 maps.Add(mainStationMap);
+                maps.Add(selected);
+                defaultMaps.Add(mainStationMap);
+                defaultMaps.Add(selected);
+                //starlight end
             }
             else
             {
@@ -139,7 +148,8 @@ namespace Content.Server.GameTicking
             if (maps.Count == 0)
             {
                 _map.CreateMap(out var mapId, runMapInit: false);
-                DefaultMap = mapId;
+                //starlight
+                DefaultMap.Add(mapId);
                 return;
             }
 
@@ -148,8 +158,11 @@ namespace Content.Server.GameTicking
                 LoadGameMap(maps[i], out var mapId);
                 DebugTools.Assert(!_map.IsInitialized(mapId));
 
-                if (i == 0)
-                    DefaultMap = mapId;
+                //starlight account for list format
+                if (defaultMaps.Contains(maps[i]))
+                {
+                    DefaultMap.Add(mapId);
+                }
             }
         }
 
@@ -419,7 +432,11 @@ namespace Content.Server.GameTicking
             }
 
             // MapInitialize *before* spawning players, our codebase is too shit to do it afterwards...
-            _map.InitializeMap(DefaultMap);
+            //starlight for each loop
+            foreach (var map in DefaultMap)
+            {
+                _map.InitializeMap(map);
+            }
 
             SpawnPlayers(readyPlayers, readyPlayerIds, force);
 
