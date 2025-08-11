@@ -153,6 +153,7 @@ namespace Content.Server.GameTicking
                 return;
             }
 
+            DefaultMap.Clear(); //starlight, just in case, idk if this gets auto cleared or not
             for (var i = 0; i < maps.Count; i++)
             {
                 LoadGameMap(maps[i], out var mapId);
