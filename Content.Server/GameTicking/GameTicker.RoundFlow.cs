@@ -114,7 +114,7 @@ namespace Content.Server.GameTicking
             // Small chance the above could return no map.
             // ideally SelectMapByConfigRules will always find a valid map
             //starlight start
-            var defaultMaps = new List<GameMapPrototype>();
+            var defaultMaps = new List<string>();
             if (mainStationMap != null)
             {
                 var elligibleMaps = _gameMapManager.CurrentlyEligibleMaps();
@@ -122,8 +122,8 @@ namespace Content.Server.GameTicking
                 var selected = _robustRandom.Pick(elligibleMaps.ToList());
                 maps.Add(mainStationMap);
                 maps.Add(selected);
-                defaultMaps.Add(mainStationMap);
-                defaultMaps.Add(selected);
+                defaultMaps.Add(mainStationMap.ID);
+                defaultMaps.Add(selected.ID);
                 //starlight end
             }
             else
@@ -160,7 +160,9 @@ namespace Content.Server.GameTicking
                 DebugTools.Assert(!_map.IsInitialized(mapId));
 
                 //starlight account for list format
-                if (defaultMaps.Contains(maps[i]))
+                //check based on prototype ID
+                var protoID = maps[i].ID;
+                if (defaultMaps.Contains(protoID))
                 {
                     DefaultMap.Add(mapId);
                 }
