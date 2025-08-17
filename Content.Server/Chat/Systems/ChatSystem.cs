@@ -36,7 +36,7 @@ using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 using Robust.Shared.Replays;
 using Robust.Shared.Utility;
-using Content.Shared.Speech; // Starlight
+using Content.Shared.Speech;
 
 namespace Content.Server.Chat.Systems;
 
@@ -1077,6 +1077,8 @@ public sealed partial class ChatSystem : SharedChatSystem
         }
         return sb.ToString();
     }
+
+    internal void DispatchFilteredAnnouncement(Filter filter, string v, bool playSound, object announcementSound, object colorOverride) => throw new NotImplementedException();
 
     #endregion
 }
