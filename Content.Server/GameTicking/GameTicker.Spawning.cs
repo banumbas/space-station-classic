@@ -569,7 +569,7 @@ namespace Content.Server.GameTicking
             }
 
             //starlight for loop added
-            foreach (var map in DefaultMap)
+            foreach (var map in DefaultMaps)
             {
                 if (_map.MapExists(map))
                 {

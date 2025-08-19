@@ -74,7 +74,7 @@ public sealed class WorldgenConfigSystem : EntitySystem
             return;
 
         //starlight, foreach loop added
-        foreach (var map in _gameTicker.DefaultMap)
+        foreach (var map in _gameTicker.DefaultMaps)
         {
             var target = _map.GetMapOrInvalid(map);
             Log.Debug($"Trying to configure {map}, aka {ToPrettyString(target)} aka {target}");

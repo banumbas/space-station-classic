@@ -71,7 +71,7 @@ namespace Content.Server.GameTicking
         [ViewVariables] private bool _initialized;
         [ViewVariables] private bool _postInitialized;
 
-        [ViewVariables] public List<MapId> DefaultMap = new(); //starlight, made into a list
+        [ViewVariables] public List<MapId> DefaultMaps = new(); //starlight, made into a list
 
         private ISawmill _sawmill = default!;
 
