@@ -15,7 +15,7 @@ namespace Content.Server.Maps;
 
 public sealed class GameMapManager : IGameMapManager
 {
-    private const int MAPCOUNT = 2;
+    public const int MAPCOUNT = 2;
     [Dependency] private readonly IEntityManager _entityManager = default!;
     [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
     [Dependency] private readonly IConfigurationManager _configurationManager = default!;
@@ -145,6 +145,14 @@ public sealed class GameMapManager : IGameMapManager
     public void ClearSelectedMaps()
     {
         _selectedMaps = default!;
+    }
+
+    public bool TrySelectMapIfEligible(string gameMap)
+    {
+        if (!TryLookupMap(gameMap, out var map) || !IsMapEligible(map))
+            return false;
+        _selectedMaps?.Add(map);
+        return true;
     }
 
     public bool TrySelectMapsIfEligible(List<string> gameMaps)

@@ -41,7 +41,7 @@ public interface IGameMapManager
     /// </summary>
     /// <param name="gameMap">map prototype</param>
     /// <returns>success or failure</returns>
-
+    bool TrySelectMapIfEligible(string gameMap);
     bool TrySelectMapsIfEligible(List<string> gameMaps);
 
     /// <summary>

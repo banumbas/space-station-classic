@@ -301,45 +301,57 @@ namespace Content.Server.Voting.Managers
 
             WirePresetVoteInitiator(options, initiator);
 
-            var vote = CreateVote(options);
-
-            vote.OnFinished += (_, args) =>
+            var ticker = _entityManager.EntitySysManager.GetEntitySystem<GameTicker>();
+            if (ticker.CanUpdateMap())
             {
-                GameMapPrototype picked;
-                if (args.Winner == null)
-                {
-                    picked = (GameMapPrototype) _random.Pick(args.Winners);
-                    _chatManager.DispatchServerAnnouncement(
-                        Loc.GetString("ui-vote-map-tie"));
-                }
-                else
-                {
-                    picked = (GameMapPrototype) args.Winner;
-                }
-                _chatManager.DispatchServerAnnouncement(Loc.GetString("ui-vote-map-win"));
+                //clear maps
+                _gameMapManager.ClearSelectedMaps();
+            }
 
-                _adminLogger.Add(LogType.Vote, LogImpact.Medium, $"Map vote finished: {picked.MapName}");
-                var ticker = _entityManager.EntitySysManager.GetEntitySystem<GameTicker>();
-                if (ticker.CanUpdateMap())
+            for (var i = 0; i < GameMapManager.MAPCOUNT; i++)
+            {
+                //edit the title of the vote to include the map count
+                options.Title += "(Station 1)";
+                var vote = CreateVote(options);
+
+                vote.OnFinished += (_, args) =>
                 {
-                    if (_gameMapManager.TrySelectMapIfEligible(picked.ID))
+                    GameMapPrototype picked;
+                    if (args.Winner == null)
                     {
-                        ticker.UpdateInfoText();
-                    }
-                }
-                else
-                {
-                    if (ticker.RoundPreloadTime <= TimeSpan.Zero)
-                    {
-                        _chatManager.DispatchServerAnnouncement(Loc.GetString("ui-vote-map-notlobby"));
+                        picked = (GameMapPrototype)_random.Pick(args.Winners);
+                        _chatManager.DispatchServerAnnouncement(
+                            Loc.GetString("ui-vote-map-tie"));
                     }
                     else
                     {
-                        var timeString = $"{ticker.RoundPreloadTime.Minutes:0}:{ticker.RoundPreloadTime.Seconds:00}";
-                        _chatManager.DispatchServerAnnouncement(Loc.GetString("ui-vote-map-notlobby-time", ("time", timeString)));
+                        picked = (GameMapPrototype)args.Winner;
                     }
-                }
-            };
+                    _chatManager.DispatchServerAnnouncement(Loc.GetString("ui-vote-map-win"));
+
+                    _adminLogger.Add(LogType.Vote, LogImpact.Medium, $"Map vote finished: {picked.MapName}");
+                    var ticker = _entityManager.EntitySysManager.GetEntitySystem<GameTicker>();
+                    if (ticker.CanUpdateMap())
+                    {
+                        if (_gameMapManager.TrySelectMapIfEligible(picked.ID))
+                        {
+                            ticker.UpdateInfoText();
+                        }
+                    }
+                    else
+                    {
+                        if (ticker.RoundPreloadTime <= TimeSpan.Zero)
+                        {
+                            _chatManager.DispatchServerAnnouncement(Loc.GetString("ui-vote-map-notlobby"));
+                        }
+                        else
+                        {
+                            var timeString = $"{ticker.RoundPreloadTime.Minutes:0}:{ticker.RoundPreloadTime.Seconds:00}";
+                            _chatManager.DispatchServerAnnouncement(Loc.GetString("ui-vote-map-notlobby-time", ("time", timeString)));
+                        }
+                    }
+                };
+            }
         }
 
         private async void CreateVotekickVote(ICommonSession? initiator, string[]? args)
