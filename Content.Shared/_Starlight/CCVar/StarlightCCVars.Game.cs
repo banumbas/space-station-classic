@@ -27,4 +27,7 @@ public sealed partial class StarlightCCVars
     /// </summary>
     public static readonly CVarDef<bool> FuckMappingCommand =
         CVarDef.Create("game.fuck_mapping", false, CVar.SERVERONLY | CVar.CONFIDENTIAL);
+
+    public static readonly CVarDef<int> StationCount =
+        CVarDef.Create("game.station_count", 1, CVar.SERVERONLY | CVar.ARCHIVE);
 }

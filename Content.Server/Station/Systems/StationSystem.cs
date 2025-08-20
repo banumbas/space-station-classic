@@ -6,6 +6,7 @@ using Content.Server.Station.Events;
 using Content.Shared.CCVar;
 using Content.Shared.Station;
 using Content.Shared.Station.Components;
+using Content.Shared.Warps;
 using JetBrains.Annotations;
 using Robust.Server.GameObjects;
 using Robust.Server.GameStates;
@@ -358,6 +359,26 @@ public sealed partial class StationSystem : SharedStationSystem
 
         var ev = new StationPostInitEvent((station, data));
         RaiseLocalEvent(station, ref ev, true);
+
+        //get all of the warp points
+        var warps = EntityQueryEnumerator<WarpPointComponent>();
+        while (warps.MoveNext(out var ent, out var comp))
+        {
+            //get the grid uid
+            var gridUid = Transform(ent).GridUid;
+
+            if (gridUid == null)
+                continue;
+
+            //check if they match any of the grids in the station
+            if (!data.Grids.Contains(gridUid.Value))
+                continue;
+
+            //try to get station component
+            comp.Location = name + " " + comp.Location;
+            //dirty
+            Dirty(ent, comp);
+        }
 
         return station;
     }

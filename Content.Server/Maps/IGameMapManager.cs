@@ -31,6 +31,8 @@ public interface IGameMapManager
     /// <returns>selected map</returns>
     List<GameMapPrototype?> GetSelectedMaps();
 
+    string GetMapString();
+
     /// <summary>
     /// Clears the selected map, if any
     /// </summary>
@@ -43,6 +45,8 @@ public interface IGameMapManager
     /// <returns>success or failure</returns>
     bool TrySelectMapIfEligible(string gameMap);
     bool TrySelectMapsIfEligible(List<string> gameMaps);
+
+    int GetStationCount();
 
     /// <summary>
     /// Select the given map regardless of eligibility

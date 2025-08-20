@@ -272,34 +272,41 @@ namespace Content.Server.Voting.Managers
 
         private void CreateMapVote(ICommonSession? initiator)
         {
-            var maps = new Dictionary<string, GameMapPrototype>();
-            var eligibleMaps = _gameMapManager.CurrentlyEligibleMaps().ToList();
-            var selectedMaps = eligibleMaps.OrderBy(_ => _random.Next()).Take(_cfg.GetCVar(StarlightCCVars.MapVotingCount)).ToList();
-            maps.Add(Loc.GetString("ui-vote-secret-map"), _random.Pick(selectedMaps));
-            foreach (var map in selectedMaps)
-            {
-                maps.Add(map.MapName, map);
-            }
-
             var alone = _playerManager.PlayerCount == 1 && initiator != null;
-            var options = new VoteOptions
+            var options = new List<VoteOptions>();
+
+            for (var i = 0; i < _gameMapManager.GetStationCount(); i++)
             {
-                Title = Loc.GetString("ui-vote-map-title"),
-                Duration = alone
+                var opt = new VoteOptions
+                {
+                    Title = Loc.GetString("ui-vote-map-title") + $" (Station {i + 1} of {_gameMapManager.GetStationCount()})",
+                    Duration = alone
                     ? TimeSpan.FromSeconds(_cfg.GetCVar(CCVars.VoteTimerAlone))
                     : TimeSpan.FromSeconds(_cfg.GetCVar(CCVars.VoteTimerMap)),
-                DisplayVotes = _cfg.GetCVar(StarlightCCVars.ShowMapVotes), // 🌟Starlight🌟
+                    DisplayVotes = _cfg.GetCVar(StarlightCCVars.ShowMapVotes), // 🌟Starlight🌟
+                };
+
+                options.Add(opt);
+
+                var maps = new Dictionary<string, GameMapPrototype>();
+                var eligibleMaps = _gameMapManager.CurrentlyEligibleMaps().ToList();
+                var selectedMaps = eligibleMaps.OrderBy(_ => _random.Next()).Take(_cfg.GetCVar(StarlightCCVars.MapVotingCount)).ToList();
+                maps.Add(Loc.GetString("ui-vote-secret-map"), _random.Pick(selectedMaps));
+                foreach (var map in selectedMaps)
+                {
+                    maps.Add(map.MapName, map);
+                }
+                foreach (var (k, v) in maps)
+                {
+                    opt.Options.Add((k, v));
+                }
+
+                if (alone)
+                    opt.InitiatorTimeout = TimeSpan.FromSeconds(10);
+
+                WirePresetVoteInitiator(opt, initiator);
             };
 
-            if (alone)
-                options.InitiatorTimeout = TimeSpan.FromSeconds(10);
-
-            foreach (var (k, v) in maps)
-            {
-                options.Options.Add((k, v));
-            }
-
-            WirePresetVoteInitiator(options, initiator);
 
             var ticker = _entityManager.EntitySysManager.GetEntitySystem<GameTicker>();
             if (ticker.CanUpdateMap())
@@ -308,11 +315,9 @@ namespace Content.Server.Voting.Managers
                 _gameMapManager.ClearSelectedMaps();
             }
 
-            for (var i = 0; i < GameMapManager.MAPCOUNT; i++)
+            foreach (var opt in options)
             {
-                //edit the title of the vote to include the map count
-                options.Title += "(Station 1)";
-                var vote = CreateVote(options);
+                var vote = CreateVote(opt);
 
                 vote.OnFinished += (_, args) =>
                 {

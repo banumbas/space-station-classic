@@ -26,6 +26,9 @@ using Robust.Shared.Player;
 using Robust.Shared.Random;
 using Robust.Shared.Utility;
 using System.Text.RegularExpressions;
+using Content.Shared.Warps;
+using Content.Server.Station.Components;
+using Content.Shared.Station.Components;
 
 namespace Content.Server.GameTicking
 {
@@ -111,7 +114,7 @@ namespace Content.Server.GameTicking
             // the map might have been force-set by something
             // (i.e. votemap or forcemap)
             var mainStationMaps = _gameMapManager.GetSelectedMaps();
-            if (mainStationMaps == null)
+            if (mainStationMaps == null || mainStationMaps.Count == 0 || mainStationMaps.All(m => m == null))
             {
                 // otherwise set the map using the config rules
                 _gameMapManager.SelectMapsByConfigRules();
@@ -125,12 +128,16 @@ namespace Content.Server.GameTicking
             if (mainStationMaps != null)
             {
                 //add them if the maps are valid
-                foreach (var map in maps)
+                foreach (var map in mainStationMaps)
                 {
                     if (map != null)
                     {
                         maps.Add(map);
                         defaultMaps.Add(map.ID);
+                    }
+                    else
+                    {
+                        Log.Info($"Map is null, skipping.");
                     }
                 }
                 //starlight end
@@ -173,6 +180,7 @@ namespace Content.Server.GameTicking
             {
                 LoadGameMap(maps[i], out var mapId);
                 DebugTools.Assert(!_map.IsInitialized(mapId));
+
 
                 //starlight account for list format
                 //check based on prototype ID

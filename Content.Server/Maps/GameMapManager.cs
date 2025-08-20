@@ -4,6 +4,7 @@ using System.Linq;
 using Content.Server.GameTicking;
 using Content.Server.Holiday;
 using Content.Shared.CCVar;
+using Content.Shared.Starlight.CCVar;
 using Robust.Server.Player;
 using Robust.Shared.Configuration;
 using Robust.Shared.ContentPack;
@@ -15,7 +16,6 @@ namespace Content.Server.Maps;
 
 public sealed class GameMapManager : IGameMapManager
 {
-    public const int MAPCOUNT = 2;
     [Dependency] private readonly IEntityManager _entityManager = default!;
     [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
     [Dependency] private readonly IConfigurationManager _configurationManager = default!;
@@ -45,7 +45,14 @@ public sealed class GameMapManager : IGameMapManager
         {
             if (TryLookupMap(value, out GameMapPrototype? map))
             {
-                _configSelectedMaps = new List<GameMapPrototype?> { map };
+                if (map != null)
+                {
+                    _configSelectedMaps = new List<GameMapPrototype?> { map };
+                }
+                else
+                {
+                    _configSelectedMaps = null;
+                }
                 return;
             }
 
@@ -151,8 +158,24 @@ public sealed class GameMapManager : IGameMapManager
     {
         if (!TryLookupMap(gameMap, out var map) || !IsMapEligible(map))
             return false;
-        _selectedMaps?.Add(map);
+        
+        _selectedMaps ??= new List<GameMapPrototype?>();
+
+        _selectedMaps.Add(map);
         return true;
+    }
+
+    public string GetMapString()
+    {
+        if (_selectedMaps == null || _selectedMaps.Count == 0)
+            return "No map selected";
+
+        return string.Join(", ", _selectedMaps.Select(map => map?.MapName ?? Loc.GetString("discord-round-notifications-unknown-map")));
+    }
+
+    public int GetStationCount()
+    {
+        return _configurationManager.GetCVar(StarlightCCVars.StationCount);
     }
 
     public bool TrySelectMapsIfEligible(List<string> gameMaps)
@@ -182,7 +205,7 @@ public sealed class GameMapManager : IGameMapManager
     {
         var maps = CurrentlyEligibleMaps().ToList();
         _selectedMaps = new List<GameMapPrototype?>();
-        for (var i = 0; i < MAPCOUNT; i++)
+        for (var i = 0; i < GetStationCount(); i++)
         {
             if (maps.Count == 0)
                 break;
@@ -193,7 +216,7 @@ public sealed class GameMapManager : IGameMapManager
     public void SelectMapsFromRotationQueue(bool markAsPlayed = false)
     {
         _selectedMaps = new List<GameMapPrototype?>();
-        for (var i = 0; i < MAPCOUNT; i++)
+        for (var i = 0; i < GetStationCount(); i++)
         {
             if (_previousMaps.Count == 0)
                 break;
@@ -226,7 +249,8 @@ public sealed class GameMapManager : IGameMapManager
 
     private bool IsMapEligible(GameMapPrototype map)
     {
-        var modifiedPlayerCount = _playerManager.PlayerCount / MAPCOUNT; //TODO: Un hardcode the 2 here to a cvar or some other form of controllable value
+        var modifiedPlayerCount = _playerManager.PlayerCount / GetStationCount(); //make sure its minimum 1
+        modifiedPlayerCount = Math.Max(modifiedPlayerCount, 1);
         return map.MaxPlayers >= modifiedPlayerCount &&
                map.MinPlayers <= modifiedPlayerCount &&
                map.Conditions.All(x => x.Check(map)) &&

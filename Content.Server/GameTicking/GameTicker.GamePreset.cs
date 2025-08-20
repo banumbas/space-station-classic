@@ -167,17 +167,20 @@ public sealed partial class GameTicker
 
     private void ValidateMap()
     {
-        if (Preset == null || _gameMapManager.GetSelectedMap() is not { } map)
+        if (Preset == null || _gameMapManager.GetSelectedMaps() is not { } maps)
             return;
 
         if (Preset.MapPool == null ||
             !_prototypeManager.TryIndex<GameMapPoolPrototype>(Preset.MapPool, out var pool))
             return;
 
-        if (pool.Maps.Contains(map.ID))
-            return;
+        foreach (var map in pool.Maps)
+        {
+            if (maps.Any(m => m?.ID == map))
+                return;
+        }
 
-        _gameMapManager.SelectMapRandom();
+        _gameMapManager.SelectMapsRandom();
     }
 
     [PublicAPI]
