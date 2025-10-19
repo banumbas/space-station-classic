@@ -32,7 +32,15 @@
 			"name": "advanced-setter"
 		},
 		{
-			"name": "abductor-setter"
+			"name": "abductor-setter",
+            "delays": [
+              [
+                0.1,
+                0.1,
+                0.1,
+                0.1
+              ]
+            ]
 		},
 		{
 			"name": "inhand-left",

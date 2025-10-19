@@ -11,6 +11,12 @@ using Content.Shared.Popups;
 using Content.Shared.Starlight.Medical.Surgery.Effects.Step;
 using Content.Shared.Starlight.Medical.Surgery.Events;
 using Content.Shared.Starlight.Medical.Surgery.Steps;
+using Content.Shared.Mind;
+using Content.Shared.Roles.Components;
+using Content.Shared.Roles.Jobs;
+using Content.Shared.Starlight.Antags.Abductor;
+using Content.Shared.Bed.Sleep;
+using Content.Shared.Traits.Assorted;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 using System.Linq;
@@ -21,6 +27,8 @@ namespace Content.Shared.Starlight.Medical.Surgery;
 public abstract partial class SharedSurgerySystem
 {
     [Dependency] private readonly IRobustRandom _random = default!;
+    [Dependency] private readonly SharedMindSystem _mind = default!;
+    [Dependency] private readonly SharedJobSystem _job = default!;
     private void InitializeSteps()
     {
         SubscribeLocalEvent<SurgeryStepComponent, SurgeryStepCompleteEvent>(OnStepComplete);
@@ -49,10 +57,12 @@ public abstract partial class SharedSurgerySystem
             return;
         }
 
-        if (!_random.Prob(args.SuccessRate))
+        if (!_random.Prob(CalculateStepSuccessRate(args.User, ent, part, args.SuccessRate, out var reason)))
         {
             if (_net.IsClient) return;
-            _popup.PopupEntity("Because of a careless tool, your hand shook. You need to start this step all over again!", args.User, PopupType.SmallCaution);
+            if (string.IsNullOrEmpty(reason))
+                reason = "Because of a careless, your hand shook. You need to start this step all over again!";
+            _popup.PopupEntity(reason, args.User, PopupType.SmallCaution);
             return;
         }
 
@@ -73,6 +83,61 @@ public abstract partial class SharedSurgerySystem
         RaiseLocalEvent(step, ref evComplete);
 
         RefreshUI(ent);
+    }
+
+    private float CalculateStepSuccessRate(EntityUid user, EntityUid body, EntityUid step, float toolSuccessRate, out string reason)
+    {
+        float successRate = 1f;
+        reason = "";
+
+        if (HasComp<AbductorComponent>(user))
+            return 1.0f; //Abductors always succeed, because they aliens.
+
+        if (TryComp<SurgeryStepComponent>(step, out var stepComp))
+            successRate = ((int)stepComp.Difficulty) / 100f; // Convert from enum to float 0.0 - 1.0
+
+        if (toolSuccessRate < 1.0f)
+            successRate = MathF.Sqrt(successRate * toolSuccessRate);
+
+        if (_mind.TryGetMind(user, out _, out var mind))
+        {
+            bool nonMedicalDepartment = true;
+            string jobId = "Passenger";
+            foreach (var roleId in mind.MindRoleContainer.ContainedEntities)
+            {
+                if (!HasComp<JobRoleComponent>(roleId)
+                    || !TryComp<MindRoleComponent>(roleId, out var mindRole)
+                    || mindRole.JobPrototype == null
+                    || !_job.TryGetDepartment(mindRole.JobPrototype, out var department)
+                    || department.ID != "Medical")
+                    continue;
+
+                nonMedicalDepartment = false;
+                jobId = mindRole.JobPrototype;
+                break;
+            }
+
+            if (nonMedicalDepartment)
+                successRate = Math.Clamp(successRate * 0.8f, 0.0f, 1.0f); // 20% penalty for non-medical roles
+            else if (jobId == "Surgeon")
+                successRate = Math.Clamp(successRate * 1.2f, 0.0f, 1.0f); // 20% bonus for surgeons
+        }
+
+        if (user == body)
+        {
+            successRate = Math.Clamp(successRate * 0.5f, 0.0f, 1.0f); // 50% penalty for self-surgery
+            reason = "You are performing surgery on yourself, so your make mistakes. You need to start this step all over again!";
+        }
+
+        if (!HasComp<SleepingComponent>(body) && !HasComp<PainNumbnessComponent>(body))
+        {
+            successRate = Math.Clamp(successRate * 0.7f, 0.0f, 1.0f); // 30% penalty for not sleeping patients
+            reason = "The patient is not fully unconscious, so they moved during the surgery. You need to start this step all over again!";
+        }
+
+        Log.Debug($"Real surgery step chance to success: {successRate * 100f}%");
+
+        return successRate;
     }
 
     private void OnClearProgressStep(Entity<SurgeryClearProgressComponent> ent, ref SurgeryStepCompleteEvent args)

@@ -17,7 +17,6 @@ using Content.Shared.Popups;
 using Content.Shared.Standing;
 using Content.Shared.Starlight.Medical.Surgery.Effects.Step;
 using Content.Shared.Starlight.Medical.Surgery.Events;
-using Content.Shared.Starlight.Medical.Surgery.Steps.Parts;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Containers;
 using Robust.Shared.Map;
@@ -25,7 +24,6 @@ using Robust.Shared.Network;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Reflection;
 using Robust.Shared.Serialization.Manager;
-using Robust.Shared.Timing;
 using Content.Shared.Chemistry.EntitySystems;
 
 namespace Content.Shared.Starlight.Medical.Surgery;

@@ -16,7 +16,6 @@ using Content.Server._Starlight.Medical.Limbs;
 using Content.Server.Administration.Systems;
 using Robust.Shared.Timing;
 
-
 namespace Content.Server.Starlight.Medical.Surgery;
 // Based on the RMC14.
 // https://github.com/RMC-14/RMC-14
@@ -26,8 +25,7 @@ namespace Content.Server.Starlight.Medical.Surgery;
 //However, I don’t want to touch the official systems, so I need to come up with extensions for them.
 public sealed partial class SurgerySystem : SharedSurgerySystem
 {
-    [Dependency] protected readonly IGameTiming Timing = default!;
-    [Dependency] private readonly IComponentFactory _compFactory = default!;
+    [Dependency] private readonly IGameTiming Timing = default!;
     [Dependency] private readonly LimbSystem _limbSystem = default!;
     [Dependency] private readonly StarlightEntitySystem _entity = default!;
     [Dependency] private readonly SharedBloodstreamSystem _bloodstreamSystem = default!;

@@ -34,4 +34,7 @@ public sealed partial class SurgeryStepComponent : Component
 
     [DataField]
     public FixedPoint2 ReagentQuantity = FixedPoint2.New(5);
+
+    [DataField]
+    public StepDifficulty Difficulty = StepDifficulty.Easy;
 }

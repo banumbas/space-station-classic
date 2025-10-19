@@ -132,6 +132,10 @@
   components:
   - type: Sprite
     state: abductor
+  - type: Item
+    shape:
+    - 0,0,1,1
+    - 0,0,1,1
   - type: SurgeryTool
     speed: 0.5
     startSound:
@@ -385,7 +389,7 @@
     state: abductor-retractor
   - type: Item
     sprite: Objects/Specific/Medical/Surgery/scissors.rsi
-    storedRotation: 45
+    storedRotation: 90
   - type: SurgeryTool
     speed: 0.4
     startSound:
@@ -565,7 +569,7 @@
     state: abductor-setter
   - type: Item
     heldPrefix: setter
-    storedRotation: 45
+    storedRotation: 90
   - type: SurgeryTool
     speed: 0.4
     startSound:
