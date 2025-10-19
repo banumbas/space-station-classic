@@ -14,6 +14,8 @@
       - id: Scalpel
       - id: BoneGel
       - id: BoneSetter
+      - id: PillChloralHydrate
+        amount: 4
 
 - type: entity
   parent: ClothingBackpackDuffelSyndicateMedicalBundle

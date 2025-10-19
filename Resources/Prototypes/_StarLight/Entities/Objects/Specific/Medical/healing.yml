@@ -1,0 +1,19 @@
+- type: entity
+  name: pill
+  suffix: Chloralhydrate 10u
+  parent: Pill
+  id: PillChloralHydrate
+  components:
+  - type: Pill
+    pillType: 2
+  - type: Sprite
+    state: pill3
+  - type: Label
+    currentLabel: chloralhydrate 20u
+  - type: SolutionContainerManager
+    solutions:
+      food:
+        maxVol: 20
+        reagents:
+        - ReagentId: ChloralHydrate
+          Quantity: 20
