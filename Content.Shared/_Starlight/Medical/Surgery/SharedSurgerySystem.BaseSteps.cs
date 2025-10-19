@@ -117,19 +117,22 @@ public abstract partial class SharedSurgerySystem
         {
             bool nonMedicalDepartment = true;
             string jobId = "Passenger";
-            foreach (var roleId in mind.MindRoleContainer.ContainedEntities)
-            {
-                if (!HasComp<JobRoleComponent>(roleId)
-                    || !TryComp<MindRoleComponent>(roleId, out var mindRole)
-                    || mindRole.JobPrototype == null
-                    || !_job.TryGetDepartment(mindRole.JobPrototype, out var department)
-                    || department.ID != "Medical")
-                    continue;
+            if (mind.MindRoleContainer.ContainedEntities.Count > 0)
+                foreach (var roleId in mind.MindRoleContainer.ContainedEntities)
+                {
+                    if (!HasComp<JobRoleComponent>(roleId)
+                        || !TryComp<MindRoleComponent>(roleId, out var mindRole)
+                        || mindRole.JobPrototype == null
+                        || !_job.TryGetDepartment(mindRole.JobPrototype, out var department)
+                        || department.ID != "Medical")
+                        continue;
 
+                    nonMedicalDepartment = false;
+                    jobId = mindRole.JobPrototype;
+                    break;
+                }
+            else
                 nonMedicalDepartment = false;
-                jobId = mindRole.JobPrototype;
-                break;
-            }
 
             bool isMedicalBorg = TryComp<BorgSwitchableTypeComponent>(user, out var borg) && borg.SelectedBorgType == "medical";
 
