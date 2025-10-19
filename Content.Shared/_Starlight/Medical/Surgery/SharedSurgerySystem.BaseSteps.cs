@@ -17,9 +17,12 @@ using Content.Shared.Roles.Jobs;
 using Content.Shared.Starlight.Antags.Abductor;
 using Content.Shared.Bed.Sleep;
 using Content.Shared.Traits.Assorted;
+using Content.Shared.Clumsy;
+using Content.Shared.Weapons.Melee;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 using System.Linq;
+using Content.Shared.Damage;
 
 namespace Content.Shared.Starlight.Medical.Surgery;
 // Based on the RMC14.
@@ -60,8 +63,16 @@ public abstract partial class SharedSurgerySystem
         if (!_random.Prob(CalculateStepSuccessRate(args.User, ent, part, args.SuccessRate, out var reason)))
         {
             if (_net.IsClient) return;
+
             if (string.IsNullOrEmpty(reason))
                 reason = "Because of a careless, your hand shook. You need to start this step all over again!";
+
+            DamageSpecifier damage = new();
+            foreach (var tool in args.Tools)
+                if (TryComp(tool, out MeleeWeaponComponent? melee) && melee.Damage.GetTotal() > damage.GetTotal())
+                    damage = melee.Damage;
+            
+            _damageableSystem.TryChangeDamage(ent, damage, true, origin: args.User);
             _popup.PopupEntity(reason, args.User, PopupType.SmallCaution);
             return;
         }
@@ -135,6 +146,16 @@ public abstract partial class SharedSurgerySystem
             reason = "The patient is not fully unconscious, so they moved during the surgery. You need to start this step all over again!";
         }
 
+        if (HasComp<ClumsyComponent>(user))
+        {
+            successRate = Math.Clamp(successRate * 0.75f, 0.0f, 1.0f); // 25% penalty for clumsy surgeons
+            reason = "Due to your clumsiness, you made a mistake during the surgery. You need to start this step all over again!";
+        }
+
+        if (_inventory.TryGetSlotContainer(user, "gloves", out var container, out _)
+            && container.ContainedEntities.Count() < 0)
+            successRate = Math.Clamp(successRate * 0.90f, 0.0f, 1.0f); // 10% penalty for clumsy surgeons
+        
         Log.Debug($"Real surgery step chance to success: {successRate * 100f}%");
 
         return successRate;
@@ -301,9 +322,8 @@ public abstract partial class SharedSurgerySystem
             || !_entitySystem.TryGetSingleton(args.Step, out var stepEnt)
             || !TryComp(stepEnt, out SurgeryStepComponent? stepComp)
             || !CanPerformStep(user, body, part.Comp.PartType, step, true, out _, out _, out var validTools))
-        {
             return;
-        }
+
         if (!PreviousStepsComplete(body, part, surgery, args.Step) || IsStepComplete(part, args.Surgery, args.Step))
         {
             var progress = Comp<SurgeryProgressComponent>(part);
@@ -334,7 +354,7 @@ public abstract partial class SharedSurgerySystem
         if (TryComp(body, out TransformComponent? xform))
             _rotateToFace.TryFaceCoordinates(user, _transform.GetMapCoordinates(body, xform).Position);
 
-        var ev = new SurgeryDoAfterEvent(args.Surgery, args.Step, SmallestSuccessRate);
+        var ev = new SurgeryDoAfterEvent(args.Surgery, args.Step, SmallestSuccessRate, validTools);
         var doAfter = new DoAfterArgs(EntityManager, user, duration, ev, body, part)
         {
             BreakOnMove = true,
