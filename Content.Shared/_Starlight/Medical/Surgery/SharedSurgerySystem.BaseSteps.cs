@@ -68,7 +68,7 @@ public abstract partial class SharedSurgerySystem
                 reason = "Because of a careless, your hand shook. You need to start this step all over again!";
 
             DamageSpecifier damage = new();
-            foreach (var tool in args.Tools)
+            foreach (var tool in GetEntitySet(args.Tools))
                 if (TryComp(tool, out MeleeWeaponComponent? melee) && melee.Damage.GetTotal() > damage.GetTotal())
                     damage = melee.Damage;
             
@@ -354,7 +354,7 @@ public abstract partial class SharedSurgerySystem
         if (TryComp(body, out TransformComponent? xform))
             _rotateToFace.TryFaceCoordinates(user, _transform.GetMapCoordinates(body, xform).Position);
 
-        var ev = new SurgeryDoAfterEvent(args.Surgery, args.Step, SmallestSuccessRate, validTools);
+        var ev = new SurgeryDoAfterEvent(args.Surgery, args.Step, SmallestSuccessRate, GetNetEntitySet(validTools));
         var doAfter = new DoAfterArgs(EntityManager, user, duration, ev, body, part)
         {
             BreakOnMove = true,
