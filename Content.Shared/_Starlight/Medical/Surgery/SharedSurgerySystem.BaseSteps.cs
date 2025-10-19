@@ -23,6 +23,7 @@ using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 using System.Linq;
 using Content.Shared.Damage;
+using Content.Shared.Silicons.Borgs.Components;
 
 namespace Content.Shared.Starlight.Medical.Surgery;
 // Based on the RMC14.
@@ -128,10 +129,12 @@ public abstract partial class SharedSurgerySystem
                 break;
             }
 
-            if (nonMedicalDepartment)
+            bool isMedicalBorg = TryComp<BorgSwitchableTypeComponent>(user, out var borg) && borg.SelectedBorgType == "medical"
+
+            if (nonMedicalDepartment && !isMedicalBorg)
                 successRate = Math.Clamp(successRate * 0.8f, 0.0f, 1.0f); // 20% penalty for non-medical roles
-            else if (jobId == "Surgeon")
-                successRate = Math.Clamp(successRate * 1.2f, 0.0f, 1.0f); // 20% bonus for surgeons
+            else if (jobId == "Surgeon" || isMedicalBorg)
+                successRate = Math.Clamp(successRate * 1.2f, 0.0f, 1.0f); // 20% bonus for surgeons or medical borgs
         }
 
         if (user == body)
