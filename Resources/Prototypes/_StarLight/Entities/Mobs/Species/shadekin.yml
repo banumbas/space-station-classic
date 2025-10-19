@@ -5,6 +5,7 @@
   id: BaseMobShadekin
   abstract: true
   components:
+    - type: PainNumbness
     - type: LanguageKnowledge
       speaks:
       - GalacticCommon
