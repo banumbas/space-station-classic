@@ -11,6 +11,7 @@ using Content.Shared.Popups;
 using Content.Shared.Starlight.Medical.Surgery.Effects.Step;
 using Content.Shared.Starlight.Medical.Surgery.Events;
 using Content.Shared.Starlight.Medical.Surgery.Steps;
+using Content.Shared.StatusEffectNew;
 using Content.Shared.Mind;
 using Content.Shared.Roles.Components;
 using Content.Shared.Roles.Jobs;
@@ -33,6 +34,7 @@ public abstract partial class SharedSurgerySystem
     [Dependency] private readonly IRobustRandom _random = default!;
     [Dependency] private readonly SharedMindSystem _mind = default!;
     [Dependency] private readonly SharedJobSystem _job = default!;
+    [Dependency] private readonly StatusEffectsSystem _statusEffects = default!;
     private void InitializeSteps()
     {
         SubscribeLocalEvent<SurgeryStepComponent, SurgeryStepCompleteEvent>(OnStepComplete);
@@ -129,7 +131,7 @@ public abstract partial class SharedSurgerySystem
                 break;
             }
 
-            bool isMedicalBorg = TryComp<BorgSwitchableTypeComponent>(user, out var borg) && borg.SelectedBorgType == "medical"
+            bool isMedicalBorg = TryComp<BorgSwitchableTypeComponent>(user, out var borg) && borg.SelectedBorgType == "medical";
 
             if (nonMedicalDepartment && !isMedicalBorg)
                 successRate = Math.Clamp(successRate * 0.8f, 0.0f, 1.0f); // 20% penalty for non-medical roles
@@ -157,7 +159,13 @@ public abstract partial class SharedSurgerySystem
 
         if (_inventory.TryGetSlotContainer(user, "gloves", out var container, out _)
             && container.ContainedEntities.Count() < 0)
-            successRate = Math.Clamp(successRate * 0.90f, 0.0f, 1.0f); // 10% penalty for clumsy surgeons
+            successRate = Math.Clamp(successRate * 0.90f, 0.0f, 1.0f); // 10% penalty for not wearing gloves
+
+        if (_statusEffects.HasStatusEffect(user, "StatusEffectDrunk"))
+        {
+            successRate = Math.Clamp(successRate * 0.50f, 0.0f, 1.0f); // 50% penalty for drunk surgeons
+            reason = "Being intoxicated affected your precision during the surgery. You need to start this step all over again!";
+        }
         
         Log.Debug($"Real surgery step chance to success: {successRate * 100f}%");
 
