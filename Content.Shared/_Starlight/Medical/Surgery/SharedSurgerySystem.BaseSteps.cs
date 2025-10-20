@@ -76,7 +76,7 @@ public abstract partial class SharedSurgerySystem
                 }
         }
 
-        if (!_random.Prob(CalculateStepSuccessRate(args.User, ent, part, validTool, out var reason)))
+        if (!_random.Prob(CalculateStepSuccessRate(args.User, ent, step, validTool, out var reason)))
         {
             if (_net.IsClient) return;
 

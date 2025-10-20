@@ -55,6 +55,7 @@ public abstract partial class SharedSurgerySystem : EntitySystem
 
         InitializeSteps();
         InitializeConditions();
+        InitializeChances();
     }
 
     public bool IsSurgeryValid
