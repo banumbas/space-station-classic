@@ -11,20 +11,12 @@ using Content.Shared.Popups;
 using Content.Shared.Starlight.Medical.Surgery.Effects.Step;
 using Content.Shared.Starlight.Medical.Surgery.Events;
 using Content.Shared.Starlight.Medical.Surgery.Steps;
-using Content.Shared.StatusEffectNew;
-using Content.Shared.Mind;
-using Content.Shared.Roles.Components;
-using Content.Shared.Roles.Jobs;
-using Content.Shared.Starlight.Antags.Abductor;
-using Content.Shared.Bed.Sleep;
-using Content.Shared.Traits.Assorted;
-using Content.Shared.Clumsy;
 using Content.Shared.Weapons.Melee;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 using System.Linq;
 using Content.Shared.Damage;
-using Content.Shared.Silicons.Borgs.Components;
+using Robust.Shared.Timing;
 
 namespace Content.Shared.Starlight.Medical.Surgery;
 // Based on the RMC14.
@@ -32,9 +24,8 @@ namespace Content.Shared.Starlight.Medical.Surgery;
 public abstract partial class SharedSurgerySystem
 {
     [Dependency] private readonly IRobustRandom _random = default!;
-    [Dependency] private readonly SharedMindSystem _mind = default!;
-    [Dependency] private readonly SharedJobSystem _job = default!;
-    [Dependency] private readonly StatusEffectsSystem _statusEffects = default!;
+    [Dependency] private readonly IGameTiming _timing = default!;
+    
     private void InitializeSteps()
     {
         SubscribeLocalEvent<SurgeryStepComponent, SurgeryStepCompleteEvent>(OnStepComplete);
@@ -49,6 +40,9 @@ public abstract partial class SharedSurgerySystem
     }
     private void OnTargetDoAfter(Entity<SurgeryTargetComponent> ent, ref SurgeryDoAfterEvent args)
     {
+        if (!_timing.IsFirstTimePredicted)
+            return;
+
         if (args.Cancelled ||
             args.Handled ||
             args.Target is not { } target ||
@@ -63,18 +57,32 @@ public abstract partial class SharedSurgerySystem
             return;
         }
 
-        if (!_random.Prob(CalculateStepSuccessRate(args.User, ent, part, args.SuccessRate, out var reason)))
+        // Calculate success
+
+        DamageSpecifier damage = new();
+        var validTool = EntityUid.Invalid;
+        if (_hands.TryGetActiveItem(args.User, out var heldItem) && GetEntitySet(args.Tools).Contains(heldItem.Value) && TryComp(heldItem.Value, out MeleeWeaponComponent? melee))
+        {
+            damage = melee.Damage;
+            validTool = heldItem.Value;
+        }
+        else
+        {
+            foreach (var tool in GetEntitySet(args.Tools))
+                if (TryComp(tool, out MeleeWeaponComponent? toolMelee) && toolMelee.Damage.GetTotal() > damage.GetTotal())
+                {
+                    damage = toolMelee.Damage;
+                    validTool = tool;
+                }
+        }
+
+        if (!_random.Prob(CalculateStepSuccessRate(args.User, ent, part, validTool, out var reason)))
         {
             if (_net.IsClient) return;
 
             if (string.IsNullOrEmpty(reason))
                 reason = "Because of a careless, your hand shook. You need to start this step all over again!";
 
-            DamageSpecifier damage = new();
-            foreach (var tool in GetEntitySet(args.Tools))
-                if (TryComp(tool, out MeleeWeaponComponent? melee) && melee.Damage.GetTotal() > damage.GetTotal())
-                    damage = melee.Damage;
-            
             _damageableSystem.TryChangeDamage(ent, damage, true, origin: args.User);
             _popup.PopupEntity(reason, args.User, PopupType.SmallCaution);
             return;
@@ -97,82 +105,6 @@ public abstract partial class SharedSurgerySystem
         RaiseLocalEvent(step, ref evComplete);
 
         RefreshUI(ent);
-    }
-
-    private float CalculateStepSuccessRate(EntityUid user, EntityUid body, EntityUid step, float toolSuccessRate, out string reason)
-    {
-        float successRate = 1f;
-        reason = "";
-
-        if (HasComp<AbductorComponent>(user))
-            return 1.0f; //Abductors always succeed, because they aliens.
-
-        if (TryComp<SurgeryStepComponent>(step, out var stepComp))
-            successRate = ((int)stepComp.Difficulty) / 100f; // Convert from enum to float 0.0 - 1.0
-
-        if (toolSuccessRate < 1.0f)
-            successRate = MathF.Sqrt(successRate * toolSuccessRate);
-
-        if (_mind.TryGetMind(user, out _, out var mind))
-        {
-            bool nonMedicalDepartment = true;
-            string jobId = "Passenger";
-            if (mind.MindRoleContainer.ContainedEntities.Count > 0)
-                foreach (var roleId in mind.MindRoleContainer.ContainedEntities)
-                {
-                    if (!HasComp<JobRoleComponent>(roleId)
-                        || !TryComp<MindRoleComponent>(roleId, out var mindRole)
-                        || mindRole.JobPrototype == null
-                        || !_job.TryGetDepartment(mindRole.JobPrototype, out var department)
-                        || department.ID != "Medical")
-                        continue;
-
-                    nonMedicalDepartment = false;
-                    jobId = mindRole.JobPrototype;
-                    break;
-                }
-            else
-                nonMedicalDepartment = false;
-
-            bool isMedicalBorg = TryComp<BorgSwitchableTypeComponent>(user, out var borg) && borg.SelectedBorgType == "medical";
-
-            if (nonMedicalDepartment && !isMedicalBorg)
-                successRate = Math.Clamp(successRate * 0.8f, 0.0f, 1.0f); // 20% penalty for non-medical roles
-            else if (jobId == "Surgeon" || isMedicalBorg)
-                successRate = Math.Clamp(successRate * 1.2f, 0.0f, 1.0f); // 20% bonus for surgeons or medical borgs
-        }
-
-        if (user == body)
-        {
-            successRate = Math.Clamp(successRate * 0.5f, 0.0f, 1.0f); // 50% penalty for self-surgery
-            reason = "You are performing surgery on yourself, so your make mistakes. You need to start this step all over again!";
-        }
-
-        if (!HasComp<SleepingComponent>(body) && !HasComp<PainNumbnessComponent>(body))
-        {
-            successRate = Math.Clamp(successRate * 0.7f, 0.0f, 1.0f); // 30% penalty for not sleeping patients
-            reason = "The patient is not fully unconscious, so they moved during the surgery. You need to start this step all over again!";
-        }
-
-        if (HasComp<ClumsyComponent>(user))
-        {
-            successRate = Math.Clamp(successRate * 0.75f, 0.0f, 1.0f); // 25% penalty for clumsy surgeons
-            reason = "Due to your clumsiness, you made a mistake during the surgery. You need to start this step all over again!";
-        }
-
-        if (_inventory.TryGetSlotContainer(user, "gloves", out var container, out _)
-            && container.ContainedEntities.Count() < 0)
-            successRate = Math.Clamp(successRate * 0.90f, 0.0f, 1.0f); // 10% penalty for not wearing gloves
-
-        if (_statusEffects.HasStatusEffect(user, "StatusEffectDrunk"))
-        {
-            successRate = Math.Clamp(successRate * 0.50f, 0.0f, 1.0f); // 50% penalty for drunk surgeons
-            reason = "Being intoxicated affected your precision during the surgery. You need to start this step all over again!";
-        }
-        
-        Log.Debug($"Real surgery step chance to success: {successRate * 100f}%");
-
-        return successRate;
     }
 
     private void OnClearProgressStep(Entity<SurgeryClearProgressComponent> ent, ref SurgeryStepCompleteEvent args)
