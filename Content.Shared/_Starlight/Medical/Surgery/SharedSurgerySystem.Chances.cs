@@ -128,7 +128,7 @@ public abstract partial class SharedSurgerySystem
         if (@event.ForceSuccess)
             return 1f;
 
-        Log.Debug($"Real surgery step chance to success: {@event.Chance * 100f}%, ForceSuccess: {@event.ForceSuccess}, step difficulty: {stepComp.Difficulty}%");
+        Log.Debug($"Real surgery step chance to success: {@event.Chance * 100f}%, ForceSuccess: {@event.ForceSuccess}, step difficulty: {stepComp.Difficulty}");
 
         return @event.Chance;
     }
