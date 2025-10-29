@@ -141,7 +141,7 @@ public abstract partial class SharedSurgerySystem
             var tool = args.Tools.FirstOrDefault(x => HasComp(x, reg.Component.GetType()));
             if (tool == default || _net.IsClient) return;
 
-            if (TryComp(tool, out SurgeryToolComponent? toolComp)
+            if (TryComp(tool, out SurgeryToolComponent? toolComp))
             {
                 if (toolComp.EndSound != null)
                     _audio.PlayPvs(toolComp.EndSound, tool);
