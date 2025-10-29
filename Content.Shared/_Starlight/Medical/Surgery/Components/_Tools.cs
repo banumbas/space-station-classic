@@ -21,6 +21,9 @@ public sealed partial class SurgeryToolComponent : Component
 
     [DataField, AutoNetworkedField]
     public SoundSpecifier? EndSound;
+
+    [DataField]
+    public string? ReagentContainer = "container";
 }
 
 [RegisterComponent, NetworkedComponent, Access(typeof(SharedSurgerySystem), typeof(SharedBodyScannerSystem))]

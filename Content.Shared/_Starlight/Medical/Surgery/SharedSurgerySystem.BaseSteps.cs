@@ -139,12 +139,16 @@ public abstract partial class SharedSurgerySystem
         foreach (var reg in (ent.Comp.Tools ?? []).Values)
         {
             var tool = args.Tools.FirstOrDefault(x => HasComp(x, reg.Component.GetType()));
-            if (tool == default) return;
+            if (tool == default || _net.IsClient) return;
 
-            if (_net.IsServer && TryComp(tool, out SurgeryToolComponent? toolComp) && toolComp.EndSound != null)
-                _audio.PlayPvs(toolComp.EndSound, tool);
-            if (ent.Comp.ReagentId != null && _solutionContainerSystem.TryGetSolution(tool, "drink", out var solution))
-                _solutionContainerSystem.RemoveReagent(solution.Value, new ReagentQuantity(ent.Comp.ReagentId, ent.Comp.ReagentQuantity));
+            if (TryComp(tool, out SurgeryToolComponent? toolComp)
+            {
+                if (toolComp.EndSound != null)
+                    _audio.PlayPvs(toolComp.EndSound, tool);
+
+                if (ent.Comp.ReagentId != null && toolComp.ReagentContainer != null && _solutionContainerSystem.TryGetSolution(tool, toolComp.ReagentContainer, out var solution))
+                    _solutionContainerSystem.RemoveReagent(solution.Value, new ReagentQuantity(ent.Comp.ReagentId, ent.Comp.ReagentQuantity));
+            }
         }
 
         foreach (var reg in (ent.Comp.Add ?? []).Values)
