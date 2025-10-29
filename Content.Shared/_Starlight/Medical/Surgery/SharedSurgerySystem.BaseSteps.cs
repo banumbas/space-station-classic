@@ -40,7 +40,7 @@ public abstract partial class SharedSurgerySystem
     }
     private void OnTargetDoAfter(Entity<SurgeryTargetComponent> ent, ref SurgeryDoAfterEvent args)
     {
-        if (_net.IsClient || !_timing.IsFirstTimePredicted)
+        if (!_timing.IsFirstTimePredicted)
             return;
 
         if (args.Cancelled ||
@@ -76,6 +76,7 @@ public abstract partial class SharedSurgerySystem
                 }
         }
 
+        _random.SetSeed((int)_timing.CurTime.TotalMilliseconds);
         if (!_random.Prob(CalculateStepSuccessRate(args.User, ent, step, validTool, out var reason)))
         {
 
