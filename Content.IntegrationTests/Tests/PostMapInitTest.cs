@@ -98,7 +98,8 @@ namespace Content.IntegrationTests.Tests
             "/Maps/_Starlight/Stations/Lobster.yml",
             "/Maps/_Starlight/Stations/Orwell.yml",
             "/Maps/_Starlight/Stations/Remix.yml",
-            "/Maps/_Starlight/Stations/Starboard.yml"
+            "/Maps/_Starlight/Stations/Starboard.yml",
+            "/Maps/_Starlight/Shuttles/RecluseClassSHC.yml"
             #endregion
         };
 
@@ -130,20 +131,21 @@ namespace Content.IntegrationTests.Tests
             "dm01-entryway",
             "Exo",
             "dm01-entryway",
-            "Barratry",
-            "Cork",
-            "Kiloton",
-            "Lagan",
-            "Lobster",
-            "Manor",
+            "StarlightBarratry",
+            "StarlightCork",
+            "StarlightKiloton",
+            "StarlightLagan",
+            "StarlightLobster",
+            "StarlightManor",
             #region Starlight
             "Gateway",
-            "Leth",
-            "Origin",
-            "Orwell",
-            "Prism",
-            "Remix",
-            "Starboard",
+            "StarlightLeth",
+            "StarlightMing",
+            "StarlightOrigin",
+            "StarlightOrwell",
+            "StarlightPrism",
+            "StarlightRemix",
+            "StarlightStarboard",
             "StarlightAmber",
             "StarlightBagel",
             "StarlightBox",
@@ -163,7 +165,8 @@ namespace Content.IntegrationTests.Tests
             "StarlightPacked",
             "StarlightReach",
             "StarlightSaltern",
-            "StarlightSilica"
+            "StarlightSilica",
+            "StarlightCluster"
             #endregion
         };
 

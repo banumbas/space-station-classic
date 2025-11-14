@@ -28,6 +28,7 @@ using System.Text.RegularExpressions;
 using Content.Shared.Warps;
 using Content.Server.Station.Components;
 using Content.Shared.Station.Components;
+using Content.Server._Starlight.BugReports; // Starlight
 
 namespace Content.Server.GameTicking
 {
@@ -36,7 +37,7 @@ namespace Content.Server.GameTicking
         [Dependency] private readonly DiscordWebhook _discord = default!;
         [Dependency] private readonly RoleSystem _role = default!;
         [Dependency] private readonly ITaskManager _taskManager = default!;
-        
+        [Dependency] private readonly IBugReportManager _bugManager = default!; // Starlight
 
         private static readonly Counter RoundNumberMetric = Metrics.CreateCounter(
             "ss14_round_number",
@@ -766,6 +767,8 @@ namespace Content.Server.GameTicking
             _mapManager.Restart();
 
             _banManager.Restart();
+            
+            _bugManager.Restart(); // Starlight
 
             _gameMapManager.ClearSelectedMaps();
 
