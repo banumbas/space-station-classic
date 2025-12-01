@@ -214,10 +214,14 @@
   defaultModules:
   - BorgModuleTool
   - BorgModuleMusique
-  - BorgModuleService
+  # Starlight start 
+  - BorgModuleBartending
+  - BorgModuleCooking
+  - BorgModuleBotany
+  - BorgModuleBooks
+  # Starlight end
   - BorgModuleClowning
-  - BorgModuleGardening
-  - BorgModuleHarvesting
+  
   radioChannels:
   - Science
   - Service
