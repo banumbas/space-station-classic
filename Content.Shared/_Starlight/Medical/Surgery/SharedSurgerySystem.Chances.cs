@@ -39,7 +39,7 @@ public abstract partial class SharedSurgerySystem
                 args.Reason = "You are performing surgery on yourself, so your make mistakes. You need to start this step all over again!";
             }
 
-            if (!HasComp<SleepingComponent>(uid) && !HasComp<PainNumbnessComponent>(args.Target))
+            if (!HasComp<SleepingComponent>(uid) && !HasComp<PainNumbnessStatusEffectComponent>(args.Target))
             {
                 args.Chance = Math.Clamp(args.Chance * 0.7f, 0.0f, 1.0f); // 30% penalty for not sleeping patients
                 args.Reason = "The patient is not fully unconscious, so they moved during the surgery. You need to start this step all over again!";

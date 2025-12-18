@@ -14,6 +14,7 @@ using Content.Shared.Starlight.Medical.Surgery.Steps;
 using Content.Shared.Weapons.Melee;
 using Robust.Shared.Prototypes;
 using System.Linq;
+using System.Random;
 using Content.Shared.Damage;
 using Robust.Shared.Timing;
 
@@ -81,7 +82,7 @@ public abstract partial class SharedSurgerySystem
             if (string.IsNullOrEmpty(reason))
                 reason = "Because of a careless, your hand shook. You need to start this step all over again!";
 
-            _damageableSystem.TryChangeDamage(ent, damage, true, origin: args.User);
+            _damageableSystem.TryChangeDamage(ent.Owner, damage, true, origin: args.User);
             _popup.PopupEntity(reason, args.User, PopupType.SmallCaution);
             return;
         }
