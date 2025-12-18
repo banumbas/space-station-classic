@@ -39,6 +39,10 @@ public sealed partial class StarlightCCVars
     /// </summary>
     public static readonly CVarDef<bool> AutogammaRiftEnabled =
         CVarDef.Create("game.autogamma_enabled", false, CVar.SERVERONLY);
+
+    /// <summary>
+    /// How many stations to run in the coming round
+    /// </summary>
     public static readonly CVarDef<int> StationCount =
-        CVarDef.Create("game.station_count", 1, CVar.SERVERONLY | CVar.ARCHIVE);
+        CVarDef.Create("game.station_count", 1, CVar.SERVERONLY);
 }
