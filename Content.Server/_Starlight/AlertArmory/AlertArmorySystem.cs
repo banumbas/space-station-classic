@@ -19,6 +19,7 @@ using Content.Shared.Station.Components;
 using Robust.Shared.Physics.Components;
 using System.Numerics;
 using System.Linq;
+using Content.Server._Starlight.Station;
 using Content.Shared.Popups;
 using Content.Shared.Tag;
 using Robust.Shared.Prototypes;
@@ -63,6 +64,17 @@ public sealed class AlertArmorySystem : EntitySystem
     ///</summary>
     private void InitializeAlertArmoryStation(EntityUid uid, AlertArmoryStationComponent comp, StationPostInitEvent ev)
     {
+        //Starlight start
+        if (TryComp<StationDataComponent>(uid, out var station))
+            foreach (var grid in station.Grids)
+            {
+                if (!TryComp<BecomesStationMidRoundComponent>(grid, out var becomesStation)) continue;
+                if (!becomesStation.UseArmories)
+                    return;
+                break; // can break, we already found the grid that created this station
+            }
+        //Starlight end
+        
         var map = _map.CreateMap(out var mapId);
         _meta.SetEntityName(map, $"AlertArmories {uid}");
 

@@ -40,6 +40,8 @@ public sealed partial class StationSystem : SharedStationSystem
     [Dependency] private readonly MetaDataSystem _metaData = default!;
     [Dependency] private readonly PvsOverrideSystem _pvsOverride = default!;
     [Dependency] private readonly IEntitySystemManager _entitySystemManager = default!; // Starlight
+    [Dependency] private readonly IPrototypeManager _prototype = default!; // Starlight
+    [Dependency] private readonly IComponentFactory _factory = default!; // Starlight
 
     private ISawmill _sawmill = default!;
 
@@ -224,7 +226,7 @@ public sealed partial class StationSystem : SharedStationSystem
             }
         }
         component.InitializedId = component.Id;
-        InitializeNewStationMidRound(uid, component.StationProto, component);
+        InitializeNewStationMidRound(uid, component.BaseStationProtos, component);
     }
     // Starlight End
     #endregion Event handlers
@@ -329,7 +331,10 @@ public sealed partial class StationSystem : SharedStationSystem
     }
 
     //SL start
-    public EntityUid InitializeNewStationMidRound(EntityUid gridId, EntProtoId stationProtoId, BecomesStationMidRoundComponent? comp = null)
+    public EntityUid InitializeNewStationMidRound(EntityUid gridId, EntProtoId stationProtoId,
+        BecomesStationMidRoundComponent? comp = null) => InitializeNewStationMidRound(gridId, [stationProtoId], comp);
+    
+    public EntityUid InitializeNewStationMidRound(EntityUid gridId, List<EntProtoId> stationProtoIds, BecomesStationMidRoundComponent? comp = null)
     {
         //logic for if was initialized via BecomesStationMidRoundComponent
         ComponentRegistry? registry = null;
@@ -345,7 +350,7 @@ public sealed partial class StationSystem : SharedStationSystem
                 registry.Add("StationJobs", new EntityPrototype.ComponentRegistryEntry(jobs, new MappingDataNode()));
             }
 
-            if (comp.EmergencyShuttleOverridePath is not null)
+            if (comp.EmergencyShuttleOverridePath is not null && comp.UseEmergencyShuttle) // no need to do this if its disabled anyway
             {
                 var shuttle = new StationEmergencyShuttleComponent
                 {
@@ -355,15 +360,44 @@ public sealed partial class StationSystem : SharedStationSystem
             }
         }
         
-        var station = EntityManager.SpawnEntity(stationProtoId, MapCoordinates.Nullspace, registry);
+        // var station = EntityManager.SpawnEntity(stationProtoId, MapCoordinates.Nullspace, registry);
+        var station = CreateCustomStation(stationProtoIds, MapCoordinates.Nullspace, registry, comp);
+        var data = EnsureComp<StationDataComponent>(station);
         RenameStation(station, MetaData(gridId).EntityName, false);
-        var data = Comp<StationDataComponent>(station);
         var name = MetaData(station).EntityName;
         AddGridToStation(station, gridId, null, data, name);
         var ev = new StationPostInitEvent((station, data));
         RaiseLocalEvent(station, ref ev, true);
         return station;
     }
+
+    private EntityUid CreateCustomStation(List<EntProtoId> protoIds, MapCoordinates? coords, ComponentRegistry? registry, BecomesStationMidRoundComponent? data = null)
+    {
+        var ent = EntityManager.CreateEntityUninitialized(null); // dummy entity
+        data ??= EnsureComp<BecomesStationMidRoundComponent>(ent); // just ensure that this exists so that anything made with stationinit command will default to everything being blocked.
+        // do parents first
+        foreach (var protoId in protoIds)
+        {
+            if (!_prototype.TryIndex(protoId, out var proto)) continue;
+            foreach (var comp in proto.Components.Values.Where(comp => !HasComp(ent, comp.Component.GetType())))
+            {
+                var newcomp = _factory.GetComponent(comp);
+                AddComp(ent, newcomp);
+            }
+        }
+        // now any of the extra overrides
+        if (registry is not null)
+        {
+            foreach (var comp in registry.Values.Where(comp => !HasComp(ent, comp.Component.GetType())))
+            {
+                var newcomp = _factory.GetComponent(comp);
+                AddComp(ent, newcomp);
+            }
+        }
+        EntityManager.InitializeAndStartEntity(ent, coords!.Value.MapId);
+        return ent;
+    }
+    
     //SL end
     
     /// <summary>

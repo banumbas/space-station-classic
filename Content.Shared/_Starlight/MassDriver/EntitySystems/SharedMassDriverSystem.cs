@@ -4,6 +4,7 @@ using Content.Shared.Power;
 using Content.Shared.Power.EntitySystems;
 using Content.Shared.Audio;
 using Robust.Shared.Timing;
+using Robust.Shared.GameObjects;
 
 namespace Content.Shared._Starlight.MassDriver.EntitySystems;
 
@@ -62,10 +63,8 @@ public abstract class SharedMassDriverSystem : EntitySystem
             Dirty(uid, massDriver);
 
             entities.Clear();
-            _lookup.GetEntitiesIntersecting(uid, entities);
+            _lookup.GetEntitiesIntersecting(uid, entities, LookupFlags.Dynamic);
 
-            // Remove anchored entities since we can't throw them
-            entities.RemoveWhere(e => Transform(e).Anchored);
             int entitiesCount = entities.Count;
 
             if (entitiesCount == 0)
