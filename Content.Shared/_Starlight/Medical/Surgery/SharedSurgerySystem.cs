@@ -21,6 +21,7 @@ using Robust.Shared.Prototypes;
 using Robust.Shared.Reflection;
 using Robust.Shared.Serialization.Manager;
 using Content.Shared.Chemistry.EntitySystems;
+using Content.Shared.Damage.Systems;
 
 namespace Content.Shared.Starlight.Medical.Surgery;
 // Based on the RMC14.

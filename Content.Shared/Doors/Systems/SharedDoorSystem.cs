@@ -2,7 +2,7 @@ using System.Linq;
 using Content.Shared.Access.Components;
 using Content.Shared.Access.Systems;
 using Content.Shared.Administration.Logs;
-using Content.Shared.Damage;
+using Content.Shared.Damage.Systems;
 using Content.Shared.Database;
 using Content.Shared.Doors.Components;
 using Content.Shared.Emag.Systems;
@@ -203,9 +203,12 @@ public abstract partial class SharedDoorSystem : EntitySystem
     #region Interactions
     protected void OnActivate(EntityUid uid, DoorComponent door, ActivateInWorldEvent args)
     {
-        if (args.Handled || !args.Complex || !door.ClickOpen)
+        // Starlight edit start: Enable entities with prying capabilities on themselves to open doors
+        var pryingCapable = args.Complex || HasComp<PryingComponent>(args.User);
+        if (args.Handled || !pryingCapable || !door.ClickOpen)
             return;
-
+        // Starlight edit end
+        
         if (!TryToggleDoor(uid, door, args.User, predicted: true))
             _pryingSystem.TryPry(uid, args.User, out _);
 
