@@ -14,7 +14,7 @@ using Content.Shared.Starlight.Medical.Surgery.Steps;
 using Content.Shared.Weapons.Melee;
 using Robust.Shared.Prototypes;
 using System.Linq;
-using System.Random;
+using System;
 using Content.Shared.Damage;
 using Robust.Shared.Timing;
 
@@ -75,7 +75,7 @@ public abstract partial class SharedSurgerySystem
                 }
         }
 
-        var random = new Random((int)_timing.CurTime.TotalMilliseconds);
+        var random = new System.Random((int)_timing.CurTime.TotalMilliseconds);
         if (random.NextDouble() >= CalculateStepSuccessRate(args.User, ent, step, validTool, out var reason)) // Same as IRobustShared.Prob, make separated random so we don't break anything.
         {
 
