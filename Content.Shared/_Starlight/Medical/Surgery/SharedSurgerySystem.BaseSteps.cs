@@ -62,10 +62,10 @@ public abstract partial class SharedSurgerySystem
 
         DamageSpecifier damage = new();
         var validTool = EntityUid.Invalid;
-        if (tools.FirstOrDefault() is { Valid: true } heldItem && TryComp(heldItem.Value, out MeleeWeaponComponent? melee)) // First item it's by default held item so it has bigger priority.
+        if (tools.FirstOrDefault() is { Valid: true } heldItem && TryComp<MeleeWeaponComponent>(heldItem, out var melee) && melee?.Damage != null) // First item it's by default held item so it has bigger priority.
         {
             damage = melee.Damage;
-            validTool = heldItem.Value;
+            validTool = heldItem;
         }
         else
         {
