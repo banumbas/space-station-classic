@@ -58,16 +58,18 @@ public abstract partial class SharedSurgerySystem
 
         // Calculate success
 
+        var tools = GetTools(args.User);
+
         DamageSpecifier damage = new();
         var validTool = EntityUid.Invalid;
-        if (_hands.TryGetActiveItem(args.User, out var heldItem) && GetEntitySet(args.Tools).Contains(heldItem.Value) && TryComp(heldItem.Value, out MeleeWeaponComponent? melee))
+        if (tools.FirstOrDefault() is { Valid: true } heldItem && TryComp(heldItem.Value, out MeleeWeaponComponent? melee)) // First item it's by default held item so it has bigger priority.
         {
             damage = melee.Damage;
             validTool = heldItem.Value;
         }
         else
         {
-            foreach (var tool in GetEntitySet(args.Tools))
+            foreach (var tool in tools)
                 if (TryComp(tool, out MeleeWeaponComponent? toolMelee) && toolMelee.Damage.GetTotal() > damage.GetTotal())
                 {
                     damage = toolMelee.Damage;
@@ -87,7 +89,7 @@ public abstract partial class SharedSurgerySystem
             return;
         }
 
-        var ev = new SurgeryStepEvent(args.User, ent, part, GetTools(args.User))
+        var ev = new SurgeryStepEvent(args.User, ent, part, tools)
         {
             StepProto = args.Step,
             SurgeryProto = args.Surgery,
@@ -95,7 +97,7 @@ public abstract partial class SharedSurgerySystem
         RaiseLocalEvent(step, ref ev);
 
         if (ev.IsCancelled) return;
-        var evComplete = new SurgeryStepCompleteEvent(args.User, ent, part, GetTools(args.User))
+        var evComplete = new SurgeryStepCompleteEvent(args.User, ent, part, tools)
         {
             StepProto = args.Step,
             SurgeryProto = args.Surgery,
@@ -303,7 +305,7 @@ public abstract partial class SharedSurgerySystem
         if (TryComp(body, out TransformComponent? xform))
             _rotateToFace.TryFaceCoordinates(user, _transform.GetMapCoordinates(body, xform).Position);
 
-        var ev = new SurgeryDoAfterEvent(args.Surgery, args.Step, SmallestSuccessRate, GetNetEntitySet(validTools));
+        var ev = new SurgeryDoAfterEvent(args.Surgery, args.Step, SmallestSuccessRate);
         var doAfter = new DoAfterArgs(EntityManager, user, duration, ev, body, part)
         {
             BreakOnMove = true,

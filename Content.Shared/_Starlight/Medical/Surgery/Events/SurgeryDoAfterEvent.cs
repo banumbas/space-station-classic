@@ -12,13 +12,10 @@ public sealed partial class SurgeryDoAfterEvent : SimpleDoAfterEvent
     public readonly EntProtoId Step;
     public readonly float SuccessRate;
 
-    public readonly HashSet<NetEntity> Tools;
-
-    public SurgeryDoAfterEvent(EntProtoId surgery, EntProtoId step, float successRate, HashSet<NetEntity> tools)
+    public SurgeryDoAfterEvent(EntProtoId surgery, EntProtoId step, float successRate)
     {
         Surgery = surgery;
         Step = step;
         SuccessRate = successRate;
-        Tools = tools;
     }
 }
