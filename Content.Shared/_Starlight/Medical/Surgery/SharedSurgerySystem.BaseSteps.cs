@@ -17,6 +17,7 @@ using System.Linq;
 using System;
 using Content.Shared.Damage;
 using Robust.Shared.Timing;
+using Robust.Shared.Random;
 
 namespace Content.Shared.Starlight.Medical.Surgery;
 // Based on the RMC14.
@@ -24,6 +25,7 @@ namespace Content.Shared.Starlight.Medical.Surgery;
 public abstract partial class SharedSurgerySystem
 {
     [Dependency] private readonly IGameTiming _timing = default!;
+    [Dependency] private readonly IRobustRandom _random = default!;
     
     private void InitializeSteps()
     {
@@ -77,8 +79,8 @@ public abstract partial class SharedSurgerySystem
                 }
         }
 
-        var random = new System.Random((int)_timing.CurTime.TotalMilliseconds);
-        if (random.NextDouble() >= CalculateStepSuccessRate(args.User, ent, step, validTool, out var reason)) // Same as IRobustShared.Prob, make separated random so we don't break anything.
+        _random.SetSeed((int)_timing.CurTime.TotalMilliseconds);
+        if (_random.Prob(CalculateStepSuccessRate(args.User, ent, step, validTool, out var reason)))
         {
 
             if (string.IsNullOrEmpty(reason))
