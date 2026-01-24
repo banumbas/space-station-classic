@@ -1,38 +1,26 @@
-
-## About the PR
-<!-- What did you change? -->
+## Short description
+<!-- Briefly explain what you changed -->
 
 ### LICENSE: MIT
-> [!IMPORTANT]
-> Your license for contributing to Clover must always be MIT or MPL (or similar, non-viral Licenses) , if not - It will get denied.
 
-## Why / Balance
-<!-- Discuss how this would affect game balance or explain why it was changed. Link any relevant discussions or issues. -->
+## Why we need to add this
 
-## Technical details
-<!-- Summary of code changes for easier review. -->
 
-## Media
-<!-- Attach media if the PR makes ingame changes (clothing, items, features, etc).
-Small fixes/refactors are exempt. -->
+## Media (Video/Screenshots)
+<!-- Required if it's a visual change, however small changes even if they're visual don't need it. Media Links here: -->
 
-## Requirements
-<!-- Confirm the following by placing an X in the brackets [X]: -->
-- [ ] I have added media to this PR or it does not require an ingame showcase.
-- [ ] Tested, Works.
-<!-- You should understand that not following the above may get your PR closed at maintainer’s discretion -->
 
-## Breaking changes
-<!-- List any breaking changes, including namespaces, public class/method/field changes, prototype renames; and provide instructions for fixing them.
-This will be posted in #codebase-changes.
-If your PR doesn't break anything, delete this or ignore it. -->
+## Checks
+<!-- These are all required -->
+- [ ] I do not require assistance to complete the PR.
+- [ ] Before posting/requesting review of a PR, I have verified that the changes work.
+- [ ] I have added screenshots/videos of the changes, or this PR does not change in-game mechanics.
+- [ ] I affirm that my changes are licensed either under MIT, MPL or any other non-copyleft license.
 
 **Changelog**
-<!-- Add a Changelog entry to make players aware of new features or changes that could affect gameplay.
-Make sure to read the guidelines and take this Changelog template out of the comment block in order for it to show up.
-Changelog must have a :cl: symbol, so the bot recognizes the changes and adds them to the game's changelog. -->
-:cl:
-- add: Added fun!
-- remove: Removed fun!
-- tweak: Changed fun!
-- fix: Fixed fun!
+<!-- after the :cl: mark, write your username. -->
+:cl: 
+- add: ur mom
+- fix: deez nuts
+- removed: herobrine
+- tweak: fent
