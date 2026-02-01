@@ -1,3 +1,5 @@
+using Content.Shared.Administration;
+using Content.Shared.CCVar.CVarAccess;
 using Robust.Shared.Configuration;
 
 namespace Content.Shared.Starlight.CCVar;
@@ -49,6 +51,7 @@ public sealed partial class StarlightCCVars
     /// <summary>
     /// How many stations to run in the coming round
     /// </summary>
+    [CVarControl(AdminFlags.Adminchat)]
     public static readonly CVarDef<int> StationCount =
         CVarDef.Create("game.station_count", 1, CVar.SERVERONLY);
 }
