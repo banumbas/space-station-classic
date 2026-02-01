@@ -68,7 +68,7 @@ public sealed partial class HubSystem : EntitySystem
 
     private void OnRoundStart()
     {
-        _mapName = _gameMapManager.GetSelectedMap()?.MapName ?? "Unknown";
+        _mapName = _gameMapManager.GetMapString();
         _gamemodeName = _gameTicker.CurrentPreset?.ModeTitle ?? "Unknown";
         _serverInfo = _serverInfo with
         {

@@ -384,14 +384,15 @@ namespace Content.Server.Voting.Managers
                 vote.OnFinished += (_, args) =>
                 {
                     #region Starlight
-                    for (int i = 0; i < options.Options.Count; i++)
+                    for (int i = 0; i < options.Count; i++)
                     {
                         _map_vote.WithLabels(
-                            options.Options[i].text
+                            options[i].Title
                         ).Inc(args.Votes[i]);
                     }
+                    GameMapPrototype picked;
                     #endregion
-                    if (_gameMapManager.TrySelectMapIfEligible(picked.ID))
+                    if (args.Winner == null)
                     {
                         picked = (GameMapPrototype)_random.Pick(args.Winners);
                         _chatManager.DispatchServerAnnouncement(
