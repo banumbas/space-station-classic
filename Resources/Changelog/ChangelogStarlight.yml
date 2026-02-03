@@ -28993,5 +28993,184 @@ Entries:
   id: 311100
   time: '2026-02-03T04:30:26.000000+00:00'
   url: https://github.com/ss14Starlight/space-station-14/pull/3111
+- author: Conflee
+  changes:
+  - message: Changed Silicon status under Corporate Law. Attacking a Cyborg is now
+      Vandalism (Minor Crime) or Damage of Property (Moderate Crime). Critting, gibbing,
+      or wiping a Cyborg is Destruction of Property (Major Crime). Added Tampering
+      with Machinery (Moderate Crime), to hack or alter any machinery such as lathes,
+      vending machines, or cyborgs.
+    type: Tweak
+  - message: Added "Multiple confirmed reports of crew being flashed by other crew
+      is grounds to suspect there is a Revolution." to the examples section of "Revolutionary
+      Methods". Revs must now be more stealthy.
+    type: Tweak
+  id: 310700
+  time: '2026-02-03T04:53:31.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3107
+- author: Scarlet Lightweaver
+  changes:
+  - message: Changed how the L6 saw sounds and looks! its an actual LMG now!!
+    type: Tweak
+  id: 311700
+  time: '2026-02-02T19:30:58.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3117
+- author: Scarlet Lightweaver
+  changes:
+  - message: Added a new hammer for security!
+    type: Add
+  id: 302700
+  time: '2026-02-03T07:35:45.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3027
+- author: Shades
+  changes:
+  - message: Fixed Iterator trait language error.
+    type: Fix
+  id: 309800
+  time: '2026-02-03T07:42:23.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3098
+- author: Vinny-Shick
+  changes:
+  - message: A cloak for the warden.
+    type: Add
+  id: 308200
+  time: '2026-02-03T07:59:13.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3082
+- author: walksanator
+  changes:
+  - message: Xenobio slimes now have propper sprites.
+    type: Tweak
+  - message: Xenobio slimes have random faces on spawn (too bad I cant make them pop
+      out against the slime...)
+    type: Add
+  - message: Some internal xenobio systems were removed cause you could do the exact
+      same thing with existing systems
+    type: Remove
+  - message: Sepia/Bluespace tile's health values changed so you can actually pick
+      them up in a reasonable ammount of time
+    type: Tweak
+  id: 296200
+  time: '2026-02-03T10:36:58.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/2962
+- author: r3d3mpt1on & Penguinwizzard
+  changes:
+  - message: Skeletons are once again Crew-Aligned.
+    type: Fix
+  id: 310600
+  time: '2026-02-03T10:59:11.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3106
+- author: depressedtimbit
+  changes:
+  - message: Cargo acquisition slips can now be faxed and copied.
+    type: Tweak
+  id: 302100
+  time: '2026-02-03T11:41:20.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3021
+- author: FoxxoTrystan
+  changes:
+  - message: TSF and its equipements.
+    type: Add
+  - message: Soviet ID now get an Icon.
+    type: Add
+  id: 241700
+  time: '2026-02-03T12:27:20.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/2417
+- author: Citrea
+  changes:
+  - message: Item limbs can now be removed again.
+    type: Fix
+  id: 302500
+  time: '2026-02-03T13:34:18.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3025
+- author: StygianEagle
+  changes:
+  - message: Added the Moth Ghost for all players, rejoice.
+    type: Add
+  id: 276900
+  time: '2026-02-03T13:39:12.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/2769
+- author: Miracula, Rinary
+  changes:
+  - message: Added grid mode as default to Fashion-O-Mat. Every other store received
+      a grid mode as an option to switch to.
+    type: Add
+  id: 312400
+  time: '2026-02-03T13:48:27.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3124
+- author: Vincolan
+  changes:
+  - message: Reworked the Mail Item Pool to have more interesting Items
+    type: Tweak
+  - message: Changed the Trash Weight on letters (Was 90%, now its 20%)
+    type: Tweak
+  id: 305400
+  time: '2026-02-03T16:14:28.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3054
+- author: Conflee
+  changes:
+  - message: Gave NanoTrasen Representatives a 'Secure Briefcase' which can be locked
+      with a pin code, added a long time ago by Rinary but never saw use by players.
+      This will allow them to secure their faxes with CentComm, and their Classified
+      Documents, more tightly. Can still be hacked open with time.
+    type: Add
+  - message: Added a guidebook page for Combination Locks, which details how to use
+      the Secure Briefcase and Wall Safe locks, and set their codes. Examine either
+      then click the (?) icon to go to the page directly.
+    type: Add
+  id: 312600
+  time: '2026-02-03T21:48:38.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3126
+- author: CringeCursed
+  changes:
+  - message: Tweaked so Umbrae can now warp through walls on full power.
+    type: Tweak
+  - message: FIxed bug when you became invisible on crit, playing as Dantilion class.
+    type: Fix
+  - message: Now you cant drunk blood from Vampires/Enthralls
+    type: Fix
+  - message: Removed lungs from Vampires, now you can freely aura farm in your Coffins.
+    type: Remove
+  - message: Reduced cooldown on Umbrae`s Shadow Anchor ability from 120 to 60.
+    type: Tweak
+  - message: Tweaked amount of blood required to complete drain objective, the selection
+      is between 600 and 1500.
+    type: Tweak
+  - message: Fixed Dark Passage ability, so you can target objects in your eyesight
+      and actually warp to them.
+    type: Fix
+  - message: Fixed that Hemomancer Blood Erruption ability dealt 15 damage instead
+      of 50 as stated in the ability description.
+    type: Fix
+  - message: Fixed Gargantua Overwhelming force, now drains blood upon prying door,
+      and plays sound aswell.
+    type: Fix
+  - message: Fixed Hemomancer Vampiric Claws now works as intended upon racasting
+      ability, while you wielding item itself.
+    type: Fix
+  id: 312000
+  time: '2026-02-03T21:49:43.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3120
+- author: Conflee
+  changes:
+  - message: Nerfed the Cube. It no longer lusts for mass death and destruction. It's
+      hunger has been satiated for now. It will only eat half of a department instead
+      of the entire department. (replaced unbreakable walls with normal walls)
+    type: Fix
+  id: 312900
+  time: '2026-02-03T21:47:08.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3129
+- author: Trosling, Rinary
+  changes:
+  - message: You can now SSD on command using /ssd
+    type: Add
+  - message: Revenants cannot suck from SSD sleepers (shoutout to RoadTrain)
+    type: Tweak
+  - message: SSD command now has doAfter.
+    type: Tweak
+  - message: SSD command now delays automatic cryo-teleportation by 10 minutes.
+    type: Tweak
+  id: 140600
+  time: '2026-02-03T18:44:26.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/1406
 Order: -1
 

@@ -2,7 +2,6 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Content.Server.GameTicking;
-using Content.Server.Holiday;
 using Content.Shared.CCVar;
 using Content.Shared.Starlight.CCVar;
 using Content.Shared.Maps;
@@ -23,7 +22,6 @@ public sealed class GameMapManager : IGameMapManager
     [Dependency] private readonly IPlayerManager _playerManager = default!;
     [Dependency] private readonly IResourceManager _resMan = default!;
     [Dependency] private readonly IRobustRandom _random = default!;
-    [Dependency] private readonly HolidaySystem _holiday = default!;
 
     [ViewVariables(VVAccess.ReadOnly)]
     private readonly Queue<string> _previousMaps = new();
@@ -114,14 +112,6 @@ public sealed class GameMapManager : IGameMapManager
     {
         var poolPrototype = _entityManager.System<GameTicker>().Preset?.MapPool ??
                    _configurationManager.GetCVar(CCVars.GameMapPool);
-        
-        /*
-        if (_holiday.IsCurrentlyHoliday("NewYear"))
-        {
-            Logger.Debug("[Rinary] Map pool changed to christmas! Have a good Christmas!");
-            poolPrototype = "ChristmasStarlightMapPool";
-        }
-        */
 
         if (_prototypeManager.TryIndex<GameMapPoolPrototype>(poolPrototype, out var pool))
         {
