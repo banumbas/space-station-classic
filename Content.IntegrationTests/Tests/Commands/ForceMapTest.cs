@@ -1,3 +1,4 @@
+using System.Linq;
 using Content.Server.Maps;
 using Content.Shared.CCVar;
 using Robust.Shared.Configuration;
@@ -52,30 +53,31 @@ public sealed class ForceMapTest
         var consoleHost = server.ResolveDependency<IConsoleHost>();
         var gameMapMan = server.ResolveDependency<IGameMapManager>();
 
+
         await server.WaitAssertion(() =>
         {
             // Make sure we're set to the default map
-            Assert.That(gameMapMan.GetSelectedMap()?.ID, Is.EqualTo(DefaultMapName),
+            Assert.That(gameMapMan.GetSelectedMaps().First()?.ID, Is.EqualTo(DefaultMapName), // Starlight-edit
                 $"Test didn't start on expected map ({DefaultMapName})!");
 
             // Try changing to a map that doesn't exist
             consoleHost.ExecuteCommand($"setgamemap {BadMapName}"); // Starlight-edit
-            Assert.That(gameMapMan.GetSelectedMap()?.ID, Is.EqualTo(DefaultMapName),
+            Assert.That(gameMapMan.GetSelectedMaps().First()?.ID, Is.EqualTo(DefaultMapName), // Starlight-edit
                 $"Forcemap succeeded with a map that does not exist ({BadMapName})!");
 
             // Try changing to a valid map
             consoleHost.ExecuteCommand($"setgamemap {TestMapEligibleName}"); // Starlight-edit
-            Assert.That(gameMapMan.GetSelectedMap()?.ID, Is.EqualTo(TestMapEligibleName),
+            Assert.That(gameMapMan.GetSelectedMaps().First()?.ID, Is.EqualTo(TestMapEligibleName), // Starlight-edit
                 $"Forcemap failed with a valid map ({TestMapEligibleName})");
 
             // Try changing to a map that exists but is ineligible
             consoleHost.ExecuteCommand($"setgamemap {TestMapIneligibleName}"); // Starlight-edit
-            Assert.That(gameMapMan.GetSelectedMap()?.ID, Is.EqualTo(TestMapIneligibleName),
+            Assert.That(gameMapMan.GetSelectedMaps().First()?.ID, Is.EqualTo(TestMapIneligibleName), // Starlight-edit
                 $"Forcemap failed with valid but ineligible map ({TestMapIneligibleName})!");
 
             // Try clearing the force-selected map
             consoleHost.ExecuteCommand("setgamemap \"\""); // Starlight-edit
-            Assert.That(gameMapMan.GetSelectedMap(), Is.Null,
+            Assert.That(gameMapMan.GetSelectedMaps().Count, Is.Zero, // Starlight-edit
                 $"Running 'forcemap \"\"' did not clear the forced map!");
 
         });

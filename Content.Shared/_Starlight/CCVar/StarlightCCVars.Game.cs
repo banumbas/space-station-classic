@@ -53,5 +53,5 @@ public sealed partial class StarlightCCVars
     /// </summary>
     [CVarControl(AdminFlags.Adminchat)]
     public static readonly CVarDef<int> StationCount =
-        CVarDef.Create("game.station_count", 1, CVar.SERVERONLY);
+        CVarDef.Create("game.station_count", 1, CVar.SERVERONLY | CVar.ARCHIVE);
 }
