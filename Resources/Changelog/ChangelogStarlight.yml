@@ -29172,5 +29172,74 @@ Entries:
   id: 140600
   time: '2026-02-03T18:44:26.000000+00:00'
   url: https://github.com/ss14Starlight/space-station-14/pull/1406
+- author: mikeysaurus
+  changes:
+  - message: Tweaks Staff OOC tags.
+    type: Tweak
+  id: 313700
+  time: '2026-02-04T05:46:06.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3137
+- author: Penguinwizzard
+  changes:
+  - message: Fixed hitscan ricochets not triggering.
+    type: Fix
+  id: 313800
+  time: '2026-02-04T08:45:43.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3138
+- author: Penguinwizzard
+  changes:
+  - message: Fixed sequencing of hitscan projectile trace effects so they shouldn't
+      play simultaneously with their reflections.
+    type: Fix
+  id: 313900
+  time: '2026-02-04T09:01:52.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3139
+- author: Penguinwizzard
+  changes:
+  - message: Secondary hitscans (from reflects, piercing shots, or ricochets) now
+      use the hit location, rather than the center of the impacted entity, as their
+      starting point.
+    type: Fix
+  id: 314000
+  time: '2026-02-04T11:03:57.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3140
+- author: mikeysaurus
+  changes:
+  - message: Pulse weaponry now has access locks tied to Central Command access.
+    type: Tweak
+  id: 313400
+  time: '2026-02-04T11:08:41.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3134
+- author: Rinary
+  changes:
+  - message: Fixed particles when shooting in objects.
+    type: Fix
+  - message: 'Fixed the chance of hitting which depends on the distance from the shooter(For
+      more info check #227).'
+    type: Fix
+  id: 314200
+  time: '2026-02-04T14:39:19.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3142
+- author: CrazyPhantom
+  changes:
+  - message: Lawboard Descriptions not showing their name properly.
+    type: Fix
+  id: 314800
+  time: '2026-02-04T18:09:22.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3148
+- author: CrazyPhantom
+  changes:
+  - message: Computer sprites now connect dynamically based on neighboring computers.
+    type: Tweak
+  id: 312100
+  time: '2026-02-04T18:14:35.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3121
+- author: Rinary
+  changes:
+  - message: Fixed bug when you can open locked storage with verb.
+    type: Fix
+  id: 312300
+  time: '2026-02-04T18:18:46.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3123
 Order: -1
 
