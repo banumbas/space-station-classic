@@ -29633,5 +29633,12 @@ Entries:
   id: 317100
   time: '2026-02-06T22:20:33.000000+00:00'
   url: https://github.com/ss14Starlight/space-station-14/pull/3171
+- author: walksanatora
+  changes:
+  - message: Abductors can now teleport again.
+    type: Fix
+  id: 317700
+  time: '2026-02-06T23:25:02.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3177
 Order: -1
 
