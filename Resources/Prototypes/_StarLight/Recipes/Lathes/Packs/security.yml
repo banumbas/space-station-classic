@@ -313,6 +313,8 @@
   - RightArmCyberBulwark
   - LeftArmCyberZeus
   - RightArmCyberZeus
+  - LeftArmCyberHerakles
+  - RightArmCyberHerakles
 
 - type: latheRecipePack
   id: StarlightSecurityGrenadesEmag

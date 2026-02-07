@@ -29640,5 +29640,113 @@ Entries:
   id: 317700
   time: '2026-02-06T23:25:02.000000+00:00'
   url: https://github.com/ss14Starlight/space-station-14/pull/3177
+- author: wonderfulnewworld
+  changes:
+  - message: Heads of Departments now gain access to all of their department's uplink
+      items, for those rare Reasons to Choose the Syndicate games.
+    type: Tweak
+  - message: Service Worker now has access to the Chef/Botanist specific uplink items.
+    type: Tweak
+  - message: Roboticist now has access to the Science uplink items.
+    type: Tweak
+  - message: Syndicate Spongebox is now 2 TC less. The discount is now 1 less than
+      it was before, too. (7 -> 5, 4 -> 3.)
+    type: Tweak
+  - message: Increases the Galoshn't and Roboticist Toolbox chances to show up in
+      mains a little bit. (I tried rolling for them and got 2 actual syndicate toolboxes
+      before I rolled either of them... so yeah that was pretty low.  I never rolled
+      either of them.)
+    type: Tweak
+  - message: Adds a missing updated inhand-right sprite to Roboticist Gas Mask.
+    type: Fix
+  - message: The Briefcase Gun is now technically obtainable by HoP, IAA, NT Rep,
+      and Magi. It was only Lawyer before, which doesn't exist.
+    type: Fix
+  id: 317500
+  time: '2026-02-07T01:04:33.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3175
+- author: neomoth
+  changes:
+  - message: Fix radio behavior when trying to use an invalid keycode or trying to
+      use one you dont have.
+    type: Fix
+  id: 317200
+  time: '2026-02-07T01:55:07.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3172
+- author: Conflee
+  changes:
+  - message: Removed Decimus Doc from the locker fill table.
+    type: Remove
+  id: 318200
+  time: '2026-02-07T06:42:59.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3182
+- author: Conflee
+  changes:
+  - message: Changed ERT icons to use green backgrounds instead of blue, and swapped
+      their IDs to be silver not blue. ERT is CentComm, not NT.
+    type: Tweak
+  - message: Changed CBURN icon to be a chemist symbol instead of the previous, as
+      we used the previous symbol for Chaplain. Chemist felt most fitting as they
+      make Ambuzol etc.
+    type: Tweak
+  id: 318100
+  time: '2026-02-07T06:46:55.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3181
+- author: neomoth
+  changes:
+  - message: Nuclear operatives can no longer sign Syndicate or USSP spam letters
+      to become Traitor/Revolutionary.
+    type: Fix
+  - message: Revolutionaries can no longer sign Syndicate or USSP spam letters to
+      become Traitor/Revolutionary.
+    type: Fix
+  - message: Traitors can no longer sign Syndicate or USSP spam letters to become
+      Traitor/Revolutionary,
+    type: Fix
+  id: 317400
+  time: '2026-02-07T06:56:49.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3174
+- author: Citrea
+  changes:
+  - message: Cybernetic limbs and some implants can now be disrupted by various sources,
+      like EMPs and disabler shots.
+    type: Add
+  - message: Wardens are now given the Neural Link Disruptor, which inflicts cybernetic
+      disruption for ten minutes on use.
+    type: Add
+  - message: Cybernetic implants now sometimes appear as salvage loot.
+    type: Add
+  - message: Added Scribe arm, a cyberarm for paperwork afficionados.
+    type: Add
+  - message: Added Herakles arm, which security can use to displace and restrain suspects
+    type: Add
+  - message: Added Investigator arm, specialising in xenoarchaeology.
+    type: Add
+  - message: Added cargo legs, which come with internal storage.
+    type: Add
+  - message: Angel arms now come with an advanced jet injector.
+    type: Add
+  - message: Riplet clamp now drops it's contents if the arm closes. Keep it open
+      to carry things!
+    type: Tweak
+  - message: The claws implant costs less plasteel and the claws deal two additional
+      points of damage. It's price for traitors has been increased to 2 telecrystals.
+    type: Tweak
+  - message: The Spacer Arm PKA can now be wielded with both hands for a significant
+      increase in accuracy at the cost of your hands.
+    type: Tweak
+  - message: All security cyberarms are now security contraband.
+    type: Tweak
+  - message: All science cyberarms are now science contraband.
+    type: Tweak
+  - message: Slightly renamed two implants to hopefully avoid confusion.
+    type: Tweak
+  - message: Cyberchimp and Cyberdefib now recharge as they should.
+    type: Fix
+  - message: Jumps from actions, like the Pilebunker Legs, work again.
+    type: Fix
+  id: 284500
+  time: '2026-02-07T13:17:22.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/2845
 Order: -1
 

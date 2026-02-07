@@ -64,6 +64,9 @@
   id: Bow
 
 - type: Tag
+  id: BulletUnarmedCollide
+  
+- type: Tag
   id: BurnedTraitBackground
 
 - type: Tag

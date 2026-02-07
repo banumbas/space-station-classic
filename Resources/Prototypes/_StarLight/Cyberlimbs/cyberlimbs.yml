@@ -561,6 +561,129 @@
     sprite: _Starlight/Mobs/Species/Cyberlimbs/parts.rsi
     state: r_persephone_hand_TOOLS
 
+# Scribe
+- type: humanoidBaseSprite
+  id: CyberLArmScribe
+  baseSprite:
+    sprite: _Starlight/Mobs/Species/Cyberlimbs/parts.rsi
+    state: l_scribe_arm
+
+- type: humanoidBaseSprite
+  id: CyberLHandScribe
+  baseSprite:
+    sprite: _Starlight/Mobs/Species/Cyberlimbs/parts.rsi
+    state: l_scribe_hand
+
+- type: humanoidBaseSprite
+  id: CyberLHandScribeTools
+  matchSkin: false
+  markingsMatchSkin: false
+  baseSprite:
+    sprite: _Starlight/Mobs/Species/Cyberlimbs/parts.rsi
+    state: l_scribe_hand_TOOLS
+
+- type: humanoidBaseSprite
+  id: CyberRArmScribe
+  baseSprite:
+    sprite: _Starlight/Mobs/Species/Cyberlimbs/parts.rsi
+    state: r_scribe_arm
+
+- type: humanoidBaseSprite
+  id: CyberRHandScribe
+  baseSprite:
+    sprite: _Starlight/Mobs/Species/Cyberlimbs/parts.rsi
+    state: r_scribe_hand
+
+- type: humanoidBaseSprite
+  id: CyberRHandScribeTools
+  matchSkin: false
+  markingsMatchSkin: false
+  baseSprite:
+    sprite: _Starlight/Mobs/Species/Cyberlimbs/parts.rsi
+    state: r_scribe_hand_TOOLS
+
+# Herakles
+- type: humanoidBaseSprite
+  id: CyberLArmHerakles
+  baseSprite:
+    sprite: _Starlight/Mobs/Species/Cyberlimbs/parts.rsi
+    state: l_bulwark_arm
+
+- type: humanoidBaseSprite
+  id: CyberLHandHerakles
+  baseSprite:
+    sprite: _Starlight/Mobs/Species/Cyberlimbs/parts.rsi
+    state: l_bulwark_hand
+
+- type: humanoidBaseSprite
+  id: CyberLHandHeraklesTools
+  matchSkin: false
+  markingsMatchSkin: false
+  baseSprite:
+    sprite: _Starlight/Mobs/Species/Cyberlimbs/parts.rsi
+    state: l_herakles_hand_TOOLS
+
+- type: humanoidBaseSprite
+  id: CyberRArmHerakles
+  baseSprite:
+    sprite: _Starlight/Mobs/Species/Cyberlimbs/parts.rsi
+    state: r_bulwark_arm
+
+- type: humanoidBaseSprite
+  id: CyberRHandHerakles
+  baseSprite:
+    sprite: _Starlight/Mobs/Species/Cyberlimbs/parts.rsi
+    state: r_bulwark_hand
+
+- type: humanoidBaseSprite
+  id: CyberRHandHeraklesTools
+  matchSkin: false
+  markingsMatchSkin: false
+  baseSprite:
+    sprite: _Starlight/Mobs/Species/Cyberlimbs/parts.rsi
+    state: r_herakles_hand_TOOLS
+
+# Investigator
+- type: humanoidBaseSprite
+  id: CyberLArmInvestigator
+  baseSprite:
+    sprite: _Starlight/Mobs/Species/Cyberlimbs/parts.rsi
+    state: l_investigator_arm
+
+- type: humanoidBaseSprite
+  id: CyberLHandInvestigator
+  baseSprite:
+    sprite: _Starlight/Mobs/Species/Cyberlimbs/parts.rsi
+    state: l_investigator_hand
+
+- type: humanoidBaseSprite
+  id: CyberLHandInvestigatorTools
+  matchSkin: false
+  markingsMatchSkin: false
+  baseSprite:
+    sprite: _Starlight/Mobs/Species/Cyberlimbs/parts.rsi
+    state: l_investigator_hand_TOOLS
+
+- type: humanoidBaseSprite
+  id: CyberRArmInvestigator
+  baseSprite:
+    sprite: _Starlight/Mobs/Species/Cyberlimbs/parts.rsi
+    state: r_investigator_arm
+
+- type: humanoidBaseSprite
+  id: CyberRHandInvestigator
+  baseSprite:
+    sprite: _Starlight/Mobs/Species/Cyberlimbs/parts.rsi
+    state: r_investigator_hand
+
+- type: humanoidBaseSprite
+  id: CyberRHandInvestigatorTools
+  matchSkin: false
+  markingsMatchSkin: false
+  baseSprite:
+    sprite: _Starlight/Mobs/Species/Cyberlimbs/parts.rsi
+    state: r_investigator_hand_TOOLS
+
 #Engineer
 - type: humanoidBaseSprite
   id: CyberLArmEngineer
@@ -635,3 +758,16 @@
   baseSprite:
     sprite: _Starlight/Mobs/Species/Cyberlimbs/parts.rsi
     state: r_leg_pilebunker
+
+# Cargo
+- type: humanoidBaseSprite
+  id: CyberLLegCargo
+  baseSprite:
+    sprite: _Starlight/Mobs/Species/Cyberlimbs/parts.rsi
+    state: l_leg_cargo
+
+- type: humanoidBaseSprite
+  id: CyberRLegCargo
+  baseSprite:
+    sprite: _Starlight/Mobs/Species/Cyberlimbs/parts.rsi
+    state: r_leg_cargo
