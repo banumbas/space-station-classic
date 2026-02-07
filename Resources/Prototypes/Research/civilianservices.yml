@@ -55,6 +55,7 @@
   - SurveillanceWirelessCameraMonitorCircuitboard
   - TelecomServerCircuitboard
   - HolopadMachineCircuitboard
+  - BladeServerRackMachineCircuitboard # Moffstation - Blade Server Rack constructible
   radioChannels:
   - Service
 
