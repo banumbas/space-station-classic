@@ -436,7 +436,6 @@
     - NullSpaceDrainer
     - SecurityPracticeStatic
     - StarlightSecurityAmmoStatic
-    - StarlightSecurityAmmoEmagStatic
     - SecurityWeaponsStatic # Starlight end
     dynamicPacks:
     - SecurityScienceBlueSpace # Stalright
@@ -460,6 +459,7 @@
     emagStaticPacks:
     - StarlightSyndicateModulesSecfab
     - StarlightSyndicateAmmoStatic
+    - StarlightSecurityAmmoEmagStatic
     - StarlightSecurityGrenadesEmag
   #endregion Starlight secfab emagging
     - SyndicateAmmoStatic

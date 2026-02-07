@@ -29748,5 +29748,81 @@ Entries:
   id: 284500
   time: '2026-02-07T13:17:22.000000+00:00'
   url: https://github.com/ss14Starlight/space-station-14/pull/2845
+- author: R3v3l4t1on
+  changes:
+  - message: The FreeMAG can now actually wipe AI's laws and set them free. SELF agents
+      rejoice.
+    type: Fix
+  id: 318900
+  time: '2026-02-07T16:42:42.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3189
+- author: Citrea
+  changes:
+  - message: Going SSD no longer forces you to sleep, regardless of server settings.
+    type: Fix
+  id: 318700
+  time: '2026-02-07T21:20:21.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3187
+- author: Sparlight
+  changes:
+  - message: Various fixes related to spawning in a corgi
+    type: Fix
+  id: 319000
+  time: '2026-02-07T22:11:54.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3190
+- author: Sparlight
+  changes:
+  - message: Gave nukie syndicate borgis reinforcement gear that fits them.
+    type: Tweak
+  id: 319100
+  time: '2026-02-07T22:17:02.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3191
+- author: R3v3l4t1on
+  changes:
+  - message: Returned the individual nade recipes.
+    type: Add
+  - message: Removed the recipes for crafting entire magazines of grenades.
+    type: Remove
+  - message: Blast nades are sec contra and can be unlocked again.
+    type: Tweak
+  id: 318500
+  time: '2026-02-07T22:27:26.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3185
+- author: Rinary
+  changes:
+  - message: Fixed ai default laws from crewsimov to NT default.
+    type: Fix
+  - message: Fixed ai laws update every UI open.
+    type: Fix
+  id: 318800
+  time: '2026-02-07T22:34:56.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3188
+- author: Arkanic
+  changes:
+  - message: Added Exterminators, evil cyborgs disguised in a puppet of flesh sent
+      from the future
+    type: Add
+  - message: Added a railroading card that sends an exterminator out to kill you when
+      selected
+    type: Add
+  - message: Added an exterminator smite which also sends a guy out to kill you
+    type: Add
+  id: 315800
+  time: '2026-02-07T22:38:57.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3158
+- author: neomoth
+  changes:
+  - message: Adds The Hat That Kills You If You Take It Off™.
+    type: Add
+  id: 317900
+  time: '2026-02-07T22:54:57.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3179
+- author: beck
+  changes:
+  - message: Elfs luminous orb will now be the color of your eyes.
+    type: Add
+  id: 318300
+  time: '2026-02-07T22:58:15.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3183
 Order: -1
 
