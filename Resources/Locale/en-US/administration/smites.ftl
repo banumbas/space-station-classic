@@ -161,5 +161,4 @@ admin-smite-scramble-name = Scramble DNA
 admin-smite-scramble-description = Scrambles their DNA, randomizing their character.
 
 ## 🌟Starlight🌟
-admin-smite-terminate-description = Send an Exterminator from the future to remove this character
 admin-smite-terminate-warning = I'll be back...

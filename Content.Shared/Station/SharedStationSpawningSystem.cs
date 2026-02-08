@@ -142,7 +142,7 @@ public abstract class SharedStationSpawningSystem : EntitySystem
 
         if (InventorySystem.TryGetSlots(entity, out var slotDefinitions))
         {
-            var gearLeftToBeIssued = startingGear.Equipment; // Starlight
+            var gearLeftToBeIssued = startingGear.Equipment.ToDictionary(); // Starlight
             foreach (var slot in slotDefinitions)
             {
                 var equipmentStr = startingGear.GetGear(slot.Name);

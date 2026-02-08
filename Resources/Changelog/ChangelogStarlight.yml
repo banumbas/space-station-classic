@@ -29835,5 +29835,12 @@ Entries:
   id: 315100
   time: '2026-02-07T23:45:50.000000+00:00'
   url: https://github.com/ss14Starlight/space-station-14/pull/3151
+- author: CrazyPhantom, Sparlight
+  changes:
+  - message: Fixed NPC spawns and player loadout previews being unclothed.
+    type: Fix
+  id: 319500
+  time: '2026-02-08T04:36:41.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3195
 Order: -1
 
