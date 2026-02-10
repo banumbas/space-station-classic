@@ -13,6 +13,7 @@
     - Arsenal
     - Experimental
     - CivilianServices
+    - Biochemical # Starlight
   - type: ApcPowerReceiver
     powerLoad: 200
   - type: ExtensionCableReceiver
