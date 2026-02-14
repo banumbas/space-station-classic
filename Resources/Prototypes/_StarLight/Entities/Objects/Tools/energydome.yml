@@ -231,3 +231,50 @@
     canDeviceNetworkUse: true
   - type: Machine
     board: NullspaceAnchorMachineCircuitboard
+
+- type: entity
+  id: protectionanchor
+  name: protection anchor
+  description: Imposing the physical into Nullspace itself. it brings that of which dwells in between states into the physical. Entities that are travelling using these methods will be anchored and rooted into the world by force, being incapable of reaching through to Nullspace whilst in it’s range.
+  parent: BaseMachinePowered
+  components:
+  - type: Anchorable
+    flags:
+    - Anchorable
+  - type: RequireProjectileTarget
+  - type: Transform
+    noRot: true
+    anchored: true
+  - type: Sprite
+    sprite: _Starlight/Structures/Machines/nullspaceanchor.rsi
+    snapCardinals: true
+    noRot: true
+    layers:
+    - state: protector
+    - map: ["enum.PowerDeviceVisualLayers.Powered"]
+      shader: unshaded
+      state: protector_off
+  - type: Appearance
+  - type: GenericVisualizer
+    visuals:
+      enum.PowerDeviceVisuals.Powered:
+        enum.PowerDeviceVisualLayers.Powered:
+          True: { state: protector_on }
+          False: { state: protector_off }
+  - type: ApcPowerReceiver
+    powerLoad: 1000
+  - type: EnergyDomeGenerator
+    damageEnergyDraw: 0
+    domePrototype: EnergyDomeProtectorNullspace
+    canInteractUse: false
+    canDeviceNetworkUse: true
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeAabb
+          bounds: "-0.35,-0.35,0.35,0.35"
+        density: 100
+        mask:
+        - ItemMask
+        hard: True

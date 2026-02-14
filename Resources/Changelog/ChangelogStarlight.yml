@@ -30440,5 +30440,39 @@ Entries:
   id: 327500
   time: '2026-02-14T10:37:22.000000+00:00'
   url: https://github.com/ss14Starlight/space-station-14/pull/3275
+- author: Notarin Steele
+  changes:
+  - message: Added the ability for a pAI to open a PDA if it is in one.
+    type: Add
+  id: 327200
+  time: '2026-02-14T16:02:41.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3272
+- author: Shades
+  changes:
+  - message: Nullspace Ents now cannot be hurt by explosions or FTL.
+    type: Tweak
+  - message: fixed a lot of NullSpaces Bugs, regarding laying down and others issues.
+    type: Fix
+  - message: added Nullspace Protector.
+    type: Add
+  - message: Nullspace Goggles gives now nightvision.
+    type: Add
+  - message: Revenant is now in nullspace.
+    type: Tweak
+  - message: Riply able to pick up anomalies.
+    type: Fix
+  - message: 'New Illegal cannibal item: core spaghetti'
+    type: Add
+  - message: Burned Shadekin will get now a limited power of the Brigheye if they
+      steal his Core (with a cost)
+    type: Tweak
+  - message: Brighteye has new abilities and "The Dark" is now more intresting!
+    type: Add
+  - message: Character Info will not show you the Hivemind if your unable to speak
+      it.
+    type: Tweak
+  id: 283000
+  time: '2026-02-14T19:34:52.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/2830
 Order: -1
 

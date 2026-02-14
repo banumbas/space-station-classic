@@ -1,4 +1,4 @@
-namespace Content.Server._Starlight.Shadekin;
+namespace Content.Shared._Starlight.Shadekin;
 
 /// <summary>
 /// DarkLight Ents will be ingored by the "Light Sensetivity Check"
