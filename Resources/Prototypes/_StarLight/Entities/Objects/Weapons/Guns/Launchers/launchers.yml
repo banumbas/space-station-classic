@@ -8,7 +8,7 @@
   - type: ScanDetectable
   - type: Contraband
     severity: Syndicate
-  - type: BallisticAmmoProvider
+  - type: RevolverAmmoProvider
     whitelist:
       tags:
       - Grenade
@@ -20,7 +20,7 @@
   suffix: EMP
   description: PLOOP... ZAP
   components:
-  - type: BallisticAmmoProvider
+  - type: RevolverAmmoProvider
     proto: GrenadeEMP
 
 - type: entity
@@ -28,5 +28,5 @@
   id: WeaponLauncherHydraFilled
   suffix: Filled
   components:
-  - type: BallisticAmmoProvider
+  - type: RevolverAmmoProvider
     proto: GrenadeCleanade
