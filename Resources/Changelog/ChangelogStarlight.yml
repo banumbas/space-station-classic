@@ -30969,5 +30969,141 @@ Entries:
   id: 333301
   time: '2026-02-17T01:15:40.000000+00:00'
   url: https://github.com/ss14Starlight/space-station-14/pull/3333
+- author: Sparlight
+  changes:
+  - message: Corgis can now wear the CentComm Beret, Centcomm Officer's Glasses, and
+      Centcomm Carapace.
+    type: Add
+  id: 333201
+  time: '2026-02-17T02:23:42.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3332
+- author: Fractalflower
+  changes:
+  - message: ERT Leader and TSF Elite no longer need Extra Roles.
+    type: Remove
+  id: 334201
+  time: '2026-02-17T03:06:38.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3342
+- author: walksanator
+  changes:
+  - message: character slot autocomplete for "characterforceprototype"
+    type: Add
+  id: 334401
+  time: '2026-02-17T07:04:23.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3344
+- author: SevenShades
+  changes:
+  - message: Added a diagnostic HuD to engineering cyborgs
+    type: Add
+  id: 334001
+  time: '2026-02-17T07:08:41.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3340
+- author: VINCOLAN
+  changes:
+  - message: Reporter Digiboard now has Standard Batteries.
+    type: Tweak
+  id: 334101
+  time: '2026-02-17T07:13:44.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3341
+- author: redmushie
+  changes:
+  - message: Twinpointers, station pinpointers and universal pinpointers are no longer
+      shown to be "high value targets" on examination
+    type: Fix
+  id: 333501
+  time: '2026-02-17T07:29:23.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3335
+- author: PubliclyExecutedPig
+  changes:
+  - message: Updated Lagan
+    type: Tweak
+  id: 326301
+  time: '2026-02-17T07:36:15.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3263
+- author: Xale
+  changes:
+  - message: 12 gauge tranquilizer slugs are no longer contraband for Zookeepers
+    type: Tweak
+  id: 331201
+  time: '2026-02-17T07:39:57.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3312
+- author: Fractalflower
+  changes:
+  - message: Combat gloves for HoS/BSO/Ward no longer need 60h Security playtime.
+    type: Fix
+  - message: Roboticists have more head loadout options now.
+    type: Add
+  - message: Road cone to head loadouts
+    type: Add
+  - message: Lily flower head item. No, it's not myself.
+    type: Add
+  id: 333001
+  time: '2026-02-17T07:57:25.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3330
+- author: ZombieNub
+  changes:
+  - message: Added a recharging RPLD to the Engineering Cyborg Module.
+    type: Tweak
+  id: 334501
+  time: '2026-02-17T08:05:03.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3345
+- author: Shades
+  changes:
+  - message: New Lobby Music "The Station".
+    type: Add
+  - message: New Nuclear Music "nuclearoperations".
+    type: Add
+  - message: NukiePlanets has now its own Ambiance Tracks! PLANNING WITH EVIL SOUNDS!
+    type: Add
+  id: 326901
+  time: '2026-02-17T08:14:58.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3269
+- author: mrjajkes, kirb
+  changes:
+  - message: Added Nuke music track specifically for lone Ops
+    type: Add
+  id: 333801
+  time: '2026-02-17T08:18:27.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3338
+- author: redmushie
+  changes:
+  - message: The Central Medical Division apologizes for moving the Eject buttons
+      of the ChemMaster and reagent dispenser, and has returned them to their original
+      positions.
+    type: Tweak
+  id: 334701
+  time: '2026-02-17T10:16:29.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3347
+- author: CrazyPhantom
+  changes:
+  - message: Description to Electrolyzers.
+    type: Add
+  - message: Electrolyzers Now correctly accept Plasma and Uranium sheets.
+    type: Fix
+  - message: Missing localizations for BZ chem guidebook entry.
+    type: Fix
+  id: 334901
+  time: '2026-02-17T15:41:11.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3349
+- author: Shades
+  changes:
+  - message: Sunglasses now fully cover Shadekin eyes (only sunglasses for now).
+    type: Add
+  - message: Reverted a change regarding times req on TSFElite, TSFLeader now take
+      TSFMarine Time req.
+    type: Tweak
+  id: 335301
+  time: '2026-02-17T20:20:18.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3353
+- author: Conflee
+  changes:
+  - message: Added the Emergency Medical Pod, a new 'Armory' that can be requested
+      by Command and sent by CentComm. Comes with a stocked chem setup for 2, med
+      beds, a stasis bed, a crate of starting healing chems, NanoMed machine, body
+      bags and freezer, etc.
+    type: Add
+  id: 335101
+  time: '2026-02-17T20:30:10.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/3351
 Order: -1
 
