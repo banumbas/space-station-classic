@@ -31,8 +31,8 @@
       prob: 0.08 # Starlight. To account for their secret mode being lowered.
     - id: Brighteye
       prob: 0.05
-#    - id: SiliconLiberation
-#      prob: 0.4
+    - id: SiliconLiberation
+      prob: 0.2
 
 - type: entity
   parent: BaseGameRule

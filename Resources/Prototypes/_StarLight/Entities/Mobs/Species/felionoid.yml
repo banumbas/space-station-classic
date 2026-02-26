@@ -80,6 +80,7 @@
     - DoorBumpOpener
     - AnomalyHost
     - Felionoid
+    - NotLabelable
   - type: Fixtures
     fixtures:
       fix1:

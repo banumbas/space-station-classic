@@ -36,7 +36,7 @@ using Robust.Shared.Random;
 using Robust.Shared.Serialization;
 using Robust.Shared.Timing;
 using Robust.Shared.Utility;
-using Content.Shared.VentCraw;
+using Content.Shared.VentCrawl;
 
 #region Starlight
 using Content.Shared.Mech.Components;

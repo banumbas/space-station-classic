@@ -33,6 +33,7 @@ using Content.Shared.Cuffs;
 using Prometheus;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Containers;
+using Content.Server.AlertLevel;
 // Starlight End
 
 namespace Content.Server.GameTicking.Rules;
@@ -54,6 +55,7 @@ public sealed class NukeopsRuleSystem : GameRuleSystem<NukeopsRuleComponent>
     [Dependency] private readonly StoreSystem _store = default!;
     [Dependency] private readonly TagSystem _tag = default!;
     [Dependency] private readonly SharedCuffableSystem _cuffable = default!; // Starlight
+    [Dependency] private readonly AlertLevelSystem _alertLevel = default!; // SL
 
     private static readonly ProtoId<CurrencyPrototype> TelecrystalCurrencyPrototype = "Telecrystal";
     private static readonly ProtoId<TagPrototype> NukeOpsUplinkTagPrototype = "NukeOpsUplink";
@@ -522,6 +524,10 @@ public sealed class NukeopsRuleSystem : GameRuleSystem<NukeopsRuleComponent>
 
         if (nukeops.RoundEndBehavior == RoundEndBehavior.Nothing) // It's still worth checking if operatives have all died, even if the round-end behaviour is nothing.
             return; // Shouldn't actually try to end the round in the case of nothing though.
+
+        // Starlight - Set the station to green alert so its not locked anymore to Gamma.
+        if (nukeops.TargetStation is not null)
+            _alertLevel.SetLevel(nukeops.TargetStation.Value, "green", true, true, true, false);
 
         _roundEndSystem.DoRoundEndBehavior(nukeops.RoundEndBehavior,
         nukeops.EvacShuttleTime,

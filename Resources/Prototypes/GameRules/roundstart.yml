@@ -32,8 +32,8 @@
       prob: 0.08 # Starlight
     - id: Brighteye # Starlight
       prob: 0.05
-#    - id: SiliconLiberation #Starlight
-#      prob: 0.4 #Starlight
+    - id: SiliconLiberation #Starlight
+      prob: 0.2 #Starlight
 
 - type: entity
   parent: BaseGameRule
@@ -51,8 +51,8 @@
       prob: 0.08 # Starlight
     - id: Brighteye # Starlight
       prob: 0.05
-#    - id: SiliconLiberation #Starlight
-#      prob: 0.4 #Starlight
+    - id: SiliconLiberation #Starlight
+      prob: 0.2 #Starlight
 
 - type: entity
   parent: BaseGameRule
@@ -70,8 +70,8 @@
       prob: 0.08 # Starlight Space is dangerous, yo.
     - id: Brighteye # Starlight
       prob: 0.05
-#    - id: SiliconLiberation #Starlight
-#      prob: 0.5 #Starlight
+    - id: SiliconLiberation #Starlight
+      prob: 0.2 #Starlight
 
 - type: entity
   parent: BaseGameRule
@@ -87,8 +87,8 @@
       prob: 0.15 # Starlight
     - id: Brighteye # Starlight
       prob: 0.05
-#    - id: SiliconLiberation #Starlight
-#      prob: 0.5 #Starlight
+    - id: SiliconLiberation #Starlight
+      prob: 0.2 #Starlight
 
 - type: entity
   parent: BaseGameRule
