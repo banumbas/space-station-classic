@@ -10,7 +10,7 @@ $outputFile = "Tools/pr-authors.csv"
 
 Write-Host "Collecting PR numbers from git log ($startCommit..$endCommit)..."
 
-$prNumbers = git log --first-parent "$startCommit..$endCommit" --oneline |
+$prNumbers = git log "$startCommit..$endCommit" --oneline |
     Select-String "Merge pull request #(\d+)|PR #(\d+)|\(#(\d+)\)" |
     ForEach-Object {
         $m = $_.Matches[0]
