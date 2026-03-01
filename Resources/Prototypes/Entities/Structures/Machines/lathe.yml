@@ -207,6 +207,7 @@
     - ChemistryStatic
     dynamicPacks:
     - ScienceBlueSpace # Starlight
+    - ScienceDarkBreacher # Starlight
     - AdvancedTools
     - ScienceEquipment
     - ScienceExplosives

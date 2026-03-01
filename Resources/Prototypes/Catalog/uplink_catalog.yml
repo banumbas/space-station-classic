@@ -282,7 +282,7 @@
   discountDownTo:
     Telecrystal: 20
   cost:
-    Telecrystal: 26 # Starlight
+    Telecrystal: 25
   categories:
   - UplinkWeaponry
 
@@ -2217,6 +2217,7 @@
     whitelist:
     - Mime
     - Clown
+    - Performer # Starlight
     - HeadOfPersonnel # Starlight
     - Captain # Starlight
 
@@ -2237,6 +2238,7 @@
   - !type:BuyerJobCondition
     whitelist:
     - Clown
+    - Performer # Starlight
     - HeadOfPersonnel # Starlight
     - Captain # Starlight
 
@@ -2256,6 +2258,7 @@
   - !type:BuyerJobCondition
     whitelist:
     - Clown
+    - Performer # Starlight
     - HeadOfPersonnel # Starlight
     - Captain # Starlight
 
@@ -2299,6 +2302,7 @@
     - Clown
     - Mime
     - ServiceWorker # Starlight
+    - Performer # Starlight
     - HeadOfPersonnel # Starlight
     - Captain # Starlight
 
@@ -2413,6 +2417,7 @@
     - Chef
     - Mime
     - ServiceWorker # Starlight
+    - Performer # Starlight
     - HeadOfPersonnel # Starlight
     - Captain # Starlight
 

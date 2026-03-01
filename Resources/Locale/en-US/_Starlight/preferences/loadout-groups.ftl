@@ -88,8 +88,16 @@ loadout-group-chemist-bag = Chemist bag
 loadout-group-chemist-labeler = Chemist labeler
 loadout-group-chemist-shoes = Chemist shoes
 
-# Janitor
+# Service
 loadout-group-janitor-neck = Janitor neck
+
+loadout-group-serviceworker-head = Service worker head
+loadout-group-serviceworker-jumpsuit = Service worker jumpsuit
+loadout-group-serviceworker-outerclothing = Service worker outer clothing
+
+loadout-group-performer-head = Performer head
+loadout-group-performer-jumpsuit = Performer jumpsuit
+loadout-group-performer-outerclothing = Performer outer clothing
 
 # Other
 loadout-group-scarves = Scarf

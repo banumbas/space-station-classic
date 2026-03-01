@@ -59,3 +59,4 @@ steal-target-groups-medical-belts = medical belt, EMT belt, corpsman duty belt, 
 steal-target-groups-corporate-documents = classified corporate secrets documents
 steal-target-groups-criminal-documents = classified criminal reports documents
 steal-target-groups-secure-documents = classified secure documents
+steal-target-groups-secure-documents-brighteye = Bright-Eyes classified secure documents
