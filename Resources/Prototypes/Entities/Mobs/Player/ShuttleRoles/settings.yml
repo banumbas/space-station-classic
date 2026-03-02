@@ -258,7 +258,7 @@
 
 - type: randomHumanoidSettings
   id: VisitorParamedic
-  parent: VisitorMedical
+  parent: [ EventHumanoidMindShielded, VisitorMedical ] # Starlight: Don't forget mindshield
   components:
     - type: GhostRole
       name: job-name-paramedic
@@ -754,10 +754,10 @@
       name: ghost-role-information-syndie-soldier-teamlead-name
       description: ghost-role-information-syndie-soldier-teamlead-description
       rules: ghost-role-information-rules-team-antagonist
-      mindRoles:
-      - MindRoleGhostRoleTeamAntagonist
       raffle:
         settings: default
+      mindRoles:
+      - MindRoleNukeopsCommander
     - type: Loadout
       prototypes: [ SyndicateFootsoldierTeamLeaderGear ]
       roleLoadout: [ RoleSurvivalSyndicate ]
@@ -774,10 +774,10 @@
       name: ghost-role-information-syndie-soldier-name
       description: ghost-role-information-syndie-soldier-description
       rules: ghost-role-information-rules-team-antagonist
-      mindRoles:
-      - MindRoleGhostRoleTeamAntagonist
       raffle:
         settings: default
+      mindRoles:
+      - MindRoleNukeops
     - type: Loadout
       prototypes: [ SyndicateFootsoldierGear ]
       roleLoadout: [ RoleSurvivalSyndicate ]
@@ -805,6 +805,7 @@
   id: PirateScooner
   parent: EventHumanoid
   components:
+    - type: Pirate # Starlight
     - type: NpcFactionMember
       factions:
       - Syndicate
@@ -812,10 +813,10 @@
       name: ghost-role-information-pirate-name
       description: ghost-role-information-pirate-description
       rules: ghost-role-information-rules-team-antagonist
-      mindRoles:
-      - MindRoleGhostRoleTeamAntagonist
       raffle:
         settings: default
+      mindRoles:
+      - MindRolePirate
     - type: Loadout
       prototypes: [ PirateScoonerAltA, PirateScoonerAltB, PirateScoonerAltC, PirateScoonerAltD ]
       roleLoadout: [ RoleSurvivalEVA ]
@@ -824,6 +825,7 @@
   id: PirateCaptainScooner
   parent: EventHumanoid
   components:
+    - type: Pirate # Starlight
     - type: NpcFactionMember
       factions:
       - Syndicate
@@ -831,10 +833,10 @@
       name: ghost-role-information-pirate-captain-name
       description: ghost-role-information-pirate-captain-description
       rules: ghost-role-information-rules-team-antagonist
-      mindRoles:
-      - MindRoleGhostRoleTeamAntagonist
       raffle:
         settings: default
+      mindRoles:
+      - MindRolePirateCaptain
     - type: Loadout
       prototypes: [ PirateCaptainScooner ]
       roleLoadout: [ RoleSurvivalEVA ]

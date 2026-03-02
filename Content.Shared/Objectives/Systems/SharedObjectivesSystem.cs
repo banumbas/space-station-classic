@@ -1,5 +1,4 @@
 using System.Diagnostics.CodeAnalysis;
-using Content.Shared._Starlight.Railroading;
 using Content.Shared.Mind;
 using Content.Shared.Objectives.Components;
 using Robust.Shared.Prototypes;
@@ -56,7 +55,7 @@ public abstract class SharedObjectivesSystem : EntitySystem
     /// The objective is not added to the mind's objectives, mind system does that in TryAddObjective.
     /// If the objective could not be assigned the objective is deleted and null is returned.
     /// </summary>
-    public EntityUid? TryCreateObjective(EntityUid mindId, MindComponent mind, string proto)
+    public EntityUid? TryCreateObjective(EntityUid mindId, MindComponent mind, string proto, bool assign = true) // Starlight-edit: added assign parameter
     {
         if (!_protoMan.HasIndex<EntityPrototype>(proto))
             return null;
@@ -68,6 +67,11 @@ public abstract class SharedObjectivesSystem : EntitySystem
             Log.Error($"Invalid objective prototype {proto}, missing ObjectiveComponent");
             return null;
         }
+
+        // Starlight-start: skip assignment checks
+        if (!assign)
+            return uid; // skip assignment checks
+        // Starlight-end
 
         if (!CanBeAssigned(uid, mindId, mind, comp))
         {

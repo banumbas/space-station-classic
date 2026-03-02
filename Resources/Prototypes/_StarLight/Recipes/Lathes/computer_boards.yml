@@ -1,4 +1,0 @@
-- type: latheRecipe
-  parent: [ BaseCircuitboardRecipe, BaseEngineeringComputerRecipeCategory ]
-  id: MassDriverComputerCircuitboard
-  result: MassDriverComputerCircuitboard

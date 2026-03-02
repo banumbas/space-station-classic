@@ -37,13 +37,15 @@
   - Cadet # Starlight start
   - Magistrate
   - Ntrep
+  - IAA
   - Brigmedic
   - BlueShield
   - Robotics
   - Surgery
   - Paramedic
   - Mining
-  - SalvageLead # Starlight end
+  - SalvageLead
+  - Pirate # Starlight end
 
 
 - type: accessGroup

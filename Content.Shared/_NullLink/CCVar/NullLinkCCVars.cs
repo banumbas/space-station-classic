@@ -11,13 +11,13 @@ public sealed partial class NullLinkCCVars
         CVarDef.Create("nulllink.cluster_connection_string", "", CVar.SERVERONLY | CVar.CONFIDENTIAL);
 
     public static readonly CVarDef<string> Project =
-        CVarDef.Create("nulllink.id.project", "", CVar.SERVERONLY | CVar.CONFIDENTIAL);
+        CVarDef.Create("nulllink.id.project", "", CVar.SERVER | CVar.REPLICATED);
+
+    public static readonly CVarDef<string> Server =
+        CVarDef.Create("nulllink.id.server", "", CVar.SERVER | CVar.REPLICATED);
 
     public static readonly CVarDef<string> Token =
         CVarDef.Create("nulllink.id.token", "", CVar.SERVERONLY | CVar.CONFIDENTIAL);
-
-    public static readonly CVarDef<string> Server =
-        CVarDef.Create("nulllink.id.server", "", CVar.SERVERONLY | CVar.CONFIDENTIAL);
 
     public static readonly CVarDef<ServerType> Type =
         CVarDef.Create("nulllink.hub.server_type", ServerType.NRP, CVar.SERVERONLY | CVar.CONFIDENTIAL);
@@ -30,6 +30,9 @@ public sealed partial class NullLinkCCVars
 
     public static readonly CVarDef<bool> IsAdultOnly =
         CVarDef.Create("nulllink.is_adult_only", false, CVar.REPLICATED | CVar.SERVER);
+
+    public static readonly CVarDef<bool> ResourcesEnabled =
+        CVarDef.Create("nulllink.resources_enabled", false, CVar.SERVERONLY);
 }
 
 public enum ServerType
