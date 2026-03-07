@@ -18,6 +18,7 @@ using System;
 using Content.Shared.Damage;
 using Robust.Shared.Timing;
 using Robust.Shared.Random;
+using Content.Shared.Damage.Systems;
 
 namespace Content.Shared.Starlight.Medical.Surgery;
 // Based on the RMC14.
@@ -25,8 +26,8 @@ namespace Content.Shared.Starlight.Medical.Surgery;
 public abstract partial class SharedSurgerySystem
 {
     [Dependency] private readonly IGameTiming _timing = default!;
-    [Dependency] private readonly IRobustRandom _random = default!;
-    
+    [Dependency] private readonly IRobustRandom _random = default!;_
+    [Dependency] private readonly DamageableSystem _damageableSystem = default!;
     private void InitializeSteps()
     {
         SubscribeLocalEvent<SurgeryStepComponent, SurgeryStepCompleteEvent>(OnStepComplete);
