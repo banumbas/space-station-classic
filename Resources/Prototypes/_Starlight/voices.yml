@@ -15,7 +15,7 @@
   silicon: false
   copyright: "https://datacollective.mozillafoundation.org/datasets/cmko7havo02f5nw07rbwwhowe"
   license: CC0-1.0
-  
+
 - type: voice
   id: mozillaAu2
   voice: 2
@@ -24,7 +24,7 @@
   silicon: false
   copyright: "https://datacollective.mozillafoundation.org/datasets/cmko7havo02f5nw07rbwwhowe"
   license: CC0-1.0
-  
+
 - type: voice
   id: karma
   voice: 3
@@ -129,7 +129,7 @@
   silicon: false
   copyright: "https://datacollective.mozillafoundation.org/datasets/cmko7havo02f5nw07rbwwhowe"
   license: CC0-1.0
-  
+
 - type: voice
   id: mozillaAu4
   voice: 16
@@ -254,7 +254,7 @@
   sex: Female
   silicon: false
   copyright: Williams, Jennifer and Yazdanpanah, Vahid and Stein, Sebastian. Modified.
-  license: CC BY-SA 3.0 US  
+  license: CC BY-SA 3.0 US
 
 - type: voice
   id: ICASSP30
@@ -263,7 +263,7 @@
   sex: Unsexed
   silicon: false
   copyright: Williams, Jennifer and Yazdanpanah, Vahid and Stein, Sebastian. Modified.
-  license: CC BY-SA 3.0 US  
+  license: CC BY-SA 3.0 US
 
 - type: voice
   id: ICASSP31
@@ -272,7 +272,7 @@
   sex: Unsexed
   silicon: false
   copyright: Williams, Jennifer and Yazdanpanah, Vahid and Stein, Sebastian. Modified.
-  license: CC BY-SA 3.0 US  
+  license: CC BY-SA 3.0 US
 
 - type: voice
   id: ICASSP32
@@ -281,7 +281,7 @@
   sex: Male
   silicon: false
   copyright: Williams, Jennifer and Yazdanpanah, Vahid and Stein, Sebastian. Modified.
-  license: CC BY-SA 3.0 US  
+  license: CC BY-SA 3.0 US
 
 - type: voice
   id: ICASSP33
@@ -290,7 +290,7 @@
   sex: Male
   silicon: false
   copyright: Williams, Jennifer and Yazdanpanah, Vahid and Stein, Sebastian. Modified.
-  license: CC BY-SA 3.0 US  
+  license: CC BY-SA 3.0 US
 
 - type: voice
   id: ICASSP34
@@ -299,7 +299,7 @@
   sex: Unsexed
   silicon: false
   copyright: Williams, Jennifer and Yazdanpanah, Vahid and Stein, Sebastian. Modified.
-  license: CC BY-SA 3.0 US  
+  license: CC BY-SA 3.0 US
 
 - type: voice
   id: ICASSP35
@@ -308,7 +308,7 @@
   sex: Female
   silicon: false
   copyright: Williams, Jennifer and Yazdanpanah, Vahid and Stein, Sebastian. Modified.
-  license: CC BY-SA 3.0 US  
+  license: CC BY-SA 3.0 US
 
 - type: voice
   id: ICASSP36
@@ -317,7 +317,7 @@
   sex: Male
   silicon: false
   copyright: Williams, Jennifer and Yazdanpanah, Vahid and Stein, Sebastian. Modified.
-  license: CC BY-SA 3.0 US  
+  license: CC BY-SA 3.0 US
 
 - type: voice
   id: ICASSP37
@@ -326,7 +326,7 @@
   sex: Female
   silicon: false
   copyright: Williams, Jennifer and Yazdanpanah, Vahid and Stein, Sebastian. Modified.
-  license: CC BY-SA 3.0 US  
+  license: CC BY-SA 3.0 US
 
 - type: voice
   id: ICASSP38
@@ -335,7 +335,7 @@
   sex: Male
   silicon: false
   copyright: Williams, Jennifer and Yazdanpanah, Vahid and Stein, Sebastian. Modified.
-  license: CC BY-SA 3.0 US  
+  license: CC BY-SA 3.0 US
 
 - type: voice
   id: ICASSP39
@@ -1461,7 +1461,7 @@
   silicon: false
   copyright: "https://datacollective.mozillafoundation.org/datasets/cmko7havo02f5nw07rbwwhowe"
   license: CC0-1.0
-  
+
 - type: voice
   id: ICASSP163dot5
   voice: 168
@@ -1776,6 +1776,224 @@
   silicon: false
   copyright: "https://datacollective.mozillafoundation.org/datasets/cmko7havo02f5nw07rbwwhowe"
   license: CC0-1.0
+
+- type: voice
+  id: nevec
+  voice: 206
+  name: tts-voice-name-206
+  sex: Male
+  silicon: false
+  license: Private license, permission granted for SLN use only.
+
+- type: voice
+  id: distant
+  voice: 207
+  name: tts-voice-name-207
+  sex: Male
+  silicon: false
+  license: Private license, permission granted for SLN use only.
+
+- type: voice
+  id: dracula
+  voice: 208
+  name: tts-voice-name-208
+  sex: Male
+  silicon: false
+  license: Private license, permission granted for SLN use only.
+
+- type: voice
+  id: goblin
+  voice: 209
+  name: tts-voice-name-209
+  sex: Male
+  silicon: false
+  license: Private license, permission granted for SLN use only.
+
+- type: voice
+  id: gravely
+  voice: 210
+  name: tts-voice-name-210
+  sex: Male
+  silicon: false
+  license: Private license, permission granted for SLN use only.
+  
+- type: voice
+  id: haughty
+  voice: 211
+  name: tts-voice-name-211
+  sex: Male
+  silicon: false
+  license: Private license, permission granted for SLN use only.
+  
+- type: voice
+  id: jowels
+  voice: 212
+  name: tts-voice-name-212
+  sex: Male
+  silicon: false
+  license: Private license, permission granted for SLN use only.
+  
+- type: voice
+  id: lizardish
+  voice: 213
+  name: tts-voice-name-213
+  sex: Male
+  silicon: false
+  license: Private license, permission granted for SLN use only.
+  
+- type: voice
+  id: madDoctor
+  voice: 214
+  name: tts-voice-name-214
+  sex: Male
+  silicon: false
+  license: Private license, permission granted for SLN use only.
+  
+- type: voice
+  id: monstrous
+  voice: 215
+  name: tts-voice-name-215
+  sex: Male
+  silicon: false
+  license: Private license, permission granted for SLN use only.
+  
+- type: voice
+  id: rich
+  voice: 216
+  name: tts-voice-name-216
+  sex: Male
+  silicon: false
+  license: Private license, permission granted for SLN use only.
+  
+- type: voice
+  id: nurgle
+  voice: 217
+  name: tts-voice-name-217
+  sex: Male
+  silicon: false
+  license: Private license, permission granted for SLN use only.
+  
+- type: voice
+  id: skeletor
+  voice: 218
+  name: tts-voice-name-218
+  sex: Male
+  silicon: false
+  license: Private license, permission granted for SLN use only.
+  
+- type: voice
+  id: smooth
+  voice: 219
+  name: tts-voice-name-219
+  sex: Male
+  silicon: false
+  license: Private license, permission granted for SLN use only.
+  
+- type: voice
+  id: snake
+  voice: 220
+  name: tts-voice-name-220
+  sex: Male
+  silicon: false
+  license: Private license, permission granted for SLN use only.
+  
+- type: voice
+  id: stuffedUp
+  voice: 221
+  name: tts-voice-name-221
+  sex: Male
+  silicon: false
+  license: Private license, permission granted for SLN use only.
+  
+- type: voice
+  id: western1
+  voice: 222
+  name: tts-voice-name-222
+  sex: Male
+  silicon: false
+  license: Private license, permission granted for SLN use only.
+  
+- type: voice
+  id: western2
+  voice: 223
+  name: tts-voice-name-223
+  sex: Male
+  silicon: false
+  license: Private license, permission granted for SLN use only.
+  
+- type: voice
+  id: darkish
+  voice: 224
+  name: tts-voice-name-224
+  sex: Male
+  silicon: false
+  license: Private license, permission granted for SLN use only.
+  
+- type: voice
+  id: nasaly
+  voice: 225
+  name: tts-voice-name-225
+  sex: Male
+  silicon: false
+  license: Private license, permission granted for SLN use only.
+  
+- type: voice
+  id: quiet
+  voice: 226
+  name: tts-voice-name-226
+  sex: Male
+  silicon: false
+  license: Private license, permission granted for SLN use only.
+  
+- type: voice
+  id: smoothLoud 
+  voice: 227
+  name: tts-voice-name-227
+  sex: Male
+  silicon: false
+  license: Private license, permission granted for SLN use only.
+  
+- type: voice
+  id: powerArmor
+  voice: 228
+  name: tts-voice-name-228
+  sex: Male
+  silicon: false
+  license: Private license, permission granted for SLN use only.
+  
+- type: voice
+  id: angryJowels
+  voice: 229
+  name: tts-voice-name-229
+  sex: Male
+  silicon: false
+  license: Private license, permission granted for SLN use only.
+  
+- type: voice
+  id: butler
+  voice: 230
+  name: tts-voice-name-230
+  sex: Male
+  silicon: false
+  license: Private license, permission granted for SLN use only.
+  
+- type: voice
+  id: darkDramatic
+  voice: 231
+  name: tts-voice-name-231
+  sex: Male
+  silicon: false
+  license: Private license, permission granted for SLN use only.
+  
+- type: voice
+  id: deepQuiet
+  voice: 232
+  name: tts-voice-name-232
+  sex: Male
+  silicon: false
+  license: Private license, permission granted for SLN use only.
+
+
 # -----------------------------------------------------------------------------
 
 - type: voice
@@ -1786,7 +2004,7 @@
   silicon: true
   copyright: Colorfinger
   license: The use of the voice is authorized by the voice holder
-  
+
 - type: voice
   id: borgMozillaAu1
   voice: 1001
@@ -1795,7 +2013,7 @@
   silicon: true
   copyright: "https://datacollective.mozillafoundation.org/datasets/cmko7havo02f5nw07rbwwhowe"
   license: CC0-1.0
-    
+
 - type: voice
   id: borgMozillaAu2
   voice: 1002
@@ -1803,7 +2021,7 @@
   sex: Unsexed
   silicon: true
   copyright: "https://datacollective.mozillafoundation.org/datasets/cmko7havo02f5nw07rbwwhowe"
-  license: CC0-1.0   
+  license: CC0-1.0
 
 - type: voice
   id: borgOliveOffender
@@ -1830,3 +2048,54 @@
   silicon: true
   copyright: Xoan
   license: The use of the voice is authorized by the voice holder
+
+- type: voice
+  id: borgMozillaAu29
+  voice: 1008
+  name: tts-voice-name-1008
+  sex: Female
+  silicon: true
+  copyright: "https://datacollective.mozillafoundation.org/datasets/cmko7havo02f5nw07rbwwhowe"
+  license: CC0-1.0
+
+- type: voice
+  id: borgMozillaAu30
+  voice: 1009
+  name: tts-voice-name-1009
+  sex: Female
+  silicon: true
+  copyright: "https://datacollective.mozillafoundation.org/datasets/cmko7havo02f5nw07rbwwhowe"
+  license: CC0-1.0
+
+- type: voice
+  id: borgMozillaAu31
+  voice: 1010
+  name: tts-voice-name-1010
+  sex: Female
+  silicon: true
+  copyright: "https://datacollective.mozillafoundation.org/datasets/cmko7havo02f5nw07rbwwhowe"
+  license: CC0-1.0
+
+- type: voice
+  id: johnson
+  voice: 1011
+  name: tts-voice-name-1011
+  sex: Male
+  silicon: true
+  license: Private license, permission granted for SLN use only.
+
+- type: voice
+  id: calmAutomated
+  voice: 1012
+  name: tts-voice-name-1012
+  sex: Male
+  silicon: true
+  license: Private license, permission granted for SLN use only.
+
+- type: voice
+  id: silicon
+  voice: 1013
+  name: tts-voice-name-1013
+  sex: Male
+  silicon: true
+  license: Private license, permission granted for SLN use only.

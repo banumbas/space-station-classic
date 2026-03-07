@@ -199,6 +199,7 @@
           - NukeOperative
           - Traitor
           - Revolutionary
+          - MindShield
       #SL end
 
 - type: entity
@@ -222,6 +223,7 @@
           - NukeOperative
           - Traitor
           - Revolutionary
+          - MindShield
       #SL end
 
 - type: entity
@@ -245,5 +247,6 @@
           - NukeOperative
           - Traitor
           - Revolutionary
+          - MindShield
       #SL end
 

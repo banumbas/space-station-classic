@@ -4,7 +4,7 @@ meta:
   engineVersion: 272.0.0
   forkId: ""
   forkVersion: ""
-  time: 02/27/2026 07:19:21
+  time: 03/02/2026 07:58:10
   entityCount: 16922
 maps:
 - 1
@@ -46659,7 +46659,6 @@ entities:
     - type: Transform
       pos: 59.5,39.5
       parent: 2
-    - type: Door
 - proto: d6Dice
   entities:
   - uid: 316
@@ -52411,7 +52410,6 @@ entities:
       rot: 3.141592653589793 rad
       pos: 26.5,37.5
       parent: 2
-    - type: Door
   - uid: 9362
     components:
     - type: Transform
@@ -78075,11 +78073,6 @@ entities:
       rot: -1.5707963267948966 rad
       pos: 48.5,11.5
       parent: 2
-    - type: DeviceLinkSource
-      linkedPorts:
-        7848:
-        - - Pressed
-          - Open
     - type: Fixtures
       fixtures: {}
 - proto: LockableButtonService
@@ -109442,7 +109435,7 @@ entities:
       rot: 3.141592653589793 rad
       pos: 49.5,1.5
       parent: 2
-- proto: WindoorSecureResearchDirectorLocked
+- proto: WindoorSecureRoboticsLocked
   entities:
   - uid: 7848
     components:

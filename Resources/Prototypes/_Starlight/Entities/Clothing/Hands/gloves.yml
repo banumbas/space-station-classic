@@ -185,3 +185,16 @@
     sprite: Clothing/Hands/Gloves/tacticalmaidgloves.rsi
   - type: Fiber
     fiberColor: fibers-black
+
+- type: entity
+  parent: ClothingHandsGlovesSyntheticBase
+  id: ClothingHandsMaidGlovesElegant
+  name: elegant maid gloves
+  description: Pristine maid gloves, like any self-respecting maid should possess.
+  components:
+  - type: Sprite
+    sprite: _Starlight/Clothing/Hands/Gloves/elegantmaidgloves.rsi
+  - type: Clothing
+    sprite: _Starlight/Clothing/Hands/Gloves/elegantmaidgloves.rsi
+  - type: Fiber
+    fiberColor: fibers-white

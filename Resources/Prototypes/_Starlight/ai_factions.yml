@@ -19,6 +19,7 @@
     - AllHostile
     - Gorilla
     - Abductor
+    - Pirate # starlight
 
 - type: npcFaction
   id: DungeonSoviet
@@ -38,6 +39,7 @@
     - AllHostile
     - Gorilla
     - Abductor
+    - Pirate # starlight
 
 - type: npcFaction
   id: DungeonSyndicate
@@ -58,6 +60,7 @@
     - AllHostile
     - Gorilla
     - Abductor
+    - Pirate # starlight
 
 - type: npcFaction
   id: Gorilla
@@ -81,6 +84,7 @@
     - DungeonSoviet
     - DungeonSyndicate
     - Abductor
+    - Pirate # starlight
 
 - type: npcFaction
   id: NanoTrasenSilicon # purely making this so zombies STOP ATTACKING FUCKING SILICONS
@@ -122,6 +126,7 @@
     - Dragon
     - Gorilla
     - Abductor
+    - Pirate # starlight
 
 - type: npcFaction
   id: Abductor
@@ -148,6 +153,7 @@
   # New
   - Dragon
   - SimpleHostile
+  - Pirate # starlight
 
 - type: npcFaction
   id: PointDefenseTarget

@@ -35,6 +35,7 @@
     EncryptionKeyHybridStealObjective: 0.6 # QM/Salv Lead/Brigmed. Not that interesting, so low.
     CMOHardsuitStealObjective: 1 # I'm so sorry CMO
     CEHardsuitStealObjective: 1 # Where are you going to hide it?
+    CEJetpackStealObjective: 1 # Probably wearing it right now
     HOSHardsuitStealObjective: 1 # Quite defensive.
     WardenHardsuitStealObjective: 1 # Not a member of command, yet has 3 steal targets.
     BrigmedicHardsuitStealObjective: 1 # You're not escaping.

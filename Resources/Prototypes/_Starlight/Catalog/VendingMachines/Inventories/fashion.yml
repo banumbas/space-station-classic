@@ -28,28 +28,6 @@
       stock: 1
 
 - type: listing
-  id: ClothingUniformJumpskirtElegantMaid
-  productEntity: ClothingUniformJumpskirtElegantMaid
-  cost:
-    NTCredit: 990
-  categories:
-    - SLFashionSkirt
-  conditions:
-    - !type:ListingLimitedStockCondition
-      stock: 1
-
-- type: listing
-  id: ClothingUniformJumpskirtTacticalMaid
-  productEntity: ClothingUniformJumpskirtTacticalMaid
-  cost:
-    NTCredit: 990
-  categories:
-    - SLFashionSkirt
-  conditions:
-    - !type:ListingLimitedStockCondition
-      stock: 1
-
-- type: listing
   id: ClothingUniformJumpskirtDressRed
   productEntity: ClothingUniformJumpskirtDressRed
   cost:
@@ -336,18 +314,6 @@
       stock: 1
 
 - type: listing
-  id: ClothingHeadHatTacticalMaidHeadband
-  productEntity: ClothingHeadHatTacticalMaidHeadband
-  cost:
-    NTCredit: 400
-  categories:
-    - SLFashionHead
-  conditions:
-    - !type:ListingLimitedStockCondition
-      stock: 1
-
-
-- type: listing
   id: ClothingMaskGeneralBorg
   productEntity: ClothingMaskGeneralBorg
   cost:
@@ -594,12 +560,45 @@
       stock: 1
 
 - type: listing
-  id: ClothingHandsTacticalMaidGlovesDelicate
-  productEntity: ClothingHandsTacticalMaidGlovesDelicate
+  id: ClothingHeadHatTophatBig
+  productEntity: ClothingHeadHatTophatBig
+  cost:
+    NTCredit: 900
+  categories:
+    - SLFashionHead
+  conditions:
+    - !type:ListingLimitedStockCondition
+      stock: 1
+
+- type: listing
+  id: ClothingHeadHatTophatBigWhite
+  productEntity: ClothingHeadHatTophatBigWhite
+  cost:
+    NTCredit: 900
+  categories:
+    - SLFashionHead
+  conditions:
+    - !type:ListingLimitedStockCondition
+      stock: 1
+
+- type: listing
+  id: ClothingHeadHatTophatBrass
+  productEntity: ClothingHeadHatTophatBrass
+  cost:
+    NTCredit: 900
+  categories:
+    - SLFashionHead
+  conditions:
+    - !type:ListingLimitedStockCondition
+      stock: 1
+
+- type: listing
+  id: ClothingHeadHatStrawHatWide
+  productEntity: ClothingHeadHatStrawHatWide
   cost:
     NTCredit: 400
   categories:
-    - SLFashionOther
+    - SLFashionHead
   conditions:
     - !type:ListingLimitedStockCondition
       stock: 1

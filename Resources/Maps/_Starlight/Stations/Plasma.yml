@@ -4,8 +4,8 @@ meta:
   engineVersion: 272.0.0
   forkId: ""
   forkVersion: ""
-  time: 02/25/2026 13:14:08
-  entityCount: 27544
+  time: 03/05/2026 17:54:14
+  entityCount: 27543
 maps:
 - 1
 grids:
@@ -15872,7 +15872,7 @@ entities:
       pos: -131.5,-45.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -171215.06
+      secondsUntilStateChange: -171507.08
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -27922,12 +27922,6 @@ entities:
     - type: Transform
       rot: 1.5707963267948966 rad
       pos: -20.5,-3.5
-      parent: 2
-  - uid: 3527
-    components:
-    - type: Transform
-      rot: -1.5707963267948966 rad
-      pos: -119.5,-49.5
       parent: 2
 - proto: ButtonFrameJanitor
   entities:
@@ -133381,24 +133375,6 @@ entities:
           - Toggle
     - type: Fixtures
       fixtures: {}
-- proto: LockableButtonResearch
-  entities:
-  - uid: 4037
-    components:
-    - type: Transform
-      rot: -1.5707963267948966 rad
-      pos: -119.5,-49.5
-      parent: 2
-    - type: AccessReader
-      accessListsOriginal:
-      - - Research
-    - type: DeviceLinkSource
-      linkedPorts:
-        19439:
-        - - Pressed
-          - Open
-    - type: Fixtures
-      fixtures: {}
 - proto: LockableButtonSecurity
   entities:
   - uid: 19494
@@ -153954,6 +153930,18 @@ entities:
     - type: Transform
       pos: -22.5,-25.5
       parent: 2
+- proto: SpawnPointPerformer
+  entities:
+  - uid: 3543
+    components:
+    - type: Transform
+      pos: -58.5,-33.5
+      parent: 2
+  - uid: 4037
+    components:
+    - type: Transform
+      pos: -58.5,-31.5
+      parent: 2
 - proto: SpawnPointPsychologist
   entities:
   - uid: 22455
@@ -157042,11 +157030,6 @@ entities:
       parent: 2
 - proto: Table
   entities:
-  - uid: 3543
-    components:
-    - type: Transform
-      pos: -119.5,-49.5
-      parent: 2
   - uid: 10220
     components:
     - type: Transform
@@ -178516,7 +178499,7 @@ entities:
       lastSignals:
         DoorStatus: True
     - type: Door
-      secondsUntilStateChange: -371321.88
+      secondsUntilStateChange: -371613.9
       state: Opening
     - type: Airlock
       autoClose: False
@@ -178732,9 +178715,9 @@ entities:
         20610:
         - - DoorStatus
           - Toggle
-- proto: WindoorSecureResearchDirectorLocked
+- proto: WindoorSecureRoboticsLocked
   entities:
-  - uid: 19439
+  - uid: 3527
     components:
     - type: Transform
       pos: -120.5,-48.5

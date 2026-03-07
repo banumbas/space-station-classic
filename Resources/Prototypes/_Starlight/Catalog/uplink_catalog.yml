@@ -31,9 +31,9 @@
   productEntity: ClothingBackpackDuffelSyndicateFilledUzi
   discountCategory: veryRareDiscounts
   discountDownTo:
-    Telecrystal: 15
+    Telecrystal: 11
   cost:
-    Telecrystal: 20
+    Telecrystal: 15
   categories:
     - UplinkWeaponry
 
@@ -72,9 +72,9 @@
   productEntity: ClothingBackpackDuffelSyndicateFilledBullpup
   discountCategory: veryRareDiscounts
   discountDownTo:
-    Telecrystal: 15
+    Telecrystal: 13
   cost:
-    Telecrystal: 20
+    Telecrystal: 17
   categories:
     - UplinkWeaponry
   conditions:
@@ -139,21 +139,26 @@
   productEntity: WeaponPistolDeagle
   discountCategory: rareDiscounts
   discountDownTo:
-    Telecrystal: 5
+    Telecrystal: 4
   cost:
-    Telecrystal: 8
+    Telecrystal: 6
   categories:
     - UplinkWeaponry
 
-- type: listing
-  id: UplinkWeaponPistolStechkin
-  name: uplink-stechkin-name
-  description: uplink-stechkin-desc
-  productEntity: WeaponPistolStechkin
+- type: listing # Starlight
+  id: UplinkWeaponPistolStechkinBundle
+  name: uplink-stechkin-bundle-name
+  description: uplink-stechkin-bundle-desc
+  icon:
+    {
+      sprite: /Textures/_Starlight/Objects/Weapons/Guns/Pistols/stechkin.rsi,
+      state: icon,
+    }
+  productEntity: BigBoxSyndicateBundle
   discountCategory: rareDiscounts
   discountDownTo:
     Telecrystal: 3
-  cost:
+  cost: 
     Telecrystal: 6
   categories:
     - UplinkWeaponry
@@ -165,9 +170,9 @@
   productEntity: HomerunBat
   discountCategory: veryRareDiscounts
   discountDownTo:
-    Telecrystal: 4
+    Telecrystal: 2
   cost:
-    Telecrystal: 7
+    Telecrystal: 4
   categories:
     - UplinkWeaponry
 
@@ -254,6 +259,29 @@
         tags:
           - NukeOpsUplink
 
+#For the China-Lake
+- type: listing
+  id: UplinkMagazineGrenadeFrag
+  name: uplink-grenade-launcher-frag-ammo-name
+  description: uplink-grenade-launcher-frag-ammo-desc
+  icon: { sprite: /Textures/Objects/Weapons/Guns/Ammunition/Magazine/Grenade/grenade_cartridge.rsi, state: icon }
+  productEntity: MagazineGrenadeFrag 
+  cost:
+    Telecrystal: 3
+  categories:
+  - UplinkAmmo
+
+- type: listing
+  id: UplinkMagazineGrenadeBlast
+  name: uplink-grenade-launcher-blast-ammo-name
+  description: uplink-grenade-launcher-blast-ammo-desc
+  icon: { sprite: /Textures/Objects/Weapons/Guns/Ammunition/Magazine/Grenade/grenade_cartridge.rsi, state: icon }
+  productEntity: MagazineGrenadeBlast 
+  cost:
+    Telecrystal: 6
+  categories:
+  - UplinkAmmo
+
 # Cybernetics
 
 - type: listing
@@ -302,9 +330,9 @@
   productEntity: ClothingBackpackDufelSyndicateFilledMantisBladeArms
   discountCategory: rareDiscounts
   discountDownTo:
-    Telecrystal: 12
+    Telecrystal: 5
   cost:
-    Telecrystal: 15
+    Telecrystal: 7
   categories:
     - UplinkCybernetics
 
@@ -472,6 +500,32 @@
     Telecrystal: 10
   categories:
     - UplinkWearables
+
+- type: listing
+  id: UplinkClothingOuterArmorElegantRaid
+  name: uplink-syndie-elegant-raid-name
+  description: uplink-syndie-elegant-raid-desc
+  icon: { sprite: /Textures/_Starlight/Clothing/OuterClothing/Armor/elegant-raid-suit.rsi, state: icon }
+  productEntity: ClothingBackpackSyndicateElegantRaidBundle
+  cost:
+    Telecrystal: 10
+  categories:
+    - UplinkPointless
+  conditions:
+    - !type:StoreWhitelistCondition
+      whitelist:
+        tags:
+          - NukeOpsUplink
+
+- type: listing
+  id: UplinkClothingMurderShocks
+  name: uplink-clothing-murder-socks-name
+  description: uplink-clothing-murder-socks-desc
+  productEntity: ClothingUnderSocksMurder
+  cost:
+    Telecrystal: 1
+  categories:
+    - UplinkPointless
 
 # Allies
 - type: listing
