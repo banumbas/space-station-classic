@@ -110,7 +110,7 @@ public abstract partial class SharedSurgerySystem
         args.Chance = MathF.Sqrt(args.Chance * component.SuccessRate);
     }
 
-    private float CalculateStepSuccessRate(EntityUid user, EntityUid body, EntityUid step, EntityUid tool, out string reason)
+    public float CalculateStepSuccessRate(EntityUid user, EntityUid body, EntityUid step, EntityUid tool, out string reason)
     {
         float successRate = 1f;
         reason = "";

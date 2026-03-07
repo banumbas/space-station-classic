@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Content.Client._Starlight;
 using Content.Client.Administration.UI.CustomControls;
 using Content.Client.Hands.Systems;
@@ -227,9 +228,9 @@ public sealed class SurgeryBui : BoundUserInterface
             foreach (var requirementId in requirementIds)
             {
                 if (_entitySystem.TryGetSingleton(requirementId, out var requirement)
-                    && _entities.TryGetComponent(_part, out BodyPartComponent? partComp) 
-                    && partComp.Body is { } Body 
-                    && _part is { } Part 
+                    && _entities.TryGetComponent(_part, out BodyPartComponent? partComp)
+                    && partComp.Body is { } Body
+                    && _part is { } Part
                     && _system.IsSurgeryValid(Body, Part, requirementId, surgeryId, out _, out _, out _))
                 {
                     var label = new ChoiceControl();
@@ -343,7 +344,10 @@ public sealed class SurgeryBui : BoundUserInterface
             stepName.AddText(_entities.GetComponent<MetaDataComponent>(stepButton.Step).EntityName);
 
             var stepDescription = _entities.GetComponent<MetaDataComponent>(stepButton.Step).EntityDescription;
-            Func<string> stepTooltip = !string.IsNullOrEmpty(stepDescription) ? (() => stepDescription) : (() => stepName.ToString() ?? "Empty");
+            var chance = "100";
+            if (_player.LocalEntity is { } player && _system.GetTools(player).FirstOrDefault() is { Valid: true } tool)
+                chance = (_system.CalculateStepSuccessRate(player, Owner, stepButton.Step, tool, out _) * 100).ToString() + "%";
+            Func<string> stepTooltip = !string.IsNullOrEmpty(stepDescription) ? (() => stepDescription + "\nChance to successfully done this operation: " + chance) : (() => (stepName.ToString() + "\nChance to successfully done this operation: " + chance) ?? "Empty");
 
             if (status == StepStatus.Complete)
                 stepButton.Button.Modulate = Color.Green;

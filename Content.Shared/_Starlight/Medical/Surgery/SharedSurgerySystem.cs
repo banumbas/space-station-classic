@@ -72,11 +72,11 @@ public abstract partial class SharedSurgerySystem : EntitySystem
         partEnt = default;
         step = default;
 
-        if (!HasComp<SurgeryTargetComponent>(body) 
-             || !IsLyingDown(body) 
-             || !_entitySystem.TryEntity(targetPart, out partEnt) 
-             || !_entitySystem.TryGetSingleton(surgery, out var surgeryEntId) 
-             || !_entitySystem.TryEntity(surgeryEntId, out surgeryEnt) 
+        if (!HasComp<SurgeryTargetComponent>(body)
+             || !IsLyingDown(body)
+             || !_entitySystem.TryEntity(targetPart, out partEnt)
+             || !_entitySystem.TryGetSingleton(surgery, out var surgeryEntId)
+             || !_entitySystem.TryEntity(surgeryEntId, out surgeryEnt)
              || !_entitySystem.TryGetSingleton(stepId, out step)
              || !surgeryEnt.Comp.Steps.Contains(stepId))
             return false;
@@ -94,13 +94,13 @@ public abstract partial class SharedSurgerySystem : EntitySystem
         return !ev.Cancelled;
     }
 
-    protected List<EntityUid> GetTools(EntityUid surgeon) => [.. _hands.EnumerateHeld(surgeon)];
+    public List<EntityUid> GetTools(EntityUid surgeon) => [.. _hands.EnumerateHeld(surgeon)];
 
     public bool IsLyingDown(EntityUid entity)
     {
         if (_standing.IsDown(entity))
             return true;
-        
+
         if (HasComp<ItemComponent>(entity))
             return true;
 
