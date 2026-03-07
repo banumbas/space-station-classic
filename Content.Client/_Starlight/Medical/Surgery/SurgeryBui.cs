@@ -345,8 +345,8 @@ public sealed class SurgeryBui : BoundUserInterface
 
             var stepDescription = _entities.GetComponent<MetaDataComponent>(stepButton.Step).EntityDescription;
             var chance = "100";
-            if (_player.LocalEntity is { } player && _system.GetTools(player).FirstOrDefault() is { Valid: true } tool)
-                chance = (_system.CalculateStepSuccessRate(player, Owner, stepButton.Step, tool, out _) * 100).ToString() + "%";
+            if (_player.LocalEntity is { } player1 && _system.GetTools(player1).FirstOrDefault() is { Valid: true } tool)
+                chance = (_system.CalculateStepSuccessRate(player1, Owner, stepButton.Step, tool, out _) * 100).ToString() + "%";
             Func<string> stepTooltip = !string.IsNullOrEmpty(stepDescription) ? (() => stepDescription + "\nChance to successfully done this operation: " + chance) : (() => (stepName.ToString() + "\nChance to successfully done this operation: " + chance) ?? "Empty");
 
             if (status == StepStatus.Complete)
