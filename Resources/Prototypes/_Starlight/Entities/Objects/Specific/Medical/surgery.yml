@@ -12,6 +12,7 @@
     state: obelisk01
   - type: SurgeryTool
     speed: 0.1
+    AawaysSuccess: true
   - type: Scalpel
   - type: Cautery
   - type: SurgicalDrill

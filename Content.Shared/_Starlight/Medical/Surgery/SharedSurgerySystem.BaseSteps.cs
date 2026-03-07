@@ -81,7 +81,7 @@ public abstract partial class SharedSurgerySystem
         }
 
         _random.SetSeed((int)_timing.CurTime.TotalMilliseconds);
-        if (_random.Prob(CalculateStepSuccessRate(args.User, ent, step, validTool, out var reason)))
+        if ((validTool == EntityUid.Invalid || !TryComp<SurgeryToolComponent>(validTool, out var toolComp) || !toolComp.AlwaysSuccess) && _random.Prob(CalculateStepSuccessRate(args.User, ent, step, validTool, out var reason)))
         {
 
             if (string.IsNullOrEmpty(reason))

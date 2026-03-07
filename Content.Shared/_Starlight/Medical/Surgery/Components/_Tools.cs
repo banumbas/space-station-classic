@@ -10,18 +10,43 @@ namespace Content.Shared.Starlight.Medical.Surgery.Effects.Step;
 [Access(typeof(SharedSurgerySystem))]
 public sealed partial class SurgeryToolComponent : Component
 {
+    /// <summary>
+    /// Determines how fast you will do operation. For example if operation takes 5s, and you have speed = 2, it will take 2.5 sec.
+    /// </summary>
     [DataField, AutoNetworkedField]
     public float Speed = 1;
-    
+
+    /// <summary>
+    /// The success rate for the operation, represented as a value between 0 and 1.
+    /// </summary>
+    /// <remarks>The success rate determines the probability that the associated operation will succeed. A
+    /// value of 1 indicates a guaranteed success, while a value of 0 indicates certain failure. Values outside the
+    /// range of 0 to 1 may result in undefined behavior.</remarks>
     [DataField, AutoNetworkedField]
     public float SuccessRate = 1f;
 
-    [DataField, AutoNetworkedField]
+    /// <summary>
+    /// Determines if this surgery tool will make it so you bypass chances check.
+    /// </summary>
+    [DataField]
+    public bool AlwaysSuccess = false;
+
+    /// <summary>
+    /// The sound to be played when the operation starts.
+    /// </summary>
+    [DataField]
     public SoundSpecifier? StartSound;
 
-    [DataField, AutoNetworkedField]
+
+    /// <summary>
+    /// The sound to be played when the operation ends.
+    /// </summary>
+    [DataField]
     public SoundSpecifier? EndSound;
 
+    /// <summary>
+    /// Container from which we will get reagent. (If it's required for step)
+    /// </summary>
     [DataField]
     public string? ReagentContainer = "container";
 }
@@ -40,7 +65,7 @@ public sealed partial class BodyScannerComponent : Component
 {
     [DataField, AutoNetworkedField]
     public EntityUid? TableEntity;
-    
+
     /// <summary>
     /// The machine linking port
     /// </summary>
