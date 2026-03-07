@@ -1,0 +1,54 @@
+- type: entity
+  name: abductor's drill
+  id: DrillAbductor
+  parent: Drill
+  components:
+  - type: Sprite
+    state: abductor
+  - type: Item
+    shape:
+    - 0,0,1,1
+    - 0,0,1,1
+  - type: SurgeryTool
+    speed: 0.5
+    startSound:
+      path: /Audio/_Starlight/Medical/Surgery/saw.ogg
+
+- type: entity
+  name: drill
+  id: DrillCyber
+  parent: Drill
+  components:
+  - type: Sprite
+    sprite: _Starlight/Objects/Specific/Medical/surgery.rsi
+    state: drill
+  - type: SurgeryTool
+    speed: 0.5
+    startSound:
+      path: /Audio/_Starlight/Medical/Surgery/saw.ogg
+  - type: Tag
+    tags:
+      - CyberHandItem
+
+- type: entity
+  name: drill
+  id: DrillRipper
+  parent: Drill
+  components:
+  - type: Sprite
+    sprite: _Starlight/Objects/Specific/Medical/surgery.rsi
+    state: drillripper
+  - type: SurgeryTool
+    speed: 1.2
+    startSound:
+      path: /Audio/_Starlight/Medical/Surgery/saw.ogg
+  - type: HeldSpeedModifier
+    walkModifier: 1
+    sprintModifier: 0.9
+  - type: MeleeWeapon
+    damage:
+      types:
+        Piercing: 0
+  - type: Tag
+    tags:
+      - CyberHandItem

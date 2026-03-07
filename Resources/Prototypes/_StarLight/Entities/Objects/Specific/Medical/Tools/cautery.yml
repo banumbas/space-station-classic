@@ -1,0 +1,56 @@
+- type: entity
+  name: abductor's cautery
+  id: CauteryAbductor
+  parent: Cautery
+  components:
+  - type: Sprite
+    state: abductor
+  - type: SurgeryTool
+    speed: 0.5
+    startSound:
+      path: /Audio/_Starlight/Medical/Surgery/cautery1.ogg
+    endSound:
+      path: /Audio/_Starlight/Medical/Surgery/cautery2.ogg
+
+- type: entity
+  name: cautery
+  id: CauteryCyber
+  parent: Cautery
+  components:
+  - type: Sprite
+    sprite: _Starlight/Objects/Specific/Medical/surgery.rsi
+    state: cautery
+  - type: SurgeryTool
+    speed: 0.5
+    startSound:
+      path: /Audio/_Starlight/Medical/Surgery/cautery1.ogg
+    endSound:
+      path: /Audio/_Starlight/Medical/Surgery/cautery2.ogg
+  - type: Tag
+    tags:
+      - CyberHandItem
+
+- type: entity
+  name: cautery
+  id: CauteryRipper
+  parent: Cautery
+  components:
+  - type: Sprite
+    sprite: _Starlight/Objects/Specific/Medical/surgery.rsi
+    state: cauteryripper
+  - type: SurgeryTool
+    speed: 1.2
+    startSound:
+      path: /Audio/_Starlight/Medical/Surgery/cautery1.ogg
+    endSound:
+      path: /Audio/_Starlight/Medical/Surgery/cautery2.ogg
+  - type: HeldSpeedModifier
+    walkModifier: 1
+    sprintModifier: 0.9
+  - type: MeleeWeapon
+    damage:
+      types:
+        Heat: 0
+  - type: Tag
+    tags:
+      - CyberHandItem

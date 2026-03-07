@@ -1,0 +1,65 @@
+- type: entity
+  name: abductor's circular saw
+  id: SawAbductor
+  parent: SawElectric
+  description: You think you can cut anything with it.
+  components:
+  - type: Sprite
+    state: abductor
+  - type: Tool
+    speedModifier: 0.4
+  - type: SurgeryTool
+    speed: 0.1
+    startSound:
+      path: /Audio/_Starlight/Medical/Surgery/saw.ogg
+    endSound:
+      path: /Audio/Items/drill_hit.ogg
+
+- type: entity
+  name: circular saw
+  id: SawCyber
+  parent: SawElectric
+  description: You think you can cut anything with it.
+  components:
+  - type: Sprite
+    sprite: _Starlight/Objects/Specific/Medical/surgery.rsi
+    state: saw
+  - type: Tool
+    speedModifier: 0.4
+  - type: SurgeryTool
+    speed: 0.1
+    startSound:
+      path: /Audio/_Starlight/Medical/Surgery/saw.ogg
+    endSound:
+      path: /Audio/Items/drill_hit.ogg
+  - type: Tag
+    tags:
+      - CyberHandItem
+
+- type: entity
+  name: circular saw
+  id: SawRipper
+  parent: SawElectric
+  description: You think you can cut anything with it.
+  components:
+  - type: Sprite
+    sprite: _Starlight/Objects/Specific/Medical/surgery.rsi
+    state: sawripper
+  - type: Tool
+    speedModifier: 1
+  - type: SurgeryTool
+    speed: 1.2
+    startSound:
+      path: /Audio/_Starlight/Medical/Surgery/saw.ogg
+    endSound:
+      path: /Audio/Items/drill_hit.ogg
+  - type: HeldSpeedModifier
+    walkModifier: 1
+    sprintModifier: 0.9
+  - type: MeleeWeapon
+    damage:
+      groups:
+        Brute: 0
+  - type: Tag
+    tags:
+      - CyberHandItem

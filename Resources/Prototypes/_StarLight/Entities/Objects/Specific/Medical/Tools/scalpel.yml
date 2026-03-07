@@ -1,0 +1,56 @@
+- type: entity
+  name: abductor's scalpel
+  id: ScalpelAbductor
+  parent: Scalpel
+  components:
+  - type: Sprite
+    state: abductor
+  - type: SurgeryTool
+    speed: 0.2
+    startSound:
+      path: /Audio/_Starlight/Medical/Surgery/scalpel1.ogg
+    endSound:
+      path: /Audio/_Starlight/Medical/Surgery/scalpel2.ogg
+
+- type: entity
+  name: scalpel
+  id: ScalpelCyber
+  parent: Scalpel
+  components:
+  - type: Sprite
+    sprite: _Starlight/Objects/Specific/Medical/surgery.rsi
+    state: scalpel
+  - type: SurgeryTool
+    speed: 0.2
+    startSound:
+      path: /Audio/_Starlight/Medical/Surgery/scalpel1.ogg
+    endSound:
+      path: /Audio/_Starlight/Medical/Surgery/scalpel2.ogg
+  - type: Tag
+    tags:
+      - CyberHandItem
+
+- type: entity
+  name: scalpel
+  id: ScalpelRipper
+  parent: Scalpel
+  components:
+  - type: Sprite
+    sprite: _Starlight/Objects/Specific/Medical/surgery.rsi
+    state: scalpelripper
+  - type: SurgeryTool
+    speed: 1.2
+    startSound:
+      path: /Audio/_Starlight/Medical/Surgery/scalpel1.ogg
+    endSound:
+      path: /Audio/_Starlight/Medical/Surgery/scalpel2.ogg
+  - type: HeldSpeedModifier
+    walkModifier: 1
+    sprintModifier: 0.9
+  - type: MeleeWeapon
+    damage:
+      types:
+        Slash: 0
+  - type: Tag
+    tags:
+      - CyberHandItem

@@ -1,0 +1,170 @@
+# Retractor
+
+- type: entity
+  name: abductor's retractor
+  id: RetractorAbductor
+  parent: Retractor
+  description: A surgical tool used to hold open incisions.
+  components:
+  - type: Sprite
+    sprite: Objects/Specific/Medical/Surgery/scissors.rsi # Starlight
+    state: abductor-retractor
+  - type: Item
+    sprite: Objects/Specific/Medical/Surgery/scissors.rsi
+    storedRotation: 90
+  - type: SurgeryTool
+    speed: 0.4
+    startSound:
+      path: /Audio/_Starlight/Medical/Surgery/retractor1.ogg
+    endSound:
+      path: /Audio/_Starlight/Medical/Surgery/retractor2.ogg
+
+- type: entity
+  name: retractor
+  id: RetractorCyber
+  parent: Retractor
+  description: A surgical tool used to hold open incisions.
+  components:
+  - type: Sprite
+    sprite: _Starlight/Objects/Specific/Medical/surgery.rsi
+    state: retractor
+  - type: SurgeryTool
+    speed: 0.4
+    startSound:
+      path: /Audio/_Starlight/Medical/Surgery/retractor1.ogg
+    endSound:
+      path: /Audio/_Starlight/Medical/Surgery/retractor2.ogg
+  - type: Tag
+    tags:
+      - CyberHandItem
+
+- type: entity
+  name: retractor
+  id: RetractorRipper
+  parent: Retractor
+  description: A surgical tool used to hold open incisions.
+  components:
+  - type: Sprite
+    sprite: _Starlight/Objects/Specific/Medical/surgery.rsi
+    state: retractorripper
+  - type: SurgeryTool
+    speed: 1.2
+    startSound:
+      path: /Audio/_Starlight/Medical/Surgery/retractor1.ogg
+    endSound:
+      path: /Audio/_Starlight/Medical/Surgery/retractor2.ogg
+  - type: HeldSpeedModifier
+    walkModifier: 1
+    sprintModifier: 0.9
+  - type: Tag
+    tags:
+      - CyberHandItem
+
+# Hemostat
+
+- type: entity
+  name: abductor's hemostat
+  id: HemostatAbductor
+  parent: Hemostat
+  description: A surgical tool used to compress blood vessels to prevent bleeding.
+  components:
+  - type: Sprite
+    sprite: Objects/Specific/Medical/Surgery/scissors.rsi # Starlight
+    state: abductor-hemostat
+  - type: SurgeryTool
+    speed: 0.4
+    startSound:
+      path: /Audio/_Starlight/Medical/Surgery/hemostat1.ogg
+
+- type: entity
+  name: hemostat
+  id: HemostatCyber
+  parent: Hemostat
+  description: A surgical tool used to compress blood vessels to prevent bleeding.
+  components:
+  - type: Sprite
+    sprite: _Starlight/Objects/Specific/Medical/surgery.rsi
+    state: hemostat
+  - type: SurgeryTool
+    speed: 0.4
+    startSound:
+      path: /Audio/_Starlight/Medical/Surgery/hemostat1.ogg
+  - type: Tag
+    tags:
+      - CyberHandItem
+
+- type: entity
+  name: hemostat
+  id: HemostatRipper
+  parent: Hemostat
+  description: A surgical tool used to compress blood vessels to prevent bleeding.
+  components:
+  - type: Sprite
+    sprite: _Starlight/Objects/Specific/Medical/surgery.rsi
+    state: hemostatripper
+  - type: SurgeryTool
+    speed: 1.2
+    startSound:
+      path: /Audio/_Starlight/Medical/Surgery/hemostat1.ogg
+  - type: HeldSpeedModifier
+    walkModifier: 1
+    sprintModifier: 0.9
+  - type: Tag
+    tags:
+      - CyberHandItem
+
+# Bonesetter
+
+- type: entity
+  name: abductor's bone setter
+  id: BoneSetterAbductor
+  parent: BoneSetter
+  description: A surgical tool used for setting bones. It also breaks them quite well.
+  components:
+  - type: Sprite
+    sprite: Objects/Specific/Medical/Surgery/scissors.rsi # Starlight
+    state: abductor-setter
+  - type: Item
+    heldPrefix: setter
+    storedRotation: 90
+  - type: SurgeryTool
+    speed: 0.4
+    startSound:
+      path: /Audio/_Starlight/Medical/Surgery/bone_setter.ogg
+
+- type: entity
+  name: bone setter
+  id: BoneSetterCyber
+  parent: BoneSetter
+  description: A surgical tool used for setting bones. It also breaks them quite well.
+  components:
+  - type: Sprite
+    sprite: _Starlight/Objects/Specific/Medical/surgery.rsi
+    state: bonesetter
+  - type: SurgeryTool
+    speed: 0.4
+    startSound:
+      path: /Audio/_Starlight/Medical/Surgery/bone_setter.ogg
+  - type: Tag
+    tags:
+      - CyberHandItem
+
+- type: entity
+  name: bone setter
+  id: BoneSetterRipper
+  parent: BoneSetter
+  description: A surgical tool used for setting bones. It also breaks them quite well.
+  components:
+  - type: Sprite
+    sprite: _Starlight/Objects/Specific/Medical/surgery.rsi
+    state: bonesetterripper
+  - type: SurgeryTool
+    speed: 1.2
+    startSound:
+      path: /Audio/_Starlight/Medical/Surgery/bone_setter.ogg
+  - type: HeldSpeedModifier
+    walkModifier: 1
+    sprintModifier: 0.9
+  - type: Tag
+    tags:
+      - CyberHandItem
