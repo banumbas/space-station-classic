@@ -14,7 +14,6 @@ using Content.Shared.Starlight.Medical.Surgery.Steps;
 using Content.Shared.Weapons.Melee;
 using Robust.Shared.Prototypes;
 using System.Linq;
-using System;
 using Content.Shared.Damage;
 using Robust.Shared.Timing;
 using Robust.Shared.Random;
@@ -26,8 +25,9 @@ namespace Content.Shared.Starlight.Medical.Surgery;
 public abstract partial class SharedSurgerySystem
 {
     [Dependency] private readonly IGameTiming _timing = default!;
-    [Dependency] private readonly IRobustRandom _random = default!;_
+    [Dependency] private readonly IRobustRandom _random = default!;
     [Dependency] private readonly DamageableSystem _damageableSystem = default!;
+
     private void InitializeSteps()
     {
         SubscribeLocalEvent<SurgeryStepComponent, SurgeryStepCompleteEvent>(OnStepComplete);
