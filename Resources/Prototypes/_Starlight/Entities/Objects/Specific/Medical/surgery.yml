@@ -12,7 +12,7 @@
     state: obelisk01
   - type: SurgeryTool
     speed: 0.1
-    AlwaysSuccess: true
+    alwaysSuccess: true
   - type: Scalpel
   - type: Cautery
   - type: SurgicalDrill
