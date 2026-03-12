@@ -379,6 +379,9 @@
   id: MagicalEncounterTraitBackground
 
 - type: Tag
+  id: MechReactor
+
+- type: Tag
   id: MedCyberEyes
 
 # Used for the one-use disposable medipens
@@ -512,6 +515,9 @@
 
 - type: Tag
   id: SpeedLoaderShotgun
+
+- type: Tag
+  id: Stairs
 
 - type: Tag
   id: StoveMachineBoard
