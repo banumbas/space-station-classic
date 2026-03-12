@@ -151,6 +151,7 @@
         Slash: 12
   - type: SurgeryTool
     speed: 0.6
+    successRate: 1.5
     startSound:
       path: /Audio/_Starlight/Medical/Surgery/scalpel1.ogg
     endSound:
@@ -216,6 +217,7 @@
     storedRotation: 45
   - type: SurgeryTool
     speed: 0.6
+    successRate: 1.5
     startSound:
       path: /Audio/_Starlight/Medical/Surgery/retractor1.ogg
     endSound:
@@ -249,6 +251,7 @@
     state: advanced-hemostat
   - type: SurgeryTool
     speed: 0.6
+    successRate: 1.5
     startSound:
       path: /Audio/_Starlight/Medical/Surgery/hemostat1.ogg
 
@@ -287,6 +290,7 @@
     storedRotation: 45
   - type: SurgeryTool
     speed: 0.6
+    successRate: 1.5
     startSound:
       path: /Audio/_Starlight/Medical/Surgery/bone_setter.ogg
 
@@ -383,6 +387,7 @@
     attackRate: 1.5
   - type: Tool
     speedModifier: 2.0
+    successRate: 1.5
   - type: SurgeryTool
     speed: 0.2
     startSound:
