@@ -387,9 +387,9 @@
     attackRate: 1.5
   - type: Tool
     speedModifier: 2.0
-    successRate: 1.5
   - type: SurgeryTool
     speed: 0.2
+    successRate: 1.5
     startSound:
       path: /Audio/_Starlight/Medical/Surgery/saw.ogg
     endSound:
