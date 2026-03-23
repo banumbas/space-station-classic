@@ -384,15 +384,16 @@ public sealed partial class ChatSystem : SharedChatSystem
         string? sender = null,
         bool playSound = true,
         SoundSpecifier? announcementSound = null,
-        Color? colorOverride = null)
+        Color? colorOverride = null,
+        bool recordToReplay = true) // Starlight
     {
         sender ??= Loc.GetString("chat-manager-sender-announcement");
 
         var wrappedMessage = Loc.GetString("chat-manager-sender-announcement-wrap-message", ("sender", sender), ("message", FormattedMessage.EscapeText(message.Text))); // Starlight
-        _chatManager.ChatMessageToManyFiltered(filter, ChatChannel.Radio, message.Text, wrappedMessage, source ?? default, false, true, colorOverride); // Starlight
+        _chatManager.ChatMessageToManyFiltered(filter, ChatChannel.Radio, message.Text, wrappedMessage, source ?? default, false, recordToReplay, colorOverride); // Starlight
         if (playSound)
         {
-            _audio.PlayGlobal(announcementSound ?? DefaultAnnouncementSound, filter, true, AudioParams.Default.WithVolume(-2f));
+            _audio.PlayGlobal(announcementSound ?? DefaultAnnouncementSound, filter, recordToReplay, AudioParams.Default.WithVolume(-2f)); // Starlight-edit
         }
         // Starlight start
         RaiseLocalEvent(new AnnouncementSpokeEvent

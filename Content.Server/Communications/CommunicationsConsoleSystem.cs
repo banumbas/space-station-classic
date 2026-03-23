@@ -175,7 +175,7 @@ namespace Content.Server.Communications
                         levels = new();
                         foreach (var (id, detail) in alertComp.AlertLevels.Levels)
                         {
-                            if (detail.Selectable)
+                            if (detail.Selectable && (comp.SettableAlertLevels == null || comp.SettableAlertLevels.Contains(id))) // Starlight
                             {
                                 levels.Add(id);
                             }
@@ -199,6 +199,7 @@ namespace Content.Server.Communications
             // Starlight edit Start
             _uiSystem.SetUiState(uid, CommunicationsConsoleUiKey.Key, new CommunicationsConsoleInterfaceState(
                 canAnnounce: CanAnnounce(comp),
+                canBroadcast: comp.CanBroadcast,
                 canCall: CanCallOrRecall(comp),
                 alertLevels: levels,
                 currentAlert: currentLevel,
@@ -262,11 +263,17 @@ namespace Content.Server.Communications
                 _popupSystem.PopupCursor(Loc.GetString("comms-console-permission-denied"), message.Actor, PopupType.Medium);
                 return;
             }
+            
+            // Starlight BEGIN
+            var tryGetIdentityShortInfoEvent = new TryGetIdentityShortInfoEvent(uid, mob);
+            RaiseLocalEvent(tryGetIdentityShortInfoEvent);
+            var author = tryGetIdentityShortInfoEvent.Title;
+            // Starlight END
 
             var stationUid = _stationSystem.GetOwningStation(uid);
             if (stationUid != null)
             {
-                _alertLevelSystem.SetLevel(stationUid.Value, message.Level, true, true);
+                _alertLevelSystem.SetLevel(stationUid.Value, message.Level, true, true, actor: comp.AnnounceSentBy ? author : null); // Starlight: +actor
                 _adminLogger.Add(LogType.Action, LogImpact.Extreme, $"{ToPrettyString(message.Actor):player} has set {message.Level} alert level");  // Starlight (Far-Horizons)
             }
         }
@@ -346,8 +353,8 @@ namespace Content.Server.Communications
                     if (gridUid == Transform(uid).GridUid) return false; // They already got the announcement from the dispatch above this
                     return gridUid == grid;
                 });
-                
-                _chatSystem.DispatchFilteredAnnouncement(allPlayersOnGrid, msg.Text, announcementSound: comp.Sound, colorOverride: comp.Color, sender: title);
+                // These are not recorded in replays since they are unnecessary and cause multiple to send at once in the replay, which is annoying as shit.
+                _chatSystem.DispatchFilteredAnnouncement(allPlayersOnGrid, msg.Text, announcementSound: comp.Sound, colorOverride: comp.Color, sender: title, recordToReplay: false);
             }
             //Starlight end
 
@@ -359,6 +366,9 @@ namespace Content.Server.Communications
         {
             if (!TryComp<DeviceNetworkComponent>(uid, out var net))
                 return;
+            
+            if (!component.CanBroadcast) // Starlight
+                return; // Starlight
 
             var payload = new NetworkPayload
             {

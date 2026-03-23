@@ -1,4 +1,5 @@
 using System.Linq;
+using System.Numerics;
 using Content.Server.Chat.Systems;
 using Content.Server.GameTicking;
 using Content.Server.Station.Components;
@@ -18,6 +19,7 @@ using Robust.Shared.Utility;
 // Starlight Start
 using Content.Server._Starlight.Station;
 using Content.Server.Shuttles.Components;
+using Content.Shared.Shuttles.Components;
 using Robust.Server.GameObjects;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization.Markdown.Mapping;
@@ -222,7 +224,7 @@ public sealed partial class StationSystem : SharedStationSystem
                 var station = Comp<StationMemberComponent>(midroundStation.Uid).Station;
                 var data = Comp<StationDataComponent>(station);
                 var name = MetaData(station).EntityName;
-                AddGridToStation(station, uid, null, data, name);
+                AddMainGridToStation(station, uid, null, data, name);
                 return;
             }
         }
@@ -332,38 +334,34 @@ public sealed partial class StationSystem : SharedStationSystem
     }
 
     //SL start
-    public EntityUid InitializeNewStationMidRound(EntityUid gridId, EntProtoId stationProtoId,
-        BecomesStationMidRoundComponent? comp = null) => InitializeNewStationMidRound(gridId, [stationProtoId], comp);
+    // public EntityUid InitializeNewStationMidRound(EntityUid gridId, EntProtoId stationProtoId,
+    //     BecomesStationMidRoundComponent? comp = null) => InitializeNewStationMidRound(gridId, [stationProtoId], comp);
     
-    public EntityUid InitializeNewStationMidRound(EntityUid gridId, List<EntProtoId>? stationProtoIds, BecomesStationMidRoundComponent? comp = null)
+    public EntityUid InitializeNewStationMidRound(EntityUid gridId, List<EntProtoId> stationProtoIds, BecomesStationMidRoundComponent? comp = null)
     {
-        if (stationProtoIds is null) return EntityUid.Invalid;
+        if (!Resolve(gridId, ref comp)) return EntityUid.Invalid;
+        if (stationProtoIds.Count == 0) stationProtoIds = [comp.DefaultBaseStationPrototype];
         //logic for if was initialized via BecomesStationMidRoundComponent
         ComponentRegistry? registry = null;
-        if (comp is not null)
+        registry = new ComponentRegistry();
+        if (comp.AvailableJobs.Count > 0)
         {
-            registry = new ComponentRegistry();
-            if (comp.AvailableJobs is not null)
-            {
-                var jobs = new StationJobsComponent { SetupAvailableJobs = [] };
-                foreach (var job in comp.AvailableJobs) jobs.SetupAvailableJobs.Add(job.Key, [job.Value, job.Value]);
-                // from what I can tell the MappingDataNode doesn't actually need to have anything in it and from the looks of things seems to be primarily for setting up the entry in the first place.
-                // no idea why it's needed in the constructor but oh well
-                registry.Add("StationJobs", new EntityPrototype.ComponentRegistryEntry(jobs, new MappingDataNode()));
-            }
+            var jobs = new StationJobsComponent { SetupAvailableJobs = [] };
+            foreach (var job in comp.AvailableJobs) jobs.SetupAvailableJobs.Add(job.Key, [job.Value, job.Value]);
+            // from what I can tell the MappingDataNode doesn't actually need to have anything in it and from the looks of things seems to be primarily for setting up the entry in the first place.
+            // no idea why it's needed in the constructor but oh well
+            registry.Add("StationJobs", new EntityPrototype.ComponentRegistryEntry(jobs, new MappingDataNode()));
+        }
 
-            if (comp.EmergencyShuttleOverridePath is not null && comp.UseEmergencyShuttle) // no need to do this if its disabled anyway
+        if (comp.EmergencyShuttleOverridePath is not null && comp.UseEmergencyShuttle) // no need to do this if its disabled anyway
+        {
+            var shuttle = new StationEmergencyShuttleComponent
             {
-                var shuttle = new StationEmergencyShuttleComponent
-                {
-                    EmergencyShuttlePath = new ResPath(comp.EmergencyShuttleOverridePath)
-                };
-                registry.Add("StationEmergencyShuttle", new EntityPrototype.ComponentRegistryEntry(shuttle, new MappingDataNode()));
-            }
+                EmergencyShuttlePath = new ResPath(comp.EmergencyShuttleOverridePath)
+            };
+            registry.Add("StationEmergencyShuttle", new EntityPrototype.ComponentRegistryEntry(shuttle, new MappingDataNode()));
         }
         
-        // var station = EntityManager.SpawnEntity(stationProtoId, MapCoordinates.Nullspace, registry);
-        comp ??= EnsureComp<BecomesStationMidRoundComponent>(gridId);
         var station = CreateCustomStation(stationProtoIds, MapCoordinates.Nullspace, registry, comp);
         var data = EnsureComp<StationDataComponent>(station);
         RenameStation(station, MetaData(gridId).EntityName, false);
@@ -379,13 +377,16 @@ public sealed partial class StationSystem : SharedStationSystem
     private EntityUid CreateCustomStation(List<EntProtoId> protoIds, MapCoordinates? coords, ComponentRegistry? registry, BecomesStationMidRoundComponent? data = null)
     {
         var ent = EntityManager.CreateEntityUninitialized(null); // dummy entity
+
+        var regTypes = registry is not null ? registry.Values.Select(c => _factory.GetRegistration(c.Component).Name).ToHashSet() : [];
+        
         // do parents first
         foreach (var protoId in protoIds)
         {
             if (!_prototype.TryIndex(protoId, out var proto)) continue;
             foreach (var comp in proto.Components.Values.Where(comp => !HasComp(ent, comp.Component.GetType())))
             {
-                if(registry is not null && registry.Values.Any(c=>c.GetType() == comp.GetType())) continue; // this will be overridden later, skip it.
+                if (regTypes.Contains(_factory.GetRegistration(comp.Component).Name)) continue;
                 var newcomp = _factory.GetComponent(comp);
                 AddComp(ent, newcomp);
             }
@@ -393,8 +394,7 @@ public sealed partial class StationSystem : SharedStationSystem
         // now any of the extra overrides
         if (registry is not null)
         {
-            Log.Log(LogLevel.Info, "NOT NULL!!");
-            foreach (var comp in registry.Values.Where(comp => !HasComp(ent, comp.Component.GetType())))
+            foreach (var comp in registry.Values)
             {
                 var newcomp = _factory.GetComponent(comp);
                 AddComp(ent, newcomp);
@@ -431,7 +431,7 @@ public sealed partial class StationSystem : SharedStationSystem
 
         foreach (var grid in gridIds ?? Array.Empty<EntityUid>())
         {
-            AddGridToStation(station, grid, null, data, name);
+            AddMainGridToStation(station, grid, null, data, name); // Starlight-edit
         }
 
         var ev = new StationPostInitEvent((station, data));
@@ -513,6 +513,28 @@ public sealed partial class StationSystem : SharedStationSystem
         _sawmill.Info($"Removing grid {mapGrid} from station {Name(station)} ({station})");
     }
 
+    //Starlight begin
+    public void AddMainGridToStation(EntityUid station, EntityUid mapGrid, MapGridComponent? gridComponent = null,
+        StationDataComponent? stationData = null, string? name = null)
+    {
+        if (!Resolve(mapGrid, ref gridComponent)) throw new ArgumentException("Tried to use a non-grid entity.", nameof(mapGrid));
+        if (!Resolve(station, ref stationData)) throw new ArgumentException("Tried to use a non-station entity as a station.", nameof(station));
+        
+        stationData.MainGrids.Add(mapGrid);
+        AddGridToStation(station, mapGrid, gridComponent, stationData, name);
+    }
+    
+    public void RemoveMainGridFromStation(EntityUid station, EntityUid mapGrid, MapGridComponent? gridComponent = null,
+        StationDataComponent? stationData = null)
+    {
+        if (!Resolve(mapGrid, ref gridComponent)) throw new ArgumentException("Tried to use a non-grid entity.", nameof(mapGrid));
+        if (!Resolve(station, ref stationData)) throw new ArgumentException("Tried to use a non-station entity as a station.", nameof(station));
+
+        stationData.MainGrids.Remove(mapGrid);
+        RemoveGridFromStation(station, mapGrid, gridComponent, stationData);
+    }
+    //Starlight end
+    
     /// <summary>
     /// Renames the given station.
     /// </summary>
@@ -558,6 +580,34 @@ public sealed partial class StationSystem : SharedStationSystem
         // Starlight End
         QueueDel(station);
     }
+    
+    //Starlight begin
+    /// <summary>
+    /// Gets the closest station grid
+    /// </summary>
+    /// <param name="uid">Entity whose position to check against</param>
+    /// <param name="excludeShuttles">Should shuttles be excluded from the search?</param>
+    public Entity<StationDataComponent?> GetNearestStation(EntityUid uid, bool excludeShuttles = false)
+    {
+        var station = GetOwningStation(uid);
+        return station ?? GetNearestStation(_transform.GetMapCoordinates(uid), excludeShuttles);
+    }
+
+    /// <summary>
+    /// Gets the closest station grid
+    /// </summary>
+    /// <param name="coordinates">Coordinates to check against</param>
+    /// <param name="excludeShuttles">Should shuttles be excluded from the search?</param>
+    public Entity<StationDataComponent?> GetNearestStation(MapCoordinates coordinates, bool excludeShuttles = false)
+    {
+        var stations = GetStations().SelectMany(s => Comp<StationDataComponent>(s).Grids);
+        var list = excludeShuttles ? stations.Where(s => !HasComp<ShuttleComponent>(s)) : stations;
+        list = list.Where(s => _transform.GetMapCoordinates(s).MapId == coordinates.MapId);
+        var closest = list.OrderBy(s =>
+            Vector2.DistanceSquared(coordinates.Position, _transform.GetMapCoordinates(s).Position));
+        return closest.FirstOrNull() ?? EntityUid.Invalid;
+    }
+    //Starlight end
 }
 
 /// <summary>
