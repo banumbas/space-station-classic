@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Content.Server.Chat.Managers;
+using Content.Server.Connection;
 using Content.Server.Database;
 using Content.Server.GameTicking;
 using Content.Shared.CCVar;
