@@ -1,9 +1,9 @@
 - type: entity
-  id: GuidebookChangelingFluff
-  name: guidebook changeling
+  id: ChangelingTransformEffect
+  name: transform effect
   description: you shouldn't be seeing this normally.
   categories: [ HideSpawnMenu ]
   components:
     - type: Sprite
-      sprite: Changeling/Guidebook/guidebook_changeling.rsi
+      sprite: _Starlight/Entities/Effects/changeling_trasnform.rsi
       state: icon

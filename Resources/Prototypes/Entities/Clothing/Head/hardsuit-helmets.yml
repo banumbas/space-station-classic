@@ -1255,9 +1255,9 @@
   components:
   - type: Item
   - type: Sprite
-    sprite: Changeling/ling_spacesuit_helmet.rsi
+    sprite: _Starlight/Clothing/Head/Hardsuits/changeling.rsi
   - type: Clothing
-    sprite: Changeling/ling_spacesuit_helmet.rsi
+    sprite: _Starlight/Clothing/Head/Hardsuits/changeling.rsi
   - type: PressureProtection
     highPressureMultiplier: 0.225
     lowPressureMultiplier: 1000

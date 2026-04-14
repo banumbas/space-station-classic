@@ -308,3 +308,33 @@
                 SheetSteel:
                   min: 2
                   max: 10
+
+- type: entity
+  parent: BaseShield
+  id: ChangelingShield
+  name: oraganic shield
+  description: A large, fleshy shield.
+  components:
+    - type: Sprite
+      sprite: _Starlight/Objects/Weapons/Melee/shields.rsi
+      state: ling-icon
+    - type: Item
+      sprite: _Starlight/Objects/Weapons/Melee/shields.rsi
+      heldPrefix: ling
+    - type: Destructible
+      thresholds:
+        - trigger:
+            !type:DamageTrigger
+            damage: 60
+          behaviors:
+            - !type:DoActsBehavior
+              acts: [ "Destruction" ]
+        - trigger:
+            !type:DamageTrigger
+            damage: 50
+          behaviors:
+            - !type:DoActsBehavior
+              acts: [ "Destruction" ]
+            - !type:PlaySoundBehavior
+              sound:
+                collection: MetalBreak

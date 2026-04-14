@@ -250,7 +250,7 @@ public sealed partial class AdminVerbSystem
         {
             Text = Loc.GetString("admin-verb-text-make-changeling"),
             Category = VerbCategory.Antag,
-            Icon = new SpriteSpecifier.Rsi(new ResPath("/Textures/Changeling/changeling_abilities.rsi"), "transform"),
+            Icon = new SpriteSpecifier.Rsi(new ResPath("/Textures/Interface/Actions/actions_changeling.rsi"), "transform"),
             Act = () =>
             {
                 _antag.ForceMakeAntag<SLChangelingRuleComponent>(targetPlayer, "SLChangeling");
