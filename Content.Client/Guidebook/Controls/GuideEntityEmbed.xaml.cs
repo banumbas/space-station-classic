@@ -17,6 +17,10 @@ using Robust.Shared.Input;
 using Robust.Shared.Map;
 using Robust.Shared.Utility;
 
+#region Starlight
+using Content.Shared.SubFloor;
+#endregion
+
 namespace Content.Client.Guidebook.Controls;
 
 /// <summary>
@@ -30,6 +34,7 @@ public sealed partial class GuideEntityEmbed : BoxContainer, IDocumentTag
     [Dependency] private readonly IEntitySystemManager _systemManager = default!;
     [Dependency] private readonly ILogManager _logManager = default!;
     [Dependency] private readonly IUserInterfaceManager _ui = default!;
+    [Dependency] private readonly SpriteSystem _sprite = default!;
 
     private readonly TagSystem _tagSystem;
     private readonly ExamineSystem _examineSystem;
@@ -65,6 +70,10 @@ public sealed partial class GuideEntityEmbed : BoxContainer, IDocumentTag
         Interactive = interactive;
 
         var ent = _entityManager.SpawnEntity(proto, MapCoordinates.Nullspace);
+        // Starlight-start: Remove sub floor hide to proper rendering of entities with sub floor hide component, like pipes.
+        _entityManager.RemoveComponent<SubFloorHideComponent>(ent);
+        _sprite.SetVisible(ent, true);
+        // Starlight-end
         View.SetEntity(ent);
 
         if (caption)
