@@ -6,7 +6,7 @@
   description: A sentient puddle of vampiric blood.
   components:
   - type: Sprite
-    sprite: /Textures/_Starlight/Vampire/Effects.rsi
+    sprite: /Textures/_Starlight/Effects/vampire.rsi
     layers:
       - state: bloodpool
         shader: unshaded

@@ -4,7 +4,7 @@
   categories: [HideSpawnMenu]
   components:
     - type: Sprite
-      sprite: /Textures/_Starlight/Vampire/Effects.rsi
+      sprite: /Textures/_Starlight/Effects/vampire.rsi
       state: blood_tendril_ent
       drawdepth: Effects
     - type: TimedDespawn
@@ -21,7 +21,7 @@
   categories: [HideSpawnMenu]
   components:
     - type: Sprite
-      sprite: /Textures/_Starlight/Vampire/Effects.rsi
+      sprite: /Textures/_Starlight/Effects/vampire.rsi
       state: shadow_box_atack_effect
       drawdepth: Effects
     - type: TimedDespawn
@@ -38,7 +38,7 @@
   categories: [HideSpawnMenu]
   components:
     - type: Sprite
-      sprite: /Textures/_Starlight/Vampire/Effects.rsi
+      sprite: /Textures/_Starlight/Effects/vampire.rsi
       state: blood_barrier_ent
       drawdepth: Walls
     - type: Physics
@@ -81,7 +81,7 @@
   categories: [HideSpawnMenu]
   components:
     - type: Sprite
-      sprite: /Textures/_Starlight/Vampire/Effects.rsi
+      sprite: /Textures/_Starlight/Effects/vampire.rsi
       state: vampout
       drawdepth: Effects
     - type: TimedDespawn
@@ -98,7 +98,7 @@
   categories: [HideSpawnMenu]
   components:
     - type: Sprite
-      sprite: /Textures/_Starlight/Vampire/Effects.rsi
+      sprite: /Textures/_Starlight/Effects/vampire.rsi
       state: vampin
       drawdepth: Effects
     - type: TimedDespawn
@@ -117,7 +117,7 @@
   categories: [HideSpawnMenu]
   components:
     - type: Sprite
-      sprite: /Textures/_Starlight/Vampire/Effects.rsi
+      sprite: /Textures/_Starlight/Effects/vampire.rsi
       state: bloodspike
       drawdepth: Effects
     - type: TimedDespawn
@@ -134,7 +134,7 @@
   categories: [HideSpawnMenu]
   components:
     - type: Sprite
-      sprite: /Textures/_Starlight/Vampire/Effects.rsi
+      sprite: /Textures/_Starlight/Effects/vampire.rsi
       layers:
         - state: drainbeam
           map: ["enum.EffectLayers.Unshaded"]
@@ -152,7 +152,7 @@
   categories: [HideSpawnMenu]
   components:
     - type: Sprite
-      sprite: /Textures/_Starlight/Vampire/Effects.rsi
+      sprite: /Textures/_Starlight/Effects/vampire.rsi
       layers:
         - state: drainbeam
           map: ["enum.EffectLayers.Unshaded"]
@@ -166,7 +166,7 @@
   categories: [HideSpawnMenu]
   components:
     - type: Sprite
-      sprite: /Textures/_Starlight/Vampire/Effects.rsi
+      sprite: /Textures/_Starlight/Effects/vampire.rsi
       layers:
         - state: blood_bond
           map: ["enum.EffectLayers.Unshaded"]
@@ -181,7 +181,7 @@
   categories: [HideSpawnMenu]
   components:
     - type: Sprite
-      sprite: /Textures/_Starlight/Vampire/Effects.rsi
+      sprite: /Textures/_Starlight/Effects/vampire.rsi
       state: mist_in
       drawdepth: Effects
     - type: TimedDespawn
@@ -196,7 +196,7 @@
   categories: [HideSpawnMenu]
   components:
     - type: Sprite
-      sprite: /Textures/_Starlight/Vampire/Effects.rsi
+      sprite: /Textures/_Starlight/Effects/vampire.rsi
       state: mist_out
       drawdepth: Effects
     - type: TimedDespawn
@@ -215,7 +215,7 @@
     - type: Transform
       anchored: true
     - type: Sprite
-      sprite: /Textures/_Starlight/Vampire/Effects.rsi
+      sprite: /Textures/_Starlight/Effects/vampire.rsi
       state: pylon
       drawdepth: Effects
     - type: TimedDespawn
@@ -259,7 +259,7 @@
   categories: [HideSpawnMenu]
   components:
     - type: Sprite
-      sprite: /Textures/_Starlight/Vampire/Effects.rsi
+      sprite: /Textures/_Starlight/Effects/vampire.rsi
       layers:
         - state: rallyoverlay
           map: ["enum.EffectLayers.Unshaded"]
@@ -274,7 +274,7 @@
   categories: [HideSpawnMenu]
   components:
     - type: Sprite
-      sprite: /Textures/_Starlight/Vampire/seismic_stopmp.rsi
+      sprite: /Textures/_Starlight/Effects/vampire.rsi
       state: stomp_effect
       drawdepth: Effects
     - type: TimedDespawn
@@ -289,7 +289,7 @@
   categories: [HideSpawnMenu]
   components:
     - type: Sprite
-      sprite: /Textures/_Starlight/Vampire/Effects.rsi
+      sprite: /Textures/_Starlight/Effects/vampire.rsi
       state: demonic_grasp
       drawdepth: Effects
     - type: TimedDespawn
@@ -304,7 +304,7 @@
   categories: [HideSpawnMenu]
   components:
     - type: Sprite
-      sprite: /Textures/_Starlight/Vampire/Effects.rsi
+      sprite: /Textures/_Starlight/Effects/vampire.rsi
       state: immobilized
       drawdepth: Effects
     - type: TimedDespawn
@@ -338,7 +338,7 @@
     - type: Transform
       anchored: true
     - type: Sprite
-      sprite: /Textures/_Starlight/Vampire/Effects.rsi
+      sprite: /Textures/_Starlight/Effects/vampire.rsi
       state: shadow_snare_base
       drawdepth: Effects
     - type: Physics
@@ -376,3 +376,38 @@
       sprintSpeed: 0.1
       staminaDamage: 0
       canMoveBreakout: true
+
+- type: entity
+  id: MobVampireSanguinePool
+  name: sanguine pool
+  parent: BaseMob
+  categories: [HideSpawnMenu]
+  description: A sentient puddle of vampiric blood.
+  components:
+  - type: Sprite
+    sprite: /Textures/_Starlight/Effects/vampire.rsi
+    layers:
+      - state: bloodpool
+        shader: unshaded
+    drawdepth: BelowMobs
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape: !type:PhysShapeCircle
+          radius: 0.45
+        mask:
+          - SmallMobMask
+        layer:
+          - SmallMobLayer
+  - type: Physics
+    bodyType: KinematicController
+  - type: MovementSpeedModifier
+    baseWalkSpeed: 5
+    baseSprintSpeed: 7
+  - type: FootstepModifier
+    footstepSoundCollection: !type:SoundCollectionSpecifier
+      collection: FootstepPuddle
+  - type: Damageable
+    damageContainer: Biological
+  - type: SanguinePool
+    trailPrototype: PuddleBlood

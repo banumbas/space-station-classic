@@ -26,7 +26,7 @@ public sealed partial class HysteriaVisionComponent : Component
     public partial record struct HysteriaDisguiseSprite(string Path, string State, Vector2 Size);
     public static readonly HysteriaDisguiseSprite[] DisguiseSprites =
     {
-        new("/_Starlight/Vampire/Effects.rsi", "schizo", new Vector2(1.5f, 1.5f)),
+        new("/_Starlight/Effects/vampire.rsi", "schizo", new Vector2(1.5f, 1.5f)),
         new("/Mobs/Animals/bear.rsi", "bear", new Vector2(1.65f, 1.65f)),
     };
 }
