@@ -56,10 +56,6 @@
   components:
   - type: Action
     useDelay: 15
-    itemIconStyle: NoItem
-    icon:
-      sprite: _Starlight/Actions/resomi.rsi
-      state: jump
   - type: WorldTargetAction
     event: !type:JumpActionEvent
       distance: 2
