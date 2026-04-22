@@ -39,6 +39,10 @@
             "copyright": "wonderfulnewworld"
         },
         {
+            "name": "LawyerSL",
+            "delays": [[10, 0.2, 0.2, 0.2]]
+        },
+        {
             "name": "CentComm",
             "copyright": "Happyrobot33, fqqf"
         },
@@ -187,6 +191,35 @@
         {
             "name": "Thrall",
             "copyright": "Taken from Paradise Station 13"
+        },
+        {
+            "name": "MedTakLeader",
+            "copyright": "SevenShades"
+        },
+        {
+            "name": "MedTakDispatcher",
+            "copyright": "SevenShades"
+        },
+        {
+            "name": "MedTakMedic",
+            "copyright": "SevenShades"
+        },
+        {
+            "name": "MedTakPilot",
+            "copyright": "SevenShades"
+        },
+        {
+            "name": "MedTakSecurity",
+            "copyright": "SevenShades"
+        },
+        {
+            "name": "MedTakBorg",
+            "copyright": "SevenShades"
+        },
+        {
+            "name": "MedTak_Mindshield",
+            "copyright": "SevenShades",
+            "delays": [ [ 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1 ] ]
         }
     ]
 }
