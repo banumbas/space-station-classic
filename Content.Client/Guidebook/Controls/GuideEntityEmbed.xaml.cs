@@ -34,11 +34,11 @@ public sealed partial class GuideEntityEmbed : BoxContainer, IDocumentTag
     [Dependency] private readonly IEntitySystemManager _systemManager = default!;
     [Dependency] private readonly ILogManager _logManager = default!;
     [Dependency] private readonly IUserInterfaceManager _ui = default!;
-    [Dependency] private readonly SpriteSystem _sprite = default!;
 
     private readonly TagSystem _tagSystem;
     private readonly ExamineSystem _examineSystem;
     private readonly GuidebookSystem _guidebookSystem;
+    private readonly SpriteSystem _sprite = default!; // Starlight-edit
 
     private readonly ISawmill _sawmill;
 
@@ -61,6 +61,7 @@ public sealed partial class GuideEntityEmbed : BoxContainer, IDocumentTag
         _tagSystem = _systemManager.GetEntitySystem<TagSystem>();
         _examineSystem = _systemManager.GetEntitySystem<ExamineSystem>();
         _guidebookSystem = _systemManager.GetEntitySystem<GuidebookSystem>();
+        _sprite = _systemManager.GetEntitySystem<SpriteSystem>(); // Starlight-edit
         _sawmill = _logManager.GetSawmill("guidebook.entity");
         MouseFilter = MouseFilterMode.Stop;
     }
@@ -70,11 +71,7 @@ public sealed partial class GuideEntityEmbed : BoxContainer, IDocumentTag
         Interactive = interactive;
 
         var ent = _entityManager.SpawnEntity(proto, MapCoordinates.Nullspace);
-        // Starlight-start: Remove sub floor hide to proper rendering of entities with sub floor hide component, like pipes.
-        _entityManager.RemoveComponent<SubFloorHideComponent>(ent);
-        _sprite.SetVisible(ent, true);
-        // Starlight-end
-        View.SetEntity(ent);
+        SetGuideEntity(ent); // Starlight-edit: Remove sub floor hide to proper rendering of entities with sub floor hide component, like pipes.
 
         if (caption)
             Caption.Text = _entityManager.GetComponent<MetaDataComponent>(ent).EntityName;
@@ -156,7 +153,7 @@ public sealed partial class GuideEntityEmbed : BoxContainer, IDocumentTag
         var ent = _entityManager.SpawnEntity(proto, MapCoordinates.Nullspace);
 
         _tagSystem.AddTag(ent, GuidebookSystem.GuideEmbedTag);
-        View.SetEntity(ent);
+        SetGuideEntity(ent); // Starlight-edit: Remove sub floor hide to proper rendering of entities with sub floor hide component, like pipes.
 
         if (!args.TryGetValue("Caption", out var caption))
             caption = _entityManager.GetComponent<MetaDataComponent>(ent).EntityName;
@@ -216,4 +213,18 @@ public sealed partial class GuideEntityEmbed : BoxContainer, IDocumentTag
 
         throw new Exception("Invalid Thickness format!");
     }
+
+    #region Starlight
+
+    /// <summary>
+    /// Sets the entity to be displayed by this control. This is used for guidebook entities that are spawned in the world and then linked to a guidebook entry, so we need to do some extra work to make sure they render properly.
+    /// </summary>
+    /// <param name="ent">Target entity</param>
+    private void SetGuideEntity(EntityUid ent)
+    {
+        _entityManager.RemoveComponent<SubFloorHideComponent>(ent);
+        _sprite.SetVisible(ent, true);
+        View.SetEntity(ent);
+    }
+    #endregion
 }
