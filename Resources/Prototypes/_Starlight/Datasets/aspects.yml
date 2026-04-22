@@ -1,0 +1,10 @@
+- type: dataset
+  id: AppearanceAspects
+  values:
+  - Height
+  - Hair
+  - Skin
+  - Tail or lack thereof
+  - Voice
+  - Clothes
+  - Job
