@@ -9,7 +9,7 @@
     raiseOnAction: true
     itemIconStyle: BigAction
     icon:
-      sprite: _Starlight/Actions/implants.rsi
+      sprite: _Starlight/Interface/Actions/actions_implants.rsi
       state: toggle_claws
   - type: InstantAction
     event: !type:OnRetractableItemActionEvent

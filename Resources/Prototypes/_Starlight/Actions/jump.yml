@@ -8,7 +8,7 @@
     useDelay: 30
     itemIconStyle: NoItem
     icon:
-      sprite: _Starlight/Actions/resomi.rsi
+      sprite: _Starlight/Interface/Actions/actions_jump.rsi
       state: jump
   - type: TargetAction
     checkCanAccess: false
@@ -37,10 +37,6 @@
   components:
   - type: Action
     useDelay: 1
-    itemIconStyle: NoItem
-    icon:
-      sprite: _Starlight/Actions/resomi.rsi
-      state: jump
   - type: LimitedCharges
     maxCharges: 3
   - type: AutoRecharge
