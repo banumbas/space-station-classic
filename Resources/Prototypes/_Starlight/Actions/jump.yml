@@ -69,9 +69,6 @@
   - type: Action
     useDelay: 3
     itemIconStyle: BigAction
-    icon:
-      sprite: _Starlight/Actions/resomi.rsi
-      state: jump
   - type: WorldTargetAction
     event: !type:JetJumpActionEvent
       distance: 10
@@ -88,9 +85,6 @@
   - type: Action
     useDelay: 15
     itemIconStyle: BigAction
-    icon:
-      sprite: _Starlight/Actions/resomi.rsi
-      state: jump
   - type: WorldTargetAction
     event: !type:JumpActionEvent
       distance: 5
@@ -106,9 +100,6 @@
   - type: Action
     useDelay: 15
     itemIconStyle: BigAction
-    icon:
-      sprite: _Starlight/Actions/resomi.rsi
-      state: jump
   - type: WorldTargetAction
     event: !type:JumpActionEvent
       distance: 10
