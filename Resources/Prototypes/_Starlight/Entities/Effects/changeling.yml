@@ -5,5 +5,5 @@
   categories: [ HideSpawnMenu ]
   components:
     - type: Sprite
-      sprite: _Starlight/Entities/Effects/changeling_trasnform.rsi
+      sprite: _Starlight/Effects/changeling_trasnform.rsi
       state: icon
