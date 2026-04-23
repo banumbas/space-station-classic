@@ -1,2 +1,11 @@
 - type: statusEffect
   id: PoliteLanguage
+
+# Cosmic Cult
+
+- type: entity
+  parent: MobStatusEffectBase
+  id: EntropicDegen
+  name: entropic degeneration
+  components:
+  - type: CosmicEntropyDebuffStatusEffect

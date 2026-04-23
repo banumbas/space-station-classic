@@ -81,3 +81,13 @@
   frequency: 1452
   color: "#880606"
   longRange: true
+
+# Cosmic Cult
+
+- type: radioChannel
+  id: CosmicRadio
+  name: language-Cosmic-name
+  keycode: 'a'
+  frequency: 77777
+  color: "#4cabb3"
+  longRange: true
