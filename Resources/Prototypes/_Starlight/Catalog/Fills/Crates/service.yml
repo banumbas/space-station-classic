@@ -9,3 +9,16 @@
       entity_storage:
         id: MagazineGrenadeCleanade
         amount: 2
+
+- type: entity
+  id: CrateServiceReligious
+  parent: CratePlastic
+  name: religious supplies crate
+  description: Contains holy water, a bible, and a spare censer.
+  components:
+    - type: StorageFill
+      contents:
+        - id: Bible
+        - id: JugHolywater
+          amount: 2
+        - id: CosmicCenser

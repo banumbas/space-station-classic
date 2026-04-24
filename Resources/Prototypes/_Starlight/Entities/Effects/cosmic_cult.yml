@@ -382,3 +382,10 @@
       enabled: true
       isLooped: true
       reverseWhenFinished: true
+
+- type: ssdIcon
+  id: CosmicSSDIcon
+  icon:
+    sprite: /Textures/_Starlight/CosmicCult/Effects/astralsleep.rsi
+    state: icon
+  locationPreference: Right

@@ -69,28 +69,58 @@
     - WizardDuel # Well, you did say *Aller* at once.
     - Xenoborgs
     - BasicStationEventScheduler
-    - BasicStationEventScheduler # Starlight, ShitStation
+    - BasicStationEventScheduler
     - MeteorSwarmScheduler # Meteor mild isn't included in almost aller because in theory the idea is to have a round last more than 10 minutes.
     - RampingStationEventScheduler
     - SpaceTrafficControlEventScheduler
     - SpaceTrafficControlFriendlyEventScheduler
     - BasicRoundstartVariation
-    - BasicRoundstartVariation # Starlight, ShitStation
-    - BasicRoundstartVariation # Starlight, ShitStation
-    - BasicRoundstartVariation # Starlight, ShitStation
-    - BasicRoundstartVariation # Starlight, ShitStation
-    - DerelictGenericCyborgSpawn # Starlight, ShitStation
-    - DerelictGenericCyborgSpawn # Starlight, ShitStation
-    - IonStorm # Starlight, ShitStation
-    - IonStorm # Starlight, ShitStation
-    - CockroachMigration # Starlight, ShitStation
-    - MouseMigration # Starlight, ShitStation
-    - SLChangeling # Starlight
-    - Vampire #Starlight
-    - SiliconLiberation #Starlight
-    - Brighteye #Starlight
-    - ThiefGamerule # Starlight, Event Light
-    - LoneOpsSpawn # Starlight
-    - RailroadingTerminator # Starlight
-    - RailroadingMinor # Starlight
-    # - CosmicCult # Starlight
+    - DerelictGenericCyborgSpawn
+    - IonStorm
+    - CockroachMigration
+    - MouseMigration
+    - SLChangeling
+    - Vampire
+    - SiliconLiberation
+    - Brighteye
+    - ThiefGamerule # Event Light
+    - LoneOpsSpawn
+    - RailroadingTerminator
+    - RailroadingMinor
+    # - CosmicCult
+
+# Cosmic Cult
+
+- type: gamePreset
+  id: CosmicCult
+  alias:
+    - cosmic
+  name: cosmiccult-title
+  description: cosmiccult-description
+  minPlayers: 30
+  showInVote: true
+  rules:
+    - CosmicCult
+    - SubGamemodesRuleLessThieves
+    - MeteorSwarmScheduler
+    - SpaceTrafficControlEventScheduler
+    - BasicRoundstartVariation
+    - BasicStationEventScheduler
+    - RailroadingMinor
+
+- type: gamePreset #Runs Cosmic Cult but shows "Secret" in lobby.
+  id: SecretCosmicCult
+  alias:
+    - secretcosmic
+  name: secret-title
+  description: secret-description
+  minPlayers: 30
+  showInVote: false
+  rules:
+    - CosmicCult
+    - SubGamemodesRuleLessThieves
+    - MeteorSwarmScheduler
+    - SpaceTrafficControlEventScheduler
+    - BasicRoundstartVariation
+    - BasicStationEventScheduler
+    - RailroadingMinor

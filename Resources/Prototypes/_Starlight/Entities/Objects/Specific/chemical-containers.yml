@@ -266,3 +266,17 @@
         reagents:
         - ReagentId: Dermaline
           Quantity: 400
+
+- type: entity
+  parent: Jug
+  suffix: holywater
+  id: JugHolywater
+  components:
+  - type: Label
+    currentLabel: reagent-name-holywater
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        reagents:
+        - ReagentId: Holywater
+          Quantity: 200

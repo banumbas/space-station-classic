@@ -7,3 +7,13 @@
   cost: 750
   category: cargoproduct-category-name-service
   group: market
+
+- type: cargoProduct
+  id: ServiceReligiousSupplies
+  icon:
+    sprite: _Starlight/CosmicCult/Objects/censer.rsi
+    state: icon
+  product: CrateServiceReligious
+  cost: 2000
+  category: cargoproduct-category-name-service
+  group: market
