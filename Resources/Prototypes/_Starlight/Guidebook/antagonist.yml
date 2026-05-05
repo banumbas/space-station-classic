@@ -48,7 +48,7 @@
   name: roles-antag-selfagent-name
   text: "/ServerInfo/_StarLight/Guidebook/Antagonist/SiliconLiberation.xml"
 
-  - type: guideEntry
+- type: guideEntry
   id: CosmicCult
   name: guide-entry-cosmiccult
   text: "/ServerInfo/_StarLight/Guidebook/CosmicCult/CosmicCult.xml"
