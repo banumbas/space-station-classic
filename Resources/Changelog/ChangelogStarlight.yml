@@ -1,13 +1,6 @@
 Entries:
 - author: Caws
   changes:
-  - message: (Saltern) Improved tiling and detailing work lots of around doors and firelocks.
-    type: Tweak
-  id: 404460
-  time: '2026-04-21T11:18:06.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4220
-- author: Caws
-  changes:
   - message: (Saltern) Moved the cell charger in Brigmed so it's easier to see.
     type: Tweak
   id: 404461
@@ -2799,4 +2792,11 @@ Entries:
   id: 404859
   time: '2026-05-09T20:39:12.000000+00:00'
   url: https://github.com/ss14Starlight/space-station-14/pull/4402
+- author: Caws
+  changes:
+  - message: Brigmed no longer requires Chemist job time.
+    type: Fix
+  id: 404860
+  time: '2026-05-10T06:24:57.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4408
 Order: -1
