@@ -1,13 +1,6 @@
 Entries:
 - author: Cvlancer
   changes:
-  - message: Added Librarian has been mapped in... however they has fallen on rough times after their funding was cut from CC.
-    type: Add
-  id: 404558
-  time: '2026-04-24T12:55:27.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4218
-- author: Cvlancer
-  changes:
   - message: Added A good clean fun board to library.
     type: Add
   id: 404559
@@ -2799,4 +2792,11 @@ Entries:
   id: 404957
   time: '2026-05-13T07:53:08.000000+00:00'
   url: https://github.com/ss14Starlight/space-station-14/pull/4429
+- author: Bigfoot Bravo
+  changes:
+  - message: Amoxla's OD now correctly works. Don't OD the birds with Amoxla!
+    type: Fix
+  id: 404958
+  time: '2026-05-13T08:14:51.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4416
 Order: -1
