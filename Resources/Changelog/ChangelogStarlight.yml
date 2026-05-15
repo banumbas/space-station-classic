@@ -1,20 +1,6 @@
 Entries:
 - author: Cujo
   changes:
-  - message: (Lagan) Security now has disposal units.
-    type: Add
-  id: 404600
-  time: '2026-04-26T07:03:47.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4235
-- author: Cujo
-  changes:
-  - message: (Lagan) Security now has a contraband crate.
-    type: Add
-  id: 404601
-  time: '2026-04-26T07:03:47.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4235
-- author: Cujo
-  changes:
   - message: (Lagan) Security front desk has been expanded.
     type: Tweak
   id: 404602
@@ -2799,4 +2785,18 @@ Entries:
   id: 404999
   time: '2026-05-15T06:58:06.000000+00:00'
   url: https://github.com/ss14Starlight/space-station-14/pull/4440
+- author: Citrea
+  changes:
+  - message: Humans may now have cosmetic gene splicing done to add bunny ears to themselves as a marking.
+    type: Add
+  id: 405000
+  time: '2026-05-15T06:58:08.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4432
+- author: Citrea
+  changes:
+  - message: Cat Ears for humans are no longer a special marking, you will find them in the HeadTop category instead.
+    type: Tweak
+  id: 405001
+  time: '2026-05-15T06:58:08.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4432
 Order: -1
