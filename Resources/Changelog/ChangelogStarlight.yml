@@ -1,13 +1,6 @@
 Entries:
 - author: Cujo
   changes:
-  - message: (Lagan) Brigmed beds swapped around.
-    type: Tweak
-  id: 404614
-  time: '2026-04-26T07:03:47.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4235
-- author: Cujo
-  changes:
   - message: (Lagan) Conference room spawns have been swapped around.
     type: Tweak
   id: 404615
@@ -2799,4 +2792,11 @@ Entries:
   id: 405013
   time: '2026-05-15T12:04:07.000000+00:00'
   url: https://github.com/ss14Starlight/space-station-14/pull/4424
+- author: Swonki
+  changes:
+  - message: Borgi Sprite.
+    type: Add
+  id: 405014
+  time: '2026-05-15T12:37:10.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4433
 Order: -1
