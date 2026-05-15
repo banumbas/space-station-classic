@@ -1,13 +1,6 @@
 Entries:
 - author: Cujo
   changes:
-  - message: (Lagan) Directional signs for solars placed in maints.
-    type: Add
-  id: 404609
-  time: '2026-04-26T07:03:47.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4235
-- author: Cujo
-  changes:
   - message: (Lagan) Prisoner EVA storages and the new boxing ring ropes have been added to Genpop.
     type: Add
   id: 404610
@@ -2799,4 +2792,11 @@ Entries:
   id: 405008
   time: '2026-05-15T12:03:56.000000+00:00'
   url: https://github.com/ss14Starlight/space-station-14/pull/4419
+- author: CrazyPhantom
+  changes:
+  - message: Escape pods will no longer be stranded in space.
+    type: Fix
+  id: 405009
+  time: '2026-05-15T12:03:58.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4411
 Order: -1
