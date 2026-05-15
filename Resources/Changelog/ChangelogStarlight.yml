@@ -1,13 +1,6 @@
 Entries:
 - author: Cvlancer
   changes:
-  - message: Made ai core "slightly" harder to disconnect from station.
-    type: Fix
-  id: 404582
-  time: '2026-04-24T12:55:27.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4218
-- author: Cvlancer
-  changes:
   - message: Slightly tweaked disposals around to make it so trash no longer doesn't end up on the belt.
     type: Fix
   id: 404583
@@ -2799,4 +2792,11 @@ Entries:
   id: 404981
   time: '2026-05-14T13:46:43.000000+00:00'
   url: https://github.com/ss14Starlight/space-station-14/pull/4441
+- author: Way
+  changes:
+  - message: (Bagel) Fixed various entities, revamped decals & tiles in some spots, slightly more trash in genpop. NTR/BSO Combined room. Evac shuttle now has defibs.
+    type: Fix
+  id: 404982
+  time: '2026-05-15T05:59:55.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4444
 Order: -1
