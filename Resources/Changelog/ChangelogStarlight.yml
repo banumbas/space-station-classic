@@ -1,67 +1,4 @@
 Entries:
-- author: Cvlancer
-  changes:
-  - message: Removed ai core being fed by a random maints wire and also removed the 3 RTG'S making ai completely self sufficient.
-    type: Remove
-  id: 404655
-  time: '2026-04-27T07:17:03.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4219
-- author: Cvlancer
-  changes:
-  - message: Fixed One of the levers in dispo messing with the recycler.
-    type: Fix
-  id: 404656
-  time: '2026-04-27T07:17:03.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4219
-- author: Cvlancer
-  changes:
-  - message: Fixed weather spawning in gen pop.
-    type: Fix
-  id: 404657
-  time: '2026-04-27T07:17:03.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4219
-- author: Caws & CaasGit
-  changes:
-  - message: NT-CC branded paper, complete with new sprites.
-    type: Add
-  id: 404658
-  time: '2026-04-27T07:17:05.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4176
-- author: Caws & CaasGit
-  changes:
-  - message: The `[datetime]` paperwork tag. Similar to `[signature]`, this will automatically fills out the date & shift time for you when you click it.
-    type: Add
-  id: 404659
-  time: '2026-04-27T07:17:05.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4176
-- author: Caws & CaasGit
-  changes:
-  - message: All paperwork has been updated to use the new `[datetime]` paperwork tag.
-    type: Tweak
-  id: 404660
-  time: '2026-04-27T07:17:05.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4176
-- author: Caws & CaasGit
-  changes:
-  - message: All documents printed from a document printer will automagically brand the paper with NT-CC branding.
-    type: Tweak
-  id: 404661
-  time: '2026-04-27T07:17:05.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4176
-- author: Caws & CaasGit
-  changes:
-  - message: Paperwork "Declaration of Sentience" title is now centered.
-    type: Fix
-  id: 404662
-  time: '2026-04-27T07:17:05.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4176
-- author: Caws & CaasGit
-  changes:
-  - message: Old NT, CC, and unused Syndicate logo.
-    type: Remove
-  id: 404663
-  time: '2026-04-27T07:17:05.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4176
 - author: Citrea
   changes:
   - message: Resomi no longer get poisoned by ammonia gas.
@@ -2799,4 +2736,67 @@ Entries:
   id: 405054
   time: '2026-05-17T15:33:13.000000+00:00'
   url: https://github.com/ss14Starlight/space-station-14/pull/4447
+- author: teapoterror.
+  changes:
+  - message: NTSF "Primus" Hardsuit. This hardsuit is identical to the original NTSF hardsuit other than design.
+    type: Add
+  id: 405055
+  time: '2026-05-17T15:33:15.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4428
+- author: teapoterror.
+  changes:
+  - message: NTSF "Secundus" Hardsuit. This hardsuit has mostly equivalent stats to the Syndicate Juggernaut armor.
+    type: Add
+  id: 405056
+  time: '2026-05-17T15:33:15.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4428
+- author: teapoterror.
+  changes:
+  - message: NTSF "Tertius" Hardsuit. This hardsuit contains a bluespace inventory, perfect for stealing your things.
+    type: Add
+  id: 405057
+  time: '2026-05-17T15:33:15.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4428
+- author: teapoterror.
+  changes:
+  - message: NTSF "Quartus" Hardsuit. This hardsuit is completely immune to Radiation and Fire, and is excellent against Heat. A future prototype of these NTSF members will have a recharging RCD, CHIMP, and Forcefield Projector as to better aid in defense construction and dealing with anomalies.
+    type: Add
+  id: 405058
+  time: '2026-05-17T15:33:15.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4428
+- author: teapoterror.
+  changes:
+  - message: NTSF "Quintus" Hardsuit. This hardsuit has 80% Pierce Resist, making it perfect for killing Nukies.
+    type: Add
+  id: 405059
+  time: '2026-05-17T15:33:15.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4428
+- author: teapoterror.
+  changes:
+  - message: NTSF "Sextus" Hardsuit. This hardsuit has no actual modifications - instead, future prototypes of these NTSF members will be wizards.
+    type: Add
+  id: 405060
+  time: '2026-05-17T15:33:15.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4428
+- author: teapoterror.
+  changes:
+  - message: NTSF "Septimus" Hardsuit. This hardsuit has increased Slash, Caustic, and Blunt reduction, up to 75%, as well as a minor heat protection buff to 70%. Future prototypes of these NTSF members will also carry Needle Guns filled with Ambuzol+, for rapid cure deployment.
+    type: Add
+  id: 405061
+  time: '2026-05-17T15:33:15.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4428
+- author: teapoterror.
+  changes:
+  - message: NTSF "Octavius" Hardsuit. This hardsuit has increased Pierce resist, to 80%. As well, future prototypes of these NTSF members will be equipped with the X-09 Headsman, an energy axe equal in power to the Marriage axe.
+    type: Add
+  id: 405062
+  time: '2026-05-17T15:33:15.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4428
+- author: teapoterror.
+  changes:
+  - message: NTSF "Nonus" Hardsuit. This hardsuit makes no noise when it moves, and possesses phase cloak for invisibility.
+    type: Add
+  id: 405063
+  time: '2026-05-17T15:33:15.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4428
 Order: -1
