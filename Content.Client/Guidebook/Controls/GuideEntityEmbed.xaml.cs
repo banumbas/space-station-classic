@@ -222,7 +222,8 @@ public sealed partial class GuideEntityEmbed : BoxContainer, IDocumentTag
     /// <param name="ent">Target entity</param>
     private void SetGuideEntity(EntityUid ent)
     {
-        _entityManager.RemoveComponent<SubFloorHideComponent>(ent);
+        if (_entityManager.HasComponent<SubFloorHideComponent>(ent))
+            _entityManager.RemoveComponent<SubFloorHideComponent>(ent);
         _sprite.SetVisible(ent, true);
         View.SetEntity(ent);
     }
