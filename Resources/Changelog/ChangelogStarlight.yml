@@ -1,13 +1,6 @@
 Entries:
 - author: bynddark8
   changes:
-  - message: (Cluster, Hotel, Ming, Orwell, Prism) Replaces standard security airlocks with new brig medic airlock sprites/accesses.
-    type: Tweak
-  id: 404636
-  time: '2026-04-26T07:03:51.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4241
-- author: bynddark8
-  changes:
   - message: (Elkridge) Fixed an unanchored air scrubber in brigmed.
     type: Fix
   id: 404637
@@ -2799,4 +2792,11 @@ Entries:
   id: 405035
   time: '2026-05-17T09:20:39.000000+00:00'
   url: https://github.com/ss14Starlight/space-station-14/pull/4467
+- author: Caws
+  changes:
+  - message: SSD players will no longer be bluespaced into cryogenic sleep units that are off-station.
+    type: Fix
+  id: 405036
+  time: '2026-05-17T09:37:48.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4465
 Order: -1
