@@ -1,11 +1,4 @@
 - type: dataset
-  id: MedDeliveryRestriction
-  values:
-  - Pills
-  - Patches
-  - Syringes
-
-- type: dataset
   id: SpeechRestrictions
   values:
     - FullNameAndTitle
