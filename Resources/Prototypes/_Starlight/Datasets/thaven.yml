@@ -1028,3 +1028,59 @@
   - numerous
   - substantial
   - capitalist
+
+- type: dataset
+  id: MedDeliveryRestriction
+  values:
+  - Pills
+  - Patches
+  - Syringes
+
+- type: dataset
+  id: Languages
+  values:
+  - Galactic Common
+  - Sol Common
+  - Binary
+  - Canilunzt
+  - Bubblish
+  - Chittin
+  - Draconic
+  - Marish
+  - Moffic
+  - Nekomimetic
+  - Sylvan
+  - Terrum
+  - Vox Pidgin
+  - Scratch
+  - Darktongue
+  - Lagomorphian
+
+- type: dataset
+  id: Engines
+  values:
+  - Singularity
+  - Tesla
+
+- type: dataset
+  id: Disasters
+  values:
+  - The captain's midlife crisis
+  - The heat death of the universe
+  - Pun Pun's last shift
+  - The new ice age
+  - The gray tide
+  - The great corgi uprising
+  - The final curtain call
+  - The introduction of a new NanoTrasen policy
+
+- type: dataset
+  id: AppearanceAspects
+  values:
+  - Height
+  - Hair
+  - Skin
+  - Tail or lack thereof
+  - Voice
+  - Clothes
+  - Job

@@ -92,6 +92,11 @@
         },
         {
             "name": "transform"
+        },
+        {
+            "name": "armblade-plus",
+			"copyright": "TiniestShark, wonderfulnewworld",
+			"license": "CC0-1.0"
         }
     ]
 }
