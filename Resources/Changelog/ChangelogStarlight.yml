@@ -1,18 +1,4 @@
 Entries:
-- author: Ohelig
-  changes:
-  - message: Fix borg item duping. No more infinite saxophones for you!
-    type: Fix
-  id: 404699
-  time: '2026-04-28T10:12:13.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4267
-- author: CrazyPhantom
-  changes:
-  - message: The round will now end in 20 seconds after nuke explosion during a nukie round.
-    type: Tweak
-  id: 404700
-  time: '2026-04-28T10:46:55.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4274
 - author: Bigfoot Bravo
   changes:
   - message: IPCs can now be welded if they are only bleeding, and not hurt otherwise.
@@ -2799,4 +2785,18 @@ Entries:
   id: 405098
   time: '2026-05-18T05:29:32.000000+00:00'
   url: https://github.com/ss14Starlight/space-station-14/pull/4474
+- author: FeralCreature
+  changes:
+  - message: 29 achievements. Happy hunting!
+    type: Add
+  id: 405099
+  time: '2026-05-18T12:00:42.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4393
+- author: FeralCreature
+  changes:
+  - message: 6 hidden achievements. These ones hunt you.
+    type: Add
+  id: 405100
+  time: '2026-05-18T12:00:42.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4393
 Order: -1
