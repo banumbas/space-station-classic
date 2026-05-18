@@ -77,3 +77,8 @@
   id: CosmicColossus
   name: guide-entry-cosmiccolossus
   text: "/ServerInfo/_StarLight/Guidebook/CosmicCult/CosmicColossus.xml"
+
+- type: guideEntry
+  id: Devil
+  name: guide-entry-devil
+  text: "/ServerInfo/_StarLight/Guidebook/Antagonist/Devil.xml"

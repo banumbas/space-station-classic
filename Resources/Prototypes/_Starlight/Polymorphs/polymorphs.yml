@@ -268,3 +268,15 @@
     layers:
       - state: crab
         shader: unshaded
+
+- type: polymorph
+  id: IrreversibleMonkey
+  configuration:
+    entity: MobMonkey
+    forced: true
+    inventory: Drop
+    transferName: true
+    transferDamage: true
+    revertOnCrit: false
+    revertOnDeath: false
+    allowRepeatedMorphs: false
