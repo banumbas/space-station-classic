@@ -1,11 +1,4 @@
 Entries:
-- author: Bigfoot Bravo
-  changes:
-  - message: IPCs can now be welded if they are only bleeding, and not hurt otherwise.
-    type: Fix
-  id: 404701
-  time: '2026-04-28T11:34:55.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4265
 - author: STARLIGHT TEAM
   changes:
   - message: Fixed the Vulpkanin Points Hands marking.
@@ -2799,4 +2792,11 @@ Entries:
   id: 405100
   time: '2026-05-18T12:00:42.000000+00:00'
   url: https://github.com/ss14Starlight/space-station-14/pull/4393
+- author: CringeCursed
+  changes:
+  - message: Added 6 new Bluespace Harvester reward pools.
+    type: Add
+  id: 405101
+  time: '2026-05-18T16:20:44.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4475
 Order: -1
