@@ -1,11 +1,4 @@
 Entries:
-- author: Caws
-  changes:
-  - message: Shift Time on paperwork when using the [datetime] tag should now be accurate.
-    type: Fix
-  id: 404728
-  time: '2026-04-29T11:38:16.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4291
 - author: neomoth, Centronias
   changes:
   - message: Added a system for playing cards.
@@ -2799,4 +2792,11 @@ Entries:
   id: 405127
   time: '2026-05-21T12:33:38.000000+00:00'
   url: https://github.com/ss14Starlight/space-station-14/pull/4496
+- author: R3v3l4t1on
+  changes:
+  - message: The hyperconvection circuit imprinter now gets the same recipes added to it upon being emagged as the normal counterpart.
+    type: Fix
+  id: 405128
+  time: '2026-05-21T12:33:40.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4489
 Order: -1
