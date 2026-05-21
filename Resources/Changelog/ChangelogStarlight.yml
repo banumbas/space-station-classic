@@ -1,60 +1,4 @@
 Entries:
-- author: neomoth, Centronias
-  changes:
-  - message: Added a system for playing cards.
-    type: Add
-  id: 404729
-  time: '2026-04-29T12:03:23.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/3994
-- author: neomoth, Centronias
-  changes:
-  - message: Added standard 54 (52+2 joker) playing card decks. Comes in black, NanoTrasen, and Syndicate flavors! Can be purchased from the local GoodCleanFun vendor.
-    type: Add
-  id: 404730
-  time: '2026-04-29T12:03:23.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/3994
-- author: neomoth, Centronias
-  changes:
-  - message: Added Nuno, an original card game that is totally not based off of Uno.
-    type: Add
-  id: 404731
-  time: '2026-04-29T12:03:23.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/3994
-- author: neomoth, Centronias
-  changes:
-  - message: Added the ability to provide custom visuals for an item in the strip menu in order to obscure information (such as what playing cards someone else is holding to prevent cheating).
-    type: Add
-  id: 404732
-  time: '2026-04-29T12:03:23.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/3994
-- author: Scarlet Lightweaver, Shades
-  changes:
-  - message: Adds the Secure Command Terminal to the station Comm Console (Bridge/Captain One).
-    type: Add
-  id: 404733
-  time: '2026-04-29T12:21:12.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4170
-- author: Scarlet Lightweaver, Shades
-  changes:
-  - message: Adds the Keycard Authentication Device (That is suposed to be in each head rooms).
-    type: Add
-  id: 404734
-  time: '2026-04-29T12:21:12.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4170
-- author: Scarlet Lightweaver, Shades
-  changes:
-  - message: Tweaked how code violet is called and its info.
-    type: Tweak
-  id: 404735
-  time: '2026-04-29T12:21:12.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4170
-- author: Scarlet Lightweaver, Shades
-  changes:
-  - message: Changed the ERT Chaplain loadout.
-    type: Tweak
-  id: 404736
-  time: '2026-04-29T12:21:12.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4170
 - author: Scarlet Lightweaver, Shades
   changes:
   - message: Fixed NCT Terminal being able to store pAI and visual bugs.
@@ -2799,4 +2743,60 @@ Entries:
   id: 405128
   time: '2026-05-21T12:33:40.000000+00:00'
   url: https://github.com/ss14Starlight/space-station-14/pull/4489
+- author: Trosling
+  changes:
+  - message: Made main SOP intro a lot more informative as to its intention on Starlight (IC rules).
+    type: Fix
+  id: 405129
+  time: '2026-05-21T13:07:40.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4422
+- author: Trosling
+  changes:
+  - message: Reformatted security SOP to be a lot more immersive.
+    type: Fix
+  id: 405130
+  time: '2026-05-21T13:07:40.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4422
+- author: Trosling
+  changes:
+  - message: Duty Officers are now allowed to sentence 5 minutes more than normal officers.
+    type: Add
+  id: 405131
+  time: '2026-05-21T13:07:40.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4422
+- author: Trosling
+  changes:
+  - message: Sentences are now explicitly allowed to be approved by Ward/HoS over radio.
+    type: Add
+  id: 405132
+  time: '2026-05-21T13:07:40.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4422
+- author: Trosling
+  changes:
+  - message: HoS and Ward are explicitly forbidden from being mute.
+    type: Add
+  id: 405133
+  time: '2026-05-21T13:07:40.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4422
+- author: Trosling
+  changes:
+  - message: HoS SOP refocused to prioritise their role as leader.
+    type: Fix
+  id: 405134
+  time: '2026-05-21T13:07:40.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4422
+- author: Trosling
+  changes:
+  - message: Security SOP now explicitly states that records are to be kept on the computer, as opposed to paper arrest reports.
+    type: Add
+  id: 405135
+  time: '2026-05-21T13:07:40.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4422
+- author: Trosling
+  changes:
+  - message: HoS is now explicitly allowed to demand security officers take off non-standard equipment, if they feel like it.
+    type: Add
+  id: 405136
+  time: '2026-05-21T13:07:40.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4422
 Order: -1
