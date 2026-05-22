@@ -1,53 +1,4 @@
 Entries:
-- author: bynddark8
-  changes:
-  - message: Adds an admeme only command tablet for Centcomm operators.
-    type: Add
-  id: 404854
-  time: '2026-05-09T10:23:05.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4296
-- author: bynddark8
-  changes:
-  - message: Adds the Captain's command tablet as a steal objective for both thieves and traitors.
-    type: Tweak
-  id: 404855
-  time: '2026-05-09T10:23:05.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4296
-- author: bynddark8
-  changes:
-  - message: Fixed a bug where the battery on the command tablet would drain absurdly quickly.
-    type: Fix
-  id: 404856
-  time: '2026-05-09T10:23:05.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4296
-- author: SevenShades, teapoterror
-  changes:
-  - message: Cheese compatibility for MedTak.
-    type: Add
-  id: 404857
-  time: '2026-05-09T10:23:09.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4263
-- author: wonderfulnewworld
-  changes:
-  - message: The Captain's Tablet steal objective is now traitors only.
-    type: Tweak
-  id: 404858
-  time: '2026-05-09T20:39:12.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4402
-- author: wonderfulnewworld
-  changes:
-  - message: The Captain's Tablet steal objective no longer causes rounds to fail to start.
-    type: Fix
-  id: 404859
-  time: '2026-05-09T20:39:12.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4402
-- author: Caws
-  changes:
-  - message: Brigmed no longer requires Chemist job time.
-    type: Fix
-  id: 404860
-  time: '2026-05-10T06:24:57.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4408
 - author: CrazyPhantom
   changes:
   - message: VGroid now spawns almost double the distance to potentially help its spawning.
@@ -2799,4 +2750,53 @@ Entries:
   id: 405253
   time: '2026-05-22T14:03:06.000000+00:00'
   url: https://github.com/ss14Starlight/space-station-14/pull/4510
+- author: CMDROverwerk
+  changes:
+  - message: Industrial mech health lowered by 30% across the board. Ripley MK2 and Paddy retain their current HP due to their plasteel armor.
+    type: Tweak
+  id: 405254
+  time: '2026-05-22T14:03:09.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4490
+- author: CMDROverwerk
+  changes:
+  - message: exosuit silicon control beacon to the Tier 1 experimental research. A special module that can be inserted to allow borgs to enter mechs.
+    type: Add
+  id: 405255
+  time: '2026-05-22T14:03:09.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4490
+- author: CMDROverwerk
+  changes:
+  - message: Emag protolaithe recipies now correctly syncrhonize with researched technologies. You now need to have the appropriate research to be able to print the weapons, as is similar with an Emag Protolaithe.
+    type: Tweak
+  id: 405256
+  time: '2026-05-22T14:03:09.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4490
+- author: CMDROverwerk
+  changes:
+  - message: Paddy's equipment restriction removed, allowing Paddy to equip weapons.
+    type: Remove
+  id: 405257
+  time: '2026-05-22T14:03:09.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4490
+- author: CMDROverwerk
+  changes:
+  - message: Combat mechs can now pry open powered doors again.
+    type: Fix
+  id: 405258
+  time: '2026-05-22T14:03:09.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4490
+- author: CMDROverwerk
+  changes:
+  - message: Diamond Drill salvage and mining vend prices are now slightly higher to reflect its much more potent offensive capability.
+    type: Tweak
+  id: 405259
+  time: '2026-05-22T14:03:09.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4490
+- author: CMDROverwerk
+  changes:
+  - message: Changed SRM-8 to burst from semi-auto.
+    type: Tweak
+  id: 405260
+  time: '2026-05-22T14:03:09.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4490
 Order: -1
