@@ -1,13 +1,6 @@
 Entries:
 - author: wonderfulnewworld
   changes:
-  - message: Lethargic Sting now costs 25 chemicals instead of 35. Also costs 1 less Evo point.
-    type: Tweak
-  id: 404890
-  time: '2026-05-10T10:36:28.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4313
-- author: wonderfulnewworld
-  changes:
   - message: Biodegrade can now be used while unconscious.
     type: Tweak
   id: 404891
@@ -2799,4 +2792,11 @@ Entries:
   id: 405289
   time: '2026-05-24T09:52:32.000000+00:00'
   url: https://github.com/ss14Starlight/space-station-14/pull/4507
+- author: teapoterror
+  changes:
+  - message: Added The Garden, a new Dark Map that can spawn.
+    type: Add
+  id: 405290
+  time: '2026-05-24T09:52:33.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4473
 Order: -1
