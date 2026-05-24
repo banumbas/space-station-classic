@@ -1,95 +1,4 @@
 Entries:
-- author: Cvlancer & Ohelig
-  changes:
-  - message: (Kiloton) Added lawyer and lawyers office.
-    type: Add
-  id: 404987
-  time: '2026-05-15T06:58:06.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4440
-- author: Cvlancer & Ohelig
-  changes:
-  - message: (Kiloton) Added a windoor to disposals to maybe prevent all the trash flying through the machine before its turned on.
-    type: Add
-  id: 404988
-  time: '2026-05-15T06:58:06.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4440
-- author: Cvlancer & Ohelig
-  changes:
-  - message: (Kiloton) Added Ipc repair bay to robotics.
-    type: Add
-  id: 404989
-  time: '2026-05-15T06:58:06.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4440
-- author: Cvlancer & Ohelig
-  changes:
-  - message: (Kiloton) Added drugstore and a third chemist to run it.
-    type: Add
-  id: 404990
-  time: '2026-05-15T06:58:06.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4440
-- author: Cvlancer & Ohelig
-  changes:
-  - message: (Kiloton) Changed HV wiring around smes bank slightly to better include nuclear reactor.
-    type: Tweak
-  id: 404991
-  time: '2026-05-15T06:58:06.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4440
-- author: Cvlancer & Ohelig
-  changes:
-  - message: (Kiloton) Waste is now teleported to an alternate dimension.
-    type: Tweak
-  id: 404992
-  time: '2026-05-15T06:58:06.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4440
-- author: Cvlancer & Ohelig
-  changes:
-  - message: (Kiloton) Moved South Solar's to make more room.
-    type: Tweak
-  id: 404993
-  time: '2026-05-15T06:58:06.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4440
-- author: Cvlancer & Ohelig
-  changes:
-  - message: (Kiloton) Move CE'S bathroom to above the bedroom.
-    type: Tweak
-  id: 404994
-  time: '2026-05-15T06:58:06.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4440
-- author: Cvlancer & Ohelig
-  changes:
-  - message: (Kiloton) Moved arcade to laser tag arena.
-    type: Tweak
-  id: 404995
-  time: '2026-05-15T06:58:06.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4440
-- author: Cvlancer & Ohelig
-  changes:
-  - message: (Kiloton) Made one of the walls of solitary non reinforced so someone can break you out.
-    type: Tweak
-  id: 404996
-  time: '2026-05-15T06:58:06.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4440
-- author: Cvlancer & Ohelig
-  changes:
-  - message: (Kiloton) Fixed yet another set of APC'S being double sub stationed. (Teg power bank).
-    type: Fix
-  id: 404997
-  time: '2026-05-15T06:58:06.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4440
-- author: Cvlancer & Ohelig
-  changes:
-  - message: (Kiloton) Fixed tiles under dispensers in maints bar.
-    type: Fix
-  id: 404998
-  time: '2026-05-15T06:58:06.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4440
-- author: Cvlancer & Ohelig
-  changes:
-  - message: (Kiloton) Fixed xeniobio pipes not being painted.
-    type: Fix
-  id: 404999
-  time: '2026-05-15T06:58:06.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4440
 - author: Citrea
   changes:
   - message: Humans may now have cosmetic gene splicing done to add bunny ears to themselves as a marking.
@@ -2799,4 +2708,95 @@ Entries:
   id: 405386
   time: '2026-05-24T14:47:39.000000+00:00'
   url: https://github.com/ss14Starlight/space-station-14/pull/4534
+- author: Rinary
+  changes:
+  - message: Added vision overlay for Vent Crawling, so now you see pipes and current pipe when crawling.
+    type: Add
+  id: 405387
+  time: '2026-05-24T16:06:56.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4516
+- author: Rinary
+  changes:
+  - message: Added vent crawling support for almost all pipe devices, such as radiators, freezers, heaters, so now you won't exit from vents after entering in them.
+    type: Add
+  id: 405388
+  time: '2026-05-24T16:06:56.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4516
+- author: Rinary
+  changes:
+  - message: Added layers support for vent crawling.
+    type: Add
+  id: 405389
+  time: '2026-05-24T16:06:56.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4516
+- author: Rinary
+  changes:
+  - message: Predicted and improved more things from VentCrawl system, so now it will be smoother on clients.
+    type: Tweak
+  id: 405390
+  time: '2026-05-24T16:06:56.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4516
+- author: Rinary
+  changes:
+  - message: Changed vent crawling exit, now instead of insta exiting from vents when reaching enter, you'll have action for exit.
+    type: Tweak
+  id: 405391
+  time: '2026-05-24T16:06:56.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4516
+- author: Rinary
+  changes:
+  - message: Changed passive vents, now you can enter vents through passive vents and weld them.
+    type: Tweak
+  id: 405392
+  time: '2026-05-24T16:06:56.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4516
+- author: Rinary
+  changes:
+  - message: Changed players ratio for princess spawn, now 1 princess per 50 players, I.e. 3 on 150 pop.
+    type: Tweak
+  id: 405393
+  time: '2026-05-24T16:06:56.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4516
+- author: Rinary
+  changes:
+  - message: Again fixed terror spiders rule by forcing 50 players minimum.
+    type: Fix
+  id: 405394
+  time: '2026-05-24T16:06:56.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4516
+- author: Rinary
+  changes:
+  - message: Fixed double wrap actions on terror princess and purple terror spider.
+    type: Fix
+  id: 405395
+  time: '2026-05-24T16:06:56.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4516
+- author: Rinary
+  changes:
+  - message: Fixed bug when you can't see anything while standing IN vents/scrubbers.
+    type: Fix
+  id: 405396
+  time: '2026-05-24T16:06:56.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4516
+- author: Rinary
+  changes:
+  - message: Fixed bug when terror spiders can spin web in containers(including vents).
+    type: Fix
+  id: 405397
+  time: '2026-05-24T16:06:56.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4516
+- author: Rinary
+  changes:
+  - message: Fixed bug when princess of terror can't reopen eggs laying menu after closing.
+    type: Fix
+  id: 405398
+  time: '2026-05-24T16:06:56.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4516
+- author: Rinary
+  changes:
+  - message: Fixed bug when vent crawling movement controls don't rotate with camera.
+    type: Fix
+  id: 405399
+  time: '2026-05-24T16:06:56.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4516
 Order: -1
