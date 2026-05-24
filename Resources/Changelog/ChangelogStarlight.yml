@@ -1,46 +1,4 @@
 Entries:
-- author: CrazyPhantom
-  changes:
-  - message: Vox and Vulps can now use the correct colours.
-    type: Fix
-  id: 404865
-  time: '2026-05-10T09:08:54.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4409
-- author: Conflee
-  changes:
-  - message: Added 11 tiles; 3x3 (black, brown, steel, white), ornate, steel grate, old concrete bricks, old concrete tiles, rough metal, rusty metal, and techmaints.
-    type: Add
-  id: 404866
-  time: '2026-05-10T10:03:36.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4364
-- author: Conflee
-  changes:
-  - message: Added decal sets to match the new 3x3 tiles (half-tiles, overlays, etc), as well as the techmaints floor.
-    type: Add
-  id: 404867
-  time: '2026-05-10T10:03:36.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4364
-- author: Conflee
-  changes:
-  - message: Added drain trim, steel trim steel step, and 3 steel hatch decals for decorating industrial areas.
-    type: Add
-  id: 404868
-  time: '2026-05-10T10:03:36.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4364
-- author: Conflee
-  changes:
-  - message: Added several alternate dresser types; Box, Round, and Wardrobe. They contain fills for the generic dresser contents, but before fill variants for command dressers can be made, the entire setup for those needs refactored.
-    type: Add
-  id: 404869
-  time: '2026-05-10T10:03:36.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4364
-- author: Conflee
-  changes:
-  - message: Added wood racks and snowman, as decorations.
-    type: Add
-  id: 404870
-  time: '2026-05-10T10:03:36.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4364
 - author: Conflee
   changes:
   - message: Added Small Stairs (Steel and Wood), for use where previously stage stairs would have been used. 1 wide, step up.
@@ -2799,4 +2757,46 @@ Entries:
   id: 405264
   time: '2026-05-22T20:11:28.000000+00:00'
   url: https://github.com/ss14Starlight/space-station-14/pull/4515
+- author: wonderfulnewworld, SevenShades
+  changes:
+  - message: Added mittens. They provide some minor cold resist. They can be found in the winter drobe, secdrobe, or as a loadout option for Sec.
+    type: Add
+  id: 405265
+  time: '2026-05-24T07:59:54.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4530
+- author: wonderfulnewworld, SevenShades
+  changes:
+  - message: Removed an unused gloves file.
+    type: Remove
+  id: 405266
+  time: '2026-05-24T07:59:54.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4530
+- author: wonderfulnewworld, SevenShades
+  changes:
+  - message: Removes unused insulated cat paws.
+    type: Remove
+  id: 405267
+  time: '2026-05-24T07:59:54.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4530
+- author: wonderfulnewworld, SevenShades
+  changes:
+  - message: Moved security's gloves to security_officer.yml.
+    type: Tweak
+  id: 405268
+  time: '2026-05-24T07:59:54.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4530
+- author: wonderfulnewworld, SevenShades
+  changes:
+  - message: Cat mittens now inherit the properties of mittens.
+    type: Tweak
+  id: 405269
+  time: '2026-05-24T07:59:54.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4530
+- author: wonderfulnewworld, SevenShades
+  changes:
+  - message: The cat mittens now have different names based on color.
+    type: Tweak
+  id: 405270
+  time: '2026-05-24T07:59:54.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4530
 Order: -1
