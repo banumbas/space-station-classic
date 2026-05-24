@@ -1,41 +1,6 @@
 Entries:
 - author: Conflee
   changes:
-  - message: Added Gramophone and Vinyl Player, reskins of the Jukebox that sit on top of tables, opening up more decorating options.
-    type: Add
-  id: 404872
-  time: '2026-05-10T10:03:36.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4364
-- author: Conflee
-  changes:
-  - message: Added Bars. They sit on top of windows, are solid but let air through, and can be broken. Intended to replace the use of Reinforced Plasma Windows in some stations Genpops as a more thematic way to reinforce Reinforced Windows further without giving the station hypothetical access to tons of free Plasma round start.
-    type: Add
-  id: 404873
-  time: '2026-05-10T10:03:36.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4364
-- author: Conflee
-  changes:
-  - message: Added the Coffee Dispenser. Works like a Soda or Booze Dispenser but for Coffee and Teas. Can be mapped in the Bar and in dept break rooms.
-    type: Add
-  id: 404874
-  time: '2026-05-10T10:03:36.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4364
-- author: Conflee
-  changes:
-  - message: Added the Wall Fan, it goes ON TOP of walls, and is an aimated fan.
-    type: Add
-  id: 404875
-  time: '2026-05-10T10:03:36.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4364
-- author: Conflee
-  changes:
-  - message: Restored original Xeno posters and description of the TV Head item. Originally censored to 'conform to rule 10', rule 10 has since been adjusted to be less puritan in wording, and these items no longer violate the rules.
-    type: Tweak
-  id: 404876
-  time: '2026-05-10T10:03:36.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4364
-- author: Conflee
-  changes:
   - message: Rebuilt the Automated Trade Station from the ground up. It is now larger, more industrial looking, has 3 docks instead of 2, and the entire back area is reworked into a Salvage Base with bunks, docks of their own, equipment to process ores and scrap, and a tiny basic kitchen-bar and triage room for medical emergencies. Station Anchor and Gravity Generator are still reinforced and guarded by a turret.
     type: Tweak
   id: 404877
@@ -2799,4 +2764,39 @@ Entries:
   id: 405271
   time: '2026-05-24T07:59:55.000000+00:00'
   url: https://github.com/ss14Starlight/space-station-14/pull/4532
+- author: wonderfulnewworld
+  changes:
+  - message: T3 Xenoborg Modules and the Advanced Hypo module now cost a little more plastic, and also cost Plasma.
+    type: Tweak
+  id: 405272
+  time: '2026-05-24T07:59:58.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4525
+- author: wonderfulnewworld
+  changes:
+  - message: Bitterfrost Cannon now consumes 50% more charge per shot.
+    type: Tweak
+  id: 405273
+  time: '2026-05-24T07:59:58.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4525
+- author: wonderfulnewworld
+  changes:
+  - message: Extended Nocturine Hypo now only stores up to 18u.
+    type: Tweak
+  id: 405274
+  time: '2026-05-24T07:59:58.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4525
+- author: wonderfulnewworld
+  changes:
+  - message: Licoxide Hypo now only stores up to 8u.
+    type: Tweak
+  id: 405275
+  time: '2026-05-24T07:59:58.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4525
+- author: wonderfulnewworld
+  changes:
+  - message: Advanced Hypo module now has a 12u Licoxide hypo instead of Tazinide and Mute Toxin.
+    type: Tweak
+  id: 405276
+  time: '2026-05-24T07:59:58.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4525
 Order: -1
