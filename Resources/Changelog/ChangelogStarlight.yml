@@ -1,27 +1,6 @@
 Entries:
 - author: wonderfulnewworld
   changes:
-  - message: Changelings can now appear in Zombies and Zombieteors! (Similar to Vampires, they have that client-side visual bug when they get converted, still showing their own abilities, but they are not functional.).
-    type: Add
-  id: 404880
-  time: '2026-05-10T10:36:28.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4313
-- author: wonderfulnewworld
-  changes:
-  - message: Added a new chemical (exclusive to the Amalgam Overdose ability), Amalgamation blood. It gives buffs comparable to Hyperzine, but without healing.
-    type: Add
-  id: 404881
-  time: '2026-05-10T10:36:28.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4313
-- author: wonderfulnewworld
-  changes:
-  - message: Changelings now lose biomass 50% slower.
-    type: Tweak
-  id: 404882
-  time: '2026-05-10T10:36:28.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4313
-- author: wonderfulnewworld
-  changes:
   - message: You can now disable the Changeling Augmented Eyesight ability. (And you need to disable it to use the other Eyesight abilities.) It also costs 1 less evo point.
     type: Tweak
   id: 404883
@@ -2799,4 +2778,25 @@ Entries:
   id: 405279
   time: '2026-05-24T08:00:00.000000+00:00'
   url: https://github.com/ss14Starlight/space-station-14/pull/4526
+- author: wonderfulnewworld
+  changes:
+  - message: The NanoTrasen Encryption key is now unremovable. It's more advanced, after all.
+    type: Tweak
+  id: 405280
+  time: '2026-05-24T08:00:04.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4519
+- author: wonderfulnewworld
+  changes:
+  - message: BSO now has a NanoTrasen Encryption key in their headset.
+    type: Fix
+  id: 405281
+  time: '2026-05-24T08:00:04.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4519
+- author: wonderfulnewworld
+  changes:
+  - message: T3 Scout Xenoborgs are no longer immortal when spawned from the entities menu. (The normal ones can't achieve immortality, but this should prevent admins from accidentally spawning immortality versions (the ones without brains).).
+    type: Fix
+  id: 405282
+  time: '2026-05-24T08:00:04.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4519
 Order: -1
