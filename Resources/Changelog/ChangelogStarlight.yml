@@ -1,11 +1,4 @@
 Entries:
-- author: kirb
-  changes:
-  - message: restores some previously removed animal themed trinkets.
-    type: Add
-  id: 405015
-  time: '2026-05-15T12:55:03.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4415
 - author: Swonki
   changes:
   - message: Corgi Firesuit+Helmet.
@@ -2799,4 +2792,11 @@ Entries:
   id: 405414
   time: '2026-05-25T14:36:27.000000+00:00'
   url: https://github.com/ss14Starlight/space-station-14/pull/4543
+- author: StrangerOfParadiseOG
+  changes:
+  - message: Added pistol whipping to MOST firearms.
+    type: Add
+  id: 405415
+  time: '2026-05-25T14:36:29.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4527
 Order: -1
