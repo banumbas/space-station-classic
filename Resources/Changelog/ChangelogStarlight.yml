@@ -1,13 +1,6 @@
 Entries:
 - author: Swonki
   changes:
-  - message: Corgi Firesuit+Helmet.
-    type: Add
-  id: 405016
-  time: '2026-05-15T15:52:48.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4453
-- author: Swonki
-  changes:
   - message: Corgi Head of Security Hardsuit.
     type: Add
   id: 405017
@@ -2799,4 +2792,11 @@ Entries:
   id: 405415
   time: '2026-05-25T14:36:29.000000+00:00'
   url: https://github.com/ss14Starlight/space-station-14/pull/4527
+- author: Conflee
+  changes:
+  - message: Changed Cluwne Cure Chance on the Bible from 3% to 70%. With slightly bad RNG, you would have to hit someone 100+ times, leading most people to assume it was bugged. Zero gameplay or balance benefit from making someone get hit that many times to cure, it sucked.
+    type: Tweak
+  id: 405416
+  time: '2026-05-25T15:32:08.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4524
 Order: -1
