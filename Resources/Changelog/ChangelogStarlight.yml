@@ -1,13 +1,6 @@
 Entries:
 - author: Cvlancer
   changes:
-  - message: (SPACEMALL) Removed one of the Cerekite fuel rods from nuclear reactor going from 3 to 2 total.
-    type: Remove
-  id: 405049
-  time: '2026-05-17T15:33:13.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4447
-- author: Cvlancer
-  changes:
   - message: (SPACEMALL) Removed some of the steel and plasteel located inside nuclear reactor. From 30 of each to 10 of each.
     type: Remove
   id: 405050
@@ -2799,4 +2792,11 @@ Entries:
   id: 405448
   time: '2026-05-26T22:19:09.000000+00:00'
   url: https://github.com/ss14Starlight/space-station-14/pull/4552
+- author: RubiconLocked
+  changes:
+  - message: The Emergency Medical Pod option of the Secure Terminal now correctly deploys an Emergency Medical Pod.
+    type: Fix
+  id: 405449
+  time: '2026-05-26T22:19:12.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4555
 Order: -1
