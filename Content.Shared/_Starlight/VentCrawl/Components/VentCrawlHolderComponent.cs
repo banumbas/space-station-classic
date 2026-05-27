@@ -9,11 +9,11 @@ namespace Content.Shared.VentCrawl.Components;
 [RegisterComponent, NetworkedComponent, AutoGenerateComponentState(fieldDeltas: true), AutoGenerateComponentPause]
 public sealed partial class VentCrawlHolderComponent : Component
 {
-    [ViewVariables]
-    public float StartingTime { get; set; }
+    #region State
 
     [ViewVariables]
-    public float TimeLeft { get; set; }
+    [AutoNetworkedField]
+    public EntityUid ContainedEntity { get; set; }
 
     [AutoNetworkedField]
     public bool IsMoving = false;
@@ -28,10 +28,6 @@ public sealed partial class VentCrawlHolderComponent : Component
 
     [ViewVariables]
     [AutoNetworkedField]
-    public Direction PreviousDirection { get; set; } = Direction.Invalid;
-
-    [ViewVariables]
-    [AutoNetworkedField]
     public EntityUid? CurrentTube { get; set; }
 
     [ViewVariables]
@@ -43,31 +39,49 @@ public sealed partial class VentCrawlHolderComponent : Component
     public Direction CurrentDirection { get; set; } = Direction.Invalid;
 
     [ViewVariables]
-    public bool IsExitingVentCrawls { get; set; }
-
-    public static readonly TimeSpan CrawlDelay = TimeSpan.FromSeconds(0.5);
+    [AutoNetworkedField]
+    public Direction PreviousDirection { get; set; } = Direction.Invalid;
 
     [ViewVariables]
-    [AutoNetworkedField]
+    public bool IsExitingVentCrawls { get; set; }
+
+    #endregion
+
+    #region CrawlInfo
+
+    public SoundCollectionSpecifier CrawlSound { get; set; } = new("VentClaw", AudioParams.Default.WithVolume(5f));
+
+    [ViewVariables]
     public TimeSpan LastCrawl;
 
-    [DataField("crawlSound")]
-    public SoundCollectionSpecifier CrawlSound { get; set; } = new ("VentClaw", AudioParams.Default.WithVolume(5f));
+    public float TravelDuration = 0.5f;
 
-    [DataField("travelDuration")]
-    public float TravelDuration = 0.15f;
+    [ViewVariables]
+    [AutoNetworkedField, AutoPausedField]
+    public TimeSpan MoveStartTime;
 
-    [DataField]
+    [ViewVariables]
+    [AutoNetworkedField, AutoPausedField]
+    public TimeSpan MoveEndTime;
+
+    #endregion
+
+    #region Action
+
     public EntProtoId<ActionComponent> ActionProto = "VentCrawlExitAction";
 
     [AutoNetworkedField]
     public List<EntityUid> ProvidedActions = new();
 
+    #endregion
+
+    #region Manifold
+
     /// <summary>
     /// Current layer in manifold. Null if not in manifold.
     /// </summary>
-    [AutoNetworkedField]
     [ViewVariables]
+    [AutoNetworkedField]
     public int? ManifoldLayer;
 
     /// <summary>
@@ -77,12 +91,13 @@ public sealed partial class VentCrawlHolderComponent : Component
     [AutoNetworkedField]
     public int? PreviousManifoldLayer;
 
-    /// <summary>
-    /// Current progress of transition in manifold between layers.
-    /// </summary>
     [ViewVariables]
-    [AutoNetworkedField]
-    public float ManifoldTransitionProgress = 1f;
+    [AutoNetworkedField, AutoPausedField]
+    public TimeSpan ManifoldTransitionStart;
+
+    [ViewVariables]
+    [AutoNetworkedField, AutoPausedField]
+    public TimeSpan ManifoldTransitionEnd;
 
     /// <summary>
     /// Duration of transition in manifold between layers.
@@ -95,6 +110,8 @@ public sealed partial class VentCrawlHolderComponent : Component
 
     [AutoNetworkedField, AutoPausedField]
     public TimeSpan ManifoldLastLayerSelection;
+
+    #endregion
 }
 
 public sealed partial class ExitVentActionEvent : InstantActionEvent

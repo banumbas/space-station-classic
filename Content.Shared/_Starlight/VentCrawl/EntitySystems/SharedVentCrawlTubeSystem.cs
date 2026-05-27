@@ -89,7 +89,7 @@ public sealed partial class SharedVentCrawlTubeSystem : EntitySystem
             return;
 
         if (_net.IsServer)
-            TryInsert(args.Args.Target.Value, args.Args.Used.Value);
+            TryInsert(args.Args.Target.Value, args.Args.Used.Value, null, component);
 
         args.Handled = true;
     }
@@ -284,29 +284,31 @@ public sealed partial class SharedVentCrawlTubeSystem : EntitySystem
         return ev.Connectable.Contains(direction);
     }
 
-    public bool TryInsert(EntityUid uid, EntityUid entity, VentCrawlEntryComponent? entry = null)
+    public bool TryInsert(EntityUid entry, EntityUid target, VentCrawlEntryComponent? entryComp = null, VentCrawlerComponent? ventCrawler = null)
     {
-        if (!Resolve(uid, ref entry))
+        if (!Resolve(entry, ref entryComp))
             return false;
 
-        if (!TryComp<VentCrawlerComponent>(entity, out var ventCrawlerComponent))
+        if (!Resolve(target, ref ventCrawler))
             return false;
 
-        var tubeCoords = Transform(uid).Coordinates;
+        var tubeCoords = Transform(entry).Coordinates;
         var holder = PredictedSpawnAttachedTo(VentCrawlEntryComponent.HolderPrototypeId, tubeCoords);
         var holderComponent = Comp<VentCrawlHolderComponent>(holder);
 
-        if (!_ventCrawableSystem.TryInsert(holder, entity))
+        if (!_ventCrawableSystem.TryInsert(holder, target))
         {
             Del(holder);
             return false;
         }
 
-        _mover.SetRelay(entity, holder);
-        ventCrawlerComponent.InTube = true;
-        Dirty(entity, ventCrawlerComponent);
+        _mover.SetRelay(target, holder);
+        ventCrawler.InTube = true;
+        Dirty(target, ventCrawler);
+        holderComponent.ContainedEntity = target;
+        DirtyField(holder, holderComponent, nameof(VentCrawlHolderComponent.ContainedEntity));
 
-        var result = _ventCrawableSystem.EnterTube(holder, uid, holderComponent);
+        var result = _ventCrawableSystem.EnterTube(holder, entry, holderComponent);
 
         if (!result)
         {
