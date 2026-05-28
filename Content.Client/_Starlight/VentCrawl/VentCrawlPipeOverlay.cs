@@ -5,7 +5,6 @@ using Robust.Client.GameObjects;
 using Robust.Client.Graphics;
 using Robust.Client.Player;
 using Robust.Shared.Enums;
-using Robust.Shared.Timing;
 using Content.Shared._Starlight.VentCrawl.EntitySystems;
 
 namespace Content.Client._Starlight.VentCrawl;
@@ -14,17 +13,19 @@ public sealed partial class VentCrawPipeOverlay : Robust.Client.Graphics.Overlay
 {
     [Dependency] private IPlayerManager _playerManager = default!;
     [Dependency] private IEntityManager _entityManager = default!;
-    [Dependency] private IGameTiming _timing = default!;
 
     private readonly SpriteSystem _spriteSystem;
     private readonly EntityLookupSystem _lookup;
     private readonly SharedTransformSystem _xformSys = default!;
 
-    private static readonly Color PipeGlowColor = new(0.4f, 0.8f, 1.0f, 0.35f);
-    private static readonly Color PipeBaseColor = new(0.75f, 0.92f, 1.0f, 1.0f);
+    private static readonly Color _pipeGlowColor = new(0.4f, 0.8f, 1.0f, 0.35f);
+    private static readonly Color _pipeBaseColor = new(0.75f, 0.92f, 1.0f, 1.0f);
+    private static readonly Vector2[] _glowOffsets =
+    {
+        new(-GlowRadius, 0), new(GlowRadius, 0),
+        new(0, -GlowRadius), new(0,  GlowRadius),
+    };
     private const float GlowRadius = 0.015f;
-
-    private const float IndicatorRadius = 0.11f;
 
     public override OverlaySpace Space => OverlaySpace.WorldSpace;
 
@@ -76,33 +77,15 @@ public sealed partial class VentCrawPipeOverlay : Robust.Client.Graphics.Overlay
 
             var oldColor = sprite.Color;
 
-            _spriteSystem.SetColor((uid, sprite), PipeGlowColor);
-            foreach (var offset in GlowOffsets)
+            _spriteSystem.SetColor((uid, sprite), _pipeGlowColor);
+            foreach (var offset in _glowOffsets)
                 _spriteSystem.RenderSprite((uid, sprite), worldHandle, eyeRot, worldRot, worldPos + offset);
 
-            _spriteSystem.SetColor((uid, sprite), PipeBaseColor);
+            _spriteSystem.SetColor((uid, sprite), _pipeBaseColor);
             _spriteSystem.RenderSprite((uid, sprite), worldHandle, eyeRot, worldRot, worldPos);
 
             _spriteSystem.SetColor((uid, sprite), oldColor);
         }
-
-        worldHandle.SetTransform(Matrix3x2.Identity);
-        worldHandle.UseShader(null);
-
-        DrawPositionIndicator(worldHandle, beingCrawl.Holder);
-    }
-
-    private void DrawPositionIndicator(DrawingHandleWorld handle, EntityUid holder)
-    {
-        var pos = _xformSys.GetWorldPosition(holder);
-
-        var t = (float)_timing.CurTime.TotalSeconds;
-        var pulse = (MathF.Sin(t * MathF.PI) + 1f) * 0.5f;
-
-        var glowAlpha = 0.04f + pulse * 0.10f;
-        handle.DrawCircle(pos, IndicatorRadius * 2.4f, new Color(1.0f, 0.62f, 0.0f, glowAlpha));
-        handle.DrawCircle(pos, IndicatorRadius * 1.9f, new Color(1.0f, 0.62f, 0.0f, glowAlpha * 1.7f));
-        handle.DrawCircle(pos, IndicatorRadius * 1.55f, new Color(1.0f, 0.62f, 0.0f, glowAlpha * 2.5f));
     }
 
     private AtmosPipeLayer ResolvePlayerLayer(VentCrawlHolderComponent holder)
@@ -122,10 +105,4 @@ public sealed partial class VentCrawPipeOverlay : Robust.Client.Graphics.Overlay
 
         return AtmosPipeLayer.Primary;
     }
-
-    private static readonly Vector2[] GlowOffsets =
-    {
-        new(-GlowRadius, 0), new(GlowRadius, 0),
-        new(0, -GlowRadius), new(0,  GlowRadius),
-    };
 }
