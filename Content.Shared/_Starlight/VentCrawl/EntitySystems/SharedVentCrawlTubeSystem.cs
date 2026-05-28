@@ -34,6 +34,7 @@ public sealed partial class SharedVentCrawlTubeSystem : EntitySystem
         SubscribeLocalEvent<VentCrawlTubeComponent, ComponentStartup>(OnStartup);
         SubscribeLocalEvent<VentCrawlTubeComponent, AnchorStateChangedEvent>(OnAnchorChange);
         SubscribeLocalEvent<VentCrawlTubeComponent, BreakageEventArgs>(OnBreak);
+        SubscribeLocalEvent<VentCrawlTubeComponent, EntityTerminatingEvent>(OnTerminating);
 
         SubscribeLocalEvent<VentCrawlEntryComponent, GetVerbsEvent<AlternativeVerb>>(AddClimbedVerb);
         SubscribeLocalEvent<VentCrawlerComponent, EnterVentDoAfterEvent>(OnDoAfterEnterTube);
@@ -46,10 +47,6 @@ public sealed partial class SharedVentCrawlTubeSystem : EntitySystem
     }
 
     #region Subscribes
-
-    public Container GetOrEnsureContainer(EntityUid uid, VentCrawlTubeComponent tube)
-        => _containerSystem.EnsureContainer<Container>(uid, tube.ContainerId);
-
     private void OnComponentRemove(EntityUid uid, VentCrawlTubeComponent tube, ComponentRemove args)
         => DisconnectTube(tube);
 
@@ -64,6 +61,9 @@ public sealed partial class SharedVentCrawlTubeSystem : EntitySystem
 
     private void OnAnchorChange(EntityUid uid, VentCrawlTubeComponent component, ref AnchorStateChangedEvent args)
         => UpdateAnchored(component, args.Anchored);
+
+    private void OnTerminating(EntityUid uid, VentCrawlTubeComponent component, ref EntityTerminatingEvent args)
+        => DisconnectTube(component);
 
     private void AddClimbedVerb(EntityUid uid, VentCrawlEntryComponent component, GetVerbsEvent<AlternativeVerb> args)
     {
@@ -172,8 +172,8 @@ public sealed partial class SharedVentCrawlTubeSystem : EntitySystem
 
         tube.Connected = false;
 
-        foreach (var entity in GetOrEnsureContainer(tube.Owner, tube).ContainedEntities.ToArray())
-            _ventCrawableSystem.ExitVentCrawl(entity);
+        foreach (var holder in tube.ContainedHolders)
+            _ventCrawableSystem.ExitVentCrawl(holder);
     }
 
     public EntityUid? GetManifoldExit(

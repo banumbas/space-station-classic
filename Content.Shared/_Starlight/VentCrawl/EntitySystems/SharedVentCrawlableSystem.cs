@@ -70,9 +70,24 @@ public sealed partial class SharedVentCrawlableSystem : EntitySystem
 
         if (holder.CurrentDirection != dir && dir != Direction.Invalid)
         {
+            if (holder.NextTube != null)
+            {
+                var total = (holder.MoveEndTime - holder.MoveStartTime).TotalSeconds;
+                var elapsed = total > 0
+                    ? (_gameTiming.CurTime - holder.MoveStartTime).TotalSeconds
+                    : 1.0;
+
+                if (elapsed / total < 0.5)
+                {
+                    holder.NextTube = null;
+                    holder.MoveStartTime = TimeSpan.Zero;
+                    holder.MoveEndTime = TimeSpan.Zero;
+                    DirtyField(uid, holder, nameof(VentCrawlHolderComponent.NextTube));
+                }
+            }
+
             holder.PreviousDirection = holder.CurrentDirection;
             holder.CurrentDirection = dir;
-
             DirtyField(uid, holder, nameof(VentCrawlHolderComponent.CurrentDirection));
             DirtyField(uid, holder, nameof(VentCrawlHolderComponent.PreviousDirection));
         }
@@ -125,12 +140,6 @@ public sealed partial class SharedVentCrawlableSystem : EntitySystem
         if (!Resolve(toUid, ref to, ref toTransform, false))
             return false;
 
-        if (!_containerSystem.Insert(holderUid, _ventCrawlTubeSystem.GetOrEnsureContainer(toUid, to)))
-        {
-            Log.Error("Entity tried entering tube but container system can't insert it into tube!");
-            return false;
-        }
-
         var player = holder.ContainedEntity;
 
         var beingcrawl = EnsureComp<BeingVentCrawlComponent>(player);
@@ -163,10 +172,7 @@ public sealed partial class SharedVentCrawlableSystem : EntitySystem
             holder.HasExitAction = false;
         }
 
-        if (TryComp<PhysicsComponent>(holderUid, out var physBody))
-            _physicsSystem.SetCanCollide(holderUid, false, body: physBody);
-
-        if (holder.CurrentTube != null && TryComp<AtmosPipeLayersComponent>(toUid, out var toLayers))
+        if (holder.CurrentTube == null && TryComp<AtmosPipeLayersComponent>(toUid, out var toLayers))
         {
             var offset = GetLayerOffset(toLayers.CurrentPipeLayer);
             var tubePos = Transform(toUid).Coordinates;
@@ -188,10 +194,23 @@ public sealed partial class SharedVentCrawlableSystem : EntitySystem
         else
             holder.ManifoldLayer = null;
 
+        if (to.BlocksVision)
+            EnsureComp<ParentCanBlockVisionComponent>(holderUid);
+        else
+            RemComp<ParentCanBlockVisionComponent>(holderUid);
+
         holder.PreviousTube = holder.CurrentTube;
+        if (holder.PreviousTube != null && TryComp<VentCrawlTubeComponent>(holder.PreviousTube, out var prevTube))
+        {
+            prevTube.ContainedHolders.Remove(holderUid);
+            Dirty(holder.PreviousTube.Value, prevTube);
+        }
         holder.PreviousDirection = holder.CurrentDirection;
         holder.CurrentTube = toUid;
         Dirty(holderUid, holder);
+
+        to.ContainedHolders.Add(holderUid);
+        Dirty(toUid, to);
 
         return true;
     }
@@ -274,14 +293,14 @@ public sealed partial class SharedVentCrawlableSystem : EntitySystem
             if (!_gameTiming.IsFirstTimePredicted)
                 continue;
 
-            if (holder.NextTube != null && _gameTiming.CurTime < holder.MoveEndTime)
-                UpdatePosition(holder.CurrentTube.Value, uid, holder);
+            if (holder.NextTube != null)
+                UpdatePosition(uid, holder);
 
             if (!UpdateMovementInput(holder.CurrentTube.Value, uid, holder))
                 continue;
 
             if (holder.NextTube != null && _gameTiming.CurTime >= holder.MoveEndTime)
-                TryAdvanceTube(holder.CurrentTube.Value, uid, holder);
+                TryAdvanceTube(uid, holder);
         }
     }
 
@@ -290,6 +309,12 @@ public sealed partial class SharedVentCrawlableSystem : EntitySystem
         if (!holder.IsMoving)
         {
             holder.CurrentDirection = Direction.Invalid;
+
+            holder.NextTube = null;
+            holder.MoveStartTime = TimeSpan.Zero;
+            holder.MoveEndTime = TimeSpan.Zero;
+
+            Dirty(uid, holder);
             return true;
         }
 
@@ -314,10 +339,7 @@ public sealed partial class SharedVentCrawlableSystem : EntitySystem
                 if (nextTube == holder.CurrentTube)
                     return false;
 
-                holder.NextTube = nextTube;
-                holder.MoveStartTime = _gameTiming.CurTime;
-                holder.MoveEndTime = _gameTiming.CurTime + TimeSpan.FromSeconds(holder.TravelDuration);
-                Dirty(uid, holder);
+                BeginMoveTo(uid, nextTube.Value, holder);
             }
             else
             {
@@ -334,12 +356,9 @@ public sealed partial class SharedVentCrawlableSystem : EntitySystem
         return true;
     }
 
-    private void UpdatePosition(EntityUid currentTube, EntityUid uid, VentCrawlHolderComponent holder)
+    private void UpdatePosition(EntityUid uid, VentCrawlHolderComponent holder)
     {
         if (holder.NextTube == null)
-            return;
-
-        if (holder.CurrentDirection == Direction.Invalid)
             return;
 
         var totalSeconds = (holder.MoveEndTime - holder.MoveStartTime).TotalSeconds;
@@ -349,28 +368,11 @@ public sealed partial class SharedVentCrawlableSystem : EntitySystem
         var elapsed = (_gameTiming.CurTime - holder.MoveStartTime).TotalSeconds;
         var progress = (float)Math.Clamp(elapsed / totalSeconds, 0.0, 1.0);
 
-        var origin = Transform(currentTube).Coordinates;
-
-        var nextCoords = Transform(holder.NextTube.Value).Coordinates;
-        var delta = nextCoords.Position - origin.Position;
-
-        var newPosition = delta * progress;
-
-        if (TryComp<AtmosPipeLayersComponent>(currentTube, out var layersComp))
-        {
-            var currentOffset = GetLayerOffset(layersComp.CurrentPipeLayer);
-            var nextOffset = TryComp<AtmosPipeLayersComponent>(holder.NextTube.Value, out var nextTubeComp)
-                ? GetLayerOffset(nextTubeComp.CurrentPipeLayer)
-                : currentOffset;
-
-            var layerOffset = Vector2.Lerp(currentOffset, nextOffset, progress);
-            newPosition += layerOffset;
-        }
-
-        _xformSystem.SetCoordinates(uid, _xformSystem.WithEntityId(origin.Offset(newPosition), currentTube));
+        var worldPos = Vector2.Lerp(holder.MoveFromWorldPos, holder.MoveToWorldPos, progress);
+        _xformSystem.SetWorldPosition(uid, worldPos);
     }
 
-    private void TryAdvanceTube(EntityUid currentTube, EntityUid uid, VentCrawlHolderComponent holder)
+    private void TryAdvanceTube(EntityUid uid, VentCrawlHolderComponent holder)
     {
         if (holder.NextTube == null || holder.NextTube == holder.CurrentTube)
         {
@@ -379,11 +381,6 @@ public sealed partial class SharedVentCrawlableSystem : EntitySystem
             holder.MoveEndTime = TimeSpan.Zero;
             return;
         }
-
-        if (TryComp<VentCrawlTubeComponent>(currentTube, out var tubeComp)
-            && _ventCrawlTubeSystem.GetOrEnsureContainer(currentTube, tubeComp) is { } tubeContainer
-            && tubeContainer.ContainedEntities.Contains(uid))
-            _containerSystem.Remove(uid, tubeContainer, reparent: false, force: true);
 
         if (_gameTiming.CurTime > holder.LastCrawl + TimeSpan.FromSeconds(holder.TravelDuration))
         {
@@ -400,18 +397,14 @@ public sealed partial class SharedVentCrawlableSystem : EntitySystem
 
         EnterTube(uid, nextTube, holder);
 
-        if (holder.IsMoving && holder.CurrentDirection != Direction.Invalid)
-        {
-            var chainedNext = _ventCrawlTubeSystem.NextTubeFor(nextTube, holder.CurrentDirection);
+        if (!holder.IsMoving || holder.CurrentDirection == Direction.Invalid)
+            return;
 
-            if (chainedNext != null && holder.CurrentTube != chainedNext)
-            {
-                holder.NextTube = chainedNext;
-                holder.MoveStartTime = _gameTiming.CurTime;
-                holder.MoveEndTime = _gameTiming.CurTime + TimeSpan.FromSeconds(holder.TravelDuration);
-                Dirty(uid, holder);
-            }
-        }
+        var chainedNext = _ventCrawlTubeSystem.NextTubeFor(nextTube, holder.CurrentDirection);
+        if (chainedNext == null || holder.CurrentTube == chainedNext)
+            return;
+
+        BeginMoveTo(uid, chainedNext.Value, holder.MoveToWorldPos, holder);
     }
 
     private void UpdateManifoldPositionInterpolated(
@@ -555,6 +548,60 @@ public sealed partial class SharedVentCrawlableSystem : EntitySystem
         var manifoldPos = Transform(manifoldUid).Coordinates;
 
         _xformSystem.SetCoordinates(holderUid, _xformSystem.WithEntityId(manifoldPos.Offset(offset), manifoldUid));
+    }
+
+    /// <summary>
+    /// Computes the world-space target position for a tube (center + pipe layer offset, rotated by grid).
+    /// </summary>
+    private Vector2 ComputeTubeWorldPos(EntityUid tubeUid)
+    {
+        var worldPos = _xformSystem.GetWorldPosition(tubeUid);
+
+        if (!TryComp<AtmosPipeLayersComponent>(tubeUid, out var layers))
+            return worldPos;
+
+        var layerOffset = GetLayerOffset(layers.CurrentPipeLayer);
+        if (layerOffset == Vector2.Zero)
+            return worldPos;
+
+        var tubeXform = Transform(tubeUid);
+        var parentRotation = tubeXform.GridUid.HasValue
+            ? _xformSystem.GetWorldRotation(tubeXform.GridUid.Value)
+            : Angle.Zero;
+
+        return worldPos + parentRotation.RotateVec(layerOffset);
+    }
+
+    /// <summary>
+    /// Starts movement toward <paramref name="nextTube"/>, capturing the current visual position
+    /// as the animation start for seamless chaining.
+    /// </summary>
+    private void BeginMoveTo(
+        EntityUid holderUid,
+        EntityUid nextTube,
+        Vector2 fromWorldPos,
+        VentCrawlHolderComponent holder)
+    {
+        holder.MoveFromWorldPos = fromWorldPos;
+        holder.MoveToWorldPos = ComputeTubeWorldPos(nextTube);
+
+        holder.NextTube = nextTube;
+        holder.MoveStartTime = _gameTiming.CurTime;
+        holder.MoveEndTime = _gameTiming.CurTime + TimeSpan.FromSeconds(holder.TravelDuration);
+
+        Dirty(holderUid, holder);
+    }
+
+    private void BeginMoveTo(
+        EntityUid holderUid,
+        EntityUid nextTube,
+        VentCrawlHolderComponent holder)
+    {
+        BeginMoveTo(
+            holderUid,
+            nextTube,
+            _xformSystem.GetWorldPosition(holderUid),
+            holder);
     }
 
     public static int TransformIntoManifoldLayer(AtmosPipeLayer layer) => layer switch

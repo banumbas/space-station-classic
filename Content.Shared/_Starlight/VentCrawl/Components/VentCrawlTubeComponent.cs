@@ -5,12 +5,16 @@ namespace Content.Shared.VentCrawl.Tube.Components;
 /// <summary>
 /// A component representing a vent that you can crawl through
 /// </summary>
-[RegisterComponent, NetworkedComponent]
+[RegisterComponent, NetworkedComponent, AutoGenerateComponentState]
 public sealed partial class VentCrawlTubeComponent : Component
 {
-    public string ContainerId { get; set; } = "VentCrawlTube";
+    [AutoNetworkedField]
+    public List<EntityUid> ContainedHolders = new();
 
     public bool Connected;
+
+    [DataField]
+    public bool BlocksVision = true;
 }
 
 [ByRefEvent]

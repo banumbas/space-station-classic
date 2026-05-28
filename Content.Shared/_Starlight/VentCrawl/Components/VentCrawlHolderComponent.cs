@@ -1,3 +1,4 @@
+using System.Numerics;
 using Content.Shared.Actions;
 using Content.Shared.Actions.Components;
 using Robust.Shared.Audio;
@@ -54,7 +55,7 @@ public sealed partial class VentCrawlHolderComponent : Component
     [ViewVariables]
     public TimeSpan LastCrawl;
 
-    public float TravelDuration = 0.5f;
+    public float TravelDuration = 0.25f;
 
     [ViewVariables]
     [AutoNetworkedField, AutoPausedField]
@@ -63,6 +64,18 @@ public sealed partial class VentCrawlHolderComponent : Component
     [ViewVariables]
     [AutoNetworkedField, AutoPausedField]
     public TimeSpan MoveEndTime;
+
+    /// <summary>
+    /// World-space position at the start of the current move. Used for seamless interpolation.
+    /// </summary>
+    [AutoNetworkedField]
+    public Vector2 MoveFromWorldPos;
+
+    /// <summary>
+    /// World-space position at the end of the current move. Used for seamless interpolation.
+    /// </summary>
+    [AutoNetworkedField]
+    public Vector2 MoveToWorldPos;
 
     #endregion
 
