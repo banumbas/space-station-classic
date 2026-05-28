@@ -1,7 +1,6 @@
-using Content.Client.SubFloor;
-using Content.Shared.VentCrawl;
 using Robust.Client.Player;
 using Robust.Client.Graphics;
+using Content.Shared._Starlight.VentCrawl.Components;
 
 namespace Content.Client._Starlight.VentCrawl;
 

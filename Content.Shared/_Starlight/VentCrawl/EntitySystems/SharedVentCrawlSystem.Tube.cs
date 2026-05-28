@@ -2,33 +2,17 @@ using System.Linq;
 using Content.Shared.Atmos.Components;
 using Content.Shared.Destructible;
 using Content.Shared.DoAfter;
-using Content.Shared.Movement.Systems;
-using Content.Shared.Popups;
 using Content.Shared.Tools.Components;
-using Content.Shared.VentCrawl.Components;
-using Content.Shared.VentCrawl.EntitySystems;
-using Content.Shared.VentCrawl.Tube.Components;
+using Content.Shared._Starlight.VentCrawl.Components;
 using Content.Shared.Verbs;
-using Robust.Shared.Containers;
 using Robust.Shared.Map.Components;
-using Robust.Shared.Network;
 
-namespace Content.Shared.VentCrawl;
+namespace Content.Shared._Starlight.VentCrawl.EntitySystems;
 
-public sealed partial class SharedVentCrawlTubeSystem : EntitySystem
+public sealed partial class SharedVentCrawlSystem
 {
-    [Dependency] private SharedVentCrawlableSystem _ventCrawableSystem = default!;
-    [Dependency] private SharedMapSystem _mapSystem = default!;
-    [Dependency] private SharedContainerSystem _containerSystem = default!;
-    [Dependency] private SharedDoAfterSystem _doAfterSystem = default!;
-    [Dependency] private SharedPopupSystem _popup = default!;
-    [Dependency] private SharedMoverController _mover = default!;
-    [Dependency] private INetManager _net = default!;
-
-    public override void Initialize()
+    public void InitializeTubes()
     {
-        base.Initialize();
-
         SubscribeLocalEvent<VentCrawlTubeComponent, ComponentRemove>(OnComponentRemove);
         SubscribeLocalEvent<VentCrawlTubeComponent, ComponentShutdown>(OnShutdown);
         SubscribeLocalEvent<VentCrawlTubeComponent, ComponentStartup>(OnStartup);
@@ -173,7 +157,7 @@ public sealed partial class SharedVentCrawlTubeSystem : EntitySystem
         tube.Connected = false;
 
         foreach (var holder in tube.ContainedHolders)
-            _ventCrawableSystem.ExitVentCrawl(holder);
+            ExitVentCrawl(holder);
     }
 
     public EntityUid? GetManifoldExit(
@@ -271,7 +255,7 @@ public sealed partial class SharedVentCrawlTubeSystem : EntitySystem
     {
         var hasB = TryComp(b, out AtmosPipeLayersComponent? lb);
 
-        return !hasB ? false : a == lb!.CurrentPipeLayer;
+        return hasB && a == lb!.CurrentPipeLayer;
     }
 
     private bool CanConnect(EntityUid tubeId, VentCrawlTubeComponent tube, Direction direction)
@@ -296,7 +280,7 @@ public sealed partial class SharedVentCrawlTubeSystem : EntitySystem
         var holder = PredictedSpawnAttachedTo(VentCrawlEntryComponent.HolderPrototypeId, tubeCoords);
         var holderComponent = Comp<VentCrawlHolderComponent>(holder);
 
-        if (!_ventCrawableSystem.TryInsert(holder, target))
+        if (!TryInsert(holder, target))
         {
             Del(holder);
             return false;
@@ -308,11 +292,11 @@ public sealed partial class SharedVentCrawlTubeSystem : EntitySystem
         holderComponent.ContainedEntity = target;
         DirtyField(holder, holderComponent, nameof(VentCrawlHolderComponent.ContainedEntity));
 
-        var result = _ventCrawableSystem.EnterTube(holder, entry, holderComponent);
+        var result = EnterTube(holder, entry, holderComponent);
 
         if (!result)
         {
-            _ventCrawableSystem.ExitVentCrawl(holder, holderComponent);
+            ExitVentCrawl(holder, holderComponent);
             return false;
         }
 

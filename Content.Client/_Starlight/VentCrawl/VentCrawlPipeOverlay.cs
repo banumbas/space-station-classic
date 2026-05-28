@@ -1,13 +1,12 @@
 using System.Numerics;
 using Content.Shared.Atmos.Components;
-using Content.Shared.VentCrawl;
-using Content.Shared.VentCrawl.Components;
-using Content.Shared.VentCrawl.Tube.Components;
+using Content.Shared._Starlight.VentCrawl.Components;
 using Robust.Client.GameObjects;
 using Robust.Client.Graphics;
 using Robust.Client.Player;
 using Robust.Shared.Enums;
 using Robust.Shared.Timing;
+using Content.Shared._Starlight.VentCrawl.EntitySystems;
 
 namespace Content.Client._Starlight.VentCrawl;
 
@@ -25,7 +24,7 @@ public sealed partial class VentCrawPipeOverlay : Robust.Client.Graphics.Overlay
     private static readonly Color PipeBaseColor = new(0.75f, 0.92f, 1.0f, 1.0f);
     private const float GlowRadius = 0.015f;
 
-    private const float IndicatorRadius = 0.22f;
+    private const float IndicatorRadius = 0.11f;
 
     public override OverlaySpace Space => OverlaySpace.WorldSpace;
 
@@ -111,21 +110,15 @@ public sealed partial class VentCrawPipeOverlay : Robust.Client.Graphics.Overlay
         if (holder.CurrentTube != null
             && _entityManager.HasComponent<VentCrawlManifoldComponent>(holder.CurrentTube.Value)
             && holder.ManifoldLayer != null)
-        {
-            return SharedVentCrawlTubeSystem.TransformFromManifoldLayer(holder.ManifoldLayer.Value);
-        }
+            return SharedVentCrawlSystem.TransformFromManifoldLayer(holder.ManifoldLayer.Value);
 
         if (holder.CurrentTube != null
             && _entityManager.TryGetComponent<AtmosPipeLayersComponent>(holder.CurrentTube.Value, out var cur))
-        {
             return cur.CurrentPipeLayer;
-        }
 
         if (holder.NextTube != null
             && _entityManager.TryGetComponent<AtmosPipeLayersComponent>(holder.NextTube.Value, out var next))
-        {
             return next.CurrentPipeLayer;
-        }
 
         return AtmosPipeLayer.Primary;
     }

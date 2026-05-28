@@ -1,11 +1,10 @@
 using System.Numerics;
 using Content.Shared.Actions;
 using Content.Shared.Actions.Components;
-using Robust.Shared.Audio;
 using Robust.Shared.GameStates;
 using Robust.Shared.Prototypes;
 
-namespace Content.Shared.VentCrawl.Components;
+namespace Content.Shared._Starlight.VentCrawl.Components;
 
 [RegisterComponent, NetworkedComponent, AutoGenerateComponentState(fieldDeltas: true), AutoGenerateComponentPause]
 public sealed partial class VentCrawlHolderComponent : Component
@@ -33,10 +32,6 @@ public sealed partial class VentCrawlHolderComponent : Component
 
     [ViewVariables]
     [AutoNetworkedField]
-    public bool HasExitAction { get; set; }
-
-    [ViewVariables]
-    [AutoNetworkedField]
     public Direction CurrentDirection { get; set; } = Direction.Invalid;
 
     [ViewVariables]
@@ -50,12 +45,8 @@ public sealed partial class VentCrawlHolderComponent : Component
 
     #region CrawlInfo
 
-    public SoundCollectionSpecifier CrawlSound { get; set; } = new("VentClaw", AudioParams.Default.WithVolume(5f));
-
     [ViewVariables]
     public TimeSpan LastCrawl;
-
-    public float TravelDuration = 0.25f;
 
     [ViewVariables]
     [AutoNetworkedField, AutoPausedField]
@@ -84,7 +75,7 @@ public sealed partial class VentCrawlHolderComponent : Component
     public EntProtoId<ActionComponent> ActionProto = "VentCrawlExitAction";
 
     [AutoNetworkedField]
-    public List<EntityUid> ProvidedActions = new();
+    public EntityUid? ProvidedAction;
 
     #endregion
 

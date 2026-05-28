@@ -1,6 +1,6 @@
 using Robust.Shared.GameStates;
 
-namespace Content.Shared.VentCrawl.Tube.Components;
+namespace Content.Shared._Starlight.VentCrawl.Components;
 
 /// <summary>
 /// A component representing a vent that you can crawl through
