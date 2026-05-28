@@ -146,9 +146,6 @@ public sealed partial class SharedVentCrawlableSystem : EntitySystem
         beingcrawl.Holder = holderUid;
         Dirty(player, beingcrawl);
 
-        if (HasComp<ParentCanBlockVisionComponent>(player))
-            _blindable.UpdateIsBlind(player, true);
-
         var welded = false;
         if (TryComp<WeldableComponent>(toUid, out var weldableComponent))
             welded = weldableComponent.IsWelded;
@@ -172,17 +169,13 @@ public sealed partial class SharedVentCrawlableSystem : EntitySystem
             holder.HasExitAction = false;
         }
 
-        if (holder.CurrentTube == null && TryComp<AtmosPipeLayersComponent>(toUid, out var toLayers))
-        {
-            var offset = GetLayerOffset(toLayers.CurrentPipeLayer);
-            var tubePos = Transform(toUid).Coordinates;
-            _xformSystem.SetCoordinates(holderUid, _xformSystem.WithEntityId(tubePos.Offset(offset), toUid));
-        }
+        if (holder.CurrentTube == null)
+            _xformSystem.SetWorldPosition(holderUid, ComputeTubeWorldPos(toUid));
 
         if (HasComp<VentCrawlManifoldComponent>(toUid))
         {
-            holder.ManifoldLayer = holder.PreviousTube != null && TryComp<AtmosPipeLayersComponent>(holder.PreviousTube, out var prevLayers)
-                ? TransformIntoManifoldLayer(prevLayers.CurrentPipeLayer)
+            holder.ManifoldLayer = holder.CurrentTube != null && TryComp<AtmosPipeLayersComponent>(holder.CurrentTube, out var curLayers)
+                ? TransformIntoManifoldLayer(curLayers.CurrentPipeLayer)
                 : 0;
 
             holder.PreviousManifoldLayer = null;
@@ -195,9 +188,12 @@ public sealed partial class SharedVentCrawlableSystem : EntitySystem
             holder.ManifoldLayer = null;
 
         if (to.BlocksVision)
-            EnsureComp<ParentCanBlockVisionComponent>(holderUid);
+            EnsureComp<ChildBlockVisionComponent>(holderUid);
         else
-            RemComp<ParentCanBlockVisionComponent>(holderUid);
+            RemComp<ChildBlockVisionComponent>(holderUid);
+
+        if (HasComp<ParentCanBlockVisionComponent>(player))
+            _blindable.UpdateIsBlind(player, true);
 
         holder.PreviousTube = holder.CurrentTube;
         if (holder.PreviousTube != null && TryComp<VentCrawlTubeComponent>(holder.PreviousTube, out var prevTube))
@@ -310,9 +306,35 @@ public sealed partial class SharedVentCrawlableSystem : EntitySystem
         {
             holder.CurrentDirection = Direction.Invalid;
 
+            var snapTube = currentTube;
+
+            if (holder.NextTube != null)
+            {
+                var total = (holder.MoveEndTime - holder.MoveStartTime).TotalSeconds;
+                var elapsed = total > 0
+                    ? (_gameTiming.CurTime - holder.MoveStartTime).TotalSeconds
+                    : 1.0;
+
+                var progress = elapsed / total;
+
+                if (progress >= 0.5f)
+                    snapTube = holder.NextTube.Value;
+            }
+
             holder.NextTube = null;
             holder.MoveStartTime = TimeSpan.Zero;
             holder.MoveEndTime = TimeSpan.Zero;
+
+            if (TryComp<VentCrawlManifoldComponent>(snapTube, out _))
+            {
+                holder.CurrentTube = snapTube;
+                UpdateManifoldPosition(snapTube, uid, holder);
+            }
+            else
+            {
+                holder.CurrentTube = snapTube;
+                _xformSystem.SetWorldPosition(uid, ComputeTubeWorldPos(snapTube));
+            }
 
             Dirty(uid, holder);
             return true;
@@ -432,29 +454,29 @@ public sealed partial class SharedVentCrawlableSystem : EntitySystem
             return;
         }
 
-        var fromOffset = GetOffsetForManifoldLayer(manifoldUid, holder.PreviousManifoldLayer.Value);
-        var toOffset = GetOffsetForManifoldLayer(manifoldUid, holder.ManifoldLayer.Value);
+        var manifoldWorldPos = _xformSystem.GetWorldPosition(manifoldUid);
+        var fromOffset = GetWorldOffsetForManifoldLayer(manifoldUid, holder.PreviousManifoldLayer.Value);
+        var toOffset = GetWorldOffsetForManifoldLayer(manifoldUid, holder.ManifoldLayer.Value);
 
-        var lerpedOffset = Vector2.Lerp(fromOffset, toOffset, t);
-
-        var manifoldPos = Transform(manifoldUid).Coordinates;
-        _xformSystem.SetCoordinates(holderUid, _xformSystem.WithEntityId(manifoldPos.Offset(lerpedOffset), manifoldUid));
+        _xformSystem.SetWorldPosition(holderUid, manifoldWorldPos + Vector2.Lerp(fromOffset, toOffset, t));
     }
 
-    private Vector2 GetOffsetForManifoldLayer(EntityUid manifoldUid, int layerIndex)
+    private Vector2 GetWorldOffsetForManifoldLayer(EntityUid manifoldUid, int layerIndex)
     {
         var backTube = _ventCrawlTubeSystem.GetManifoldExit(manifoldUid, layerIndex, Direction.South);
         var frontTube = _ventCrawlTubeSystem.GetManifoldExit(manifoldUid, layerIndex, Direction.North);
         var anchor = frontTube ?? backTube;
 
         var pipeLayer = anchor != null && TryComp<AtmosPipeLayersComponent>(anchor, out var layersComp)
-            ? layersComp.CurrentPipeLayer : SharedVentCrawlTubeSystem.TransformFromManifoldLayer(layerIndex);
+            ? layersComp.CurrentPipeLayer
+            : SharedVentCrawlTubeSystem.TransformFromManifoldLayer(layerIndex);
+
         var baseOffset = GetLayerOffset(pipeLayer);
         if (baseOffset == Vector2.Zero)
             return Vector2.Zero;
 
-        var manifoldRotation = Transform(manifoldUid).LocalRotation;
-        return manifoldRotation.RotateVec(baseOffset);
+        var worldRotation = _xformSystem.GetWorldRotation(manifoldUid);
+        return worldRotation.RotateVec(baseOffset);
     }
 
     private bool UpdateManifoldInput(
@@ -476,7 +498,7 @@ public sealed partial class SharedVentCrawlableSystem : EntitySystem
         DirtyField(uid, holder, nameof(VentCrawlHolderComponent.ManifoldLayer));
 
         var dir = holder.CurrentDirection;
-        var manifoldRotation = Transform(manifoldUid).LocalRotation;
+        var manifoldRotation = _xformSystem.GetWorldRotation(manifoldUid);
         var localDir = (dir.ToAngle() - manifoldRotation).GetCardinalDir();
 
         if (localDir is Direction.West or Direction.East)
@@ -515,10 +537,7 @@ public sealed partial class SharedVentCrawlableSystem : EntitySystem
             if (nextTube == null || holder.CurrentTube == nextTube)
                 return true;
 
-            holder.NextTube = nextTube;
-            holder.MoveStartTime = _gameTiming.CurTime;
-            holder.MoveEndTime = _gameTiming.CurTime + TimeSpan.FromSeconds(holder.TravelDuration);
-            Dirty(uid, holder);
+            BeginMoveTo(uid, nextTube.Value, holder);
         }
 
         return true;
@@ -529,25 +548,9 @@ public sealed partial class SharedVentCrawlableSystem : EntitySystem
         if (holder.ManifoldLayer == null)
             return;
 
-        var backTube = _ventCrawlTubeSystem.GetManifoldExit(manifoldUid, holder.ManifoldLayer.Value, Direction.South);
-        var frontTube = _ventCrawlTubeSystem.GetManifoldExit(manifoldUid, holder.ManifoldLayer.Value, Direction.North);
-
-        var anchorTube = frontTube ?? backTube;
-
-        var currentPipeLayer = AtmosPipeLayer.Primary;
-        if (anchorTube != null && TryComp<AtmosPipeLayersComponent>(anchorTube, out var layersComp))
-        {
-            currentPipeLayer = layersComp.CurrentPipeLayer;
-        }
-        else if (holder.ManifoldLayer != null)
-        {
-            currentPipeLayer = SharedVentCrawlTubeSystem.TransformFromManifoldLayer(holder.ManifoldLayer.Value);
-        }
-
-        var offset = GetLayerOffset(currentPipeLayer);
-        var manifoldPos = Transform(manifoldUid).Coordinates;
-
-        _xformSystem.SetCoordinates(holderUid, _xformSystem.WithEntityId(manifoldPos.Offset(offset), manifoldUid));
+        var worldPos = _xformSystem.GetWorldPosition(manifoldUid);
+        var offset = GetWorldOffsetForManifoldLayer(manifoldUid, holder.ManifoldLayer.Value);
+        _xformSystem.SetWorldPosition(holderUid, worldPos + offset);
     }
 
     /// <summary>
@@ -564,12 +567,7 @@ public sealed partial class SharedVentCrawlableSystem : EntitySystem
         if (layerOffset == Vector2.Zero)
             return worldPos;
 
-        var tubeXform = Transform(tubeUid);
-        var parentRotation = tubeXform.GridUid.HasValue
-            ? _xformSystem.GetWorldRotation(tubeXform.GridUid.Value)
-            : Angle.Zero;
-
-        return worldPos + parentRotation.RotateVec(layerOffset);
+        return worldPos + _xformSystem.GetWorldRotation(tubeUid).RotateVec(layerOffset);
     }
 
     /// <summary>
