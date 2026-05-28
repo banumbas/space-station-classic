@@ -1,6 +1,7 @@
-using Robust.Client.Player;
-using Robust.Client.Graphics;
+using Content.Client.SubFloor;
 using Content.Shared._Starlight.VentCrawl.Components;
+using Robust.Client.Graphics;
+using Robust.Client.Player;
 
 namespace Content.Client._Starlight.VentCrawl;
 
@@ -8,6 +9,7 @@ public sealed partial class VentCrawlSystem : EntitySystem
 {
     [Dependency] private IPlayerManager _player = default!;
     [Dependency] private IOverlayManager _overlayManager = default!;
+    [Dependency] private SubFloorHideSystem _subFloorHideSystem = default!;
 
     private VentCrawPipeOverlay? _pipeOverlay;
 
@@ -32,5 +34,8 @@ public sealed partial class VentCrawlSystem : EntitySystem
             else
                 _overlayManager.RemoveOverlay(_pipeOverlay);
         }
+
+        if (_subFloorHideSystem.ShowVentPipe != inTube)
+            _subFloorHideSystem.ShowVentPipe = inTube;
     }
 }

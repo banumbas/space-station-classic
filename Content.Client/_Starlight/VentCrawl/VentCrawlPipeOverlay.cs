@@ -55,34 +55,54 @@ public sealed partial class VentCrawPipeOverlay : Robust.Client.Graphics.Overlay
 
         var eyeRot = _entityManager.GetComponent<EyeComponent>(player.Value).Rotation;
 
-        var entities = _lookup.GetEntitiesIntersecting(args.MapId, args.WorldBounds, LookupFlags.Uncontained);
+        var query = _entityManager.EntityQueryEnumerator<
+            PipeAppearanceComponent,
+            SpriteComponent,
+            TransformComponent>();
 
-        foreach (var uid in entities)
+        while (query.MoveNext(out var uid, out _, out var sprite, out _))
         {
-            if (!_entityManager.HasComponent<PipeAppearanceComponent>(uid))
-                continue;
-            if (!_entityManager.TryGetComponent<SpriteComponent>(uid, out var sprite) || !sprite.Visible)
+            if (!sprite.Visible)
                 continue;
 
             if (!_entityManager.HasComponent<VentCrawlManifoldComponent>(uid))
             {
                 if (!_entityManager.TryGetComponent<AtmosPipeLayersComponent>(uid, out var pipeLayer))
                     continue;
+
                 if (pipeLayer.CurrentPipeLayer != playerLayer)
                     continue;
             }
 
             var worldPos = _xformSys.GetWorldPosition(uid);
+
+            if (!args.WorldBounds.Contains(worldPos))
+                continue;
+
             var worldRot = _xformSys.GetWorldRotation(uid);
 
             var oldColor = sprite.Color;
 
             _spriteSystem.SetColor((uid, sprite), _pipeGlowColor);
+
             foreach (var offset in _glowOffsets)
-                _spriteSystem.RenderSprite((uid, sprite), worldHandle, eyeRot, worldRot, worldPos + offset);
+            {
+                _spriteSystem.RenderSprite(
+                    (uid, sprite),
+                    args.WorldHandle,
+                    eyeRot,
+                    worldRot,
+                    worldPos + offset);
+            }
 
             _spriteSystem.SetColor((uid, sprite), _pipeBaseColor);
-            _spriteSystem.RenderSprite((uid, sprite), worldHandle, eyeRot, worldRot, worldPos);
+
+            _spriteSystem.RenderSprite(
+                (uid, sprite),
+                args.WorldHandle,
+                eyeRot,
+                worldRot,
+                worldPos);
 
             _spriteSystem.SetColor((uid, sprite), oldColor);
         }
