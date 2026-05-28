@@ -1,4 +1,5 @@
-﻿using Content.Shared._Starlight.VentCrawl.Components;
+﻿using System.Numerics;
+using Content.Shared._Starlight.VentCrawl.Components;
 using Content.Shared.Atmos.Components;
 using Content.Shared.Movement.Components;
 using Content.Shared.Movement.Events;
@@ -161,29 +162,38 @@ public sealed partial class SharedVentCrawlSystem
         }
 
         if (holder.ManifoldLayer == null && holder.PreviousTube != null && TryComp<AtmosPipeLayersComponent>(holder.PreviousTube, out var previousLayer))
-            holder.ManifoldLayer = TransformIntoManifoldLayer(previousLayer.CurrentPipeLayer);
+            holder.ManifoldLayer = previousLayer.CurrentPipeLayer;
 
-        holder.ManifoldLayer ??= 0;
+        holder.ManifoldLayer ??= AtmosPipeLayer.Primary;
         DirtyField(uid, holder, nameof(VentCrawlHolderComponent.ManifoldLayer));
 
-        var dir = holder.CurrentDirection;
-        var inputDir = dir;
-        if (holder.ContainedEntity != default &&
-            TryComp<InputMoverComponent>(holder.ContainedEntity, out var mover) &&
-            mover.TargetRelativeRotation != Angle.Zero)
-        {
-            inputDir = (dir.ToAngle() - mover.TargetRelativeRotation).GetCardinalDir();
-        }
+        var rotation = Transform(manifoldUid).WorldRotation;
 
-        if (inputDir is Direction.West or Direction.East)
+        var right = rotation.RotateVec(Vector2.UnitX);
+        var forward = rotation.RotateVec(Vector2.UnitY);
+
+        Vector2 inputVec = holder.CurrentDirection.ToVec();
+
+        float rightDot = Vector2.Dot(inputVec, right);
+        float forwardDot = Vector2.Dot(inputVec, forward);
+
+        var absRight = Math.Abs(rightDot);
+        var absForward = Math.Abs(forwardDot);
+
+        if (absRight > absForward)
         {
             if (_gameTiming.CurTime < holder.ManifoldLastLayerSelection + holder.ManifoldLayerSelectionCooldown)
                 return true;
 
             holder.ManifoldLastLayerSelection = _gameTiming.CurTime;
 
-            var delta = inputDir == Direction.East ? -1 : 1;
-            var newLayer = Math.Clamp(holder.ManifoldLayer.Value + delta, 0, manifold.LayerCount - 1);
+            var offset = LayerToOffset(holder.ManifoldLayer.Value);
+
+            offset += Math.Sign(rightDot);
+
+            offset = Math.Clamp(offset, -2, 2);
+
+            var newLayer = OffsetToLayer(offset);
 
             if (newLayer != holder.ManifoldLayer)
             {
@@ -199,7 +209,7 @@ public sealed partial class SharedVentCrawlSystem
             return true;
         }
 
-        if (inputDir is Direction.North or Direction.South)
+        if (absRight < absForward)
         {
             if (_gameTiming.CurTime < holder.ManifoldTransitionEnd)
                 return true;
@@ -207,7 +217,7 @@ public sealed partial class SharedVentCrawlSystem
             if (holder.NextTube != null)
                 return true;
 
-            var nextTube = GetManifoldExit(manifoldUid, holder.ManifoldLayer.Value, dir);
+            var nextTube = GetManifoldExit(manifoldUid, holder.ManifoldLayer.Value, holder.CurrentDirection);
             if (nextTube == null || holder.CurrentTube == nextTube)
                 return true;
 

@@ -113,7 +113,7 @@ public sealed partial class VentCrawPipeOverlay : Robust.Client.Graphics.Overlay
         if (holder.CurrentTube != null
             && _entityManager.HasComponent<VentCrawlManifoldComponent>(holder.CurrentTube.Value)
             && holder.ManifoldLayer != null)
-            return SharedVentCrawlSystem.TransformFromManifoldLayer(holder.ManifoldLayer.Value);
+            return holder.ManifoldLayer.Value;
 
         if (holder.CurrentTube != null
             && _entityManager.TryGetComponent<AtmosPipeLayersComponent>(holder.CurrentTube.Value, out var cur))

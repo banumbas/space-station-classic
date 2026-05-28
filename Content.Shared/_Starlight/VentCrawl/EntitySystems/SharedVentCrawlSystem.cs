@@ -82,11 +82,9 @@ public sealed partial class SharedVentCrawlSystem : EntitySystem
         if (holder.CurrentTube == null)
             _xformSystem.SetWorldPosition(holderUid, ComputeTubeWorldPos(toUid));
 
-        if (HasComp<VentCrawlManifoldComponent>(toUid))
+        if (HasComp<VentCrawlManifoldComponent>(toUid) && holder.CurrentTube != null && TryComp<AtmosPipeLayersComponent>(holder.CurrentTube, out var curLayers))
         {
-            holder.ManifoldLayer = holder.CurrentTube != null && TryComp<AtmosPipeLayersComponent>(holder.CurrentTube, out var curLayers)
-                ? TransformIntoManifoldLayer(curLayers.CurrentPipeLayer)
-                : 0;
+            holder.ManifoldLayer = curLayers.CurrentPipeLayer;
 
             holder.PreviousManifoldLayer = null;
             holder.ManifoldTransitionStart = TimeSpan.Zero;

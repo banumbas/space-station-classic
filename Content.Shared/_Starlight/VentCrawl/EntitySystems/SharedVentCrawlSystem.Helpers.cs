@@ -50,11 +50,13 @@ public sealed partial class SharedVentCrawlSystem
         if (!TryComp<AtmosPipeLayersComponent>(tubeUid, out var layers))
             return worldPos;
 
-        var layerOffset = GetLayerOffset(layers.CurrentPipeLayer);
+        var layerOffset = GetWorldOffsetForLayer(tubeUid, layers.CurrentPipeLayer);
         if (layerOffset == Vector2.Zero)
             return worldPos;
 
-        return worldPos + _xformSystem.GetWorldRotation(tubeUid).RotateVec(layerOffset);
+        var pipeDir = Transform(tubeUid).LocalRotation.GetDir();
+
+        return worldPos + RotateLayerOffset(pipeDir, layerOffset);
     }
 
     private void UpdateVisionBlocking(
@@ -127,6 +129,20 @@ public sealed partial class SharedVentCrawlSystem
             speed);
     }
 
+    private static Vector2 RotateLayerOffset(Direction dir, Vector2 offset)
+    {
+        return dir switch
+        {
+            Direction.North => new Vector2(offset.X, offset.Y),
+            Direction.South => new Vector2(-offset.X, -offset.Y),
+
+            Direction.East => new Vector2(offset.Y, -offset.X),
+            Direction.West => new Vector2(-offset.Y, offset.X),
+
+            _ => offset
+        };
+    }
+
     public static int TransformIntoManifoldLayer(AtmosPipeLayer layer) => layer switch
     {
         AtmosPipeLayer.Primary => 2,
@@ -140,16 +156,45 @@ public sealed partial class SharedVentCrawlSystem
         _ => 3
     };
 
-    public static Vector2 GetLayerOffset(AtmosPipeLayer layer) => layer switch
+    private Vector2 GetWorldOffsetForLayer(EntityUid pipeUid, AtmosPipeLayer layer)
     {
-        AtmosPipeLayer.Primary => Vector2.Zero,
+        var offsetIndex = LayerToOffset(layer);
 
-        AtmosPipeLayer.Secondary => new Vector2(0.15f, 0f),
-        AtmosPipeLayer.Tertiary => new Vector2(-0.15f, 0f),
+        if (offsetIndex == 0)
+            return Vector2.Zero;
 
-        AtmosPipeLayer.Quaternary => new Vector2(0.25f, 0f),
-        AtmosPipeLayer.Quinary => new Vector2(-0.25f, 0f),
+        var xform = Transform(pipeUid);
 
-        _ => Vector2.Zero
+        var right = xform.WorldRotation.RotateVec(Vector2.UnitX);
+
+        var spacing = 0.15f;
+
+        return right * (offsetIndex * spacing);
+    }
+
+    private static int LayerToOffset(AtmosPipeLayer layer) => layer switch
+    {
+        AtmosPipeLayer.Primary => 0,
+
+        AtmosPipeLayer.Secondary => -1,
+        AtmosPipeLayer.Tertiary => 1,
+
+        AtmosPipeLayer.Quaternary => -2,
+        AtmosPipeLayer.Quinary => 2,
+
+        _ => 0
+    };
+
+    private static AtmosPipeLayer OffsetToLayer(int offset) => offset switch
+    {
+        0 => AtmosPipeLayer.Primary,
+
+        -1 => AtmosPipeLayer.Secondary,
+        1 => AtmosPipeLayer.Tertiary,
+
+        -2 => AtmosPipeLayer.Quaternary,
+        2 => AtmosPipeLayer.Quinary,
+
+        _ => AtmosPipeLayer.Primary
     };
 }

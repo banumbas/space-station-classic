@@ -1,6 +1,7 @@
 using System.Numerics;
 using Content.Shared.Actions;
 using Content.Shared.Actions.Components;
+using Content.Shared.Atmos.Components;
 using Robust.Shared.GameStates;
 using Robust.Shared.Prototypes;
 
@@ -86,14 +87,14 @@ public sealed partial class VentCrawlHolderComponent : Component
     /// </summary>
     [ViewVariables]
     [AutoNetworkedField]
-    public int? ManifoldLayer;
+    public AtmosPipeLayer? ManifoldLayer;
 
     /// <summary>
     /// Previous layer in manifold.
     /// </summary>
     [ViewVariables]
     [AutoNetworkedField]
-    public int? PreviousManifoldLayer;
+    public AtmosPipeLayer? PreviousManifoldLayer;
 
     [ViewVariables]
     [AutoNetworkedField, AutoPausedField]

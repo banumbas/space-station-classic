@@ -107,7 +107,12 @@ public sealed partial class SharedVentCrawlSystem
     }
 
     private void OnGetManifoldConnectableDirections(EntityUid uid, VentCrawlManifoldComponent component, ref GetVentCrawlsConnectableDirectionsEvent args)
-        => args.Connectable = new[] { Direction.North, Direction.South, Direction.East, Direction.West };
+    {
+        var rotation = Transform(uid).LocalRotation;
+        var opposite = new Angle(rotation.Theta + Math.PI);
+
+        args.Connectable = new[] { rotation.GetDir(), opposite.GetDir() };
+    }
 
     #endregion
 
@@ -162,14 +167,13 @@ public sealed partial class SharedVentCrawlSystem
 
     public EntityUid? GetManifoldExit(
         EntityUid manifoldUid,
-        int currentLayer,
+        AtmosPipeLayer currentLayer,
         Direction direction)
     {
         var xform = Transform(manifoldUid);
         if (xform.GridUid == null || !TryComp<MapGridComponent>(xform.GridUid, out var grid))
             return null;
 
-        var targetLayer = TransformFromManifoldLayer(currentLayer);
         var position = xform.Coordinates;
 
         foreach (var entity in _mapSystem.GetInDir(xform.GridUid.Value, grid, position, direction))
@@ -180,7 +184,7 @@ public sealed partial class SharedVentCrawlSystem
             if (!tube.Connected)
                 continue;
 
-            if (!SameLayer(targetLayer, entity))
+            if (!SameLayer(currentLayer, entity))
                 continue;
 
             if (!CanConnect(entity, tube, direction.GetOpposite()))
@@ -215,10 +219,10 @@ public sealed partial class SharedVentCrawlSystem
             if (!HasComp<VentCrawlManifoldComponent>(entity) && !SameLayer(target, entity))
                 continue;
 
-            if (!CanConnect(target, targetTube, nextDirection))
+            if (!IsMutuallyConnected(target, targetTube, entity, tube, nextDirection))
                 continue;
 
-            if (!CanConnect(entity, tube, oppositeDirection))
+            if (!IsSameAxis(target, entity, nextDirection))
                 continue;
 
             return entity;
@@ -226,19 +230,6 @@ public sealed partial class SharedVentCrawlSystem
 
         return null;
     }
-
-    public static AtmosPipeLayer TransformFromManifoldLayer(int layer) => layer switch
-    {
-        2 => AtmosPipeLayer.Primary,
-
-        1 => AtmosPipeLayer.Secondary,
-        3 => AtmosPipeLayer.Tertiary,
-
-        0 => AtmosPipeLayer.Quaternary,
-        4 => AtmosPipeLayer.Quinary,
-
-        _ => AtmosPipeLayer.Primary
-    };
 
     private bool SameLayer(EntityUid a, EntityUid b)
     {
@@ -266,6 +257,40 @@ public sealed partial class SharedVentCrawlSystem
         var ev = new GetVentCrawlsConnectableDirectionsEvent();
         RaiseLocalEvent(tubeId, ref ev);
         return ev.Connectable.Contains(direction);
+    }
+
+    private bool IsMutuallyConnected(
+        EntityUid fromUid,
+        VentCrawlTubeComponent fromTube,
+        EntityUid toUid,
+        VentCrawlTubeComponent toTube,
+        Direction moveDir)
+    {
+        var opposite = moveDir.GetOpposite();
+
+        if (!CanConnect(fromUid, fromTube, moveDir))
+            return false;
+
+        if (!CanConnect(toUid, toTube, opposite))
+            return false;
+
+        return true;
+    }
+
+    private bool SupportsDirection(EntityUid uid, Direction dir)
+    {
+        var ev = new GetVentCrawlsConnectableDirectionsEvent();
+        RaiseLocalEvent(uid, ref ev);
+
+        return ev.Connectable.Contains(dir);
+    }
+
+    private bool IsSameAxis(EntityUid from, EntityUid to, Direction moveDir)
+    {
+        var opposite = moveDir.GetOpposite();
+
+        return SupportsDirection(from, moveDir)
+               && SupportsDirection(to, opposite);
     }
 
     public bool TryInsert(EntityUid entry, EntityUid target, VentCrawlEntryComponent? entryComp = null, VentCrawlerComponent? ventCrawler = null)
