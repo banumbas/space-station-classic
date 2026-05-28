@@ -25,10 +25,6 @@ public sealed partial class VentCrawPipeOverlay : Robust.Client.Graphics.Overlay
     private static readonly Color PipeBaseColor = new(0.75f, 0.92f, 1.0f, 1.0f);
     private const float GlowRadius = 0.015f;
 
-    private static readonly Color IndicatorCore = new(1.0f, 0.92f, 0.55f, 0.95f);
-    private static readonly Color IndicatorFill = new(1.0f, 0.62f, 0.0f, 0.85f);
-    private static readonly Color IndicatorOutline = new(1.0f, 1.0f, 1.0f, 0.88f);
-    private static readonly Color IndicatorCross = new(1.0f, 1.0f, 1.0f, 0.55f);
     private const float IndicatorRadius = 0.22f;
 
     public override OverlaySpace Space => OverlaySpace.WorldSpace;
@@ -108,18 +104,6 @@ public sealed partial class VentCrawPipeOverlay : Robust.Client.Graphics.Overlay
         handle.DrawCircle(pos, IndicatorRadius * 2.4f, new Color(1.0f, 0.62f, 0.0f, glowAlpha));
         handle.DrawCircle(pos, IndicatorRadius * 1.9f, new Color(1.0f, 0.62f, 0.0f, glowAlpha * 1.7f));
         handle.DrawCircle(pos, IndicatorRadius * 1.55f, new Color(1.0f, 0.62f, 0.0f, glowAlpha * 2.5f));
-
-        handle.DrawCircle(pos, IndicatorRadius, IndicatorFill);
-        handle.DrawCircle(pos, IndicatorRadius * 0.42f, IndicatorCore);
-
-        handle.DrawCircle(pos, IndicatorRadius + 0.02f, IndicatorOutline, filled: false);
-
-        var inner = IndicatorRadius + 0.04f;
-        var outer = IndicatorRadius * 2.0f;
-        handle.DrawLine(pos + new Vector2(-outer, 0), pos + new Vector2(-inner, 0), IndicatorCross);
-        handle.DrawLine(pos + new Vector2(outer, 0), pos + new Vector2(inner, 0), IndicatorCross);
-        handle.DrawLine(pos + new Vector2(0, -outer), pos + new Vector2(0, -inner), IndicatorCross);
-        handle.DrawLine(pos + new Vector2(0, outer), pos + new Vector2(0, inner), IndicatorCross);
     }
 
     private AtmosPipeLayer ResolvePlayerLayer(VentCrawlHolderComponent holder)
