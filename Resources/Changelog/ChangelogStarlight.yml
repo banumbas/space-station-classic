@@ -1,25 +1,4 @@
 Entries:
-- author: Conflee
-  changes:
-  - message: Added Heavy Armor Vest and Casino Guard Helmet for the Casino Shuttle Admeme. Just slightly better armor so the guards don't need to wear hardsuits and ruin the vibe. Also added 3 armored admeme versions of the top hats, for the same use.
-    type: Add
-  id: 405064
-  time: '2026-05-17T16:08:47.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4466
-- author: wonderfulnewworld
-  changes:
-  - message: You can now railroad based on objectives. Should give more customization to people who want to use it for antags.
-    type: Add
-  id: 405065
-  time: '2026-05-17T17:01:35.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4318
-- author: CrazyPhantom
-  changes:
-  - message: The Gamemode Vote Cooldown has been extended outside of just votes.
-    type: Tweak
-  id: 405066
-  time: '2026-05-17T17:01:37.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4468
 - author: CrazyPhantom
   changes:
   - message: Gamemode Cooldown has decreased from 2 to 1.
@@ -2799,4 +2778,25 @@ Entries:
   id: 405463
   time: '2026-05-28T12:37:26.000000+00:00'
   url: https://github.com/ss14Starlight/space-station-14/pull/4569
+- author: Caws
+  changes:
+  - message: (CentComm GNT9) Added distribution and waste sensors to the appropriate pipe networks.
+    type: Fix
+  id: 405464
+  time: '2026-05-28T12:37:28.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4573
+- author: Caws
+  changes:
+  - message: (CentComm GNT9) Waste actually has an outlet into space now.
+    type: Fix
+  id: 405465
+  time: '2026-05-28T12:37:28.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4573
+- author: Caws
+  changes:
+  - message: (CentComm GNT9) CentComm checkpoint's north door is no longer Command access, fixed to be CentComm access.
+    type: Fix
+  id: 405466
+  time: '2026-05-28T12:37:28.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4573
 Order: -1
