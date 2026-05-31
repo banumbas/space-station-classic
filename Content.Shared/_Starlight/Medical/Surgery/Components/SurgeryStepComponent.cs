@@ -38,3 +38,4 @@ public sealed partial class SurgeryStepComponent : Component
     [DataField]
     public StepDifficulty Difficulty = StepDifficulty.Easy;
 }
+

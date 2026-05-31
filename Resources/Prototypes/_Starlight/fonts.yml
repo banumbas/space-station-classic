@@ -3,10 +3,6 @@
   path: /Fonts/_Starlight/Signature.ttf
 
 - type: font
-  id: Icon
-  path: /Fonts/_Starlight/GameIcons/game-icons.ttf
-
-- type: font
   id: Lymphatic
   path: /Fonts/_Starlight/Lymphatic.ttf
 
@@ -45,3 +41,7 @@
 - type: font
   id: Lagomorphian
   path: /Fonts/_Starlight/Lagomorphian.ttf
+
+- type: font
+  id: Cosmic
+  path: /Fonts/_Starlight/Cosmic.otf

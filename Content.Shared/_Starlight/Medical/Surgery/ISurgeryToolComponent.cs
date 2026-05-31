@@ -1,4 +1,6 @@
-﻿namespace Content.Shared.Starlight.Medical.Surgery;
+﻿using Robust.Shared.Audio;
+
+namespace Content.Shared.Starlight.Medical.Surgery;
 // Based on the RMC14.
 // https://github.com/RMC-14/RMC-14
 public interface ISurgeryToolComponent

@@ -1,4 +1,5 @@
-﻿using Content.Shared.Body.Part;
+﻿using Content.Shared._Starlight.Medical.Body.Part;
+using Content.Shared.Body.Part;
 using Content.Shared.Body.Systems;
 using Content.Shared.Buckle.Components;
 using Content.Shared.Chemistry.Reagent;
@@ -11,13 +12,14 @@ using Content.Shared.Popups;
 using Content.Shared.Starlight.Medical.Surgery.Effects.Step;
 using Content.Shared.Starlight.Medical.Surgery.Events;
 using Content.Shared.Starlight.Medical.Surgery.Steps;
-using Content.Shared.Weapons.Melee;
+using Robust.Shared.Audio;
 using Robust.Shared.Prototypes;
 using System.Linq;
 using Content.Shared.Damage;
 using Robust.Shared.Timing;
 using Robust.Shared.Random;
 using Content.Shared.Damage.Systems;
+using Content.Shared.Weapons.Melee;
 
 namespace Content.Shared.Starlight.Medical.Surgery;
 // Based on the RMC14.
@@ -140,6 +142,9 @@ public abstract partial class SharedSurgerySystem
     }
     private void OnStep(Entity<SurgeryStepComponent> ent, ref SurgeryStepEvent args)
     {
+        if(!_entitySystem.TryGetSingleton(args.StepProto, out var stepEnt)
+            || !TryComp(stepEnt, out SurgeryStepComponent? stepComp)) return;
+
         foreach (var reg in (ent.Comp.Tools ?? []).Values)
         {
             var tool = args.Tools.FirstOrDefault(x => HasComp(x, reg.Component.GetType()));
@@ -301,7 +306,7 @@ public abstract partial class SharedSurgerySystem
                 duration *= toolComp.Speed;
                 if (toolComp.StartSound != null) _audio.PlayPvs(toolComp.StartSound, tool);
 
-                if(toolComp.SuccessRate < SmallestSuccessRate)
+                if (toolComp.SuccessRate < SmallestSuccessRate)
                     SmallestSuccessRate = toolComp.SuccessRate;
             }
 

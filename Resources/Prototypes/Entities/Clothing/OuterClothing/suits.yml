@@ -83,6 +83,13 @@
   - type: HideLayerClothing
     slots:
     - Tail
+  - type: Tag
+    tags:
+#Starlight
+    - CorgiWearable
+#starlight end
+    - Hardsuit
+    - WhitelistChameleon
 
 - type: entity
   parent: [ClothingOuterBaseLarge, AllowSuitStorageClothing]
@@ -119,6 +126,7 @@
     slots: WITHOUT_POCKET
   - type: Tag
     tags:
+    - AtmosFireSuit
     - CorgiWearable
     - WhitelistChameleon
   - type: HideLayerClothing
