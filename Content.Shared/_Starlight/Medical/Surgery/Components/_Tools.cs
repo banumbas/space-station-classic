@@ -7,7 +7,7 @@ using Robust.Shared.Prototypes;
 // https://github.com/RMC-14/RMC-14
 namespace Content.Shared.Starlight.Medical.Surgery.Effects.Step;
 
-[RegisterComponent, NetworkedComponent]
+[RegisterComponent, NetworkedComponent, AutoGenerateComponentState]
 [Access(typeof(SharedSurgerySystem))]
 public sealed partial class SurgeryToolComponent : Component
 {
@@ -37,7 +37,6 @@ public sealed partial class SurgeryToolComponent : Component
     /// </summary>
     [DataField]
     public SoundSpecifier? StartSound;
-
 
     /// <summary>
     /// The sound to be played when the operation ends.
