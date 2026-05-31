@@ -1,13 +1,6 @@
 Entries:
 - author: wonderfulnewworld
   changes:
-  - message: SELF can now show up in most gamemodes, instead of being left out of like, 70% of them. They will not show up in Revs/Cosmic Cult.
-    type: Tweak
-  id: 405083
-  time: '2026-05-17T17:01:39.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4391
-- author: wonderfulnewworld
-  changes:
   - message: Wizards and Brighteyes have had their spawn chance decreased to 5%, since they scale now.
     type: Tweak
   id: 405084
@@ -2799,4 +2792,11 @@ Entries:
   id: 405482
   time: '2026-05-31T17:35:28.000000+00:00'
   url: https://github.com/ss14Starlight/space-station-14/pull/4595
+- author: Way
+  changes:
+  - message: Added "engineering caution holo-projector", a tool that projects non-solid barriers for marking hazards.
+    type: Add
+  id: 405483
+  time: '2026-05-31T18:02:01.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4593
 Order: -1
