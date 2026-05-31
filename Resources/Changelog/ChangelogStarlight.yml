@@ -1,13 +1,6 @@
 Entries:
 - author: wonderfulnewworld
   changes:
-  - message: Wizards and Brighteyes have had their spawn chance decreased to 5%, since they scale now.
-    type: Tweak
-  id: 405084
-  time: '2026-05-17T17:01:39.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4391
-- author: wonderfulnewworld
-  changes:
   - message: Xenoborgs (in their standalone gamemode) now scale with (pre-round, readied up) player population at a rate of 1:17 (min 4), and have semi-randomized starting borgs. (They cannot have more than 2 of any type of borg.).
     type: Tweak
   id: 405085
@@ -2799,4 +2792,11 @@ Entries:
   id: 405483
   time: '2026-05-31T18:02:01.000000+00:00'
   url: https://github.com/ss14Starlight/space-station-14/pull/4593
+- author: CiciSpace
+  changes:
+  - message: Resomi emote sounds for cough, gasp, sigh, and yawn
+    type: Add
+  id: 405484
+  time: '2026-05-31T18:02:03.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4591
 Order: -1
