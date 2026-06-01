@@ -2,6 +2,11 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using Content.Server.Administration.Managers;
+// Starlight start
+using Content.Server._Starlight.NPC.HTN;
+using Content.Shared.CCVar;
+using Robust.Shared.Configuration;
+// Starlight end
 using Robust.Shared.CPUJob.JobQueues;
 using Robust.Shared.CPUJob.JobQueues.Queues;
 using Content.Server.NPC.HTN.PrimitiveTasks;
@@ -22,8 +27,11 @@ public sealed class HTNSystem : EntitySystem
     [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
     [Dependency] private readonly NPCSystem _npc = default!;
     [Dependency] private readonly NPCUtilitySystem _utility = default!;
+    [Dependency] private readonly IConfigurationManager _cfg = default!; // Starlight
 
-    private readonly JobQueue _planQueue = new(0.004);
+    // Starlight start - HTN plan budget is cvar-driven (npc.htn_plan_budget) instead of a hardcoded 0.004
+    private readonly AdjustableJobQueue _planQueue = new(0.004);
+    // Starlight end
 
     private readonly HashSet<ICommonSession> _subscribers = new();
 
@@ -40,6 +48,10 @@ public sealed class HTNSystem : EntitySystem
         SubscribeNetworkEvent<RequestHTNMessage>(OnHTNMessage);
         SubscribeLocalEvent<PrototypesReloadedEventArgs>(OnPrototypeLoad);
         OnLoad();
+
+        // Starlight
+        Subs.CVar(_cfg, CCVars.NPCHTNPlanBudget, value => _planQueue.SetMaxTime(value), true);
+        // Starlight end
     }
 
     private void OnHTNMessage(RequestHTNMessage msg, EntitySessionEventArgs args)
