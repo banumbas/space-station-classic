@@ -84,14 +84,14 @@ public abstract partial class SharedSurgerySystem
         }
 
         var random = RandomPredicted.GetPredictedRandom(_random, _timing);
-        var successRate = CalculateStepSuccessRate(args.User, ent, step, validTool, out var reason);
+        var successRate = CalculateStepSuccessRate(args.User, ent, step, validTool, out var reason); // Reason of lowered rate.
         var alwaysSuccess = validTool != EntityUid.Invalid && TryComp<SurgeryToolComponent>(validTool, out var toolComp) && toolComp.AlwaysSuccess;
 #pragma warning disable CS0618 // To bypass unnecessary warning on prob methods for System.Random(which is returned in predicted random)
-        if (!alwaysSuccess && random.Prob(successRate))
+        if (!alwaysSuccess && !random.Prob(successRate))
         {
 
             if (string.IsNullOrEmpty(reason))
-                reason = "Because of a careless, your hand shook. You need to start this step all over again!";
+                reason = "Because of carelessness, your hand shook. You need to start this step all over again!";
 
             _damageableSystem.TryChangeDamage(ent.Owner, damage, true, origin: args.User);
             _popup.PopupEntity(reason, args.User, PopupType.SmallCaution);
@@ -123,6 +123,7 @@ public abstract partial class SharedSurgerySystem
         var progress = Comp<SurgeryProgressComponent>(args.Part);
         progress.CompletedSteps.Clear();
         progress.CompletedSurgeries.Clear();
+        progress.StartedSurgeries.Clear();
     }
     private void OnStepComplete(Entity<SurgeryStepComponent> ent, ref SurgeryStepCompleteEvent args)
     {
@@ -147,18 +148,15 @@ public abstract partial class SharedSurgerySystem
     }
     private void OnStep(Entity<SurgeryStepComponent> ent, ref SurgeryStepEvent args)
     {
-        if(!_entitySystem.TryGetSingleton(args.StepProto, out var stepEnt)
-            || !TryComp(stepEnt, out SurgeryStepComponent? stepComp)) return;
-
         foreach (var reg in (ent.Comp.Tools ?? []).Values)
         {
             var tool = args.Tools.FirstOrDefault(x => HasComp(x, reg.Component.GetType()));
-            if (tool == default || _net.IsClient) return;
+            if (tool == default) continue;
 
             if (TryComp(tool, out SurgeryToolComponent? toolComp))
             {
                 if (toolComp.EndSound != null)
-                    _audio.PlayPvs(toolComp.EndSound, tool);
+                    _audio.PlayPredicted(toolComp.EndSound, tool, null);
 
                 if (ent.Comp.ReagentId != null && toolComp.ReagentContainer != null && _solutionContainerSystem.TryGetSolution(tool, toolComp.ReagentContainer, out var solution))
                     _solutionContainerSystem.RemoveReagent(solution.Value, new ReagentQuantity(ent.Comp.ReagentId, ent.Comp.ReagentQuantity));
@@ -217,14 +215,15 @@ public abstract partial class SharedSurgerySystem
         if (args.Invalid != StepInvalidReason.None)
             return;
 
-        if (_inventory.TryGetContainerSlotEnumerator(args.Body, out var enumerator, args.TargetSlots))
+        if (ent.Comp.RequireRemovedArmor
+            && _inventory.TryGetContainerSlotEnumerator(args.Body, out var enumerator, args.TargetSlots))
         {
             var items = 0f;
             var total = 0f;
             while (enumerator.MoveNext(out var con))
             {
                 total++;
-                if (con.ContainedEntity != null && !_tag.HasTag(con.ContainedEntity.Value, "SurgeryCompatibleArmor"))
+                if (con.ContainedEntity != null && !_tag.HasTag(con.ContainedEntity.Value, ent.Comp.CompatibleArmorTag))
                     items++;
             }
 
@@ -256,7 +255,7 @@ public abstract partial class SharedSurgerySystem
                 args.Invalid = StepInvalidReason.DisabledTool;
 
                 if (reg.Component is ISurgeryToolComponent toolComp)
-                    args.Popup = $"You need enable {toolComp.ToolName} to perform this step!";
+                    args.Popup = $"You need to enable {toolComp.ToolName} to perform this step!";
 
                 return;
             }

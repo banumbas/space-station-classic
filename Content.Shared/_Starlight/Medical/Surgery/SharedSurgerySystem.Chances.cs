@@ -17,9 +17,9 @@ namespace Content.Shared.Starlight.Medical.Surgery;
 
 public abstract partial class SharedSurgerySystem
 {
-    [Dependency] private readonly SharedMindSystem _mind = default!;
-    [Dependency] private readonly SharedJobSystem _job = default!;
-    [Dependency] private readonly StatusEffectsSystem _statusEffects = default!;
+    [Dependency] private SharedMindSystem _mind = default!;
+    [Dependency] private SharedJobSystem _job = default!;
+    [Dependency] private StatusEffectsSystem _statusEffects = default!;
     private void InitializeChances()
     {
         SubscribeLocalEvent<AbductorComponent, OperationChanceEvent>(OnAbductorOperationChance);
@@ -31,84 +31,75 @@ public abstract partial class SharedSurgerySystem
     private void OnHumanoidOperationChance(EntityUid uid, HumanoidAppearanceComponent component, ref OperationChanceEvent args)
     {
 
-        if (args.Target == uid)
+        if (args.Performer == uid)
         {
-            if (args.Performer == uid)
-            {
-                args.Chance = Math.Clamp(args.Chance * args.Penalties.SelfSurgeryPenalty, 0.0f, 1.0f); // penalty for self-surgery
-                args.Reason = "You are performing surgery on yourself, so your make mistakes. You need to start this step all over again!";
-            }
-
-            if (!HasComp<SleepingComponent>(uid) && !HasComp<PainNumbnessStatusEffectComponent>(args.Target))
-            {
-                args.Chance = Math.Clamp(args.Chance * args.Penalties.NotSleepingPenalty, 0.0f, 1.0f); // penalty for not sleeping patients
-                args.Reason = "The patient is not fully unconscious, so they moved during the surgery. You need to start this step all over again!";
-            }
+            args.Chance = Math.Clamp(args.Chance * args.Penalties.SelfSurgeryPenalty, 0.0f, 1.0f); // penalty for self-surgery
+            args.Reason = "You are performing surgery on yourself, so you make mistakes. You need to start this step all over again!";
         }
-        else if (args.Performer == uid)
+
+        if (args.Target == uid && !HasComp<SleepingComponent>(uid) && !HasComp<PainNumbnessStatusEffectComponent>(args.Target))
         {
-            if (_statusEffects.HasStatusEffect(uid, "StatusEffectDrunk"))
-            {
-                args.Chance = Math.Clamp(args.Chance * args.Penalties.DrunkPenalty, 0.0f, 1.0f); // penalty for drunk surgeons
-                args.Reason = "Being intoxicated affected your precision during the surgery. You need to start this step all over again!";
-            }
+            args.Chance = Math.Clamp(args.Chance * args.Penalties.NotSleepingPenalty, 0.0f, 1.0f); // penalty for not sleeping patients
+            args.Reason = "The patient is not fully unconscious, so they moved during the surgery. You need to start this step all over again!";
+        }
 
-            if (_mind.TryGetMind(uid, out _, out var mind))
-            {
-                bool nonMedicalDepartment = true;
-                string jobId = "Passenger";
-                if (mind.MindRoleContainer.ContainedEntities.Count > 0)
-                    foreach (var roleId in mind.MindRoleContainer.ContainedEntities)
-                    {
-                        if (!HasComp<JobRoleComponent>(roleId)
-                            || !TryComp<MindRoleComponent>(roleId, out var mindRole)
-                            || mindRole.JobPrototype == null
-                            || !_job.TryGetDepartment(mindRole.JobPrototype, out var department)
-                            || department.ID != "Medical")
-                            continue;
+        if (args.Performer == uid && _statusEffects.HasStatusEffect(uid, args.Penalties.DrunkStatusEffect))
+        {
+            args.Chance = Math.Clamp(args.Chance * args.Penalties.DrunkPenalty, 0.0f, 1.0f); // penalty for drunk surgeons
+            args.Reason = "Being intoxicated affected your precision during the surgery. You need to start this step all over again!";
+        }
 
+        if (args.Target != args.Performer && args.Target == uid)
+            return;
+
+        if (_mind.TryGetMind(uid, out _, out var mind))
+        {
+            var nonMedicalDepartment = true;
+            var jobId = args.Penalties.FallbackJob;
+            if (mind.MindRoleContainer.ContainedEntities.Count > 0)
+                foreach (var roleId in mind.MindRoleContainer.ContainedEntities)
+                {
+                    if (!HasComp<JobRoleComponent>(roleId)
+                        || !TryComp<MindRoleComponent>(roleId, out var mindRole)
+                        || mindRole.JobPrototype == null)
+                        continue;
+
+                    jobId = mindRole.JobPrototype;
+
+                    if (_job.TryGetDepartment(mindRole.JobPrototype, out var department) && args.Penalties.AllowedDepartments.Contains(department.ID))
                         nonMedicalDepartment = false;
-                        jobId = mindRole.JobPrototype;
-                        break;
-                    }
-                else
-                    nonMedicalDepartment = false;
 
-                bool isMedicalBorg = TryComp<BorgSwitchableTypeComponent>(uid, out var borg) && borg.SelectedBorgType == "medical";
+                    break;
+                }
 
-                if (nonMedicalDepartment && !isMedicalBorg)
-                    args.Chance = Math.Clamp(args.Chance * args.Penalties.NonMedicalPenalty, 0.0f, 1.0f); // penalty for non-medical roles
-                else if (jobId == "Surgeon" || isMedicalBorg)
-                    args.Chance = Math.Clamp(args.Chance * args.Penalties.JobBonus, 0.0f, 1.0f); // bonus for surgeons or medical borgs
-            }
+            var isMedicalBorg = TryComp<BorgSwitchableTypeComponent>(uid, out var borg) && args.Penalties.AllowedDepartments.Any(x => borg.SelectedBorgType == x.ToLower());
 
-            if (_inventory.TryGetSlotContainer(uid, "gloves", out var container, out _)
-                && container.ContainedEntities.Count() == 0)
-                args.Chance = Math.Clamp(args.Chance * args.Penalties.NoGlovesPenalty, 0.0f, 1.0f); // penalty for not wearing gloves
+            if (nonMedicalDepartment && !isMedicalBorg)
+                args.Chance = Math.Clamp(args.Chance * args.Penalties.DepartmentPenalty, 0.0f, 1.0f); // penalty for non-allowed departments
+            else if (args.Penalties.BonusedJobs.Contains(jobId) || isMedicalBorg)
+                args.Chance = Math.Clamp(args.Chance * args.Penalties.JobBonus, 0.0f, 1.0f); // bonus for surgeons or medical borgs
+        }
+
+        if (_inventory.TryGetSlotContainer(uid, args.Penalties.GlovesSlot, out var container, out _)
+            && container.ContainedEntities.Count == 0)
+        {
+            args.Chance = Math.Clamp(args.Chance * args.Penalties.NoGlovesPenalty, 0.0f, 1.0f); // penalty for not wearing gloves
+            args.Reason = "Due to gloves missing on your hands, you're getting blood on your hands, which is why your hand is slipping!";
         }
     }
 
     private void OnClumsyOperationChance(EntityUid uid, ClumsyComponent component, ref OperationChanceEvent args)
     {
-        if (args.Performer != uid)
-            return;
-        args.Chance = Math.Clamp(args.Chance * args.Penalties.ClumsyPenalty, 0.0f, 1.0f); // penalty for clumsy surgeons
+        if (args.Performer != uid) return; // Clumsy decreases chances only for performers
+        args.Chance = Math.Clamp(args.Chance * args.Penalties.ClumsyPenalty, 0.0f, 1.0f);
         args.Reason = "Due to your clumsiness, you made a mistake during the surgery. You need to start this step all over again!";
     }
 
     private void OnAbductorOperationChance(EntityUid uid, AbductorComponent component, ref OperationChanceEvent args)
-    {
-        if (args.Performer != uid)
-            return;
-        args.ForceSuccess = true; //Abductors always succeed, because they aliens.
-    }
+        => args.ForceSuccess = true; //Abductors always succeed, because they aliens.
 
     private void OnSurgeryToolOperationChance(EntityUid uid, SurgeryToolComponent component, ref OperationChanceEvent args)
-    {
-        if (args.Tool != uid)
-            return;
-        args.Chance = MathF.Sqrt(args.Chance * component.SuccessRate);
-    }
+        => args.Chance = MathF.Sqrt(args.Chance * component.SuccessRate);
 
     public float CalculateStepSuccessRate(EntityUid user, EntityUid body, EntityUid step, EntityUid tool, out string reason)
     {
@@ -124,7 +115,8 @@ public abstract partial class SharedSurgerySystem
         successRate = ((int)stepComp.Difficulty) / 100f; // Convert from enum to float 0.0 - 1.0
 
         var @event = new OperationChanceEvent(user, body, tool, penalties, successRate);
-        RaiseLocalEvent(user, ref @event);
+        if (user != body)
+            RaiseLocalEvent(user, ref @event);
         RaiseLocalEvent(body, ref @event);
         RaiseLocalEvent(tool, ref @event);
 

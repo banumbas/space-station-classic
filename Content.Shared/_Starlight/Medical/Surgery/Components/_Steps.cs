@@ -44,7 +44,7 @@ public sealed partial class SurgeryStepPenaltiesComponent : Component
     public float DrunkPenalty = 0.5f;
 
     [DataField]
-    public float NonMedicalPenalty = 0.8f;
+    public float DepartmentPenalty = 0.8f;
 
     [DataField]
     public float JobBonus = 1.2f;
@@ -54,4 +54,25 @@ public sealed partial class SurgeryStepPenaltiesComponent : Component
 
     [DataField]
     public float ClumsyPenalty = 0.75f;
+
+    [DataField]
+    public List<string> AllowedDepartments = new()
+    {
+        "Medical",
+    };
+
+    [DataField]
+    public List<string> BonusedJobs = new()
+    {
+        "Surgeon",
+    };
+
+    [DataField]
+    public string FallbackJob = "Passenger";
+
+    [DataField]
+    public string GlovesSlot = "gloves";
+
+    [DataField]
+    public string DrunkStatusEffect = "StatusEffectDrunk";
 }

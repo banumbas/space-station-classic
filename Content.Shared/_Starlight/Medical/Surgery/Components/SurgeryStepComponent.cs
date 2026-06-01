@@ -37,5 +37,11 @@ public sealed partial class SurgeryStepComponent : Component
 
     [DataField]
     public StepDifficulty Difficulty = StepDifficulty.Easy;
+
+    [DataField]
+    public bool RequireRemovedArmor = true;
+
+    [DataField]
+    public string CompatibleArmorTag = "SurgeryCompatibleArmor";
 }
 
