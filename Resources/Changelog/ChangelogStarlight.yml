@@ -1,11 +1,4 @@
 Entries:
-- author: Cringe_Cursed
-  changes:
-  - message: Added light debug overlay.
-    type: Add
-  id: 405096
-  time: '2026-05-18T04:52:04.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/3968
 - author: Scarlet.
   changes:
   - message: Removed the admeme tag from the ntsf axe.
@@ -2799,4 +2792,11 @@ Entries:
   id: 405495
   time: '2026-06-01T09:56:39.000000+00:00'
   url: https://github.com/ss14Starlight/space-station-14/pull/4609
+- author: silkielol, deltaVelocity
+  changes:
+  - message: '"Maints Discovery", a new piece of menu art featuring a thief and his stash.'
+    type: Add
+  id: 405496
+  time: '2026-06-01T09:56:41.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4599
 Order: -1
