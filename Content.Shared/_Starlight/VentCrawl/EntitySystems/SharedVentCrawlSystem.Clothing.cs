@@ -12,8 +12,18 @@ public sealed partial class SharedVentCrawlSystem
     }
 
     private void OnClothingEquip(Entity<VentCrawlClothingComponent> ent, ref ClothingGotEquippedEvent args)
-        => AddComp<VentCrawlerComponent>(args.Wearer);
+    {
+        if (!_gameTiming.IsFirstTimePredicted)
+            return;
+
+        EnsureComp<VentCrawlerComponent>(args.Wearer);
+    }
 
     private void OnClothingUnequip(Entity<VentCrawlClothingComponent> ent, ref ClothingGotUnequippedEvent args)
-        => RemComp<VentCrawlerComponent>(args.Wearer);
+    {
+        if (!_gameTiming.IsFirstTimePredicted)
+            return;
+
+        RemComp<VentCrawlerComponent>(args.Wearer);
+    }
 }
