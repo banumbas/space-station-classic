@@ -20,15 +20,16 @@ using Robust.Shared.Timing;
 using Robust.Shared.Random;
 using Content.Shared.Damage.Systems;
 using Content.Shared.Weapons.Melee;
+using Content.Shared._Starlight.Abstract.Extensions;
 
 namespace Content.Shared.Starlight.Medical.Surgery;
 // Based on the RMC14.
 // https://github.com/RMC-14/RMC-14
 public abstract partial class SharedSurgerySystem
 {
-    [Dependency] private readonly IGameTiming _timing = default!;
-    [Dependency] private readonly IRobustRandom _random = default!;
-    [Dependency] private readonly DamageableSystem _damageableSystem = default!;
+    [Dependency] private IGameTiming _timing = default!;
+    [Dependency] private IRobustRandom _random = default!;
+    [Dependency] private DamageableSystem _damageableSystem = default!;
 
     private void InitializeSteps()
     {
@@ -82,8 +83,11 @@ public abstract partial class SharedSurgerySystem
                 }
         }
 
-        _random.SetSeed((int)_timing.CurTime.TotalMilliseconds);
-        if ((validTool == EntityUid.Invalid || !TryComp<SurgeryToolComponent>(validTool, out var toolComp) || !toolComp.AlwaysSuccess) && _random.Prob(CalculateStepSuccessRate(args.User, ent, step, validTool, out var reason)))
+        var random = RandomPredicted.GetPredictedRandom(_random, _timing);
+        var successRate = CalculateStepSuccessRate(args.User, ent, step, validTool, out var reason);
+        var alwaysSuccess = validTool != EntityUid.Invalid && TryComp<SurgeryToolComponent>(validTool, out var toolComp) && toolComp.AlwaysSuccess;
+#pragma warning disable CS0618 // To bypass unnecessary warning on prob methods for System.Random(which is returned in predicted random)
+        if (!alwaysSuccess && random.Prob(successRate))
         {
 
             if (string.IsNullOrEmpty(reason))
@@ -93,6 +97,7 @@ public abstract partial class SharedSurgerySystem
             _popup.PopupEntity(reason, args.User, PopupType.SmallCaution);
             return;
         }
+#pragma warning restore CS0618
 
         var ev = new SurgeryStepEvent(args.User, ent, part, tools)
         {
@@ -303,7 +308,7 @@ public abstract partial class SharedSurgerySystem
         foreach (var tool in validTools)
             if (TryComp(tool, out SurgeryToolComponent? toolComp))
             {
-                duration *= toolComp.Speed;
+                duration /= toolComp.Speed;
                 if (toolComp.StartSound != null) _audio.PlayPvs(toolComp.StartSound, tool);
 
                 if (toolComp.SuccessRate < SmallestSuccessRate)
