@@ -4,6 +4,7 @@
   - HideSpawnMenu
   components:
   - type: SurgeryStep
+  - type: SurgeryStepPenalties
 
 - type: entity
   parent: SurgeryStepBase

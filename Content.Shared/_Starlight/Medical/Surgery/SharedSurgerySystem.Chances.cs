@@ -35,13 +35,13 @@ public abstract partial class SharedSurgerySystem
         {
             if (args.Performer == uid)
             {
-                args.Chance = Math.Clamp(args.Chance * 0.5f, 0.0f, 1.0f); // 50% penalty for self-surgery
+                args.Chance = Math.Clamp(args.Chance * args.Penalties.SelfSurgeryPenalty, 0.0f, 1.0f); // penalty for self-surgery
                 args.Reason = "You are performing surgery on yourself, so your make mistakes. You need to start this step all over again!";
             }
 
             if (!HasComp<SleepingComponent>(uid) && !HasComp<PainNumbnessStatusEffectComponent>(args.Target))
             {
-                args.Chance = Math.Clamp(args.Chance * 0.7f, 0.0f, 1.0f); // 30% penalty for not sleeping patients
+                args.Chance = Math.Clamp(args.Chance * args.Penalties.NotSleepingPenalty, 0.0f, 1.0f); // penalty for not sleeping patients
                 args.Reason = "The patient is not fully unconscious, so they moved during the surgery. You need to start this step all over again!";
             }
         }
@@ -49,7 +49,7 @@ public abstract partial class SharedSurgerySystem
         {
             if (_statusEffects.HasStatusEffect(uid, "StatusEffectDrunk"))
             {
-                args.Chance = Math.Clamp(args.Chance * 0.50f, 0.0f, 1.0f); // 50% penalty for drunk surgeons
+                args.Chance = Math.Clamp(args.Chance * args.Penalties.DrunkPenalty, 0.0f, 1.0f); // penalty for drunk surgeons
                 args.Reason = "Being intoxicated affected your precision during the surgery. You need to start this step all over again!";
             }
 
@@ -77,14 +77,14 @@ public abstract partial class SharedSurgerySystem
                 bool isMedicalBorg = TryComp<BorgSwitchableTypeComponent>(uid, out var borg) && borg.SelectedBorgType == "medical";
 
                 if (nonMedicalDepartment && !isMedicalBorg)
-                    args.Chance = Math.Clamp(args.Chance * 0.8f, 0.0f, 1.0f); // 20% penalty for non-medical roles
+                    args.Chance = Math.Clamp(args.Chance * args.Penalties.NonMedicalPenalty, 0.0f, 1.0f); // penalty for non-medical roles
                 else if (jobId == "Surgeon" || isMedicalBorg)
-                    args.Chance = Math.Clamp(args.Chance * 1.2f, 0.0f, 1.0f); // 20% bonus for surgeons or medical borgs
+                    args.Chance = Math.Clamp(args.Chance * args.Penalties.JobBonus, 0.0f, 1.0f); // bonus for surgeons or medical borgs
             }
 
             if (_inventory.TryGetSlotContainer(uid, "gloves", out var container, out _)
                 && container.ContainedEntities.Count() == 0)
-                args.Chance = Math.Clamp(args.Chance * 0.90f, 0.0f, 1.0f); // 10% penalty for not wearing gloves
+                args.Chance = Math.Clamp(args.Chance * args.Penalties.NoGlovesPenalty, 0.0f, 1.0f); // penalty for not wearing gloves
         }
     }
 
@@ -92,7 +92,7 @@ public abstract partial class SharedSurgerySystem
     {
         if (args.Performer != uid)
             return;
-        args.Chance = Math.Clamp(args.Chance * 0.75f, 0.0f, 1.0f); // 25% penalty for clumsy surgeons
+        args.Chance = Math.Clamp(args.Chance * args.Penalties.ClumsyPenalty, 0.0f, 1.0f); // penalty for clumsy surgeons
         args.Reason = "Due to your clumsiness, you made a mistake during the surgery. You need to start this step all over again!";
     }
 
@@ -118,9 +118,12 @@ public abstract partial class SharedSurgerySystem
         if (!TryComp<SurgeryStepComponent>(step, out var stepComp))
             return 1f;
 
+        if (!TryComp<SurgeryStepPenaltiesComponent>(step, out var penalties))
+            return 1f;
+
         successRate = ((int)stepComp.Difficulty) / 100f; // Convert from enum to float 0.0 - 1.0
 
-        var @event = new OperationChanceEvent(user, body, tool, successRate);
+        var @event = new OperationChanceEvent(user, body, tool, penalties, successRate);
         RaiseLocalEvent(user, ref @event);
         RaiseLocalEvent(body, ref @event);
         RaiseLocalEvent(tool, ref @event);
@@ -128,7 +131,9 @@ public abstract partial class SharedSurgerySystem
         if (@event.ForceSuccess)
             return 1f;
 
+#if DEBUG
         Log.Debug($"Real surgery step chance to success: {@event.Chance * 100f}%, ForceSuccess: {@event.ForceSuccess}, step difficulty: {stepComp.Difficulty}");
+#endif
 
         return @event.Chance;
     }

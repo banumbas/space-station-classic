@@ -30,3 +30,28 @@ public sealed partial class SurgeryStepSpawnEffectComponent : Component
     [DataField(required: true), AutoNetworkedField]
     public EntProtoId Entity;
 }
+
+[RegisterComponent]
+public sealed partial class SurgeryStepPenaltiesComponent : Component
+{
+    [DataField]
+    public float SelfSurgeryPenalty = 0.5f;
+
+    [DataField]
+    public float NotSleepingPenalty = 0.7f;
+
+    [DataField]
+    public float DrunkPenalty = 0.5f;
+
+    [DataField]
+    public float NonMedicalPenalty = 0.8f;
+
+    [DataField]
+    public float JobBonus = 1.2f;
+
+    [DataField]
+    public float NoGlovesPenalty = 0.9f;
+
+    [DataField]
+    public float ClumsyPenalty = 0.75f;
+}
