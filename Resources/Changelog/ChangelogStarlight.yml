@@ -1,13 +1,6 @@
 Entries:
 - author: wonderfulnewworld, Rinary
   changes:
-  - message: Terror purple now evolves into Prince of terror after spinning 36 webs.
-    type: Tweak
-  id: 405160
-  time: '2026-05-21T18:05:13.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4498
-- author: wonderfulnewworld, Rinary
-  changes:
   - message: Terror black now evolves into Mother of terror after spinning 36 webs.
     type: Tweak
   id: 405161
@@ -2799,4 +2792,11 @@ Entries:
   id: 405559
   time: '2026-06-02T08:35:14.000000+00:00'
   url: https://github.com/ss14Starlight/space-station-14/pull/4631
+- author: CrazyPhantom
+  changes:
+  - message: Optimized Decals.
+    type: Fix
+  id: 405560
+  time: '2026-06-02T09:23:15.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4623
 Order: -1
