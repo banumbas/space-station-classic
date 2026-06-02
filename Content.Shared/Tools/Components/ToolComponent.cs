@@ -7,7 +7,7 @@ using Robust.Shared.Utility;
 namespace Content.Shared.Tools.Components;
 
 [RegisterComponent, NetworkedComponent]
-[Access(typeof(SharedToolSystem), typeof(SharedSurgerySystem)] // Starlight-edit: For linq
+[Access(typeof(SharedToolSystem), typeof(SharedSurgerySystem))] // Starlight-edit: For linq
 public sealed partial class ToolComponent : Component
 {
     [DataField]

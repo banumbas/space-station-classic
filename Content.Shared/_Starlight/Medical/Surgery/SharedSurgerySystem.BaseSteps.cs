@@ -12,7 +12,6 @@ using Content.Shared.Popups;
 using Content.Shared.Starlight.Medical.Surgery.Effects.Step;
 using Content.Shared.Starlight.Medical.Surgery.Events;
 using Content.Shared.Starlight.Medical.Surgery.Steps;
-using Robust.Shared.Audio;
 using Robust.Shared.Prototypes;
 using System.Linq;
 using Content.Shared.Damage;
@@ -22,6 +21,7 @@ using Content.Shared.Damage.Systems;
 using Content.Shared.Weapons.Melee;
 using Content.Shared._Starlight.Abstract.Extensions;
 using Content.Shared.Tools.Components;
+using Robust.Shared.Audio;
 
 namespace Content.Shared.Starlight.Medical.Surgery;
 // Based on the RMC14.
@@ -86,7 +86,7 @@ public abstract partial class SharedSurgerySystem
 
         var random = RandomPredicted.GetPredictedRandom(_random, _timing);
         var successRate = CalculateStepSuccessRate(args.User, ent, step, validTool, out var reason); // Reason of lowered rate.
-        var alwaysSuccess = validTool != EntityUid.Invalid && TryComp<SurgeryToolComponent>(validTool, out var toolComp) && toolComp.AlwaysSuccess;
+        var alwaysSuccess = validTool != EntityUid.Invalid && TryGetBehavior(validTool, step) is { } behavior && behavior.AlwaysSuccess;
 #pragma warning disable CS0618 // To bypass unnecessary warning on prob methods for System.Random(which is returned in predicted random)
         if (!alwaysSuccess && !random.Prob(successRate))
         {
@@ -154,12 +154,13 @@ public abstract partial class SharedSurgerySystem
             var tool = args.Tools.FirstOrDefault(x => HasComp(x, reg.Component.GetType()));
             if (tool == default) continue;
 
-            if (TryComp(tool, out SurgeryToolComponent? toolComp))
+            var behavior = TryGetBehavior(tool, ent.Comp);
+            if (behavior != null)
             {
-                if (toolComp.EndSound != null)
-                    _audio.PlayPredicted(toolComp.EndSound, tool, null);
+                if (behavior.EndSound != null)
+                    _audio.PlayPredicted(behavior.EndSound, tool, null);
 
-                if (ent.Comp.ReagentId != null && toolComp.ReagentContainer != null && _solutionContainerSystem.TryGetSolution(tool, toolComp.ReagentContainer, out var solution))
+                if (ent.Comp.ReagentId != null && behavior.ReagentContainer != null && _solutionContainerSystem.TryGetSolution(tool, behavior.ReagentContainer, out var solution))
                     _solutionContainerSystem.RemoveReagent(solution.Value, new ReagentQuantity(ent.Comp.ReagentId, ent.Comp.ReagentQuantity));
             }
         }
@@ -319,24 +320,32 @@ public abstract partial class SharedSurgerySystem
             _popup.PopupEntity($"{surgeonName.ToLower()} starts {meta.EntityName.ToLower()}", part, PopupType.LargeCaution);
         }
 
-        var duration = stepComp.Duration;
         float SmallestSuccessRate = 1f;
 
-        foreach (var tool in validTools)
-            if (TryComp(tool, out SurgeryToolComponent? toolComp))
-            {
-                duration /= toolComp.Speed;
-                if (toolComp.StartSound != null) _audio.PlayPvs(toolComp.StartSound, tool);
+        var bestSpeed = 1f;
 
-                if (toolComp.SuccessRate < SmallestSuccessRate)
-                    SmallestSuccessRate = toolComp.SuccessRate;
-            }
+        SoundSpecifier? startSound = null;
+
+        foreach (var tool in validTools)
+        {
+            var behavior = TryGetBehavior(tool, stepComp);
+            if (behavior == null)
+                continue;
+            bestSpeed = MathF.Max(bestSpeed, behavior.Speed);
+
+            SmallestSuccessRate = Math.Min(SmallestSuccessRate, behavior.SuccessRate);
+
+            if (behavior.StartSound != null) startSound = behavior.StartSound;
+        }
+
+        if (startSound != null)
+            _audio.PlayPvs(startSound, user);
 
         if (TryComp(body, out TransformComponent? xform))
             _rotateToFace.TryFaceCoordinates(user, _transform.GetMapCoordinates(body, xform).Position);
 
         var ev = new SurgeryDoAfterEvent(args.Surgery, args.Step, SmallestSuccessRate);
-        var doAfter = new DoAfterArgs(EntityManager, user, duration, ev, body, part)
+        var doAfter = new DoAfterArgs(EntityManager, user, stepComp.Duration / bestSpeed, ev, body, part)
         {
             BreakOnMove = true,
             DuplicateCondition = DuplicateConditions.SameTarget,
@@ -447,5 +456,28 @@ public abstract partial class SharedSurgerySystem
             return comp.CompletedSteps.Contains($"{surgery}:{step}");
         AddComp<SurgeryProgressComponent>(part);
         return false;
+    }
+
+    private SurgeryToolBehavior? TryGetBehavior(EntityUid tool, EntityUid step)
+    {
+        if (TryComp<SurgeryStepComponent>(step, out var stepComp))
+            return TryGetBehavior(tool, stepComp);
+
+        return null;
+    }
+
+    private SurgeryToolBehavior? TryGetBehavior(EntityUid tool, SurgeryStepComponent? step)
+    {
+        if (step != null && step.Tools != null && TryComp<MultipleSurgeryToolComponent>(tool, out var multipleSurgeryTool))
+        {
+            var preferredTool = step.Tools.FirstOrDefault();
+            if (multipleSurgeryTool.Behaviors.TryGetValue(_compFactory.GetComponentName(preferredTool.Value.Component.GetType()), out var toolBehavior))
+                return toolBehavior;
+        }
+
+        if (TryComp<SurgeryToolComponent>(tool, out var toolComp))
+            return toolComp.Behavior;
+
+        return null;
     }
 }
