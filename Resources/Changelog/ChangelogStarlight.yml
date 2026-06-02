@@ -1,18 +1,4 @@
 Entries:
-- author: CrazyPhantom
-  changes:
-  - message: Fixed VGroid sometimes not generating with ore.
-    type: Fix
-  id: 405166
-  time: '2026-05-21T19:29:12.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4485
-- author: Scarlet Lightweaver
-  changes:
-  - message: Overhauled the blackstar faction! witn inspiration from The Wolf Brigade!.
-    type: Tweak
-  id: 405167
-  time: '2026-05-21T19:51:03.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4435
 - author: Caws
   changes:
   - message: (Leth) Librarians.
@@ -2799,4 +2785,18 @@ Entries:
   id: 405565
   time: '2026-06-02T10:25:03.000000+00:00'
   url: https://github.com/ss14Starlight/space-station-14/pull/4600
+- author: redmushie
+  changes:
+  - message: Dot matrix fonts for paperwork, see PR for details.
+    type: Add
+  id: 405566
+  time: '2026-06-02T11:42:00.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4626
+- author: redmushie
+  changes:
+  - message: Fax machines now print metadata like which machine sent the fax and when it was received. Not to worry, antagonists can still tamper with it. See PR for details.
+    type: Add
+  id: 405567
+  time: '2026-06-02T11:42:00.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4626
 Order: -1
