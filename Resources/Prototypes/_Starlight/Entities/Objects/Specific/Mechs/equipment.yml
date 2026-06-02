@@ -42,11 +42,11 @@
     containers:
       item-container: !type:Container
   - type: ChildBlockVision
-  - type: Retractor
-    speed: 1.5
+  - type: SurgeryTool
+    speed: 0.7
     startSound:
       path: /Audio/Mecha/sound_mecha_hydraulic.ogg
-  - type: SurgeryTool
+  - type: Retractor
 
 - type: entity
   id: MechEquipmentCamera

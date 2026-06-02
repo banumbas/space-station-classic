@@ -111,15 +111,12 @@
     tags:
     - ThermiteIgnitor
   - type: SurgeryTool
-  - type: Cautery
     successRate: 0.75
     startSound:
       path: /Audio/_Starlight/Medical/Surgery/cautery1.ogg
     endSound:
       path: /Audio/_Starlight/Medical/Surgery/cautery2.ogg
-  - type: WelderSurgery
-    startSound:
-      /Audio/Items/welder.ogg
+  - type: Cautery
   # 🌟Starlight-end🌟
 
 - type: entity

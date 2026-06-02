@@ -11,7 +11,7 @@
     sprite: _Starlight/Objects/Decoration/Flora/Abyss/obelisk.rsi
     state: obelisk01
   - type: SurgeryTool
-    speed: 0.1
+    speed: 10
     alwaysSuccess: true
   - type: Scalpel
   - type: Cautery
@@ -25,4 +25,4 @@
     generated:
       reagents:
       - ReagentId: BoneGel
-        Quantity: 1
+        Quantity: 5

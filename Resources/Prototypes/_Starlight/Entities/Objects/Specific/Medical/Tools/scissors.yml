@@ -13,7 +13,7 @@
     sprite: Objects/Specific/Medical/Surgery/scissors.rsi
     storedRotation: 90
   - type: SurgeryTool
-    speed: 0.4
+    speed: 2.5
     startSound:
       path: /Audio/_Starlight/Medical/Surgery/retractor1.ogg
     endSound:
@@ -29,7 +29,7 @@
     sprite: _Starlight/Objects/Specific/Medical/surgery.rsi
     state: retractor
   - type: SurgeryTool
-    speed: 0.4
+    speed: 2.5
     startSound:
       path: /Audio/_Starlight/Medical/Surgery/retractor1.ogg
     endSound:
@@ -48,7 +48,7 @@
     sprite: _Starlight/Objects/Specific/Medical/surgery.rsi
     state: retractorripper
   - type: SurgeryTool
-    speed: 1.2
+    speed: 0.8
     startSound:
       path: /Audio/_Starlight/Medical/Surgery/retractor1.ogg
     endSound:
@@ -72,7 +72,7 @@
     sprite: Objects/Specific/Medical/Surgery/scissors.rsi # Starlight
     state: abductor-hemostat
   - type: SurgeryTool
-    speed: 0.4
+    speed: 2.5
     startSound:
       path: /Audio/_Starlight/Medical/Surgery/hemostat1.ogg
 
@@ -86,7 +86,7 @@
     sprite: _Starlight/Objects/Specific/Medical/surgery.rsi
     state: hemostat
   - type: SurgeryTool
-    speed: 0.4
+    speed: 2.5
     startSound:
       path: /Audio/_Starlight/Medical/Surgery/hemostat1.ogg
   - type: Tag
@@ -103,7 +103,7 @@
     sprite: _Starlight/Objects/Specific/Medical/surgery.rsi
     state: hemostatripper
   - type: SurgeryTool
-    speed: 1.2
+    speed: 0.8
     startSound:
       path: /Audio/_Starlight/Medical/Surgery/hemostat1.ogg
   - type: HeldSpeedModifier
@@ -128,7 +128,7 @@
     heldPrefix: setter
     storedRotation: 90
   - type: SurgeryTool
-    speed: 0.4
+    speed: 2.5
     startSound:
       path: /Audio/_Starlight/Medical/Surgery/bone_setter.ogg
 
@@ -142,7 +142,7 @@
     sprite: _Starlight/Objects/Specific/Medical/surgery.rsi
     state: bonesetter
   - type: SurgeryTool
-    speed: 0.4
+    speed: 2.5
     startSound:
       path: /Audio/_Starlight/Medical/Surgery/bone_setter.ogg
   - type: Tag
@@ -159,7 +159,7 @@
     sprite: _Starlight/Objects/Specific/Medical/surgery.rsi
     state: bonesetterripper
   - type: SurgeryTool
-    speed: 1.2
+    speed: 0.8
     startSound:
       path: /Audio/_Starlight/Medical/Surgery/bone_setter.ogg
   - type: HeldSpeedModifier

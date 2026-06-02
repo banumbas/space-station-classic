@@ -44,10 +44,10 @@ public sealed partial class SurgeryStepPenaltiesComponent : Component
     public float DrunkPenalty = 0.5f;
 
     [DataField]
-    public float DepartmentPenalty = 0.8f;
+    public float DepartmentPenalty = 1.0f; // Temporary disabled, should be 20% penalty: Requires skill system and update in jobs system(so when HOP changes your access, he can change your job)
 
     [DataField]
-    public float JobBonus = 1.2f;
+    public float JobBonus = 1.0f; // Temporary disabled, should be 20% bonus: Requires skill system and update in jobs system(so when HOP changes your access, he can change your job)
 
     [DataField]
     public float NoGlovesPenalty = 0.9f;

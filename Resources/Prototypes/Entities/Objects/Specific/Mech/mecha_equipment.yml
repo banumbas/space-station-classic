@@ -88,11 +88,11 @@
       item-container: !type:Container
   # 🌟Starlight-start🌟
   - type: SurgeryTool
-  - type: Retractor
     successRate: 0.05 # they are very much too large
-    speed: 1.5
+    speed: 0.7
     startSound:
       path: /Audio/Mecha/sound_mecha_hydraulic.ogg
+  - type: Retractor
   # 🌟Starlight-end🌟
 
 - type: entity
@@ -125,11 +125,11 @@
     - SmallMech
   # 🌟Starlight-start🌟
   - type: SurgeryTool
-  - type: Retractor
     successRate: 0.1 # they are very much too large
-    speed: 1.5
+    speed: 0.7
     startSound:
       path: /Audio/Mecha/sound_mecha_hydraulic.ogg
+  - type: Retractor
   # 🌟Starlight-end🌟
 
 - type: entity

@@ -9,7 +9,7 @@
   - type: Tool
     speedModifier: 0.4
   - type: SurgeryTool
-    speed: 0.1
+    speed: 10
     startSound:
       path: /Audio/_Starlight/Medical/Surgery/saw.ogg
     endSound:
@@ -27,7 +27,7 @@
   - type: Tool
     speedModifier: 0.4
   - type: SurgeryTool
-    speed: 0.1
+    speed: 10
     startSound:
       path: /Audio/_Starlight/Medical/Surgery/saw.ogg
     endSound:
@@ -48,7 +48,7 @@
   - type: Tool
     speedModifier: 1
   - type: SurgeryTool
-    speed: 1.2
+    speed: 0.8
     startSound:
       path: /Audio/_Starlight/Medical/Surgery/saw.ogg
     endSound:

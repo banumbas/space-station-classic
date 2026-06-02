@@ -1,6 +1,6 @@
 - type: entity
   name: pill
-  suffix: Chloralhydrate 10u
+  suffix: Chloralhydrate 20u
   parent: Pill
   id: PillChloralHydrate
   components:

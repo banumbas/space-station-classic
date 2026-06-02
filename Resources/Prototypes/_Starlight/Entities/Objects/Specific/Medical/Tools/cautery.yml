@@ -6,7 +6,7 @@
   - type: Sprite
     state: abductor
   - type: SurgeryTool
-    speed: 0.5
+    speed: 2
     startSound:
       path: /Audio/_Starlight/Medical/Surgery/cautery1.ogg
     endSound:
@@ -21,7 +21,7 @@
     sprite: _Starlight/Objects/Specific/Medical/surgery.rsi
     state: cautery
   - type: SurgeryTool
-    speed: 0.5
+    speed: 2
     startSound:
       path: /Audio/_Starlight/Medical/Surgery/cautery1.ogg
     endSound:
@@ -39,7 +39,7 @@
     sprite: _Starlight/Objects/Specific/Medical/surgery.rsi
     state: cauteryripper
   - type: SurgeryTool
-    speed: 1.2
+    speed: 0.8
     startSound:
       path: /Audio/_Starlight/Medical/Surgery/cautery1.ogg
     endSound:
