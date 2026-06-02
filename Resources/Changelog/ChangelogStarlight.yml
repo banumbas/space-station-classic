@@ -1,13 +1,6 @@
 Entries:
 - author: Caws
   changes:
-  - message: (Leth) Librarians.
-    type: Add
-  id: 405168
-  time: '2026-05-22T09:11:03.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4506
-- author: Caws
-  changes:
   - message: (Leth) Brand new Library.
     type: Add
   id: 405169
@@ -2799,4 +2792,11 @@ Entries:
   id: 405567
   time: '2026-06-02T11:42:00.000000+00:00'
   url: https://github.com/ss14Starlight/space-station-14/pull/4626
+- author: Johnny
+  changes:
+  - message: Some unnecessary Aghost things.
+    type: Remove
+  id: 405568
+  time: '2026-06-02T13:23:00.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4621
 Order: -1
