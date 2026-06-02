@@ -5,12 +5,13 @@ using Robust.Shared.Utility;
 
 namespace Content.Shared.Localizations
 {
-    public sealed class ContentLocalizationManager
+    public sealed partial class ContentLocalizationManager
     {
-        [Dependency] private readonly ILocalizationManager _loc = default!;
+        [Dependency] private ILocalizationManager _loc = default!;
 
         // If you want to change your codebase's language, do it here.
-        private const string Culture = "en-US";
+        private const string Culture = "ru-RU"; // Classic-Localization
+        private const string FallbackCulture = "en-US"; // Classic-Localization
 
         /// <summary>
         /// Custom format strings used for parsing and displaying minutes:seconds timespans.
@@ -26,8 +27,12 @@ namespace Content.Shared.Localizations
         public void Initialize()
         {
             var culture = new CultureInfo(Culture);
+            var fallbackCulture = new CultureInfo(FallbackCulture); // Classic-Localization
 
             _loc.LoadCulture(culture);
+            _loc.LoadCulture(fallbackCulture); // Classic-Localization
+            _loc.SetFallbackCluture(fallbackCulture); // Classic-Localization
+            _loc.AddFunction(culture, "MANY", FormatMany); // Classic-Localization: To prevent problems in auto-generated locale files
             _loc.AddFunction(culture, "PRESSURE", FormatPressure);
             _loc.AddFunction(culture, "POWERWATTS", FormatPowerWatts);
             _loc.AddFunction(culture, "POWERJOULES", FormatPowerJoules);
