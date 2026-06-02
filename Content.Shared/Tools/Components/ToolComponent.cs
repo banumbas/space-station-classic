@@ -1,3 +1,4 @@
+using Content.Shared.Starlight.Medical.Surgery;
 using Content.Shared.Tools.Systems;
 using Robust.Shared.Audio;
 using Robust.Shared.GameStates;
@@ -6,7 +7,7 @@ using Robust.Shared.Utility;
 namespace Content.Shared.Tools.Components;
 
 [RegisterComponent, NetworkedComponent]
-[Access(typeof(SharedToolSystem))]
+[Access(typeof(SharedToolSystem), typeof(SharedSurgerySystem)] // Starlight-edit: For linq
 public sealed partial class ToolComponent : Component
 {
     [DataField]

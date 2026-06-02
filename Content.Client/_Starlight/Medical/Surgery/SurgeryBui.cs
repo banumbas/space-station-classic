@@ -379,6 +379,9 @@ public sealed class SurgeryBui : BoundUserInterface
                         case StepInvalidReason.NotEnoughReagent:
                             stepName.AddMarkupOrThrow(" [color=red](Missing Reagent)[/color]");
                             break;
+                        case StepInvalidReason.InvalidMode:
+                            stepName.AddMarkupOrThrow(" [color=yellow](Invalid Tool Mode)[/color]");
+                            break;
                     }
                 }
                 else

@@ -41,4 +41,8 @@ public sealed partial class MultipleToolComponent : Component
 
     [DataField]
     public bool StatusShowBehavior = true;
+
+    #region Starlight
+    public string CurrentQualityID = string.Empty;
+    #endregion
 }

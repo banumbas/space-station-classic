@@ -21,6 +21,7 @@ using Robust.Shared.Random;
 using Content.Shared.Damage.Systems;
 using Content.Shared.Weapons.Melee;
 using Content.Shared._Starlight.Abstract.Extensions;
+using Content.Shared.Tools.Components;
 
 namespace Content.Shared.Starlight.Medical.Surgery;
 // Based on the RMC14.
@@ -270,6 +271,23 @@ public abstract partial class SharedSurgerySystem
                 if (reg.Component is ISurgeryToolComponent toolComp)
                     args.Popup = $"You need at least {ent.Comp.ReagentQuantity}u of {ent.Comp.ReagentId} in {toolComp.ToolName} to perform this step!";
                 return;
+            }
+            else if (reg.Component is ToolComponent targetToolComp && TryComp<ToolComponent>(tool, out var toolComp))
+            {
+                if (!toolComp.Qualities.All(x => targetToolComp.Qualities.Contains(x)))
+                {
+                    args.Invalid = StepInvalidReason.MissingTool;
+
+                    args.Popup = $"You need a tool with {string.Join(", ", targetToolComp.Qualities)} qualities to perform this step!";
+                    return;
+                }
+                else if (TryComp<MultipleToolComponent>(tool, out var multipleTools) && !targetToolComp.Qualities.Any(x => x == multipleTools.CurrentQualityID))
+                {
+                    args.Invalid = StepInvalidReason.InvalidMode;
+
+                    args.Popup = $"You need to change your tool to any quality from this list: '{string.Join(", ", targetToolComp.Qualities)}' to perform this step!";
+                    return;
+                }
             }
 
             args.ValidTools.Add(tool);

@@ -13,6 +13,7 @@ public enum StepInvalidReason
     DisabledTool,
     TooHigh,
     NotEnoughReagent,
+    InvalidMode,
 }
 
 // From 0 to 100: 100 it's 100% chance to success, 0 it's 0% chance to success.

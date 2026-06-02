@@ -99,7 +99,10 @@ public abstract partial class SharedToolSystem
             _audioSystem.PlayPredicted(current.ChangeSound, uid, user);
 
         if (_protoMan.TryIndex(current.Behavior.First(), out ToolQualityPrototype? quality))
+        {
             multiple.CurrentQualityName = Loc.GetString(quality.Name);
+            multiple.CurrentQualityID = quality.ID; // Starlight-edit
+        }
     }
 }
 
