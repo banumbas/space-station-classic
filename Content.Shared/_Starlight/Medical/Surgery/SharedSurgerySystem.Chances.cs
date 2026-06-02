@@ -99,9 +99,9 @@ public abstract partial class SharedSurgerySystem
         => args.ForceSuccess = true; //Abductors always succeed, because they aliens.
 
     private void OnSurgeryToolOperationChance(EntityUid uid, SurgeryToolComponent component, ref OperationChanceEvent args)
-        => args.Chance = MathF.Sqrt(args.Chance * component.SuccessRate);
+        => args.Chance = TryGetBehavior(uid, args.Step) is { } behavior ? (float)Math.Sqrt(args.Chance * behavior.SuccessRate) : args.Chance;
 
-    public float CalculateStepSuccessRate(EntityUid user, EntityUid body, EntityUid step, EntityUid tool, out string reason)
+    public float CalculateStepSuccessRate(EntityUid user, EntityUid body, EntityUid step, EntityUid? tool, out string reason)
     {
         float successRate = 1f;
         reason = "";
@@ -114,11 +114,12 @@ public abstract partial class SharedSurgerySystem
 
         successRate = ((int)stepComp.Difficulty) / 100f; // Convert from enum to float 0.0 - 1.0
 
-        var @event = new OperationChanceEvent(user, body, tool, penalties, successRate);
+        var @event = new OperationChanceEvent(user, body, tool, step, penalties, successRate);
         if (user != body)
             RaiseLocalEvent(user, ref @event);
         RaiseLocalEvent(body, ref @event);
-        RaiseLocalEvent(tool, ref @event);
+        if (tool != null)
+            RaiseLocalEvent(tool.Value, ref @event);
 
         if (@event.ForceSuccess)
             return 1f;
