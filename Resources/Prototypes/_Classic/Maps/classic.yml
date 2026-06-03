@@ -1,0 +1,64 @@
+- type: gameMap
+  id: ClassicClassic
+  mapName: 'Classic'
+  mapPath: /Maps/_Classic/Stations/classic.yml
+  minPlayers: 5
+  maxPlayers: 20
+  stations:
+    ClassicClassic:
+      stationProto: StandardNanotrasenStation
+      components:
+        - type: StationBiome
+          biome: Grasslands
+        - type: StationNameSetup
+          mapNameTemplate: '{0} Planet {1}'
+          nameGenerator:
+            !type:NanotrasenNameGenerator
+            prefixCreator: '14'
+        - type: StationEmergencyShuttle
+          emergencyShuttlePath: /Maps/_Starlight/Shuttles/emergency_lox.yml
+        - type: StationJobs
+          availableJobs:
+            #command
+            Captain: [ 1, 1 ]
+            HeadOfPersonnel: [ 1, 1 ]
+            HeadOfSecurity: [ 1, 1 ]
+            ChiefMedicalOfficer: [ 1, 1 ]
+            ChiefEngineer: [ 1, 1 ]
+            ResearchDirector: [ 1, 1 ]
+            Quartermaster: [ 1, 1 ]
+            #service
+            Bartender: [ 1, 2 ]
+            Botanist: [ 2, 2 ]
+            Chef: [ 2, 2 ]
+            Janitor: [ 2, 2 ]
+            ServiceWorker: [ 2, 2 ]
+            #engineering
+            AtmosphericTechnician: [ 3, 3 ]
+            StationEngineer: [ 4, 4 ]
+            TechnicalAssistant: [ 4, 4 ]
+            #medical
+            MedicalDoctor: [ 3, 3 ]
+            MedicalIntern: [ 4, 4 ]
+            #science
+            Scientist: [ 5, 5 ]
+            ResearchAssistant: [ 4, 4 ]
+            Roboticist: [ 2, 2 ]
+            #security
+            Warden: [ 1, 1 ]
+            SecurityOfficer: [ 8, 10 ]
+            DutyOfficer: [ 1, 1 ]
+            Detective: [ 1, 1 ]
+            SecurityCadet: [ 4, 6 ]
+            Brigmedic: [ 1, 1 ]
+            #supply
+            SalvageLead: [ 1, 1 ]
+            SalvageSpecialist: [ 3, 3 ]
+            MiningSpecialist: [ 3, 3 ]
+            CargoTechnician: [ 3, 3 ]
+            MailTech: [ 2, 2 ]
+            #civilian
+            Assistant: [ -1, -1 ]
+            Clown: [ 1, 1 ]
+            Mime: [ 1, 1 ]
+            Musician: [ 1, 1 ]
