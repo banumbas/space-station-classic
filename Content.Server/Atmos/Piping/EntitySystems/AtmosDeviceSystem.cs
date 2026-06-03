@@ -35,6 +35,11 @@ namespace Content.Server.Atmos.Piping.EntitySystems
 
         public void JoinAtmosphere(Entity<AtmosDeviceComponent> ent)
         {
+            // Classic-Start
+            if (!_atmosphereSystem.AtmosEnabled)
+                return;
+            // Classic-End
+
             if (ent.Comp.JoinedGrid != null)
             {
                 DebugTools.Assert(HasComp<GridAtmosphereComponent>(ent.Comp.JoinedGrid));
@@ -122,6 +127,11 @@ namespace Content.Server.Atmos.Piping.EntitySystems
         /// </summary>
         public override void Update(float frameTime)
         {
+            // Classic-Start
+            if (!_atmosphereSystem.AtmosEnabled)
+                return;
+            // Classic-End
+
             _timer += frameTime;
 
             if (_timer < _atmosphereSystem.AtmosTime)

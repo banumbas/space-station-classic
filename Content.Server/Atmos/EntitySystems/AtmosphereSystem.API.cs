@@ -31,6 +31,11 @@ public partial class AtmosphereSystem
     [PublicAPI]
     public GasMixture? GetContainingMixture(Entity<TransformComponent?> ent, bool ignoreExposed = false, bool excite = false)
     {
+        // Classic-Start
+        if (!AtmosEnabled)
+            return DisabledAtmosphere;
+        // Classic-End
+
         if (!Resolve(ent, ref ent.Comp))
             return null;
 
@@ -55,6 +60,11 @@ public partial class AtmosphereSystem
         bool ignoreExposed = false,
         bool excite = false)
     {
+        // Classic-Start
+        if (!AtmosEnabled)
+            return DisabledAtmosphere;
+        // Classic-End
+
         if (!Resolve(ent, ref ent.Comp))
             return null;
 
@@ -83,7 +93,7 @@ public partial class AtmosphereSystem
     [PublicAPI]
     public bool HasAtmosphere(EntityUid gridUid)
     {
-        return _atmosQuery.HasComponent(gridUid);
+        return AtmosEnabled && _atmosQuery.HasComponent(gridUid); // Classic-Edit
     }
 
     /// <summary>
@@ -95,6 +105,11 @@ public partial class AtmosphereSystem
     [PublicAPI]
     public bool SetSimulatedGrid(EntityUid gridUid, bool simulated)
     {
+        // Classic-Start
+        if (!AtmosEnabled)
+            return false;
+        // Classic-End
+
         // TODO ATMOS this event literally has no subscribers. Did this just get silently refactored out?
         var ev = new SetSimulatedGridMethodEvent(gridUid, simulated);
         RaiseLocalEvent(gridUid, ref ev);
@@ -109,6 +124,11 @@ public partial class AtmosphereSystem
     /// <returns>>True if the grid is simulated, false otherwise.</returns>
     public bool IsSimulatedGrid(EntityUid gridUid)
     {
+        // Classic-Start
+        if (!AtmosEnabled)
+            return false;
+        // Classic-End
+
         var ev = new IsSimulatedGridMethodEvent(gridUid);
         RaiseLocalEvent(gridUid, ref ev);
 
@@ -124,6 +144,11 @@ public partial class AtmosphereSystem
     [PublicAPI]
     public IEnumerable<GasMixture> GetAllMixtures(EntityUid gridUid, bool excite = false)
     {
+        // Classic-Start
+        if (!AtmosEnabled)
+            return [];
+        // Classic-End
+
         var ev = new GetAllMixturesMethodEvent(gridUid, excite);
         RaiseLocalEvent(gridUid, ref ev);
 
@@ -149,6 +174,11 @@ public partial class AtmosphereSystem
     [PublicAPI]
     public void InvalidateTile(Entity<GridAtmosphereComponent?> entity, Vector2i tile)
     {
+        // Classic-Start
+        if (!AtmosEnabled)
+            return;
+        // Classic-End
+
         if (_atmosQuery.Resolve(entity.Owner, ref entity.Comp, false))
             entity.Comp.InvalidatedCoords.Add(tile);
     }
@@ -168,6 +198,15 @@ public partial class AtmosphereSystem
         List<Vector2i> tiles,
         bool excite = false)
     {
+        // Classic-Start
+        if (!AtmosEnabled)
+        {
+            var disabledMixtures = new GasMixture?[tiles.Count];
+            Array.Fill(disabledMixtures, DisabledAtmosphere);
+            return disabledMixtures;
+        }
+        // Classic-End
+
         GasMixture?[]? mixtures = null;
         var handled = false;
 
@@ -238,6 +277,11 @@ public partial class AtmosphereSystem
     [PublicAPI]
     public GasMixture? GetTileMixture(Entity<TransformComponent?> entity, bool excite = false)
     {
+        // Classic-Start
+        if (!AtmosEnabled)
+            return DisabledAtmosphere;
+        // Classic-End
+
         if (!Resolve(entity.Owner, ref entity.Comp))
             return null;
 
@@ -260,6 +304,11 @@ public partial class AtmosphereSystem
         Vector2i gridTile,
         bool excite = false)
     {
+        // Classic-Start
+        if (!AtmosEnabled)
+            return DisabledAtmosphere;
+        // Classic-End
+
         // If we've been passed a grid, try to let it handle it.
         if (grid is { } gridEnt
             && _atmosQuery.Resolve(gridEnt, ref gridEnt.Comp1, false)
@@ -290,6 +339,11 @@ public partial class AtmosphereSystem
     [PublicAPI]
     public ReactionResult ReactTile(EntityUid gridId, Vector2i tile)
     {
+        // Classic-Start
+        if (!AtmosEnabled)
+            return ReactionResult.NoReaction;
+        // Classic-End
+
         var ev = new ReactTileMethodEvent(gridId, tile);
         RaiseLocalEvent(gridId, ref ev);
 
@@ -316,6 +370,11 @@ public partial class AtmosphereSystem
         AtmosDirection directions = AtmosDirection.All,
         MapGridComponent? mapGridComp = null)
     {
+        // Classic-Start
+        if (!AtmosEnabled)
+            return false;
+        // Classic-End
+
         if (!Resolve(gridUid, ref mapGridComp, false))
             return false;
 
@@ -341,6 +400,11 @@ public partial class AtmosphereSystem
         Vector2i tile,
         AtmosDirection directions = AtmosDirection.All)
     {
+        // Classic-Start
+        if (!AtmosEnabled)
+            return false;
+        // Classic-End
+
         if (!_atmosQuery.Resolve(grid, ref grid.Comp, false))
             return false;
 
@@ -364,6 +428,11 @@ public partial class AtmosphereSystem
     [PublicAPI]
     public bool IsTileSpace(Entity<GridAtmosphereComponent?>? grid, Entity<MapAtmosphereComponent?>? map, Vector2i tile)
     {
+        // Classic-Start
+        if (!AtmosEnabled)
+            return false;
+        // Classic-End
+
         if (grid is { } gridEnt && _atmosQuery.Resolve(gridEnt, ref gridEnt.Comp, false)
                                 && gridEnt.Comp.Tiles.TryGetValue(tile, out var tileAtmos))
         {
@@ -391,6 +460,11 @@ public partial class AtmosphereSystem
     [PublicAPI]
     public bool IsTileMixtureProbablySafe(Entity<GridAtmosphereComponent?>? grid, Entity<MapAtmosphereComponent?> map, Vector2i tile)
     {
+        // Classic-Start
+        if (!AtmosEnabled)
+            return true;
+        // Classic-End
+
         return IsMixtureProbablySafe(GetTileMixture(grid, map, tile));
     }
 
@@ -404,6 +478,11 @@ public partial class AtmosphereSystem
     [PublicAPI]
     public float GetTileHeatCapacity(Entity<GridAtmosphereComponent?>? grid, Entity<MapAtmosphereComponent?> map, Vector2i tile)
     {
+        // Classic-Start
+        if (!AtmosEnabled)
+            return GetHeatCapacity(DisabledAtmosphere);
+        // Classic-End
+
         return GetHeatCapacity(GetTileMixture(grid, map, tile) ?? GasMixture.SpaceGas);
     }
 
@@ -418,6 +497,11 @@ public partial class AtmosphereSystem
     [PublicAPI]
     public TileMixtureEnumerator GetAdjacentTileMixtures(Entity<GridAtmosphereComponent?> grid, Vector2i tile, bool includeBlocked = false, bool excite = false)
     {
+        // Classic-Start
+        if (!AtmosEnabled)
+            return TileMixtureEnumerator.Empty;
+        // Classic-End
+
         // TODO ATMOS includeBlocked and excite parameters are unhandled currently.
         if (!_atmosQuery.Resolve(grid, ref grid.Comp, false))
             return TileMixtureEnumerator.Empty;
@@ -450,6 +534,11 @@ public partial class AtmosphereSystem
         EntityUid? sparkSourceUid = null,
         bool soh = false)
     {
+        // Classic-Start
+        if (!AtmosEnabled)
+            return;
+        // Classic-End
+
         if (!_atmosQuery.Resolve(grid, ref grid.Comp, false))
             return;
 
@@ -478,6 +567,11 @@ public partial class AtmosphereSystem
         EntityUid? sparkSourceUid = null,
         bool soh = false)
     {
+        // Classic-Start
+        if (!AtmosEnabled)
+            return;
+        // Classic-End
+
         if (!_atmosQuery.TryGetComponent(tile.GridIndex, out var atmos))
             return;
 
@@ -493,6 +587,11 @@ public partial class AtmosphereSystem
     [PublicAPI]
     public void HotspotExtinguish(EntityUid gridUid, Vector2i tile)
     {
+        // Classic-Start
+        if (!AtmosEnabled)
+            return;
+        // Classic-End
+
         var ev = new HotspotExtinguishMethodEvent(gridUid, tile);
         RaiseLocalEvent(gridUid, ref ev);
     }
@@ -506,6 +605,11 @@ public partial class AtmosphereSystem
     [PublicAPI]
     public bool IsHotspotActive(EntityUid gridUid, Vector2i tile)
     {
+        // Classic-Start
+        if (!AtmosEnabled)
+            return false;
+        // Classic-End
+
         var ev = new IsHotspotActiveMethodEvent(gridUid, tile);
         RaiseLocalEvent(gridUid, ref ev);
 
@@ -522,6 +626,11 @@ public partial class AtmosphereSystem
     [PublicAPI]
     public bool AddPipeNet(Entity<GridAtmosphereComponent?> grid, PipeNet pipeNet)
     {
+        // Classic-Start
+        if (!AtmosEnabled)
+            return false;
+        // Classic-End
+
         return _atmosQuery.Resolve(grid, ref grid.Comp, false) && grid.Comp.PipeNets.Add(pipeNet);
     }
 
@@ -554,6 +663,11 @@ public partial class AtmosphereSystem
     [PublicAPI]
     public bool AddAtmosDevice(Entity<GridAtmosphereComponent?> grid, Entity<AtmosDeviceComponent> device)
     {
+        // Classic-Start
+        if (!AtmosEnabled)
+            return false;
+        // Classic-End
+
         DebugTools.Assert(device.Comp.JoinedGrid == null);
         DebugTools.Assert(Transform(device).GridUid == grid);
 
@@ -598,6 +712,11 @@ public partial class AtmosphereSystem
     [PublicAPI]
     public bool TryAddDeltaPressureEntity(Entity<GridAtmosphereComponent?> grid, Entity<DeltaPressureComponent> ent)
     {
+        // Classic-Start
+        if (!AtmosEnabled)
+            return false;
+        // Classic-End
+
         // The entity needs to be part of a grid, and it should be the right one :)
         var xform = Transform(ent);
 
@@ -674,6 +793,11 @@ public partial class AtmosphereSystem
     [PublicAPI]
     public bool IsDeltaPressureEntityInList(Entity<GridAtmosphereComponent?> grid, Entity<DeltaPressureComponent> ent)
     {
+        // Classic-Start
+        if (!AtmosEnabled)
+            return false;
+        // Classic-End
+
         // Dict and list must be in sync - deep-fried if we aren't.
         if (!_atmosQuery.Resolve(grid, ref grid.Comp, false))
             return false;

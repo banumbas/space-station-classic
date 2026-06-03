@@ -175,6 +175,11 @@ namespace Content.Server.Atmos.EntitySystems
 
         public GasOverlayData GetOverlayData(GasMixture? mixture)
         {
+            // Classic-Start
+            if (!_atmosphereSystem.AtmosEnabled)
+                return new GasOverlayData(0, new byte[VisibleGasId.Length]);
+            // Classic-End
+
             var data = new GasOverlayData(0, new byte[VisibleGasId.Length]);
 
             for (var i = 0; i < VisibleGasId.Length; i++)
@@ -298,6 +303,12 @@ namespace Content.Server.Atmos.EntitySystems
         public override void Update(float frameTime)
         {
             base.Update(frameTime);
+
+            // Classic-Start
+            if (!_atmosphereSystem.AtmosEnabled)
+                return;
+            // Classic-End
+
             AccumulatedFrameTime += frameTime;
 
             if (_doSessionUpdate)

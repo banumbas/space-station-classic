@@ -72,6 +72,11 @@ public sealed class RespiratorSystem : EntitySystem
     {
         base.Update(frameTime);
 
+        // Classic-Start
+        if (!_atmosSys.AtmosEnabled)
+            return;
+        // Classic-End
+
         var query = EntityQueryEnumerator<RespiratorComponent>();
         while (query.MoveNext(out var uid, out var respirator))
         {
@@ -126,6 +131,11 @@ public sealed class RespiratorSystem : EntitySystem
 
     public void Inhale(Entity<RespiratorComponent?> entity)
     {
+        // Classic-Start
+        if (!_atmosSys.AtmosEnabled)
+            return;
+        // Classic-End
+
         if (!Resolve(entity, ref entity.Comp, logMissing: false))
             return;
 
@@ -155,6 +165,11 @@ public sealed class RespiratorSystem : EntitySystem
 
     public void Exhale(Entity<RespiratorComponent> entity)
     {
+        // Classic-Start
+        if (!_atmosSys.AtmosEnabled)
+            return;
+        // Classic-End
+
         // exhale gas
 
         var ev = new ExhaleLocationEvent();
@@ -174,6 +189,11 @@ public sealed class RespiratorSystem : EntitySystem
 
     public void Exhale(Entity<RespiratorComponent?> entity, GasMixture gas)
     {
+        // Classic-Start
+        if (!_atmosSys.AtmosEnabled)
+            return;
+        // Classic-End
+
         if (!Resolve(entity, ref entity.Comp, logMissing: false))
             return;
 
@@ -186,6 +206,11 @@ public sealed class RespiratorSystem : EntitySystem
     /// </summary>
     public bool IsBreathing(Entity<RespiratorComponent?> ent)
     {
+        // Classic-Start
+        if (!_atmosSys.AtmosEnabled)
+            return !_mobState.IsDead(ent);
+        // Classic-End
+
         if (_mobState.IsIncapacitated(ent))
             return false;
 
@@ -202,6 +227,11 @@ public sealed class RespiratorSystem : EntitySystem
     /// <returns>Returns true only if the air is not toxic, and it wouldn't suffocate.</returns>
     public bool CanMetabolizeInhaledAir(Entity<RespiratorComponent?> ent)
     {
+        // Classic-Start
+        if (!_atmosSys.AtmosEnabled)
+            return true;
+        // Classic-End
+
         if (!Resolve(ent, ref ent.Comp))
             return false;
 
@@ -226,6 +256,11 @@ public sealed class RespiratorSystem : EntitySystem
     /// <returns>Returns true only if the gas mixture is not toxic, and it wouldn't suffocate.</returns>
     public bool CanMetabolizeInhaledAir(Entity<RespiratorComponent?> ent, GasMixture gas)
     {
+        // Classic-Start
+        if (!_atmosSys.AtmosEnabled)
+            return true;
+        // Classic-End
+
         if (!Resolve(ent, ref ent.Comp))
             return false;
 

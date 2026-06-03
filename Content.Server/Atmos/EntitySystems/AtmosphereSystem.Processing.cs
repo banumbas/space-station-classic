@@ -620,6 +620,11 @@ namespace Content.Server.Atmos.EntitySystems
 
         private void UpdateProcessing(float frameTime)
         {
+            // Classic-Start
+            if (!AtmosEnabled)
+                return;
+            // Classic-End
+
             _simulationStopwatch.Restart();
 
             if (!_simulationPaused)
@@ -684,6 +689,11 @@ namespace Content.Server.Atmos.EntitySystems
             Entity<MapAtmosphereComponent?> mapAtmosphere,
             float frameTime)
         {
+            // Classic-Start
+            if (!AtmosEnabled)
+                return AtmosphereProcessingCompletionState.Finished;
+            // Classic-End
+
             // They call me the deconstructor the way i be deconstructing it
             // and by it, i mean... my entity
             var (owner, atmosphere, visuals, grid, xform) = ent;

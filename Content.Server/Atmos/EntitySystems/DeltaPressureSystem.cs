@@ -29,6 +29,11 @@ public sealed partial class DeltaPressureSystem : SharedDeltaPressureSystem
 
     private void OnComponentInit(Entity<DeltaPressureComponent> ent, ref ComponentInit args)
     {
+        // Classic-Start
+        if (!_atmosphereSystem.AtmosEnabled)
+            return;
+        // Classic-End
+
         var xform = Transform(ent);
         if (xform.GridUid == null)
             return;
@@ -48,6 +53,11 @@ public sealed partial class DeltaPressureSystem : SharedDeltaPressureSystem
 
     private void OnGridChanged(Entity<DeltaPressureComponent> ent, ref GridUidChangedEvent args)
     {
+        // Classic-Start
+        if (!_atmosphereSystem.AtmosEnabled)
+            return;
+        // Classic-End
+
         if (args.OldGrid != null)
         {
             _atmosphereSystem.TryRemoveDeltaPressureEntity(args.OldGrid.Value, ent);

@@ -44,6 +44,14 @@ public sealed partial class AtmosphereSystem
 
     private void OnGridAtmosphereInit(EntityUid uid, GridAtmosphereComponent component, ComponentInit args)
     {
+        // Classic-Start
+        if (!AtmosEnabled)
+        {
+            ClearGridAtmosphere(component);
+            return;
+        }
+        // Classic-End
+
         EnsureComp<GasTileOverlayComponent>(uid);
         foreach (var tile in component.Tiles.Values)
         {
@@ -53,6 +61,14 @@ public sealed partial class AtmosphereSystem
 
     private void OnGridAtmosphereStartup(EntityUid uid, GridAtmosphereComponent component, ComponentStartup args)
     {
+        // Classic-Start
+        if (!AtmosEnabled)
+        {
+            ClearGridAtmosphere(component);
+            return;
+        }
+        // Classic-End
+
         if (!TryComp(uid, out MapGridComponent? mapGrid))
             return;
 
@@ -61,6 +77,11 @@ public sealed partial class AtmosphereSystem
 
     private void OnGridSplit(EntityUid uid, GridAtmosphereComponent originalGridAtmos, ref GridSplitEvent args)
     {
+        // Classic-Start
+        if (!AtmosEnabled)
+            return;
+        // Classic-End
+
         foreach (var newGrid in args.NewGrids)
         {
             // Make extra sure this is a valid grid.
@@ -112,7 +133,7 @@ public sealed partial class AtmosphereSystem
         if (args.Handled)
             return;
 
-        args.Simulated = component.Simulated;
+        args.Simulated = AtmosEnabled && component.Simulated; // Classic-Edit
         args.Handled = true;
     }
 
@@ -315,6 +336,11 @@ public sealed partial class AtmosphereSystem
     /// </summary>
     public void InvalidateAllTiles(Entity<MapGridComponent?, GridAtmosphereComponent?> entity)
     {
+        // Classic-Start
+        if (!AtmosEnabled)
+            return;
+        // Classic-End
+
         var (uid, grid, atmos) = entity;
         if (!Resolve(uid, ref grid, ref atmos))
             return;

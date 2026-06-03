@@ -21,6 +21,11 @@ public sealed class AutomaticAtmosSystem : EntitySystem
 
     private void OnMassDataChanged(Entity<MapGridComponent> ent, ref MassDataChangedEvent ev)
     {
+        // Classic-Start
+        if (!_atmosphereSystem.AtmosEnabled)
+            return;
+        // Classic-End
+
         if (_atmosphereSystem.HasAtmosphere(ent))
             return;
 

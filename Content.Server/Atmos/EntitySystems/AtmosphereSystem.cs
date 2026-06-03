@@ -84,6 +84,11 @@ public sealed partial class AtmosphereSystem : SharedAtmosphereSystem
 
     private void OnTileChanged(ref TileChangedEvent ev)
     {
+        // Classic-Start
+        if (!AtmosEnabled)
+            return;
+        // Classic-End
+
         foreach (var change in ev.Changes)
         {
             InvalidateTile(ev.Entity.Owner, change.GridIndices);
@@ -99,6 +104,11 @@ public sealed partial class AtmosphereSystem : SharedAtmosphereSystem
     public override void Update(float frameTime)
     {
         base.Update(frameTime);
+
+        // Classic-Start
+        if (!AtmosEnabled)
+            return;
+        // Classic-End
 
         UpdateProcessing(frameTime);
         UpdateHighPressure(frameTime);
