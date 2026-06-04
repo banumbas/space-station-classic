@@ -1,13 +1,6 @@
 Entries:
 - author: Caws
   changes:
-  - message: (Leth) Water vapor gas miner added to Atmos.
-    type: Add
-  id: 405178
-  time: '2026-05-22T09:11:03.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4506
-- author: Caws
-  changes:
   - message: (Leth) CO2 gas miner added to Atmos.
     type: Add
   id: 405179
@@ -2799,4 +2792,11 @@ Entries:
   id: 405577
   time: '2026-06-04T05:55:14.000000+00:00'
   url: https://github.com/ss14Starlight/space-station-14/pull/4642
+- author: DevCS-CP
+  changes:
+  - message: Implant Extractor can remove command tracking implant.
+    type: Add
+  id: 405578
+  time: '2026-06-04T05:55:16.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4653
 Order: -1
