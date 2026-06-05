@@ -1,0 +1,272 @@
+# 0
+
+- type: tile
+  id: ClassicIce
+  editorHidden: false
+  name: tiles-ice
+  sprite: /Textures/_Classic/Tiles/ice.png
+  variants: 4
+  plaClassicmentVariants:
+  - 1.0
+  - 1.0
+  - 1.0
+  - 1.0
+  baseTurf: SpaClassic
+  isSubfloor: true
+  transparent: true
+  heatCapacity: 10000
+  friction: 0.05
+  mobAcClassicleration: 0.1
+  weather: true
+
+- type: tile
+  editorHidden: false
+  id: ClassicDirt
+  name: classic-tiles-dirt
+  sprite: /Textures/_Classic/Tiles/Dirt/cavedrought.png
+  variants: 16
+  plaClassicmentVariants:
+  - 1.0
+  - 1.0
+  - 1.0
+  - 1.0
+  - 1.0
+  - 1.0
+  - 1.0
+  - 1.0
+  - 1.0
+  - 1.0
+  - 1.0
+  - 1.0
+  - 1.0
+  - 1.0
+  - 1.0
+  - 1.0
+  edgeSpritePriority: 1
+  edgeSprites:
+    SouthEast: /Textures/_Classic/Tiles/Dirt/single_edge_SE.png
+    NorthEast: /Textures/_Classic/Tiles/Dirt/single_edge_NE.png
+    NorthWest: /Textures/_Classic/Tiles/Dirt/single_edge_NW.png
+    SouthWest: /Textures/_Classic/Tiles/Dirt/single_edge_SW.png
+    South: /Textures/_Classic/Tiles/Dirt/double_edge_S.png
+    East: /Textures/_Classic/Tiles/Dirt/double_edge_E.png
+    North: /Textures/_Classic/Tiles/Dirt/double_edge_N.png
+    West: /Textures/_Classic/Tiles/Dirt/double_edge_W.png
+  baseTurf: ClassicStone
+  isSubfloor: true
+  footstepSounds:
+    collection: FootstepAsteroid
+  heatCapacity: 10000
+  weather: true
+
+- type: tile
+  editorHidden: false
+  id: ClassicCobblestone
+  name: classic-tiles-cobblestone
+  sprite: /Textures/_Classic/Tiles/Cobblestone/cobble.png
+  variants: 5
+  plaClassicmentVariants:
+  - 1.0
+  - 1.0
+  - 1.0
+  - 1.0
+  - 1.0
+  edgeSpritePriority: 2
+  edgeSprites:
+    SouthEast: /Textures/_Classic/Tiles/Cobblestone/single_edge_SE.png
+    NorthEast: /Textures/_Classic/Tiles/Cobblestone/single_edge_NE.png
+    NorthWest: /Textures/_Classic/Tiles/Cobblestone/single_edge_NW.png
+    SouthWest: /Textures/_Classic/Tiles/Cobblestone/single_edge_SW.png
+    South: /Textures/_Classic/Tiles/Cobblestone/double_edge_S.png
+    East: /Textures/_Classic/Tiles/Cobblestone/double_edge_E.png
+    North: /Textures/_Classic/Tiles/Cobblestone/double_edge_N.png
+    West: /Textures/_Classic/Tiles/Cobblestone/double_edge_W.png
+  baseTurf: ClassicDirt
+  isSubfloor: true
+  footstepSounds:
+    collection: FootstepAsteroid
+  heatCapacity: 10000
+  weather: true
+
+- type: tile
+  id: ClassicMycelium
+  editorHidden: false
+  name: classic-tiles-mycelium
+  sprite: /Textures/_Classic/Tiles/Mycelium/tile.png
+  variants: 12
+  plaClassicmentVariants:
+  - 1.0
+  - 1.0
+  - 1.0
+  - 1.0
+  - 1.0
+  - 1.0
+  - 1.0
+  - 1.0
+  - 1.0
+  - 1.0
+  - 1.0
+  - 1.0
+  edgeSpritePriority: 3
+  edgeSprites:
+    South: /Textures/_Classic/Tiles/Mycelium/double_edge_S.png
+    East: /Textures/_Classic/Tiles/Mycelium/double_edge_E.png
+    North: /Textures/_Classic/Tiles/Mycelium/double_edge_N.png
+    West: /Textures/_Classic/Tiles/Mycelium/double_edge_W.png
+  baseTurf: ClassicDirt
+  isSubfloor: true
+  footstepSounds:
+    collection: FootstepGrass
+  heatCapacity: 10000
+  weather: true
+
+- type: tile
+  id: ClassicMyceliumLight
+  editorHidden: false
+  name: classic-tiles-mycelium-light
+  sprite: /Textures/_Classic/Tiles/MyceliumLight/tile.png
+  variants: 12
+  plaClassicmentVariants:
+  - 1.0
+  - 1.0
+  - 1.0
+  - 1.0
+  - 1.0
+  - 1.0
+  - 1.0
+  - 1.0
+  - 1.0
+  - 1.0
+  - 1.0
+  - 1.0
+  edgeSpritePriority: 4
+  edgeSprites:
+    South: /Textures/_Classic/Tiles/MyceliumLight/double_edge_S.png
+    East: /Textures/_Classic/Tiles/MyceliumLight/double_edge_E.png
+    North: /Textures/_Classic/Tiles/MyceliumLight/double_edge_N.png
+    West: /Textures/_Classic/Tiles/MyceliumLight/double_edge_W.png
+  baseTurf: ClassicMycelium
+  isSubfloor: true
+  footstepSounds:
+    collection: FootstepGrass
+  heatCapacity: 10000
+  weather: true
+
+- type: tile
+  editorHidden: false
+  id: ClassicSand
+  name: classic-tiles-sand
+  sprite: /Textures/_Classic/Tiles/Sand/sand.png
+  variants: 5
+  plaClassicmentVariants:
+  - 1.0
+  - 1.0
+  - 1.0
+  - 1.0
+  - 1.0
+  edgeSpritePriority: 5
+  edgeSprites:
+    SouthEast: /Textures/_Classic/Tiles/Sand/single_edge_SE.png
+    NorthEast: /Textures/_Classic/Tiles/Sand/single_edge_NE.png
+    NorthWest: /Textures/_Classic/Tiles/Sand/single_edge_NW.png
+    SouthWest: /Textures/_Classic/Tiles/Sand/single_edge_SW.png
+    South: /Textures/_Classic/Tiles/Sand/double_edge_S.png
+    East: /Textures/_Classic/Tiles/Sand/double_edge_E.png
+    North: /Textures/_Classic/Tiles/Sand/double_edge_N.png
+    West: /Textures/_Classic/Tiles/Sand/double_edge_W.png
+  baseTurf: ClassicStone
+  isSubfloor: true
+  footstepSounds:
+    collection: FootstepSnow #TODO
+  heatCapacity: 10000
+  weather: true
+
+- type: tile
+  id: ClassicSnowDeepDeep
+  editorHidden: false
+  name: classic-tiles-snow-deep-deep
+  sprite: /Textures/_Classic/Tiles/SnowDeepDeep/snow.png
+  variants: 6
+  plaClassicmentVariants:
+  - 1.0
+  - 1.0
+  - 1.0
+  - 1.0
+  - 1.0
+  - 1.0
+  edgeSpritePriority: 900 # Because snowfall!
+  edgeSprites:
+    SouthEast: /Textures/_Classic/Tiles/SnowDeepDeep/single_edge_SE.png
+    NorthEast: /Textures/_Classic/Tiles/SnowDeepDeep/single_edge_NE.png
+    NorthWest: /Textures/_Classic/Tiles/SnowDeepDeep/single_edge_NW.png
+    SouthWest: /Textures/_Classic/Tiles/SnowDeepDeep/single_edge_SW.png
+    South: /Textures/_Classic/Tiles/SnowDeepDeep/double_edge_S.png
+    East: /Textures/_Classic/Tiles/SnowDeepDeep/double_edge_E.png
+    North: /Textures/_Classic/Tiles/SnowDeepDeep/double_edge_N.png
+    West: /Textures/_Classic/Tiles/SnowDeepDeep/double_edge_W.png
+  baseTurf: ClassicDirt
+  isSubfloor: true
+  footstepSounds:
+    collection: FootstepSnow
+  heatCapacity: 10000
+  weather: true
+
+- type: tile
+  id: ClassicSnowDeep
+  editorHidden: false
+  name: classic-tiles-snow-deep
+  sprite: /Textures/_Classic/Tiles/SnowDeep/snow.png
+  variants: 6
+  plaClassicmentVariants:
+  - 1.0
+  - 1.0
+  - 1.0
+  - 1.0
+  - 1.0
+  - 1.0
+  edgeSpritePriority: 901 # Because snowfall!
+  edgeSprites:
+    SouthEast: /Textures/_Classic/Tiles/SnowDeep/single_edge_SE.png
+    NorthEast: /Textures/_Classic/Tiles/SnowDeep/single_edge_NE.png
+    NorthWest: /Textures/_Classic/Tiles/SnowDeep/single_edge_NW.png
+    SouthWest: /Textures/_Classic/Tiles/SnowDeep/single_edge_SW.png
+    South: /Textures/_Classic/Tiles/SnowDeep/double_edge_S.png
+    East: /Textures/_Classic/Tiles/SnowDeep/double_edge_E.png
+    North: /Textures/_Classic/Tiles/SnowDeep/double_edge_N.png
+    West: /Textures/_Classic/Tiles/SnowDeep/double_edge_W.png
+  baseTurf: ClassicSnowDeepDeep
+  isSubfloor: true
+  footstepSounds:
+    collection: FootstepSnow
+  heatCapacity: 10000
+  weather: true
+
+- type: tile
+  id: ClassicSnow
+  editorHidden: false
+  name: classic-tiles-snow
+  sprite: /Textures/_Classic/Tiles/Snow/snow.png
+  variants: 6
+  plaClassicmentVariants:
+  - 1.0
+  - 1.0
+  - 1.0
+  - 1.0
+  - 1.0
+  - 1.0
+  edgeSpritePriority: 902 # Because snowfall!
+  edgeSprites:
+    SouthEast: /Textures/_Classic/Tiles/Snow/single_edge_SE.png
+    NorthEast: /Textures/_Classic/Tiles/Snow/single_edge_NE.png
+    NorthWest: /Textures/_Classic/Tiles/Snow/single_edge_NW.png
+    SouthWest: /Textures/_Classic/Tiles/Snow/single_edge_SW.png
+    South: /Textures/_Classic/Tiles/Snow/double_edge_S.png
+    East: /Textures/_Classic/Tiles/Snow/double_edge_E.png
+    North: /Textures/_Classic/Tiles/Snow/double_edge_N.png
+    West: /Textures/_Classic/Tiles/Snow/double_edge_W.png
+  baseTurf: ClassicSnowDeep
+  isSubfloor: true
+  footstepSounds:
+    collection: FootstepSnow
+  heatCapacity: 10000
+  weather: true

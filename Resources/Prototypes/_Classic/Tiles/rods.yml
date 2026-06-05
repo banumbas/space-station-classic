@@ -1,0 +1,102 @@
+# All tiles placed on Space
+
+- type: tile
+  editorHidden: false
+  id: ClassicPlanks
+  name: classic-tiles-planks
+  sprite: /Textures/_Classic/Tiles/planks.png
+  variants: 4
+  placementVariants:
+  - 1.0
+  - 1.0
+  - 1.0
+  - 1.0
+  baseTurf: Space
+  isSubfloor: true
+  footstepSounds:
+    collection: FootstepWood
+  heatCapacity: 10000
+  deconstructTools: [ Prying ]
+  itemDrop: ClassicWoodenPlanks1
+  transparent: true
+  weather: true
+
+- type: tile
+  editorHidden: false
+  id: ClassicIronRods
+  name: classic-tiles-iron-rods
+  sprite: /Textures/_Classic/Tiles/iron_rods.png
+  variants: 3
+  placementVariants:
+  - 1.0
+  - 1.0
+  - 1.0
+  baseTurf: Space
+  isSubfloor: true
+  footstepSounds:
+    collection: FootstepCatwalk
+  heatCapacity: 10000
+  deconstructTools: [ Prying ]
+  itemDrop: ClassicIronRod1
+  transparent: true
+  weather: true
+
+- type: tile
+  editorHidden: false
+  id: ClassicIronPlating
+  name: classic-tiles-iron-plating
+  sprite: /Textures/_Classic/Tiles/iron_plating.png
+  variants: 3
+  placementVariants:
+  - 1.0
+  - 1.0
+  - 1.0
+  baseTurf: ClassicIronRods
+  isSubfloor: true
+  footstepSounds:
+    collection: FootstepCatwalk
+  heatCapacity: 10000
+  deconstructTools: [ Prying ]
+  itemDrop: ClassicIronSheet1
+  transparent: true
+  weather: true
+
+- type: tile
+  editorHidden: false
+  id: ClassicBrassPlating
+  name: classic-tiles-brass-plating
+  sprite: /Textures/_Classic/Tiles/brass_plating.png
+  variants: 3
+  placementVariants:
+  - 1.0
+  - 1.0
+  - 1.0
+  baseTurf: ClassicBrassRods
+  isSubfloor: true
+  footstepSounds:
+    collection: FootstepCatwalk
+  heatCapacity: 10000
+  deconstructTools: [ Prying ]
+  itemDrop: ClassicBrassSheet1
+  transparent: true
+  weather: true
+
+- type: tile
+  editorHidden: false
+  id: ClassicBrassRods
+  name: classic-tiles-brass-rods
+  sprite: /Textures/_Classic/Tiles/brass_rods.png
+  variants: 3
+  placementVariants:
+  - 1.0
+  - 1.0
+  - 1.0
+  baseTurf: Space
+  isSubfloor: true
+  footstepSounds:
+    collection: FootstepCatwalk
+  heatCapacity: 10000
+  deconstructTools: [ Prying ]
+  itemDrop: ClassicBrassRod1
+  transparent: true
+  weather: true
