@@ -12,8 +12,8 @@
   - type: Rotatable
   - type: Clickable
   - type: Sprite
-    sprite: Structures/catwalk.rsi
-    drawdepth: FloorTiles
+    sprite: _Classic/Structures/catwalk.rsi # Classic-Edit
+    drawdepth: catwalk # Classic-Edit
   - type: Icon
     sprite: Structures/catwalk.rsi
     state: catwalk_preview
