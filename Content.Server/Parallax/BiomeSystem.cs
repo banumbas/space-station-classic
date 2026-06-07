@@ -1,4 +1,5 @@
 using System.Linq;
+using System.Diagnostics.CodeAnalysis; // Classic
 using System.Numerics;
 using System.Threading.Tasks;
 using Content.Server.Atmos;
@@ -146,7 +147,8 @@ public sealed partial class BiomeSystem : SharedBiomeSystem
                 _shuttles.Disable(grid.Owner);
                 var pTransform = _physics.GetPhysicsTransform(grid.Owner);
 
-                foreach (var fixture in fixtures.Fixtures.Values)
+                var fixturesList = fixtures.Fixtures.Values.ToList(); // Classic-Add
+                foreach (var fixture in fixturesList) // Classic-Edit
                 {
                     for (var i = 0; i < fixture.Shape.ChildCount; i++)
                     {
@@ -346,7 +348,7 @@ public sealed partial class BiomeSystem : SharedBiomeSystem
         {
             if (_xformQuery.TryGetComponent(pSession.AttachedEntity, out var xform) &&
                 _handledEntities.Add(pSession.AttachedEntity.Value) &&
-                 _biomeQuery.TryGetComponent(xform.MapUid, out var biome) &&
+                TryGetActiveBiome(xform, out var biome) && // Classic
                 biome.Enabled &&
                 CanLoad(pSession.AttachedEntity.Value))
             {
@@ -364,7 +366,7 @@ public sealed partial class BiomeSystem : SharedBiomeSystem
             {
                 if (!_handledEntities.Add(viewer) ||
                     !_xformQuery.TryGetComponent(viewer, out xform) ||
-                    !_biomeQuery.TryGetComponent(xform.MapUid, out biome) ||
+                    !TryGetActiveBiome(xform, out biome) || // Classic
                     !biome.Enabled ||
                     !CanLoad(viewer))
                 {
@@ -409,6 +411,20 @@ public sealed partial class BiomeSystem : SharedBiomeSystem
         _activeChunks.Clear();
         _markerChunks.Clear();
     }
+
+    // Classic-Start
+    private bool TryGetActiveBiome(TransformComponent xform, [NotNullWhen(true)] out BiomeComponent? biome)
+    {
+        if (xform.MapUid is { } mapUid && _biomeQuery.TryGetComponent(mapUid, out biome))
+            return true;
+
+        if (xform.GridUid is { } gridUid && _biomeQuery.TryGetComponent(gridUid, out biome))
+            return true;
+
+        biome = null;
+        return false;
+    }
+    // Classic-End
 
     private void AddChunksInRange(BiomeComponent biome, Vector2 worldPos)
     {

@@ -1,26 +1,33 @@
+using Content.Server.Atmos.EntitySystems;
 using Content.Server.Parallax;
 using Content.Server.Station.Events;
 using Content.Server.Station.Systems;
+using Content.Shared.Atmos;
+using Content.Shared.Gravity;
+using Content.Shared.Light.Components;
+using Content.Shared.Light.EntitySystems;
 using Content.Shared.Parallax.Biomes;
-using Content.Shared.Station.Components;
-using Robust.Server.Physics;
+using Robust.Shared.Map;
 using Robust.Shared.Map.Components;
-using Robust.Shared.Maths;
 using Robust.Shared.Prototypes;
 
 namespace Content.Server._Classic.Station;
 
 /// <summary>
-/// Creates a station planet and merges the station grid into the planet grid so
-/// tile/node systems see both as one connected grid.
+/// Creates a planet biome on the station grid itself so tile/node/power systems
+/// keep seeing one connected grid.
 /// </summary>
 public sealed partial class ClassicStationBiomeSystem : EntitySystem
 {
+    private static readonly GasMixture PlanetAtmosphere = CreatePlanetAtmosphere();
+
+    [Dependency] private readonly AtmosphereSystem _atmosphere = default!;
     [Dependency] private readonly BiomeSystem _biome = default!;
     [Dependency] private readonly IPrototypeManager _proto = default!;
+    [Dependency] private readonly SharedRoofSystem _roof = default!;
     [Dependency] private readonly StationSystem _station = default!;
     [Dependency] private readonly SharedMapSystem _map = default!;
-    [Dependency] private readonly GridFixtureSystem _gridFixture = default!;
+    [Dependency] private readonly ITileDefinitionManager _tile = default!;
 
     public override void Initialize()
     {
@@ -42,32 +49,81 @@ public sealed partial class ClassicStationBiomeSystem : EntitySystem
         if (mapUid == EntityUid.Invalid)
             return;
 
-        _biome.EnsurePlanet(mapUid, _proto.Index(ent.Comp.Biome), ent.Comp.Seed, mapLight: ent.Comp.MapLightColor);
-
-        if (stationGridUid == mapUid || !ent.Comp.MergeStationGrid)
+        if (!TryComp<MapGridComponent>(stationGridUid, out var stationMapGrid))
             return;
 
-        if (!TryComp<MapGridComponent>(mapUid, out var planetGrid) ||
-            !TryComp<MapGridComponent>(stationGridUid, out var oldStationGrid) ||
-            !TryComp<StationDataComponent>(stationUid, out var stationData))
+        SetupBiome(stationGridUid, ent.Comp);
+        SetupPlanetGrid(stationGridUid, stationMapGrid, ent.Comp);
+        SetupPlanetMap(mapUid, ent.Comp);
+    }
+
+    private void SetupBiome(EntityUid gridUid, ClassicStationBiomeComponent component)
+    {
+        var biome = EnsureComp<BiomeComponent>(gridUid);
+
+        if (component.Seed is { } seed)
+            _biome.SetSeed(gridUid, biome, seed);
+
+        _biome.SetTemplate(gridUid, biome, _proto.Index(component.Biome));
+    }
+
+    private void SetupPlanetGrid(EntityUid gridUid, MapGridComponent grid, ClassicStationBiomeComponent component)
+    {
+        if (component.DisableGridSplitting)
         {
-            return;
+            grid.CanSplit = false;
+            Dirty(gridUid, grid);
         }
 
-        var planetXform = Transform(mapUid);
-        var mergeMatrix = Matrix3Helpers.CreateTransform(stationGridXform.LocalPosition, stationGridXform.LocalRotation);
-        var stationName = MetaData(stationUid).EntityName;
+        var gravity = EnsureComp<GravityComponent>(gridUid);
+        gravity.Enabled = true;
+        gravity.Inherent = true;
+        Dirty(gridUid, gravity);
 
-        _station.AddMainGridToStation(stationUid, mapUid, planetGrid, stationData, stationName);
-        _station.RemoveMainGridFromStation(stationUid, stationGridUid, oldStationGrid, stationData);
+        var roof = EnsureComp<RoofComponent>(gridUid);
+        RemCompDeferred<ImplicitRoofComponent>(gridUid);
+        SetupStationRoof(gridUid, grid, roof, component);
 
-        _gridFixture.Merge(
-            mapUid,
-            stationGridUid,
-            mergeMatrix,
-            planetGrid,
-            oldStationGrid,
-            planetXform,
-            stationGridXform);
+        EnsureComp<SunShadowComponent>(gridUid);
+        EnsureComp<SunShadowCycleComponent>(gridUid);
+    }
+
+    private void SetupStationRoof(EntityUid gridUid, MapGridComponent grid, RoofComponent roof, ClassicStationBiomeComponent component)
+    {
+        if (!component.RoofStationTiles || component.StationRoofTiles.Count == 0)
+            return;
+
+        var tiles = _map.GetAllTilesEnumerator(gridUid, grid);
+        while (tiles.MoveNext(out var tileRef))
+        {
+            if (tileRef.Value.Tile.IsEmpty)
+                continue;
+
+            var tileDef = _tile[tileRef.Value.Tile.TypeId];
+            if (!component.StationRoofTiles.Contains(tileDef.ID))
+                continue;
+
+            _roof.SetRoof((gridUid, grid, roof), tileRef.Value.GridIndices, true);
+        }
+    }
+
+    private void SetupPlanetMap(EntityUid mapUid, ClassicStationBiomeComponent component)
+    {
+        var light = EnsureComp<MapLightComponent>(mapUid);
+        light.AmbientLightColor = component.MapLightColor;
+        Dirty(mapUid, light);
+
+        EnsureComp<LightCycleComponent>(mapUid);
+
+        _atmosphere.SetMapAtmosphere(mapUid, false, PlanetAtmosphere);
+    }
+
+    private static GasMixture CreatePlanetAtmosphere()
+    {
+        var moles = new float[Atmospherics.AdjustedNumberOfGases];
+        moles[(int)Gas.Oxygen] = 21.824779f;
+        moles[(int)Gas.Nitrogen] = 82.10312f;
+
+        return new GasMixture(moles, Atmospherics.T20C);
     }
 }
