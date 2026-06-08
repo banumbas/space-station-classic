@@ -1,13 +1,6 @@
 Entries:
 - author: Cvlancer.
   changes:
-  - message: (FLAND) Added contraband crate to armory.
-    type: Add
-  id: 405329
-  time: '2026-05-24T09:52:36.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4503
-- author: Cvlancer.
-  changes:
   - message: (FLAND) Added televisions all over the station.
     type: Add
   id: 405330
@@ -2799,4 +2792,11 @@ Entries:
   id: 405728
   time: '2026-06-08T22:30:24.000000+00:00'
   url: https://github.com/ss14Starlight/space-station-14/pull/4676
+- author: Citrea
+  changes:
+  - message: Biosuits now properly protect you after death.
+    type: Fix
+  id: 405729
+  time: '2026-06-08T22:30:26.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4605
 Order: -1
