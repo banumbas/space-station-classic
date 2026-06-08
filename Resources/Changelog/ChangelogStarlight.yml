@@ -1,13 +1,6 @@
 Entries:
 - author: Cvlancer.
   changes:
-  - message: (BOX) Removed telecommunications server from sci server room.
-    type: Remove
-  id: 405312
-  time: '2026-05-24T09:52:36.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4503
-- author: Cvlancer.
-  changes:
   - message: (BOX) Fixed roboticist windoors being just science access.
     type: Fix
   id: 405313
@@ -2799,4 +2792,11 @@ Entries:
   id: 405711
   time: '2026-06-08T18:51:18.000000+00:00'
   url: https://github.com/ss14Starlight/space-station-14/pull/4680
+- author: wonderfulnewworld
+  changes:
+  - message: AGhost also sees Protogen health bars.
+    type: Fix
+  id: 405712
+  time: '2026-06-08T19:46:36.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4677
 Order: -1
