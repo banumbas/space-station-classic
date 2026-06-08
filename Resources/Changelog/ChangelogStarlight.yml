@@ -1,13 +1,6 @@
 Entries:
 - author: wonderfulnewworld, ScarKy0, Samuka-C, august-sun
   changes:
-  - message: SubXenoborgs now only shows up 5% of the time, the same as the other "rare" subgamemode antags.
-    type: Tweak
-  id: 405247
-  time: '2026-05-22T12:31:48.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4494
-- author: wonderfulnewworld, ScarKy0, Samuka-C, august-sun
-  changes:
   - message: When reloading guns or magazines with stack items, it only reloads one at the time, instead of inserting the whole stack.
     type: Fix
   id: 405248
@@ -2799,4 +2792,11 @@ Entries:
   id: 405646
   time: '2026-06-07T17:30:40.000000+00:00'
   url: https://github.com/ss14Starlight/space-station-14/pull/4666
+- author: Johnny
+  changes:
+  - message: New stamp box holding warden's essential stamps, spawns in their lockers.
+    type: Add
+  id: 405647
+  time: '2026-06-08T16:07:33.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4686
 Order: -1
