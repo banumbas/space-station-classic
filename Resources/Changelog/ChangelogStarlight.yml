@@ -1,95 +1,4 @@
 Entries:
-- author: wonderfulnewworld
-  changes:
-  - message: The Dark Gygax and Mauler missiles cost roughly 50% more energy now.
-    type: Tweak
-  id: 405252
-  time: '2026-05-22T13:35:57.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4499
-- author: CringeCursed
-  changes:
-  - message: Fixed some of vampire abilities were immediately canceled.
-    type: Fix
-  id: 405253
-  time: '2026-05-22T14:03:06.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4510
-- author: CMDROverwerk
-  changes:
-  - message: Industrial mech health lowered by 30% across the board. Ripley MK2 and Paddy retain their current HP due to their plasteel armor.
-    type: Tweak
-  id: 405254
-  time: '2026-05-22T14:03:09.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4490
-- author: CMDROverwerk
-  changes:
-  - message: exosuit silicon control beacon to the Tier 1 experimental research. A special module that can be inserted to allow borgs to enter mechs.
-    type: Add
-  id: 405255
-  time: '2026-05-22T14:03:09.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4490
-- author: CMDROverwerk
-  changes:
-  - message: Emag protolaithe recipies now correctly syncrhonize with researched technologies. You now need to have the appropriate research to be able to print the weapons, as is similar with an Emag Protolaithe.
-    type: Tweak
-  id: 405256
-  time: '2026-05-22T14:03:09.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4490
-- author: CMDROverwerk
-  changes:
-  - message: Paddy's equipment restriction removed, allowing Paddy to equip weapons.
-    type: Remove
-  id: 405257
-  time: '2026-05-22T14:03:09.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4490
-- author: CMDROverwerk
-  changes:
-  - message: Combat mechs can now pry open powered doors again.
-    type: Fix
-  id: 405258
-  time: '2026-05-22T14:03:09.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4490
-- author: CMDROverwerk
-  changes:
-  - message: Diamond Drill salvage and mining vend prices are now slightly higher to reflect its much more potent offensive capability.
-    type: Tweak
-  id: 405259
-  time: '2026-05-22T14:03:09.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4490
-- author: CMDROverwerk
-  changes:
-  - message: Changed SRM-8 to burst from semi-auto.
-    type: Tweak
-  id: 405260
-  time: '2026-05-22T14:03:09.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4490
-- author: Sparlight
-  changes:
-  - message: Languages known by the entity being polymorphed into (i.e. a corgi) will now be known by the individual being polymorphed.
-    type: Add
-  id: 405261
-  time: '2026-05-22T14:34:41.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4491
-- author: Shades
-  changes:
-  - message: Departement Communication Consoles can no longer Auth Command Request, as the KeycardAuth has been added to all offices.
-    type: Tweak
-  id: 405262
-  time: '2026-05-22T15:23:39.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4401
-- author: redmushie
-  changes:
-  - message: The bureaucratic digi-board can now correctly edit ID cards that have accesses in the Law and NanoTrasen categories.
-    type: Fix
-  id: 405263
-  time: '2026-05-22T19:30:39.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4513
-- author: Rinary
-  changes:
-  - message: Fixed terror princess spawn when their spawn count bigger than 1.
-    type: Fix
-  id: 405264
-  time: '2026-05-22T20:11:28.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4515
 - author: wonderfulnewworld, SevenShades
   changes:
   - message: Added mittens. They provide some minor cold resist. They can be found in the winter drobe, secdrobe, or as a loadout option for Sec.
@@ -2799,4 +2708,95 @@ Entries:
   id: 405651
   time: '2026-06-08T17:56:49.000000+00:00'
   url: https://github.com/ss14Starlight/space-station-14/pull/4575
+- author: Caws
+  changes:
+  - message: (Cog) AI Lawboards crate to AI Core, replaces loose lawboards lying around AI Core.
+    type: Add
+  id: 405652
+  time: '2026-06-08T17:56:51.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4684
+- author: Caws
+  changes:
+  - message: (Cog) Document printer and fax machine added to Library.
+    type: Add
+  id: 405653
+  time: '2026-06-08T17:56:51.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4684
+- author: Caws
+  changes:
+  - message: (Cog) CuraDrobe added to Libarian's room.
+    type: Add
+  id: 405654
+  time: '2026-06-08T17:56:51.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4684
+- author: Caws
+  changes:
+  - message: (Cog) The area around the Vault has been expanded, allowing for the Vault's nuke to be armed on-the-spot like other maps.
+    type: Tweak
+  id: 405655
+  time: '2026-06-08T17:56:51.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4684
+- author: Caws
+  changes:
+  - message: (Cog) Added HOS suit storage to their room, replaces having their hardsuit in their locker.
+    type: Tweak
+  id: 405656
+  time: '2026-06-08T17:56:51.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4684
+- author: Caws
+  changes:
+  - message: (Cog) Added CMO suit storage to their room, replaces having their hardsuit in their locker.
+    type: Tweak
+  id: 405657
+  time: '2026-06-08T17:56:51.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4684
+- author: Caws
+  changes:
+  - message: (Cog) Added CE suit storage tot ehir room, replaces having their hardsuit in their locker.
+    type: Tweak
+  id: 405658
+  time: '2026-06-08T17:56:51.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4684
+- author: Caws
+  changes:
+  - message: (Cog) Replaced the Magistrate locker with the correct variant.
+    type: Fix
+  id: 405659
+  time: '2026-06-08T17:56:51.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4684
+- author: Caws
+  changes:
+  - message: (Cog) Librarian's room is now service access.
+    type: Fix
+  id: 405660
+  time: '2026-06-08T17:56:51.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4684
+- author: Caws
+  changes:
+  - message: (Cog) BSO's room is now NT access.
+    type: Fix
+  id: 405661
+  time: '2026-06-08T17:56:51.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4684
+- author: Caws
+  changes:
+  - message: Plumbing cyborg module from Chemistry (this is a Science unlockable).
+    type: Remove
+  id: 405662
+  time: '2026-06-08T17:56:51.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4684
+- author: Caws
+  changes:
+  - message: Cryogenic sleep units from Bridge.
+    type: Remove
+  id: 405663
+  time: '2026-06-08T17:56:51.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4684
+- author: Caws
+  changes:
+  - message: Chemistry setup from Brigmedic - this map's Brigmedic was missed during the Brigmedic changes.
+    type: Remove
+  id: 405664
+  time: '2026-06-08T17:56:51.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4684
 Order: -1
