@@ -1,13 +1,6 @@
 Entries:
 - author: Cvlancer.
   changes:
-  - message: (HOTEL) Added law drobe.
-    type: Add
-  id: 405343
-  time: '2026-05-24T09:52:36.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4503
-- author: Cvlancer.
-  changes:
   - message: (HOTEL) Added a few televisions around the station.
     type: Add
   id: 405344
@@ -2799,4 +2792,11 @@ Entries:
   id: 405742
   time: '2026-06-08T23:48:04.000000+00:00'
   url: https://github.com/ss14Starlight/space-station-14/pull/4685
+- author: Scrambledeggs00
+  changes:
+  - message: Re-sprited burn and brute menders, allowed their volume to be seen via examination and item information, and made the brute mender's volume 35u.
+    type: Tweak
+  id: 405743
+  time: '2026-06-09T06:41:18.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4688
 Order: -1
