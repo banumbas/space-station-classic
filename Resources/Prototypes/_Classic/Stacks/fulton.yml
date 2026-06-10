@@ -1,0 +1,8 @@
+- type: stack
+  id: CargoFulton
+  name: stack-fulton
+  icon:
+    sprite: /Textures/Objects/Tools/fulton.rsi
+    state: extraction_pack
+  spawn: CargoFulton1
+  maxCount: 10

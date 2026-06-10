@@ -1,0 +1,15 @@
+- type: entity
+  parent: VendingMachineSalvage
+  id: VendingMachineCargoFultonDispenser
+  name: cargo fulton dispenser
+  description: Dispenses cargo fultons and slowly fabricates replacements.
+  components:
+  - type: VendingMachine
+    pack: CargoFultonDispenserInventory
+    showPrices: false
+    forceRandom: CargoFulton1
+    ejectDelay: 0.6
+  - type: AutoRestockVendingMachine
+    item: CargoFulton1
+    maxStock: 12
+    restockDelay: 60
