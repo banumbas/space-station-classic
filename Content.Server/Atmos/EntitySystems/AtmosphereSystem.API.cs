@@ -32,7 +32,7 @@ public partial class AtmosphereSystem
     public GasMixture? GetContainingMixture(Entity<TransformComponent?> ent, bool ignoreExposed = false, bool excite = false)
     {
         // Classic-Start
-        if (!AtmosEnabled)
+        if (AtmosDisabled)
             return DisabledAtmosphere;
         // Classic-End
 
@@ -61,7 +61,7 @@ public partial class AtmosphereSystem
         bool excite = false)
     {
         // Classic-Start
-        if (!AtmosEnabled)
+        if (AtmosDisabled)
             return DisabledAtmosphere;
         // Classic-End
 
@@ -93,7 +93,7 @@ public partial class AtmosphereSystem
     [PublicAPI]
     public bool HasAtmosphere(EntityUid gridUid)
     {
-        return AtmosEnabled && _atmosQuery.HasComponent(gridUid); // Classic-Edit
+        return !AtmosDisabled && _atmosQuery.HasComponent(gridUid); // Classic-Edit
     }
 
     /// <summary>
@@ -106,7 +106,7 @@ public partial class AtmosphereSystem
     public bool SetSimulatedGrid(EntityUid gridUid, bool simulated)
     {
         // Classic-Start
-        if (!AtmosEnabled)
+        if (AtmosDisabled)
             return false;
         // Classic-End
 
@@ -125,7 +125,7 @@ public partial class AtmosphereSystem
     public bool IsSimulatedGrid(EntityUid gridUid)
     {
         // Classic-Start
-        if (!AtmosEnabled)
+        if (AtmosDisabled)
             return false;
         // Classic-End
 
@@ -145,7 +145,7 @@ public partial class AtmosphereSystem
     public IEnumerable<GasMixture> GetAllMixtures(EntityUid gridUid, bool excite = false)
     {
         // Classic-Start
-        if (!AtmosEnabled)
+        if (AtmosDisabled)
             return [];
         // Classic-End
 
@@ -175,7 +175,7 @@ public partial class AtmosphereSystem
     public void InvalidateTile(Entity<GridAtmosphereComponent?> entity, Vector2i tile)
     {
         // Classic-Start
-        if (!AtmosEnabled)
+        if (AtmosDisabled)
             return;
         // Classic-End
 
@@ -199,12 +199,8 @@ public partial class AtmosphereSystem
         bool excite = false)
     {
         // Classic-Start
-        if (!AtmosEnabled)
-        {
-            var disabledMixtures = new GasMixture?[tiles.Count];
-            Array.Fill(disabledMixtures, DisabledAtmosphere);
-            return disabledMixtures;
-        }
+        if (AtmosDisabled)
+            return GetDisabledTileMixtures(tiles.Count);
         // Classic-End
 
         GasMixture?[]? mixtures = null;
@@ -278,7 +274,7 @@ public partial class AtmosphereSystem
     public GasMixture? GetTileMixture(Entity<TransformComponent?> entity, bool excite = false)
     {
         // Classic-Start
-        if (!AtmosEnabled)
+        if (AtmosDisabled)
             return DisabledAtmosphere;
         // Classic-End
 
@@ -305,7 +301,7 @@ public partial class AtmosphereSystem
         bool excite = false)
     {
         // Classic-Start
-        if (!AtmosEnabled)
+        if (AtmosDisabled)
             return DisabledAtmosphere;
         // Classic-End
 
@@ -340,7 +336,7 @@ public partial class AtmosphereSystem
     public ReactionResult ReactTile(EntityUid gridId, Vector2i tile)
     {
         // Classic-Start
-        if (!AtmosEnabled)
+        if (AtmosDisabled)
             return ReactionResult.NoReaction;
         // Classic-End
 
@@ -371,7 +367,7 @@ public partial class AtmosphereSystem
         MapGridComponent? mapGridComp = null)
     {
         // Classic-Start
-        if (!AtmosEnabled)
+        if (AtmosDisabled)
             return false;
         // Classic-End
 
@@ -401,7 +397,7 @@ public partial class AtmosphereSystem
         AtmosDirection directions = AtmosDirection.All)
     {
         // Classic-Start
-        if (!AtmosEnabled)
+        if (AtmosDisabled)
             return false;
         // Classic-End
 
@@ -429,7 +425,7 @@ public partial class AtmosphereSystem
     public bool IsTileSpace(Entity<GridAtmosphereComponent?>? grid, Entity<MapAtmosphereComponent?>? map, Vector2i tile)
     {
         // Classic-Start
-        if (!AtmosEnabled)
+        if (AtmosDisabled)
             return false;
         // Classic-End
 
@@ -461,7 +457,7 @@ public partial class AtmosphereSystem
     public bool IsTileMixtureProbablySafe(Entity<GridAtmosphereComponent?>? grid, Entity<MapAtmosphereComponent?> map, Vector2i tile)
     {
         // Classic-Start
-        if (!AtmosEnabled)
+        if (AtmosDisabled)
             return true;
         // Classic-End
 
@@ -479,7 +475,7 @@ public partial class AtmosphereSystem
     public float GetTileHeatCapacity(Entity<GridAtmosphereComponent?>? grid, Entity<MapAtmosphereComponent?> map, Vector2i tile)
     {
         // Classic-Start
-        if (!AtmosEnabled)
+        if (AtmosDisabled)
             return GetHeatCapacity(DisabledAtmosphere);
         // Classic-End
 
@@ -498,7 +494,7 @@ public partial class AtmosphereSystem
     public TileMixtureEnumerator GetAdjacentTileMixtures(Entity<GridAtmosphereComponent?> grid, Vector2i tile, bool includeBlocked = false, bool excite = false)
     {
         // Classic-Start
-        if (!AtmosEnabled)
+        if (AtmosDisabled)
             return TileMixtureEnumerator.Empty;
         // Classic-End
 
@@ -535,7 +531,7 @@ public partial class AtmosphereSystem
         bool soh = false)
     {
         // Classic-Start
-        if (!AtmosEnabled)
+        if (AtmosDisabled)
             return;
         // Classic-End
 
@@ -568,7 +564,7 @@ public partial class AtmosphereSystem
         bool soh = false)
     {
         // Classic-Start
-        if (!AtmosEnabled)
+        if (AtmosDisabled)
             return;
         // Classic-End
 
@@ -588,7 +584,7 @@ public partial class AtmosphereSystem
     public void HotspotExtinguish(EntityUid gridUid, Vector2i tile)
     {
         // Classic-Start
-        if (!AtmosEnabled)
+        if (AtmosDisabled)
             return;
         // Classic-End
 
@@ -606,7 +602,7 @@ public partial class AtmosphereSystem
     public bool IsHotspotActive(EntityUid gridUid, Vector2i tile)
     {
         // Classic-Start
-        if (!AtmosEnabled)
+        if (AtmosDisabled)
             return false;
         // Classic-End
 
@@ -627,7 +623,7 @@ public partial class AtmosphereSystem
     public bool AddPipeNet(Entity<GridAtmosphereComponent?> grid, PipeNet pipeNet)
     {
         // Classic-Start
-        if (!AtmosEnabled)
+        if (AtmosDisabled)
             return false;
         // Classic-End
 
@@ -664,7 +660,7 @@ public partial class AtmosphereSystem
     public bool AddAtmosDevice(Entity<GridAtmosphereComponent?> grid, Entity<AtmosDeviceComponent> device)
     {
         // Classic-Start
-        if (!AtmosEnabled)
+        if (AtmosDisabled)
             return false;
         // Classic-End
 
@@ -713,7 +709,7 @@ public partial class AtmosphereSystem
     public bool TryAddDeltaPressureEntity(Entity<GridAtmosphereComponent?> grid, Entity<DeltaPressureComponent> ent)
     {
         // Classic-Start
-        if (!AtmosEnabled)
+        if (AtmosDisabled)
             return false;
         // Classic-End
 
@@ -794,7 +790,7 @@ public partial class AtmosphereSystem
     public bool IsDeltaPressureEntityInList(Entity<GridAtmosphereComponent?> grid, Entity<DeltaPressureComponent> ent)
     {
         // Classic-Start
-        if (!AtmosEnabled)
+        if (AtmosDisabled)
             return false;
         // Classic-End
 

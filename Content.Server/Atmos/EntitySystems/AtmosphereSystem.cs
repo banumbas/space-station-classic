@@ -85,7 +85,7 @@ public sealed partial class AtmosphereSystem : SharedAtmosphereSystem
     private void OnTileChanged(ref TileChangedEvent ev)
     {
         // Classic-Start
-        if (!AtmosEnabled)
+        if (AtmosDisabled)
             return;
         // Classic-End
 
@@ -106,7 +106,7 @@ public sealed partial class AtmosphereSystem : SharedAtmosphereSystem
         base.Update(frameTime);
 
         // Classic-Start
-        if (!AtmosEnabled)
+        if (AtmosDisabled)
             return;
         // Classic-End
 

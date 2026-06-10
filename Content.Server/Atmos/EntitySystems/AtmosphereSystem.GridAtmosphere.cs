@@ -45,7 +45,7 @@ public sealed partial class AtmosphereSystem
     private void OnGridAtmosphereInit(EntityUid uid, GridAtmosphereComponent component, ComponentInit args)
     {
         // Classic-Start
-        if (!AtmosEnabled)
+        if (AtmosDisabled)
         {
             ClearGridAtmosphere(component);
             return;
@@ -62,7 +62,7 @@ public sealed partial class AtmosphereSystem
     private void OnGridAtmosphereStartup(EntityUid uid, GridAtmosphereComponent component, ComponentStartup args)
     {
         // Classic-Start
-        if (!AtmosEnabled)
+        if (AtmosDisabled)
         {
             ClearGridAtmosphere(component);
             return;
@@ -78,7 +78,7 @@ public sealed partial class AtmosphereSystem
     private void OnGridSplit(EntityUid uid, GridAtmosphereComponent originalGridAtmos, ref GridSplitEvent args)
     {
         // Classic-Start
-        if (!AtmosEnabled)
+        if (AtmosDisabled)
             return;
         // Classic-End
 
@@ -133,7 +133,7 @@ public sealed partial class AtmosphereSystem
         if (args.Handled)
             return;
 
-        args.Simulated = AtmosEnabled && component.Simulated; // Classic-Edit
+        args.Simulated = !AtmosDisabled && component.Simulated; // Classic-Edit
         args.Handled = true;
     }
 
@@ -337,7 +337,7 @@ public sealed partial class AtmosphereSystem
     public void InvalidateAllTiles(Entity<MapGridComponent?, GridAtmosphereComponent?> entity)
     {
         // Classic-Start
-        if (!AtmosEnabled)
+        if (AtmosDisabled)
             return;
         // Classic-End
 

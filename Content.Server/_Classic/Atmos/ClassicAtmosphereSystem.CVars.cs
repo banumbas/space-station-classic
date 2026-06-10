@@ -11,6 +11,7 @@ public sealed partial class AtmosphereSystem
     private static readonly GasMixture DisabledAtmosphere = CreateDisabledAtmosphere();
 
     public bool AtmosEnabled { get; private set; } = true;
+    private bool AtmosDisabled => !AtmosEnabled;
 
     private void InitializeClassicCVars()
     {
@@ -28,6 +29,13 @@ public sealed partial class AtmosphereSystem
         mixture.AdjustMoles(Gas.Nitrogen, Atmospherics.NitrogenMolesStandard);
         mixture.MarkImmutable();
         return mixture;
+    }
+
+    private static GasMixture?[] GetDisabledTileMixtures(int count)
+    {
+        var mixtures = new GasMixture?[count];
+        Array.Fill(mixtures, DisabledAtmosphere);
+        return mixtures;
     }
 
     private void SetAtmosEnabled(bool value)

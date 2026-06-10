@@ -621,7 +621,7 @@ namespace Content.Server.Atmos.EntitySystems
         private void UpdateProcessing(float frameTime)
         {
             // Classic-Start
-            if (!AtmosEnabled)
+            if (AtmosDisabled)
                 return;
             // Classic-End
 
@@ -690,7 +690,7 @@ namespace Content.Server.Atmos.EntitySystems
             float frameTime)
         {
             // Classic-Start
-            if (!AtmosEnabled)
+            if (AtmosDisabled)
                 return AtmosphereProcessingCompletionState.Finished;
             // Classic-End
 

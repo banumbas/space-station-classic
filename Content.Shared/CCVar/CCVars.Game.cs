@@ -84,11 +84,11 @@ public sealed partial class CCVars
     public static readonly CVarDef<string>
         PersistenceMap = CVarDef.Create("game.persistencemap", "Empty", CVar.ARCHIVE);
 
-        /// <summary>
-        ///     Prototype to use for map pool.
-        /// </summary>
-        public static readonly CVarDef<string>
-            GameMapPool = CVarDef.Create("game.map_pool", "DefaultClassicMapPool", CVar.SERVERONLY); // Classic-Edit
+    /// <summary>
+    ///     Prototype to use for map pool.
+    /// </summary>
+    public static readonly CVarDef<string>
+        GameMapPool = CVarDef.Create("game.map_pool", "DefaultClassicMapPool", CVar.SERVERONLY); // Classic-Edit
 
     /// <summary>
     ///     The depth of the queue used to calculate which map is next in rotation.

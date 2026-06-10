@@ -1,5 +1,5 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using System.Diagnostics.CodeAnalysis; // Classic
 using System.Numerics;
 using System.Threading.Tasks;
 using Content.Server.Atmos;
@@ -148,7 +148,7 @@ public sealed partial class BiomeSystem : SharedBiomeSystem
                 var pTransform = _physics.GetPhysicsTransform(grid.Owner);
 
                 var fixturesList = fixtures.Fixtures.Values.ToList(); // Classic-Add
-                foreach (var fixture in fixturesList) // Classic-Edit
+                foreach (var fixture in fixturesList) // Classic-Add
                 {
                     for (var i = 0; i < fixture.Shape.ChildCount; i++)
                     {
@@ -348,7 +348,7 @@ public sealed partial class BiomeSystem : SharedBiomeSystem
         {
             if (_xformQuery.TryGetComponent(pSession.AttachedEntity, out var xform) &&
                 _handledEntities.Add(pSession.AttachedEntity.Value) &&
-                TryGetActiveBiome(xform, out var biome) && // Classic
+                TryGetActiveBiome(xform, out var biome) && // Classic-Add
                 biome.Enabled &&
                 CanLoad(pSession.AttachedEntity.Value))
             {
@@ -366,7 +366,7 @@ public sealed partial class BiomeSystem : SharedBiomeSystem
             {
                 if (!_handledEntities.Add(viewer) ||
                     !_xformQuery.TryGetComponent(viewer, out xform) ||
-                    !TryGetActiveBiome(xform, out biome) || // Classic
+                    !TryGetActiveBiome(xform, out biome) || // Classic-Add
                     !biome.Enabled ||
                     !CanLoad(viewer))
                 {
