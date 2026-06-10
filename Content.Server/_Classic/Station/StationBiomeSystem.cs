@@ -21,13 +21,13 @@ public sealed partial class ClassicStationBiomeSystem : EntitySystem
 {
     private static readonly GasMixture PlanetAtmosphere = CreatePlanetAtmosphere();
 
-    [Dependency] private readonly AtmosphereSystem _atmosphere = default!;
-    [Dependency] private readonly BiomeSystem _biome = default!;
-    [Dependency] private readonly IPrototypeManager _proto = default!;
-    [Dependency] private readonly SharedRoofSystem _roof = default!;
-    [Dependency] private readonly StationSystem _station = default!;
-    [Dependency] private readonly SharedMapSystem _map = default!;
-    [Dependency] private readonly ITileDefinitionManager _tile = default!;
+    [Dependency] private AtmosphereSystem _atmosphere = default!;
+    [Dependency] private BiomeSystem _biome = default!;
+    [Dependency] private IPrototypeManager _proto = default!;
+    [Dependency] private SharedRoofSystem _roof = default!;
+    [Dependency] private StationSystem _station = default!;
+    [Dependency] private SharedMapSystem _map = default!;
+    [Dependency] private ITileDefinitionManager _tile = default!;
 
     public override void Initialize()
     {
