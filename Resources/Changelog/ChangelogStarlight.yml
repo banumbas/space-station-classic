@@ -1,13 +1,6 @@
 Entries:
 - author: Caws
   changes:
-  - message: (Serpentcrest) Some extra goodies (random crates) in Armory to help SEC deal with the station.
-    type: Tweak
-  id: 405625
-  time: '2026-06-05T00:29:57.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4598
-- author: Caws
-  changes:
   - message: (Silica) Minor tweaks to Armory.
     type: Tweak
   id: 405626
@@ -2799,4 +2792,11 @@ Entries:
   id: 406024
   time: '2026-06-16T09:24:30.000000+00:00'
   url: https://github.com/ss14Starlight/space-station-14/pull/4798
+- author: RenMeow1
+  changes:
+  - message: Proto-avali scream sound clip.
+    type: Add
+  id: 406025
+  time: '2026-06-16T09:59:29.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4795
 Order: -1
