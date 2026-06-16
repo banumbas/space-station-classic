@@ -1,13 +1,6 @@
 Entries:
 - author: Caws
   changes:
-  - message: (Silica) Minor tweaks to Armory.
-    type: Tweak
-  id: 405626
-  time: '2026-06-05T00:29:57.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4598
-- author: Caws
-  changes:
   - message: (Space Mall) +6 suits to Security Armory (12 total).
     type: Tweak
   id: 405627
@@ -2799,4 +2792,11 @@ Entries:
   id: 406025
   time: '2026-06-16T09:59:29.000000+00:00'
   url: https://github.com/ss14Starlight/space-station-14/pull/4795
+- author: Vincolan
+  changes:
+  - message: Added Wireless reporter Camera.
+    type: Add
+  id: 406026
+  time: '2026-06-16T10:27:01.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4805
 Order: -1
