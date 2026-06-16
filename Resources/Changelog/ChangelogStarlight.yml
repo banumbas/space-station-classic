@@ -1,53 +1,4 @@
 Entries:
-- author: Caws
-  changes:
-  - message: (Space Mall) +6 suits to Security Armory (12 total).
-    type: Tweak
-  id: 405627
-  time: '2026-06-05T00:29:57.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4598
-- author: Caws
-  changes:
-  - message: (Starboard) +6 suits to Security EVA (12 total).
-    type: Tweak
-  id: 405628
-  time: '2026-06-05T00:29:57.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4598
-- author: Caws
-  changes:
-  - message: (Starboard) Removed the suits from Security Armory (moved them to Secuirty EVA storage) so that people don't think there's only two Security suits for all of SEC.
-    type: Tweak
-  id: 405629
-  time: '2026-06-05T00:29:57.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4598
-- author: Caws
-  changes:
-  - message: (Starboard) +1 Brigmedic.
-    type: Tweak
-  id: 405630
-  time: '2026-06-05T00:29:57.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4598
-- author: Caws
-  changes:
-  - message: (Starboard) +1 Detective.
-    type: Tweak
-  id: 405631
-  time: '2026-06-05T00:29:57.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4598
-- author: wonderfulnewworld
-  changes:
-  - message: Proto-Moths' LED faces now correctly render.
-    type: Fix
-  id: 405632
-  time: '2026-06-05T03:48:16.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4662
-- author: wonderfulnewworld
-  changes:
-  - message: ProtoKins' bodies are now arranged in the same order as a normal Shadekin's.
-    type: Fix
-  id: 405633
-  time: '2026-06-05T03:48:16.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4662
 - author: wonderfulnewworld
   changes:
   - message: Added functionality for allowing clothing slots to depend on multiple clothing slots alternatively.
@@ -2799,4 +2750,53 @@ Entries:
   id: 406026
   time: '2026-06-16T10:27:01.000000+00:00'
   url: https://github.com/ss14Starlight/space-station-14/pull/4805
+- author: Way
+  changes:
+  - message: (Hotel) Added new fax machines.
+    type: Add
+  id: 406027
+  time: '2026-06-16T10:27:03.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4791
+- author: Way
+  changes:
+  - message: (Hotel) Added Kiki to Botany.
+    type: Add
+  id: 406028
+  time: '2026-06-16T10:27:03.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4791
+- author: Way
+  changes:
+  - message: (Hotel) Shipyard console.
+    type: Add
+  id: 406029
+  time: '2026-06-16T10:27:03.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4791
+- author: Way
+  changes:
+  - message: (Hotel) More decal and tile tweaks.
+    type: Tweak
+  id: 406030
+  time: '2026-06-16T10:27:03.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4791
+- author: Way
+  changes:
+  - message: (Bagel) Added new fax machines.
+    type: Add
+  id: 406031
+  time: '2026-06-16T10:27:03.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4791
+- author: Way
+  changes:
+  - message: (Bagel) Added Kiki to Botany.
+    type: Add
+  id: 406032
+  time: '2026-06-16T10:27:03.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4791
+- author: Way
+  changes:
+  - message: (Bagel) Shipyard console.
+    type: Add
+  id: 406033
+  time: '2026-06-16T10:27:03.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4791
 Order: -1
