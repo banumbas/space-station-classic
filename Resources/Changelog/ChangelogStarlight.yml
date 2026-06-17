@@ -1,41 +1,6 @@
 Entries:
 - author: Way
   changes:
-  - message: (Hotel) Added missing document printer to library.
-    type: Add
-  id: 405665
-  time: '2026-06-08T17:56:54.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4683
-- author: Way
-  changes:
-  - message: (Hotel) Moved the service request computer outside of the kitchen for easier access.
-    type: Fix
-  id: 405666
-  time: '2026-06-08T17:56:54.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4683
-- author: Way
-  changes:
-  - message: (Hotel) Linked surgery operating computers to the operating tables.
-    type: Fix
-  id: 405667
-  time: '2026-06-08T17:56:54.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4683
-- author: Way
-  changes:
-  - message: (Hotel) Added a cryo-bed to Genpop.
-    type: Add
-  id: 405668
-  time: '2026-06-08T17:56:54.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4683
-- author: Way
-  changes:
-  - message: (Hotel) Gave CMO a hardsuit storage locker, in replacement of the combined locker.
-    type: Add
-  id: 405669
-  time: '2026-06-08T17:56:54.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4683
-- author: Way
-  changes:
   - message: (Hotel) Added cryo signs to the cryo storage area.
     type: Fix
   id: 405670
@@ -2799,4 +2764,39 @@ Entries:
   id: 406064
   time: '2026-06-17T08:31:51.000000+00:00'
   url: https://github.com/ss14Starlight/space-station-14/pull/4814
+- author: Johnny
+  changes:
+  - message: Added the Pioneer as a buyable ship in the shipyard.
+    type: Add
+  id: 406065
+  time: '2026-06-17T08:31:53.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4810
+- author: Johnny
+  changes:
+  - message: Added the Breaker as a buyable ship in the shipyard.
+    type: Add
+  id: 406066
+  time: '2026-06-17T08:31:53.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4810
+- author: Johnny
+  changes:
+  - message: Added the Munchies as a buyable ship in the shipyard.
+    type: Add
+  id: 406067
+  time: '2026-06-17T08:31:53.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4810
+- author: Johnny
+  changes:
+  - message: Added the Plasma as a buyable ship in the shipyard.
+    type: Add
+  id: 406068
+  time: '2026-06-17T08:31:53.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4810
+- author: Johnny
+  changes:
+  - message: The private transport shuttle in the shipyard has been changed/reworked.
+    type: Tweak
+  id: 406069
+  time: '2026-06-17T08:31:53.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4810
 Order: -1
