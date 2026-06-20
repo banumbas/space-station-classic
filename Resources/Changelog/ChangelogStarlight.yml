@@ -1,20 +1,6 @@
 Entries:
 - author: Swonki, Romero
   changes:
-  - message: Kammerer to be the new low spread shotgun.
-    type: Tweak
-  id: 405730
-  time: '2026-06-08T22:30:28.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4627
-- author: Swonki, Romero
-  changes:
-  - message: Sentiel to be low capacity and semi-automatic.
-    type: Tweak
-  id: 405731
-  time: '2026-06-08T22:30:28.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4627
-- author: Swonki, Romero
-  changes:
   - message: Riot Shotgun to be magazine fed.
     type: Tweak
   id: 405732
@@ -2799,4 +2785,18 @@ Entries:
   id: 406129
   time: '2026-06-20T13:12:35.000000+00:00'
   url: https://github.com/ss14Starlight/space-station-14/pull/4826
+- author: Pon
+  changes:
+  - message: Added Coroner, Senior Chemist, Black, and Virology Long Lab Coat variants.
+    type: Add
+  id: 406130
+  time: '2026-06-20T13:41:37.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4861
+- author: Pon
+  changes:
+  - message: Fixed all Long Lab Coat showing the incorrect sprite while worn.
+    type: Fix
+  id: 406131
+  time: '2026-06-20T13:41:37.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4861
 Order: -1
