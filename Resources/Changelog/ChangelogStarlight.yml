@@ -1,13 +1,6 @@
 Entries:
 - author: PON
   changes:
-  - message: (LAGAN) Added many firelocks around the station.
-    type: Add
-  id: 405764
-  time: '2026-06-09T06:41:20.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4678
-- author: PON
-  changes:
   - message: (LAGAN) Added random food spawns shift start at the kitchen.
     type: Add
   id: 405765
@@ -2799,4 +2792,11 @@ Entries:
   id: 406163
   time: '2026-06-23T07:53:10.000000+00:00'
   url: https://github.com/ss14Starlight/space-station-14/pull/4909
+- author: Caws
+  changes:
+  - message: Restored the raid suit to 1.0 walk speed / 1.1 sprint speed. These bonuses buffs were lost in an upstream merge.
+    type: Fix
+  id: 406164
+  time: '2026-06-23T07:53:12.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4896
 Order: -1
