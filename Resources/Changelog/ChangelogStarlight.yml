@@ -1,27 +1,6 @@
 Entries:
 - author: PON
   changes:
-  - message: (LAGAN) Changed fence near cargo to have a hole cut into it.
-    type: Tweak
-  id: 405796
-  time: '2026-06-09T06:41:20.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4678
-- author: PON
-  changes:
-  - message: (LAGAN) Swapped Mail and Ripley room.
-    type: Tweak
-  id: 405797
-  time: '2026-06-09T06:41:20.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4678
-- author: PON
-  changes:
-  - message: (LAGAN) Changed Cargo Front windows to yellow railings.
-    type: Tweak
-  id: 405798
-  time: '2026-06-09T06:41:20.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4678
-- author: PON
-  changes:
   - message: (LAGAN) Tweaked belt spawns in cargo. Now 1 filled and 1 empty.
     type: Tweak
   id: 405799
@@ -2799,4 +2778,25 @@ Entries:
   id: 406195
   time: '2026-06-23T09:28:37.000000+00:00'
   url: https://github.com/ss14Starlight/space-station-14/pull/4808
+- author: Caws
+  changes:
+  - message: Most species organs are now consistently labelled as "(species name) (organ name)", e.g. "vox eyes" "resomi stomach" "vulpkanin heart", etc. Surgeons rejoice.
+    type: Tweak
+  id: 406196
+  time: '2026-06-23T09:28:39.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4894
+- author: Caws
+  changes:
+  - message: Arachnids now have arachnid tongues instead of human tongues.
+    type: Fix
+  id: 406197
+  time: '2026-06-23T09:28:39.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4894
+- author: Caws
+  changes:
+  - message: Vox now have vox tongues instead of human tongues.
+    type: Fix
+  id: 406198
+  time: '2026-06-23T09:28:39.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4894
 Order: -1
