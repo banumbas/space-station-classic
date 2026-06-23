@@ -1,13 +1,6 @@
 Entries:
 - author: PON
   changes:
-  - message: (LAGAN) Tweaked many vents / scrubbers to not be under objects due to the increase of vent based antags.
-    type: Tweak
-  id: 405795
-  time: '2026-06-09T06:41:20.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4678
-- author: PON
-  changes:
   - message: (LAGAN) Changed fence near cargo to have a hole cut into it.
     type: Tweak
   id: 405796
@@ -2799,4 +2792,11 @@ Entries:
   id: 406194
   time: '2026-06-23T08:34:01.000000+00:00'
   url: https://github.com/ss14Starlight/space-station-14/pull/4890
+- author: STARLIGHT TEAM
+  changes:
+  - message: Added Iceialin, a freezing chem that can rapidly cool superheated bodies.
+    type: Add
+  id: 406195
+  time: '2026-06-23T09:28:37.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4808
 Order: -1
