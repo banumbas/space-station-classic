@@ -1,13 +1,6 @@
 Entries:
 - author: PON
   changes:
-  - message: (LAGAN) Added random food spawns shift start at the kitchen.
-    type: Add
-  id: 405765
-  time: '2026-06-09T06:41:20.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4678
-- author: PON
-  changes:
   - message: (LAGAN) Added HonkBot to Solitary.
     type: Add
   id: 405766
@@ -2799,4 +2792,11 @@ Entries:
   id: 406164
   time: '2026-06-23T07:53:12.000000+00:00'
   url: https://github.com/ss14Starlight/space-station-14/pull/4896
+- author: STARLIGHT TEAM
+  changes:
+  - message: Tweaked Laspi water damage.
+    type: Tweak
+  id: 406165
+  time: '2026-06-23T07:53:14.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4906
 Order: -1
