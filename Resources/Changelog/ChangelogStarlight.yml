@@ -1,20 +1,6 @@
 Entries:
 - author: PON
   changes:
-  - message: (LAGAN) Changed Brigmed slots from 1 to 2, locker being changed to the large locker.
-    type: Tweak
-  id: 405812
-  time: '2026-06-09T06:41:20.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4678
-- author: PON
-  changes:
-  - message: (LAGAN) Changed Detective slots from 1 to 2.
-    type: Tweak
-  id: 405813
-  time: '2026-06-09T06:41:20.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4678
-- author: PON
-  changes:
   - message: (LAGAN) Changed windows inside of medical to be non-reinforced.
     type: Tweak
   id: 405814
@@ -2799,4 +2785,18 @@ Entries:
   id: 406211
   time: '2026-06-24T16:25:26.000000+00:00'
   url: https://github.com/ss14Starlight/space-station-14/pull/4912
+- author: redmushie
+  changes:
+  - message: All Service jobs now have Service access. Chaplain, Clown, Mime and Musician did not have it previously.
+    type: Tweak
+  id: 406212
+  time: '2026-06-24T18:15:53.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4927
+- author: redmushie
+  changes:
+  - message: The service request console now only uses Service access.
+    type: Tweak
+  id: 406213
+  time: '2026-06-24T18:15:53.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4927
 Order: -1
