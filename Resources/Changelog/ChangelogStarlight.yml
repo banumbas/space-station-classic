@@ -1,13 +1,6 @@
 Entries:
 - author: PON
   changes:
-  - message: (LAGAN) Tweaked pipes in atmos to be colored correctly.
-    type: Tweak
-  id: 405820
-  time: '2026-06-09T06:41:20.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4678
-- author: PON
-  changes:
   - message: (LAGAN) Changed kitchen airlock to a glass airlock.
     type: Tweak
   id: 405821
@@ -2799,4 +2792,11 @@ Entries:
   id: 406219
   time: '2026-06-25T07:27:03.000000+00:00'
   url: https://github.com/ss14Starlight/space-station-14/pull/4922
+- author: Mack
+  changes:
+  - message: ID job names not being escaped.
+    type: Fix
+  id: 406220
+  time: '2026-06-25T08:26:14.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4925
 Order: -1
