@@ -1,13 +1,6 @@
 Entries:
 - author: PON
   changes:
-  - message: (LAGAN) Tweaked IAA to be over one tile from Lawyer.
-    type: Tweak
-  id: 405819
-  time: '2026-06-09T06:41:20.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4678
-- author: PON
-  changes:
   - message: (LAGAN) Tweaked pipes in atmos to be colored correctly.
     type: Tweak
   id: 405820
@@ -2799,4 +2792,11 @@ Entries:
   id: 406218
   time: '2026-06-24T21:12:58.000000+00:00'
   url: https://github.com/ss14Starlight/space-station-14/pull/4928
+- author: Mack
+  changes:
+  - message: 'Popout to: Guidebook, Crew Monitors, Mass Scanners, Shuttle Consoles, Camera Monitors, AI Station records, Ghost Character Editor.'
+    type: Add
+  id: 406219
+  time: '2026-06-25T07:27:03.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4922
 Order: -1
