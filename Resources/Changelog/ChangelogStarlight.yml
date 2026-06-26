@@ -1,20 +1,6 @@
 Entries:
 - author: Cvlancer & Caws
   changes:
-  - message: (KILOTON) Removed the jaws of life from cmo's office.
-    type: Remove
-  id: 405846
-  time: '2026-06-09T07:33:46.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4694
-- author: Cvlancer & Caws
-  changes:
-  - message: (KILOTON) Removed the tools security had access to in the substation room.
-    type: Remove
-  id: 405847
-  time: '2026-06-09T07:33:46.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4694
-- author: Cvlancer & Caws
-  changes:
   - message: (KILOTON) Removed some trackers located inside bso's office.
     type: Remove
   id: 405848
@@ -2799,4 +2785,18 @@ Entries:
   id: 406245
   time: '2026-06-26T18:04:26.000000+00:00'
   url: https://github.com/ss14Starlight/space-station-14/pull/4940
+- author: Psykana, Slarticodefast, Conflee
+  changes:
+  - message: Added T-Ray Scanner Modes, allowing you to toggle between showing All, Pipes, and Wires.
+    type: Add
+  id: 406246
+  time: '2026-06-26T19:11:26.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4864
+- author: Psykana, Slarticodefast, Conflee
+  changes:
+  - message: Changed event field naming as part of a refactor. All Upstream and current Starlight Repo files are corrected, however Downstreams of SL may need to confirm and swap their use of Equipee to the correct event field names.
+    type: Tweak
+  id: 406247
+  time: '2026-06-26T19:11:26.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4864
 Order: -1
