@@ -1,13 +1,6 @@
 Entries:
 - author: Caws
   changes:
-  - message: Engineering cyborgs now have a 'hand' slot that can pick up RCD ammo, used for refilling RCDs.
-    type: Add
-  id: 405894
-  time: '2026-06-10T19:13:23.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4711
-- author: Caws
-  changes:
   - message: Removed the experimental RCD (recharging RCD) from engineering cyborgs due to budget cuts. Central Command apologies for the inconvenience.
     type: Remove
   id: 405895
@@ -2799,4 +2792,11 @@ Entries:
   id: 406293
   time: '2026-06-28T21:56:55.000000+00:00'
   url: https://github.com/ss14Starlight/space-station-14/pull/4936
+- author: mikeysaurus
+  changes:
+  - message: Silicon's now understand the Elvish language Felyaic.
+    type: Fix
+  id: 406294
+  time: '2026-06-29T08:21:14.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4961
 Order: -1
