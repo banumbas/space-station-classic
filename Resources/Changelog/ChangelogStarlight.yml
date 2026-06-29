@@ -1,13 +1,6 @@
 Entries:
 - author: wonderfulnewworld
   changes:
-  - message: Proto-Diona can now eat computer boards.
-    type: Fix
-  id: 405900
-  time: '2026-06-11T16:03:16.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4736
-- author: wonderfulnewworld
-  changes:
   - message: Proto-Laspi can now eat foods other than computer boards.
     type: Fix
   id: 405901
@@ -2799,4 +2792,11 @@ Entries:
   id: 406299
   time: '2026-06-29T08:21:16.000000+00:00'
   url: https://github.com/ss14Starlight/space-station-14/pull/4947
+- author: BornStellar and Hanz
+  changes:
+  - message: X-03 phase shield. A toggleable energy shield with an internal battery! While it is susceptible to EMPs and isn't as strong as its metal based counterparts, the fact that it self charges while not in use and stores easily in a pocket puts the 'Shield' into Blueshield officer.
+    type: Add
+  id: 406300
+  time: '2026-06-29T14:58:53.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4903
 Order: -1
