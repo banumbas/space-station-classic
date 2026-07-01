@@ -156,37 +156,12 @@ public sealed class ClassicSupplyPodSystem : SharedClassicSupplyPodSystem
 
         SetPhase(pod, podComp, ClassicSupplyPodPhase.Landed);
 
-        // Capture entities in the impact radius BEFORE re-enabling collision,
-        // otherwise the physics engine may push mobs away before damage is applied.
+        // Collect entities in the impact radius before re-enabling collision.
         _impactSet.Clear();
         _lookup.GetEntitiesInRange(pod, podComp.ImpactRadius, _impactSet,
             LookupFlags.Approximate | LookupFlags.Dynamic | LookupFlags.Static | LookupFlags.Sundries | LookupFlags.Contained);
 
-        // Also find mobs (MobHuman and similar) via a component-based lookup.
-        // The entity-based range query above can miss mobs standing on the landing
-        // tile (e.g. when the pod is anchored/static), so we explicitly collect all
-        // entities with MobStateComponent in the impact radius. This covers a 3x3
-        // grid (radius 1). Mobs inside the pod's storage are excluded later in
-        // ApplyImpactDamage.
-        //
-        // LookupFlags.Approximate is CRITICAL here: without it, the generic
-        // component query performs a precise fixture-overlap test (TestOverlap)
-        // that frequently fails to catch mobs whose small fixtures don't strictly
-        // intersect the query circle. Approximate uses AABB-only checks, matching
-        // the behaviour of the non-generic query above that successfully finds
-        // structures.
-        var podCoords = Transform(pod).Coordinates;
-        var mobSet = new HashSet<Entity<MobStateComponent>>();
-        _lookup.GetEntitiesInRange(podCoords, podComp.ImpactRadius, mobSet,
-            LookupFlags.Approximate | LookupFlags.Dynamic);
-        foreach (var mob in mobSet)
-        {
-            _impactSet.Add(mob);
-        }
-
-        // Apply all damage/effects FIRST, before re-enabling collision. This ensures
-        // mobs caught under the pod are damaged before any physics pushback can
-        // interfere (e.g. via events triggered by collision).
+        // Apply damage/effects before re-enabling collision.
         ApplyImpactDamage(pod, podComp);
         ApplyPassengerEffects(pod, podComp);
 
@@ -241,8 +216,11 @@ public sealed class ClassicSupplyPodSystem : SharedClassicSupplyPodSystem
             if (Deleted(ent))
                 continue;
 
-            // Skip items and entities without DamageableComponent.
-            if (HasComp<ItemComponent>(ent) || !HasComp<DamageableComponent>(ent))
+            if (!HasComp<DamageableComponent>(ent))
+                continue;
+
+            // Skip items, but not mobs (some mobs have ItemComponent from pickupable species).
+            if (HasComp<ItemComponent>(ent) && !HasComp<MobStateComponent>(ent))
                 continue;
 
             // Clone the DamageSpecifier so resistance/modifier calculations on one
