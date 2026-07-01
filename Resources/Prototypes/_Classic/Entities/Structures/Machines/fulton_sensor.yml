@@ -93,6 +93,8 @@
         - MachineMask
         layer:
         - MachineLayer
+  - type: Destructible
+    thresholds: []
   - type: Construction
     graph: FultonSensorTowerRepair
     node: broken
