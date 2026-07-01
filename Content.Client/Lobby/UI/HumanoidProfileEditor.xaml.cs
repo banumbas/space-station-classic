@@ -468,20 +468,25 @@ namespace Content.Client.Lobby.UI
 
             #endregion Hair
 
-            #region SpawnPriority
-
-            foreach (var value in Enum.GetValues<SpawnPriorityPreference>())
-            {
-                SpawnPriorityButton.AddItem(Loc.GetString($"humanoid-profile-editor-preference-spawn-priority-{value.ToString().ToLower()}"), (int)value);
-            }
-
-            SpawnPriorityButton.OnItemSelected += args =>
-            {
-                SpawnPriorityButton.SelectId(args.Id);
-                SetSpawnPriority((SpawnPriorityPreference)args.Id);
-            };
-
-            #endregion SpawnPriority
+            // Classic-Start
+            // SpawnPriority preference commented out: players arrive via supply pods.
+            // The UI element is kept for visual consistency but the choice is non-functional.
+            // #region SpawnPriority
+            //
+            // foreach (var value in Enum.GetValues<SpawnPriorityPreference>())
+            // {
+            //     SpawnPriorityButton.AddItem(Loc.GetString($"humanoid-profile-editor-preference-spawn-priority-{value.ToString().ToLower()}"), (int)value);
+            // }
+            //
+            // SpawnPriorityButton.OnItemSelected += args =>
+            // {
+            //     SpawnPriorityButton.SelectId(args.Id);
+            //     SetSpawnPriority((SpawnPriorityPreference)args.Id);
+            // };
+            //
+            // #endregion SpawnPriority
+            SpawnPriorityButton.Visible = false;
+            // Classic-End
 
             #region Eyes
 
@@ -1891,15 +1896,22 @@ namespace Content.Client.Lobby.UI
             PronounsButton.SelectId((int)Profile.Gender);
         }
 
+        // Classic-Start
+        // SpawnPriority preference disabled: players arrive via supply pods.
+        // The button is no longer populated, so SelectId would throw KeyNotFoundException.
+        // private void UpdateSpawnPriorityControls()
+        // {
+        //     if (Profile == null)
+        //     {
+        //         return;
+        //     }
+        //
+        //     SpawnPriorityButton.SelectId((int)Profile.SpawnPriority);
+        // }
         private void UpdateSpawnPriorityControls()
         {
-            if (Profile == null)
-            {
-                return;
-            }
-
-            SpawnPriorityButton.SelectId((int)Profile.SpawnPriority);
         }
+        // Classic-End
 
         private void UpdateHairPickers()
         {

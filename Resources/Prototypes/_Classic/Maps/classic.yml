@@ -8,7 +8,7 @@
   maxPlayers: 20
   stations:
     ClassicClassic:
-      stationProto: StandardNanotrasenStation
+      stationProto: StandardClassicStation
       components:
         - type: ClassicStationBiome
           biome: GrasslandsClassic

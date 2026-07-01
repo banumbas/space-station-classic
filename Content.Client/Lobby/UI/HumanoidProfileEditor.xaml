@@ -141,8 +141,10 @@
                                     Text="{Loc 'humanoid-profile-editor-clothing-show'}"
                                     ToggleMode="True" />
                             </BoxContainer>
-                            <!--  Spawn Priority  -->
-                            <BoxContainer HorizontalExpand="True">
+                            <!-- Classic-Start -->
+                            <!-- Spawn Priority hidden: players arrive via supply pods instead -->
+                            <!-- Classic-End -->
+                            <BoxContainer HorizontalExpand="True" Visible="False">
                                 <Label Text="{Loc 'humanoid-profile-editor-spawn-priority-label'}" />
                                 <Control HorizontalExpand="True" />
                                 <OptionButton Name="SpawnPriorityButton" HorizontalAlignment="Right" />
