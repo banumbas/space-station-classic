@@ -1,18 +1,4 @@
 Entries:
-- author: Musiklie
-  changes:
-  - message: Added Acrileni, a new chem that can be mixed with Razorium and Bruizine into Briomadine.
-    type: Add
-  id: 405948
-  time: '2026-06-12T11:38:19.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4675
-- author: Musiklie
-  changes:
-  - message: Added Briomadine, A greater brute chem, twice as effective as Bicaridine with a lesser consequence if mixed with other brutes.
-    type: Add
-  id: 405949
-  time: '2026-06-12T11:38:19.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4675
 - author: wonderfulnewworld
   changes:
   - message: Added a section to Proto-Voxes guidebook stating that they no longer get put to sleep by Nitrous or exhale Ammonia, but are put to sleep by things that put other Nitrogen breathers to sleep.
@@ -2799,4 +2785,18 @@ Entries:
   id: 406347
   time: '2026-07-02T21:47:33.000000+00:00'
   url: https://github.com/ss14Starlight/space-station-14/pull/4985
+- author: Romero
+  changes:
+  - message: Removed M90 GL.
+    type: Remove
+  id: 406348
+  time: '2026-07-02T21:47:35.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4934
+- author: Romero
+  changes:
+  - message: Added Lawbringer, as replacement of unused M90 GL, one per sec armory.
+    type: Add
+  id: 406349
+  time: '2026-07-02T21:47:35.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4934
 Order: -1
