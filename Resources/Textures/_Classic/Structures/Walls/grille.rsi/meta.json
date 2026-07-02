@@ -5,38 +5,38 @@
     "y": 64
   },
   "license": "CC-BY-SA-3.0",
-  "copyright": "take in https://github.com/wall-nerds/wallening/tree/stable/icons/turf/walls",
+  "copyright": "take in https://github.com/wall-nerds/wallening/tree/stable/icons/obj/smooth_structures",
   "states": [
     {
-      "name": "reinforced0",
+      "name": "grille0",
       "directions": 4
     },
     {
-      "name": "reinforced1",
+      "name": "grille1",
       "directions": 4
     },
     {
-      "name": "reinforced2",
+      "name": "grille2",
       "directions": 4
     },
     {
-      "name": "reinforced3",
+      "name": "grille3",
       "directions": 4
     },
     {
-      "name": "reinforced4",
+      "name": "grille4",
       "directions": 4
     },
     {
-      "name": "reinforced5",
+      "name": "grille5",
       "directions": 4
     },
     {
-      "name": "reinforced6",
+      "name": "grille6",
       "directions": 4
     },
     {
-      "name": "reinforced7",
+      "name": "grille7",
       "directions": 4
     },
     {
