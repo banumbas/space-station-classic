@@ -40,7 +40,7 @@
       behaviors:
       - !type:SpawnEntitiesBehavior
         spawn:
-          ClassicRodMetal:
+          PartRodMetal1:
             min: 0
             max: 1
       - !type:DoActsBehavior

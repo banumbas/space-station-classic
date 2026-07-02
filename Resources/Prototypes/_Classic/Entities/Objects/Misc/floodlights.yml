@@ -23,9 +23,6 @@
         map: [ "light" ]
     offset: "0.0,0.5"
     drawdepth: Mobs
-  - type: Construction
-    graph: RMCFloodlightBroken
-    node: completed
   - type: InteractionOutline
   - type: Damageable
     damageContainer: Inorganic

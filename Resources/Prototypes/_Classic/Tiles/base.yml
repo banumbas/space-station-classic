@@ -1,5 +1,4 @@
 - type: tile
-  editorHidden: false
   id: ClassicStone
   name: classic-tiles-base
   sprite: /Textures/_Classic/Tiles/cave.png

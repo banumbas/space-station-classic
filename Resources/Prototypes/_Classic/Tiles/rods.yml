@@ -1,7 +1,6 @@
 # All tiles placed on Space
 
 - type: tile
-  editorHidden: false
   id: ClassicPlanks
   name: classic-tiles-planks
   sprite: /Textures/_Classic/Tiles/planks.png
@@ -17,12 +16,10 @@
     collection: FootstepWood
   heatCapacity: 10000
   deconstructTools: [ Prying ]
-  itemDrop: ClassicWoodenPlanks1
-  transparent: true
+  itemDrop: MaterialWoodPlank1
   weather: true
 
 - type: tile
-  editorHidden: false
   id: ClassicIronRods
   name: classic-tiles-iron-rods
   sprite: /Textures/_Classic/Tiles/iron_rods.png
@@ -37,12 +34,10 @@
     collection: FootstepCatwalk
   heatCapacity: 10000
   deconstructTools: [ Prying ]
-  itemDrop: ClassicIronRod1
-  transparent: true
+  itemDrop: PartRodMetal1
   weather: true
 
 - type: tile
-  editorHidden: false
   id: ClassicIronPlating
   name: classic-tiles-iron-plating
   sprite: /Textures/_Classic/Tiles/iron_plating.png
@@ -57,12 +52,10 @@
     collection: FootstepCatwalk
   heatCapacity: 10000
   deconstructTools: [ Prying ]
-  itemDrop: ClassicIronSheet1
-  transparent: true
+  itemDrop: SheetSteel1
   weather: true
 
 - type: tile
-  editorHidden: false
   id: ClassicBrassPlating
   name: classic-tiles-brass-plating
   sprite: /Textures/_Classic/Tiles/brass_plating.png
@@ -77,12 +70,10 @@
     collection: FootstepCatwalk
   heatCapacity: 10000
   deconstructTools: [ Prying ]
-  itemDrop: ClassicBrassSheet1
-  transparent: true
+  itemDrop: SheetBrass1
   weather: true
 
 - type: tile
-  editorHidden: false
   id: ClassicBrassRods
   name: classic-tiles-brass-rods
   sprite: /Textures/_Classic/Tiles/brass_rods.png
@@ -97,6 +88,5 @@
     collection: FootstepCatwalk
   heatCapacity: 10000
   deconstructTools: [ Prying ]
-  itemDrop: ClassicBrassRod1
-  transparent: true
+  itemDrop: PartRodMetal1
   weather: true

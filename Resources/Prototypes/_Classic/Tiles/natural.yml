@@ -2,30 +2,27 @@
 
 - type: tile
   id: ClassicIce
-  editorHidden: false
   name: tiles-ice
   sprite: /Textures/_Classic/Tiles/ice.png
   variants: 4
-  plaClassicmentVariants:
+  placementVariants:
   - 1.0
   - 1.0
   - 1.0
   - 1.0
-  baseTurf: SpaClassic
+  baseTurf: Space
   isSubfloor: true
-  transparent: true
   heatCapacity: 10000
   friction: 0.05
-  mobAcClassicleration: 0.1
+  mobAcceleration: 0.1
   weather: true
 
 - type: tile
-  editorHidden: false
   id: ClassicDirt
   name: classic-tiles-dirt
   sprite: /Textures/_Classic/Tiles/Dirt/cavedrought.png
   variants: 16
-  plaClassicmentVariants:
+  placementVariants:
   - 1.0
   - 1.0
   - 1.0
@@ -60,12 +57,11 @@
   weather: true
 
 - type: tile
-  editorHidden: false
   id: ClassicCobblestone
   name: classic-tiles-cobblestone
   sprite: /Textures/_Classic/Tiles/Cobblestone/cobble.png
   variants: 5
-  plaClassicmentVariants:
+  placementVariants:
   - 1.0
   - 1.0
   - 1.0
@@ -90,11 +86,10 @@
 
 - type: tile
   id: ClassicMycelium
-  editorHidden: false
   name: classic-tiles-mycelium
   sprite: /Textures/_Classic/Tiles/Mycelium/tile.png
   variants: 12
-  plaClassicmentVariants:
+  placementVariants:
   - 1.0
   - 1.0
   - 1.0
@@ -122,11 +117,10 @@
 
 - type: tile
   id: ClassicMyceliumLight
-  editorHidden: false
   name: classic-tiles-mycelium-light
   sprite: /Textures/_Classic/Tiles/MyceliumLight/tile.png
   variants: 12
-  plaClassicmentVariants:
+  placementVariants:
   - 1.0
   - 1.0
   - 1.0
@@ -153,12 +147,11 @@
   weather: true
 
 - type: tile
-  editorHidden: false
   id: ClassicSand
   name: classic-tiles-sand
   sprite: /Textures/_Classic/Tiles/Sand/sand.png
   variants: 5
-  plaClassicmentVariants:
+  placementVariants:
   - 1.0
   - 1.0
   - 1.0
@@ -183,11 +176,10 @@
 
 - type: tile
   id: ClassicSnowDeepDeep
-  editorHidden: false
   name: classic-tiles-snow-deep-deep
   sprite: /Textures/_Classic/Tiles/SnowDeepDeep/snow.png
   variants: 6
-  plaClassicmentVariants:
+  placementVariants:
   - 1.0
   - 1.0
   - 1.0
@@ -213,11 +205,10 @@
 
 - type: tile
   id: ClassicSnowDeep
-  editorHidden: false
   name: classic-tiles-snow-deep
   sprite: /Textures/_Classic/Tiles/SnowDeep/snow.png
   variants: 6
-  plaClassicmentVariants:
+  placementVariants:
   - 1.0
   - 1.0
   - 1.0
@@ -243,11 +234,10 @@
 
 - type: tile
   id: ClassicSnow
-  editorHidden: false
   name: classic-tiles-snow
   sprite: /Textures/_Classic/Tiles/Snow/snow.png
   variants: 6
-  plaClassicmentVariants:
+  placementVariants:
   - 1.0
   - 1.0
   - 1.0

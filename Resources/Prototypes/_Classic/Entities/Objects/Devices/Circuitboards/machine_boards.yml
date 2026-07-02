@@ -1,0 +1,14 @@
+- type: entity
+  id: ClassicGeyserGeneratorMachineCircuitboard
+  parent: BaseMachineCircuitboard
+  name: geyser generator machine board
+  description: A machine printed circuit board for a geyser generator.
+  components:
+  - type: Sprite
+    state: engineering
+  - type: MachineBoard
+    prototype: ClassicGeyserGenerator
+    stackRequirements:
+      Manipulator: 2
+      Cable: 2
+      Steel: 5

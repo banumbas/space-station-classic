@@ -25,10 +25,10 @@
       - ForceFixRotations
       - Window
   - type: Sprite
-    drawdepth: WallTops
-    sprite: Structures/Windows/window.rsi
+    drawdepth: Overdoors # Classic-Edit
+    sprite: _Classic/Structures/Windows/window.rsi
   - type: Icon
-    sprite: Structures/Windows/window.rsi
+    sprite: _Classic/Structures/Windows/window.rsi
     state: full
   - type: Physics
     bodyType: Static

@@ -1,0 +1,8 @@
+- type: entity
+  parent: BaseFlatpack
+  id: ClassicGeyserGeneratorFlatpack
+  name: geyser generator flatpack
+  description: A flatpack used for constructing a geyser generator.
+  components:
+  - type: Flatpack
+    entity: ClassicGeyserGenerator

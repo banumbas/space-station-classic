@@ -1,0 +1,33 @@
+- type: entity
+  parent: BaseWall
+  id: ClassicWallRock
+  name: rock
+  suffix: planetmap
+  components:
+  - type: Sprite
+    sprite: _Classic/Structures/Walls/rock.rsi
+    drawdepth: Overdoors # Classic-Edit
+  - type: Icon
+    sprite: _Classic/Structures/Walls/rock.rsi
+  - type: Transform
+    noRot: true
+  - type: SoundOnGather
+  - type: Gatherable
+    toolWhitelist:
+      tags:
+      - Pickaxe
+  - type: Damageable
+    damageContainer: StructuralInorganic
+    damageModifierSet: Metallic
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 60 #Starlight
+      behaviors:
+      - !type:DoActsBehavior
+        acts: ["Destruction"]
+  - type: IconSmooth
+    key: walls
+    base: rock
+  - type: MiningScannerViewable

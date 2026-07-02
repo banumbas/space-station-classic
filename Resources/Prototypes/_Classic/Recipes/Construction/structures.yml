@@ -1,0 +1,25 @@
+- type: construction
+  id: ClassicGrilleWindow
+  graph: ClassicGrilleWindow
+  startNode: start
+  targetNode: grilleWindow
+  category: construction-category-structures
+  conditions:
+  - !type:TileNotBlocked
+    failIfSpace: false
+  objectType: Structure
+  placementMode: SnapgridCenter
+  canRotate: false
+
+- type: construction
+  id: WindowFrameBase
+  graph: WindowFrameBase
+  startNode: start
+  targetNode: windowFrame
+  category: construction-category-structures
+  conditions:
+  - !type:TileNotBlocked
+    failIfSpace: false
+  objectType: Structure
+  placementMode: SnapgridCenter
+  canRotate: false

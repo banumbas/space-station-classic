@@ -4,10 +4,10 @@
   parent: [BaseDeltaPressureReinforcedGlass, Window]
   components:
   - type: Sprite
-    drawdepth: WallTops
-    sprite: Structures/Windows/reinforced_window.rsi
+    drawdepth: Overdoors # Classic-Edit
+    sprite: _Classic/Structures/Windows/reinforced_window.rsi # Classic-Edit
   - type: Icon
-    sprite: Structures/Windows/reinforced_window.rsi
+    sprite: _Classic/Structures/Windows/reinforced_window.rsi # Classic-Edit
   - type: Repairable
     fuelCost: 10
     doAfterDelay: 2

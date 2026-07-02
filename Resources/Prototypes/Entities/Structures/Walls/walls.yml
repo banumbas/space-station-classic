@@ -630,10 +630,10 @@
   - type: Ricochetable
     chance: 0.75
   - type: Sprite
-    sprite: Structures/Walls/solid.rsi
+    sprite: _Classic/Structures/Walls/reinforced.rsi # Classic-Edit
+    drawdepth: Overdoors # Classic-Edit
   - type: Icon
-    sprite: Structures/Walls/solid.rsi
-    state: rgeneric
+    sprite: _Classic/Structures/Walls/reinforced.rsi # Classic-Edit
   - type: Construction
     graph: Girder
     node: reinforcedWall
@@ -664,7 +664,7 @@
         acts: ["Destruction"]
   - type: IconSmooth
     key: walls
-    base: reinf_over
+    base: reinforced # Classic-Edit
   - type: Appearance
   - type: GenericVisualizer
     visuals:
@@ -1027,13 +1027,14 @@
   name: solid wall
   components:
   - type: Sprite
-    sprite: Structures/Walls/solid.rsi
+    sprite: _Classic/Structures/Walls/metal.rsi # Classic-Edit
+    drawdepth: Overdoors # Classic-Edit
   - type: WallReplacementMarker
   - type: Construction
     graph: Girder
     node: wall
   - type: Icon
-    sprite: Structures/Walls/solid.rsi
+    sprite: _Classic/Structures/Walls/metal.rsi # Classic-Edit
   - type: RCDDeconstructable
     cost: 6
     delay: 8
@@ -1062,7 +1063,7 @@
         acts: ["Destruction"]
   - type: IconSmooth
     key: walls
-    base: solid
+    base: metal # classic-edit
 
 - type: entity
   parent: WallDiagonalBase

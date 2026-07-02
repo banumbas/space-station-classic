@@ -29,7 +29,6 @@
         hard: false
         mask:
         - MachineMask
-  - type: ClassicGeyserOutlet
 
 - type: entity
   parent: ClassicGeyserOutletBase
@@ -61,7 +60,7 @@
     eruptionDuration: 8
 
 - type: entity
-  parent: BaseMachine
+  parent: [ BaseMachine, ConstructibleMachine ]
   id: ClassicGeyserGenerator
   name: geyser generator
   description: A battered thermoelectric generator that drinks heat from geyser eruptions and pushes it into HV cables.
@@ -72,8 +71,8 @@
     anchored: true
     noRot: true
   - type: Sprite
-    sprite: Objects/Materials/Scrap/generator.rsi
-    state: old_generator_plasma
+    sprite: _Classic/Structures/Power/Generation/geyser_generator.rsi
+    state: generator
   - type: NodeContainer
     examinable: true
     nodes:
@@ -85,12 +84,14 @@
     supplyRampRate: 50000000
     supplyRampTolerance: 1000000
     enabled: false
+  - type: Machine
+    board: ClassicGeyserGeneratorMachineCircuitboard
   - type: ClassicGeyserGenerator
   - type: PowerMonitoringDevice
     group: Generator
     loadNode: output
-    sprite: Objects/Materials/Scrap/generator.rsi
-    state: old_generator_plasma
+    sprite: _Classic/Structures/Power/Generation/geyser_generator.rsi
+    state: generator
     collectionName: Geyser
   - type: Electrified
     onHandInteract: false
