@@ -1,11 +1,4 @@
 Entries:
-- author: wonderfulnewworld, Princess-Cheeseballs
-  changes:
-  - message: Rebalanced the syndicate reinforcement specializations to be more effective at their roles.
-    type: Tweak
-  id: 405944
-  time: '2026-06-12T11:14:41.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4699
 - author: Caws
   changes:
   - message: CMO accidentally had the CE's dresser instead of the CMO's dresser, now fixed.
@@ -2799,4 +2792,11 @@ Entries:
   id: 406343
   time: '2026-07-02T20:33:04.000000+00:00'
   url: https://github.com/ss14Starlight/space-station-14/pull/4966
+- author: Conflee
+  changes:
+  - message: Added Flimsy Lattice, which is an entity not a tile. Looks similar to lattice but with connected joints. Works like a carpet/catwalk/grate, sitting on top of tiles, allowing mappers to do more intricate detailing.
+    type: Add
+  id: 406344
+  time: '2026-07-02T21:00:29.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4968
 Order: -1
