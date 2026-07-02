@@ -1,13 +1,6 @@
 Entries:
 - author: Musiklie
   changes:
-  - message: Added Resinfera, a new botany plant, can be grinded down into Acrileni.
-    type: Add
-  id: 405947
-  time: '2026-06-12T11:38:19.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4675
-- author: Musiklie
-  changes:
   - message: Added Acrileni, a new chem that can be mixed with Razorium and Bruizine into Briomadine.
     type: Add
   id: 405948
@@ -2799,4 +2792,11 @@ Entries:
   id: 406346
   time: '2026-07-02T21:00:31.000000+00:00'
   url: https://github.com/ss14Starlight/space-station-14/pull/4943
+- author: wonderfulnewworld
+  changes:
+  - message: Added Devil to Dynamic.
+    type: Add
+  id: 406347
+  time: '2026-07-02T21:47:33.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4985
 Order: -1
