@@ -1,53 +1,4 @@
 Entries:
-- author: CrazyPhantom
-  changes:
-  - message: Reverted accidental removal of Bible's being able to remove rifts.
-    type: Fix
-  id: 406004
-  time: '2026-06-15T08:55:54.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4784
-- author: CrazyPhantom
-  changes:
-  - message: Colossus is no longer invisible to most.
-    type: Fix
-  id: 406005
-  time: '2026-06-15T08:55:54.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4784
-- author: CrazyPhantom
-  changes:
-  - message: Nullspace Stabilizer Particles are now used to remove Shadekin anomalies.
-    type: Tweak
-  id: 406006
-  time: '2026-06-15T08:55:54.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4784
-- author: CrazyPhantom
-  changes:
-  - message: Cosmic Cult rifts are now scannable and can be found with an anomaly locator.
-    type: Tweak
-  id: 406007
-  time: '2026-06-15T08:55:54.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4784
-- author: CrazyPhantom
-  changes:
-  - message: Increased Do-After for Malign Rifts to 60s.
-    type: Tweak
-  id: 406008
-  time: '2026-06-15T08:55:54.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4784
-- author: CrazyPhantom
-  changes:
-  - message: (NOT DONE IN THIS PR, Just a PSA) Forgot to list it but Cosmic Rifts now spawn naturally. They do not need the cult to spawn.
-    type: Tweak
-  id: 406009
-  time: '2026-06-15T08:55:54.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4784
-- author: 0warie
-  changes:
-  - message: Librarians now know Squeakish.
-    type: Fix
-  id: 406010
-  time: '2026-06-15T15:35:00.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4801
 - author: Caws
   changes:
   - message: (Space Mall) Advanced Plumbing cyborg module removed from Chemistry (this is a Science unlockable).
@@ -2799,4 +2750,53 @@ Entries:
   id: 406403
   time: '2026-07-04T07:45:24.000000+00:00'
   url: https://github.com/ss14Starlight/space-station-14/pull/4980
+- author: Caws
+  changes:
+  - message: (Silica) New fax machines.
+    type: Add
+  id: 406404
+  time: '2026-07-04T08:35:28.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4991
+- author: Caws
+  changes:
+  - message: (Silica) Shipyard Computer to Bridge.
+    type: Add
+  id: 406405
+  time: '2026-07-04T08:35:28.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4991
+- author: Caws
+  changes:
+  - message: (Silica) Cargo Tech lockers to Cargo Bay.
+    type: Add
+  id: 406406
+  time: '2026-07-04T08:35:28.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4991
+- author: Caws
+  changes:
+  - message: (Silica) Surgeon locker to Surgery.
+    type: Add
+  id: 406407
+  time: '2026-07-04T08:35:28.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4991
+- author: Caws
+  changes:
+  - message: (Silica) Coroner locker to Morgue.
+    type: Add
+  id: 406408
+  time: '2026-07-04T08:35:28.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4991
+- author: Caws
+  changes:
+  - message: (Silica) NCT lockers to NanoTrasen Career Office.
+    type: Add
+  id: 406409
+  time: '2026-07-04T08:35:28.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4991
+- author: Caws
+  changes:
+  - message: (Silica) Various visual tweaks and small fixes.
+    type: Tweak
+  id: 406410
+  time: '2026-07-04T08:35:28.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4991
 Order: -1
