@@ -1,11 +1,4 @@
 Entries:
-- author: Caws
-  changes:
-  - message: (Space Mall) Advanced Plumbing cyborg module removed from Chemistry (this is a Science unlockable).
-    type: Remove
-  id: 406011
-  time: '2026-06-15T16:24:55.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4799
 - author: Vincolan
   changes:
   - message: Added Holopin.
@@ -2799,4 +2792,11 @@ Entries:
   id: 406410
   time: '2026-07-04T08:35:28.000000+00:00'
   url: https://github.com/ss14Starlight/space-station-14/pull/4991
+- author: ku-mo
+  changes:
+  - message: Implant charges no longer reset when extracted.
+    type: Fix
+  id: 406411
+  time: '2026-07-04T08:35:30.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4984
 Order: -1
