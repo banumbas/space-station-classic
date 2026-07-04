@@ -1,13 +1,6 @@
 Entries:
 - author: wonderfulnewworld
   changes:
-  - message: Protogen organs now appear in the spawn menu.
-    type: Tweak
-  id: 405952
-  time: '2026-06-12T12:10:35.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4739
-- author: wonderfulnewworld
-  changes:
   - message: Protogens now heal 50% more Cellular from Surgery. This gets halved from their healing modifier, so it's still 25% worse than non-Protogen.
     type: Tweak
   id: 405953
@@ -2799,4 +2792,11 @@ Entries:
   id: 406351
   time: '2026-07-04T06:44:35.000000+00:00'
   url: https://github.com/ss14Starlight/space-station-14/pull/4976
+- author: Mack
+  changes:
+  - message: Popout for the mail companion.
+    type: Add
+  id: 406352
+  time: '2026-07-04T06:44:37.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4987
 Order: -1
