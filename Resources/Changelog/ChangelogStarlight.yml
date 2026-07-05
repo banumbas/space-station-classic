@@ -1,13 +1,6 @@
 Entries:
 - author: AegisShield
   changes:
-  - message: Fixed Xenoroaches having flash immunity.
-    type: Fix
-  id: 406046
-  time: '2026-06-16T12:07:14.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4817
-- author: AegisShield
-  changes:
   - message: Fixed Xenoroaches having full vision in pipes.
     type: Fix
   id: 406047
@@ -2799,4 +2792,11 @@ Entries:
   id: 406445
   time: '2026-07-05T17:08:26.000000+00:00'
   url: https://github.com/ss14Starlight/space-station-14/pull/4994
+- author: Johnny
+  changes:
+  - message: (Reach) Uhhhh.... Yeah I dont want to talk about it, godo. I fixed disposals.
+    type: Fix
+  id: 406446
+  time: '2026-07-05T17:08:28.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/5015
 Order: -1
