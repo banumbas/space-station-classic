@@ -1,13 +1,6 @@
 Entries:
 - author: wonderfulnewworld
   changes:
-  - message: SELF can no longer show up during NukeOps.
-    type: Tweak
-  id: 406037
-  time: '2026-06-16T10:27:36.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4794
-- author: wonderfulnewworld
-  changes:
   - message: Tweaked abductor scaling, to try and get the additional ones to spawn more often.
     type: Tweak
   id: 406038
@@ -2799,4 +2792,11 @@ Entries:
   id: 406436
   time: '2026-07-05T14:29:36.000000+00:00'
   url: https://github.com/ss14Starlight/space-station-14/pull/4998
+- author: ku-mo
+  changes:
+  - message: Added Document Printer to the Supply department on Ming.
+    type: Add
+  id: 406437
+  time: '2026-07-05T15:10:14.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4992
 Order: -1
