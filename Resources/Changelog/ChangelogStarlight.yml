@@ -1,11 +1,4 @@
 Entries:
-- author: Cvlancer
-  changes:
-  - message: (OASIS) Removed crew monitor server located on gen pop island.
-    type: Fix
-  id: 406094
-  time: '2026-06-17T08:31:55.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4824
 - author: Toxyams
   changes:
   - message: Craftable toilets no longer generate infinite water.
@@ -2799,4 +2792,11 @@ Entries:
   id: 406493
   time: '2026-07-08T21:13:44.000000+00:00'
   url: https://github.com/ss14Starlight/space-station-14/pull/5024
+- author: Conflee
+  changes:
+  - message: Changed Wreck Swarms to only occur at most once every 5 minutes instead of once every 1 minute. Earliest occurrence is also now 15 minutes instead of 12. This should reduce the frequency of rounds where there are 20-30 wrecks surrounding the station by shift end.
+    type: Tweak
+  id: 406494
+  time: '2026-07-08T21:32:44.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/5026
 Order: -1
