@@ -1,4 +1,4 @@
-# Classic Supply Pod entities.
+﻿# Classic Supply Pod entities.
 # These are EntityStorage-based pods delivered via the ClassicSupplyPodSystem.
 # Any system can call ClassicSupplyPodSystem.Deliver() to spawn one.
 #
@@ -18,6 +18,7 @@
   parent: BaseStructureDynamic
   name: supply pod
   description: A NanoTrasen supply pod, delivered from orbit. It can be opened to retrieve its contents.
+  categories: [ ForkFiltered ]
   components:
   - type: ClassicSupplyPod
   - type: Transform
@@ -78,6 +79,7 @@
 - type: entity
   id: ClassicSupplyPodNanotrasen
   parent: ClassicSupplyPod
+  categories: [ ForkFiltered ]
   components:
   - type: Sprite
     sprite: _Classic/Structures/Storage/SupplyPods/supply_pod_nanotrasen.rsi
@@ -86,6 +88,7 @@
 - type: entity
   id: ClassicSupplyPodSyndicate
   parent: ClassicSupplyPod
+  categories: [ ForkFiltered ]
   components:
   - type: Sprite
     sprite: _Classic/Structures/Storage/SupplyPods/supply_pod_syndicate.rsi
@@ -94,6 +97,7 @@
 - type: entity
   id: ClassicSupplyPodBluespace
   parent: ClassicSupplyPod
+  categories: [ ForkFiltered ]
   components:
   - type: Sprite
     sprite: _Classic/Structures/Storage/SupplyPods/supply_pod_bluespace.rsi

@@ -1,8 +1,9 @@
-- type: entity
+﻿- type: entity
   id: FultonSensorTower
   parent: BaseMachinePowered
   name: fulton sensor tower
   description: A powered cargo sensor tower that authorizes cargo fulton sales nearby.
+  categories: [ ForkFiltered ]
   placement:
     mode: SnapgridCenter
   components:
@@ -69,6 +70,7 @@
   parent: BaseMachine
   name: broken fulton sensor tower
   description: A damaged cargo sensor tower. It can be repaired with a welding tool.
+  categories: [ ForkFiltered ]
   placement:
     mode: SnapgridCenter
   components:

@@ -1,8 +1,9 @@
-- type: entity
+﻿- type: entity
   id: WindowFrameBase
   parent: TableBase
   name: window frame
   description: A square piece of metal standing. Extra robust.
+  categories: [ ForkFiltered ]
   components:
   - type: Sprite
     sprite: _Classic/Structures/WindowFrames/window_frame.rsi
@@ -41,3 +42,7 @@
       types:
         Blunt: 8
     bonkTime: 3
+  - type: Construction
+    graph: WindowFrameBase
+    node: windowFrame
+    deconstructionTarget: start

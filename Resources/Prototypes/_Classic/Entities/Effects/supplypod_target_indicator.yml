@@ -1,8 +1,8 @@
-- type: entity
+﻿- type: entity
   id: ClassicSupplyPodTargetIndicator
   name: supply pod beacon
   description: A warning marker indicating an incoming supply pod landing.
-  categories: [ HideSpawnMenu ]
+  categories: [ HideSpawnMenu, ForkFiltered ]
   components:
   - type: Transform
     anchored: false

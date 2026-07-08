@@ -1,8 +1,9 @@
-- type: entity
+﻿- type: entity
   parent: VendingMachineSalvage
   id: VendingMachineCargoFultonDispenser
   name: cargo fulton dispenser
   description: Dispenses cargo fultons and slowly fabricates replacements.
+  categories: [ ForkFiltered ]
   components:
   - type: VendingMachine
     pack: CargoFultonDispenserInventory

@@ -1026,6 +1026,7 @@
   id: WallSolid
   name: solid wall
   components:
+  - type: SpriteFade # Classic-Edit
   - type: Sprite
     sprite: _Classic/Structures/Walls/metal.rsi # Classic-Edit
     drawdepth: Overdoors # Classic-Edit

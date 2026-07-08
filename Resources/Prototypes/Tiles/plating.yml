@@ -1,7 +1,7 @@
 ﻿- type: tile
   id: Plating
   name: tiles-plating
-  sprite: /Textures/Tiles/plating.png
+  sprite: /Textures/_Classic/Tiles/Floor/plating.png # Classic-Edit
   baseTurf: Lattice
   isSubfloor: true
   footstepSounds:

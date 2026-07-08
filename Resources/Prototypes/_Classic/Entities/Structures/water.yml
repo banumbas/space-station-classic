@@ -1,7 +1,8 @@
-- type: entity
+﻿- type: entity
   id: ClassicWater
   name: water
   description: You're definitely going to get your feet wet
+  categories: [ ForkFiltered ]
   placement:
     mode: SnapgridCenter
   components:
@@ -53,6 +54,7 @@
   parent: ClassicWater
   id: ClassicWaterMoving
   suffix: Moving
+  categories: [ ForkFiltered ]
   components:
   - type: Sprite
     state: moving
@@ -109,3 +111,4 @@
   id: ClassicIceFrozenStream
   suffix: Frozen Stream
   description: A frozen stream, the current trapped under ice.
+  categories: [ ForkFiltered ]

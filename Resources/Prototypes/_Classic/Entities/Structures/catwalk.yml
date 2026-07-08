@@ -1,7 +1,8 @@
-- type: entity
+﻿- type: entity
   id: ClassicCatwalk
   name: catwalk
   description: A catwalk for easier EVA maneuvering and cable placement.
+  categories: [ ForkFiltered ]
   placement:
     mode: SnapgridCenter
   components:
@@ -49,6 +50,7 @@
 - type: entity
   parent: ClassicCatwalk
   id: ClassicCatwalkAI
+  categories: [ ForkFiltered ]
   components:
   - type: Sprite
     state: ai_catwalk
@@ -56,6 +58,7 @@
 - type: entity
   parent: ClassicCatwalk
   id: ClassicCatwalkAIWhite
+  categories: [ ForkFiltered ]
   components:
   - type: Sprite
     state: w_ai_catwalk
@@ -63,6 +66,7 @@
 - type: entity
   parent: ClassicCatwalk
   id: ClassicCatwalkShiva
+  categories: [ ForkFiltered ]
   components:
   - type: Sprite
     state: shiva_catwalk
@@ -70,6 +74,7 @@
 - type: entity
   parent: ClassicCatwalk
   id: ClassicCatwalkPrison
+  categories: [ ForkFiltered ]
   components:
   - type: Sprite
     state: prison_catwalk
@@ -77,6 +82,7 @@
 - type: entity
   parent: ClassicCatwalk
   id: ClassicCatwalkKutjevo
+  categories: [ ForkFiltered ]
   components:
   - type: Sprite
     state: kutjevo_catwalk
@@ -84,6 +90,7 @@
 - type: entity
   parent: ClassicCatwalk
   id: ClassicCatwalkStrata
+  categories: [ ForkFiltered ]
   components:
   - type: Sprite
     state: strata_catwalk
@@ -92,6 +99,7 @@
   parent: ClassicCatwalk
   id: ClassicCatwalkHybrisa
   name: solid metal grate
+  categories: [ ForkFiltered ]
   components:
   - type: Sprite
     state: solidgrate1
@@ -100,6 +108,7 @@
   parent: ClassicCatwalk
   id: ClassicCatwalkHybrisaElevator
   name: solid metal grate
+  categories: [ ForkFiltered ]
   components:
   - type: Sprite
     state: solidgrate5
@@ -110,6 +119,7 @@
   id: ClassiclassiconorailStraight
   name: monorail track
   description: The rail system for the CORSAT monorail.
+  categories: [ ForkFiltered ]
   placement:
     mode: SnapgridCenter
   components:
@@ -136,6 +146,7 @@
 - type: entity
   parent: ClassiclassiconorailStraight
   id: ClassiclassiconorailBend
+  categories: [ ForkFiltered ]
   components:
   - type: Sprite
     sprite: _Classic/Structures/catwalk.rsi
@@ -152,6 +163,7 @@
   id: ClassicRailroadStraight
   name: rails
   description: Minecarts and rail vehicles go on these.
+  categories: [ ForkFiltered ]
   components:
   - type: Sprite
     sprite: _Classic/Structures/catwalk.rsi
@@ -164,6 +176,7 @@
 - type: entity
   parent: ClassicRailroadStraight
   id: ClassicRailroadBend
+  categories: [ ForkFiltered ]
   components:
   - type: Sprite
     sprite: _Classic/Structures/catwalk.rsi
@@ -178,6 +191,7 @@
   id: ClassicRailroadBumper
   name: rail bumpers
   description: This (usually) stops minecarts and other rail vehicles at the end of a line of track.
+  categories: [ ForkFiltered ]
   components:
   - type: Sprite
     sprite: _Classic/Structures/catwalk.rsi

@@ -1,9 +1,9 @@
-# Impact effect spawned when a supply pod lands.
+﻿# Impact effect spawned when a supply pod lands.
 # Provides a brief flash of light and rubble sprite at the landing location.
 - type: entity
   id: ClassicSupplyPodImpactEffect
   name: impact effect
-  categories: [ HideSpawnMenu ]
+  categories: [ HideSpawnMenu, ForkFiltered ]
   components:
   - type: Transform
     anchored: true

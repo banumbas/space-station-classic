@@ -1,8 +1,9 @@
-- type: entity
+﻿- type: entity
   abstract: true
   id: ClassicGeyserOutletBase
   name: rusty geyser outlet
   description: A rusted pipe sunk deep into the planet crust.
+  categories: [ ForkFiltered ]
   placement:
     mode: SnapgridCenter
   components:
@@ -34,6 +35,7 @@
   parent: ClassicGeyserOutletBase
   id: ClassicGeyserOutletSteam
   suffix: Steam
+  categories: [ ForkFiltered ]
   components:
   - type: ClassicGeyserOutlet
     mistPrototype: ClassicGeyserSteamMist
@@ -48,6 +50,7 @@
   parent: ClassicGeyserOutletBase
   id: ClassicGeyserOutletPlasma
   suffix: Plasma, Snow
+  categories: [ ForkFiltered ]
   components:
   - type: ClassicGeyserOutlet
     mistPrototype: ClassicGeyserPlasmaMist
@@ -64,6 +67,7 @@
   id: ClassicGeyserGenerator
   name: geyser generator
   description: A battered thermoelectric generator that drinks heat from geyser eruptions and pushes it into HV cables.
+  categories: [ ForkFiltered ]
   placement:
     mode: SnapgridCenter
   components:
@@ -103,7 +107,7 @@
 - type: entity
   abstract: true
   id: ClassicGeyserMistBase
-  categories: [ HideSpawnMenu ]
+  categories: [ HideSpawnMenu, ForkFiltered ]
   components:
   - type: TimedDespawn
     lifetime: 8
@@ -137,6 +141,7 @@
   parent: ClassicGeyserMistBase
   id: ClassicGeyserSteamMist
   name: superheated steam
+  categories: [ ForkFiltered ]
   components:
   - type: Sprite
     layers:
@@ -157,6 +162,7 @@
   parent: ClassicGeyserMistBase
   id: ClassicGeyserPlasmaMist
   name: overheated plasma haze
+  categories: [ ForkFiltered ]
   components:
   - type: Sprite
     layers:
@@ -180,7 +186,7 @@
 
 - type: entity
   id: ClassicGeyserSteamFlash
-  categories: [ HideSpawnMenu ]
+  categories: [ HideSpawnMenu, ForkFiltered ]
   components:
   - type: PointLight
     enabled: true
@@ -194,7 +200,7 @@
 
 - type: entity
   id: ClassicGeyserPlasmaFlash
-  categories: [ HideSpawnMenu ]
+  categories: [ HideSpawnMenu, ForkFiltered ]
   components:
   - type: PointLight
     enabled: true

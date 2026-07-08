@@ -17,7 +17,7 @@
               doAfter: 1
 
     - node: grille
-      entity: Grille
+      entity: ClassicGrille # Classic-Edit
       edges:
         - to: start
           completed:

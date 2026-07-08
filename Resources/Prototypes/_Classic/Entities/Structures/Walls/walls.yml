@@ -1,9 +1,11 @@
-- type: entity
+﻿- type: entity
   parent: BaseWall
   id: ClassicWallRock
   name: rock
   suffix: planetmap
+  categories: [ ForkFiltered ]
   components:
+  - type: SpriteFade
   - type: Sprite
     sprite: _Classic/Structures/Walls/rock.rsi
     drawdepth: Overdoors # Classic-Edit

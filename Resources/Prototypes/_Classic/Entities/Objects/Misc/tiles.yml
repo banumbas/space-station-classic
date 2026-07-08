@@ -1,0 +1,637 @@
+﻿- type: entity
+  parent: FloorTileItemWhite
+  id: ClassicFloorTileItemCafeteria
+  name: classic cafeteria tile
+  categories: [ ForkFiltered ]
+  components:
+  - type: FloorTile
+    outputs:
+    - Plating
+    - ClassicFloorCafeteria
+  - type: Stack
+    stackType: ClassicFloorTileCafeteria
+
+- type: entity
+  parent: FloorTileItemDark
+  id: ClassicFloorTileItemDarkDiagonal
+  name: classic dark diagonal tile
+  categories: [ ForkFiltered ]
+  components:
+  - type: FloorTile
+    outputs:
+    - Plating
+    - ClassicFloorDarkDiagonal
+  - type: Stack
+    stackType: ClassicFloorTileDarkDiagonal
+
+- type: entity
+  parent: FloorTileItemDark
+  id: ClassicFloorTileItemDarkHerringbone
+  name: classic dark herringbone tile
+  categories: [ ForkFiltered ]
+  components:
+  - type: FloorTile
+    outputs:
+    - Plating
+    - ClassicFloorDarkHerringbone
+  - type: Stack
+    stackType: ClassicFloorTileDarkHerringbone
+
+- type: entity
+  parent: FloorTileItemDark
+  id: ClassicFloorTileItemDarkLarge
+  name: classic dark large tile
+  categories: [ ForkFiltered ]
+  components:
+  - type: FloorTile
+    outputs:
+    - Plating
+    - ClassicFloorDarkLarge
+  - type: Stack
+    stackType: ClassicFloorTileDarkLarge
+
+- type: entity
+  parent: FloorTileItemDark
+  id: ClassicFloorTileItemDarkSmall
+  name: classic dark small tile
+  categories: [ ForkFiltered ]
+  components:
+  - type: FloorTile
+    outputs:
+    - Plating
+    - ClassicFloorDarkSmall
+  - type: Stack
+    stackType: ClassicFloorTileDarkSmall
+
+- type: entity
+  parent: FloorTileItemDark
+  id: ClassicFloorTileItemDarkfull
+  name: classic darkfull tile
+  categories: [ ForkFiltered ]
+  components:
+  - type: FloorTile
+    outputs:
+    - Plating
+    - ClassicFloorDarkfull
+  - type: Stack
+    stackType: ClassicFloorTileDarkfull
+
+- type: entity
+  parent: FloorTileItemSteel
+  id: ClassicFloorTileItemDiagonal
+  name: classic diagonal tile
+  categories: [ ForkFiltered ]
+  components:
+  - type: FloorTile
+    outputs:
+    - Plating
+    - ClassicFloorDiagonal
+  - type: Stack
+    stackType: ClassicFloorTileDiagonal
+
+- type: entity
+  parent: FloorTileItemSteel
+  id: ClassicFloorTileItemFloor
+  name: classic floor tile
+  categories: [ ForkFiltered ]
+  components:
+  - type: FloorTile
+    outputs:
+    - Plating
+    - ClassicFloorFloor
+  - type: Stack
+    stackType: ClassicFloorTileFloor
+
+- type: entity
+  parent: FloorTileItemSteel
+  id: ClassicFloorTileItemFloorLarge
+  name: classic floor large tile
+  categories: [ ForkFiltered ]
+  components:
+  - type: FloorTile
+    outputs:
+    - Plating
+    - ClassicFloorFloorLarge
+  - type: Stack
+    stackType: ClassicFloorTileFloorLarge
+
+- type: entity
+  parent: FloorTileItemSteel
+  id: ClassicFloorTileItemHerringbone
+  name: classic herringbone tile
+  categories: [ ForkFiltered ]
+  components:
+  - type: FloorTile
+    outputs:
+    - Plating
+    - ClassicFloorHerringbone
+  - type: Stack
+    stackType: ClassicFloorTileHerringbone
+
+- type: entity
+  parent: FloorTileItemSteel
+  id: ClassicFloorTileItemKitchen
+  name: classic kitchen tile
+  categories: [ ForkFiltered ]
+  components:
+  - type: FloorTile
+    outputs:
+    - Plating
+    - ClassicFloorKitchen
+  - type: Stack
+    stackType: ClassicFloorTileKitchen
+
+- type: entity
+  parent: FloorTileItemSteel
+  id: ClassicFloorTileItemKitchenDiagonal
+  name: classic kitchen diagonal tile
+  categories: [ ForkFiltered ]
+  components:
+  - type: FloorTile
+    outputs:
+    - Plating
+    - ClassicFloorKitchenDiagonal
+  - type: Stack
+    stackType: ClassicFloorTileKitchenDiagonal
+
+- type: entity
+  parent: FloorTileItemSteel
+  id: ClassicFloorTileItemKitchenHerringbone
+  name: classic kitchen herringbone tile
+  categories: [ ForkFiltered ]
+  components:
+  - type: FloorTile
+    outputs:
+    - Plating
+    - ClassicFloorKitchenHerringbone
+  - type: Stack
+    stackType: ClassicFloorTileKitchenHerringbone
+
+- type: entity
+  parent: FloorTileItemSteel
+  id: ClassicFloorTileItemKitchenSmall
+  name: classic kitchen small tile
+  categories: [ ForkFiltered ]
+  components:
+  - type: FloorTile
+    outputs:
+    - Plating
+    - ClassicFloorKitchenSmall
+  - type: Stack
+    stackType: ClassicFloorTileKitchenSmall
+
+- type: entity
+  parent: FloorTileItemSteel
+  id: ClassicFloorTileItemMaterialfloor
+  name: classic materialfloor tile
+  categories: [ ForkFiltered ]
+  components:
+  - type: FloorTile
+    outputs:
+    - Plating
+    - ClassicFloorMaterialfloor
+  - type: Stack
+    stackType: ClassicFloorTileMaterialfloor
+
+- type: entity
+  parent: FloorTileItemSteel
+  id: ClassicFloorTileItemPinkblack
+  name: classic pinkblack tile
+  categories: [ ForkFiltered ]
+  components:
+  - type: FloorTile
+    outputs:
+    - Plating
+    - ClassicFloorPinkblack
+  - type: Stack
+    stackType: ClassicFloorTilePinkblack
+
+- type: entity
+  parent: FloorTileItemSteel
+  id: ClassicFloorTileItemPlaque
+  name: classic plaque tile
+  categories: [ ForkFiltered ]
+  components:
+  - type: FloorTile
+    outputs:
+    - Plating
+    - ClassicFloorPlaque
+  - type: Stack
+    stackType: ClassicFloorTilePlaque
+
+- type: entity
+  parent: FloorTileItemSteel
+  id: ClassicFloorTileItemPlastic
+  name: classic plastic tile
+  categories: [ ForkFiltered ]
+  components:
+  - type: FloorTile
+    outputs:
+    - Plating
+    - ClassicFloorPlastic
+  - type: Stack
+    stackType: ClassicFloorTilePlastic
+
+- type: entity
+  parent: FloorTileItemSteel
+  id: ClassicFloorTileItemPlastitanium
+  name: classic plastitanium tile
+  categories: [ ForkFiltered ]
+  components:
+  - type: FloorTile
+    outputs:
+    - Plating
+    - ClassicFloorPlastitanium
+  - type: Stack
+    stackType: ClassicFloorTilePlastitanium
+
+- type: entity
+  parent: FloorTileItemSteel
+  id: ClassicFloorTileItemPlastitaniumRed
+  name: classic plastitanium red tile
+  categories: [ ForkFiltered ]
+  components:
+  - type: FloorTile
+    outputs:
+    - Plating
+    - ClassicFloorPlastitaniumRed
+  - type: Stack
+    stackType: ClassicFloorTilePlastitaniumRed
+
+- type: entity
+  parent: FloorTileItemSteel
+  id: ClassicFloorTileItemSepia
+  name: classic sepia tile
+  categories: [ ForkFiltered ]
+  components:
+  - type: FloorTile
+    outputs:
+    - Plating
+    - ClassicFloorSepia
+  - type: Stack
+    stackType: ClassicFloorTileSepia
+
+- type: entity
+  parent: FloorTileItemSteel
+  id: ClassicFloorTileItemSmall
+  name: classic small tile
+  categories: [ ForkFiltered ]
+  components:
+  - type: FloorTile
+    outputs:
+    - Plating
+    - ClassicFloorSmall
+  - type: Stack
+    stackType: ClassicFloorTileSmall
+
+- type: entity
+  parent: FloorTileItemSteel
+  id: ClassicFloorTileItemSmooth
+  name: classic smooth tile
+  categories: [ ForkFiltered ]
+  components:
+  - type: FloorTile
+    outputs:
+    - Plating
+    - ClassicFloorSmooth
+  - type: Stack
+    stackType: ClassicFloorTileSmooth
+
+- type: entity
+  parent: FloorTileItemSteel
+  id: ClassicFloorTileItemSmoothLarge
+  name: classic smooth large tile
+  categories: [ ForkFiltered ]
+  components:
+  - type: FloorTile
+    outputs:
+    - Plating
+    - ClassicFloorSmoothLarge
+  - type: Stack
+    stackType: ClassicFloorTileSmoothLarge
+
+- type: entity
+  parent: FloorTileItemSteel
+  id: ClassicFloorTileItemStoneFloor
+  name: classic stone floor tile
+  categories: [ ForkFiltered ]
+  components:
+  - type: FloorTile
+    outputs:
+    - Plating
+    - ClassicFloorStoneFloor
+  - type: Stack
+    stackType: ClassicFloorTileStoneFloor
+
+- type: entity
+  parent: FloorTileItemSteel
+  id: ClassicFloorTileItemTerracotta
+  name: classic terracotta tile
+  categories: [ ForkFiltered ]
+  components:
+  - type: FloorTile
+    outputs:
+    - Plating
+    - ClassicFloorTerracotta
+  - type: Stack
+    stackType: ClassicFloorTileTerracotta
+
+- type: entity
+  parent: FloorTileItemSteel
+  id: ClassicFloorTileItemTerracottaDiagonal
+  name: classic terracotta diagonal tile
+  categories: [ ForkFiltered ]
+  components:
+  - type: FloorTile
+    outputs:
+    - Plating
+    - ClassicFloorTerracottaDiagonal
+  - type: Stack
+    stackType: ClassicFloorTileTerracottaDiagonal
+
+- type: entity
+  parent: FloorTileItemSteel
+  id: ClassicFloorTileItemTerracottaHerringbone
+  name: classic terracotta herringbone tile
+  categories: [ ForkFiltered ]
+  components:
+  - type: FloorTile
+    outputs:
+    - Plating
+    - ClassicFloorTerracottaHerringbone
+  - type: Stack
+    stackType: ClassicFloorTileTerracottaHerringbone
+
+- type: entity
+  parent: FloorTileItemSteel
+  id: ClassicFloorTileItemTerracottaSmall
+  name: classic terracotta small tile
+  categories: [ ForkFiltered ]
+  components:
+  - type: FloorTile
+    outputs:
+    - Plating
+    - ClassicFloorTerracottaSmall
+  - type: Stack
+    stackType: ClassicFloorTileTerracottaSmall
+
+- type: entity
+  parent: FloorTileItemSteel
+  id: ClassicFloorTileItemTextured
+  name: classic textured tile
+  categories: [ ForkFiltered ]
+  components:
+  - type: FloorTile
+    outputs:
+    - Plating
+    - ClassicFloorTextured
+  - type: Stack
+    stackType: ClassicFloorTileTextured
+
+- type: entity
+  parent: FloorTileItemSteel
+  id: ClassicFloorTileItemTexturedDark
+  name: classic textured dark tile
+  categories: [ ForkFiltered ]
+  components:
+  - type: FloorTile
+    outputs:
+    - Plating
+    - ClassicFloorTexturedDark
+  - type: Stack
+    stackType: ClassicFloorTileTexturedDark
+
+- type: entity
+  parent: FloorTileItemSteel
+  id: ClassicFloorTileItemTexturedDarkLarge
+  name: classic textured dark large tile
+  categories: [ ForkFiltered ]
+  components:
+  - type: FloorTile
+    outputs:
+    - Plating
+    - ClassicFloorTexturedDarkLarge
+  - type: Stack
+    stackType: ClassicFloorTileTexturedDarkLarge
+
+- type: entity
+  parent: FloorTileItemSteel
+  id: ClassicFloorTileItemTexturedLarge
+  name: classic textured large tile
+  categories: [ ForkFiltered ]
+  components:
+  - type: FloorTile
+    outputs:
+    - Plating
+    - ClassicFloorTexturedLarge
+  - type: Stack
+    stackType: ClassicFloorTileTexturedLarge
+
+- type: entity
+  parent: FloorTileItemSteel
+  id: ClassicFloorTileItemTexturedWhite
+  name: classic textured white tile
+  categories: [ ForkFiltered ]
+  components:
+  - type: FloorTile
+    outputs:
+    - Plating
+    - ClassicFloorTexturedWhite
+  - type: Stack
+    stackType: ClassicFloorTileTexturedWhite
+
+- type: entity
+  parent: FloorTileItemSteel
+  id: ClassicFloorTileItemTexturedWhiteLarge
+  name: classic textured white large tile
+  categories: [ ForkFiltered ]
+  components:
+  - type: FloorTile
+    outputs:
+    - Plating
+    - ClassicFloorTexturedWhiteLarge
+  - type: Stack
+    stackType: ClassicFloorTileTexturedWhiteLarge
+
+- type: entity
+  parent: FloorTileItemSteel
+  id: ClassicFloorTileItemTitaniumTiled
+  name: classic titanium tiled tile
+  categories: [ ForkFiltered ]
+  components:
+  - type: FloorTile
+    outputs:
+    - Plating
+    - ClassicFloorTitaniumTiled
+  - type: Stack
+    stackType: ClassicFloorTileTitaniumTiled
+
+- type: entity
+  parent: FloorTileItemSteel
+  id: ClassicFloorTileItemTitaniumTiledBlue
+  name: classic titanium tiled blue tile
+  categories: [ ForkFiltered ]
+  components:
+  - type: FloorTile
+    outputs:
+    - Plating
+    - ClassicFloorTitaniumTiledBlue
+  - type: Stack
+    stackType: ClassicFloorTileTitaniumTiledBlue
+
+- type: entity
+  parent: FloorTileItemSteel
+  id: ClassicFloorTileItemTitaniumTiledPurple
+  name: classic titanium tiled purple tile
+  categories: [ ForkFiltered ]
+  components:
+  - type: FloorTile
+    outputs:
+    - Plating
+    - ClassicFloorTitaniumTiledPurple
+  - type: Stack
+    stackType: ClassicFloorTileTitaniumTiledPurple
+
+- type: entity
+  parent: FloorTileItemSteel
+  id: ClassicFloorTileItemTitaniumTiledWhite
+  name: classic titanium tiled white tile
+  categories: [ ForkFiltered ]
+  components:
+  - type: FloorTile
+    outputs:
+    - Plating
+    - ClassicFloorTitaniumTiledWhite
+  - type: Stack
+    stackType: ClassicFloorTileTitaniumTiledWhite
+
+- type: entity
+  parent: FloorTileItemSteel
+  id: ClassicFloorTileItemTitaniumTiledYellow
+  name: classic titanium tiled yellow tile
+  categories: [ ForkFiltered ]
+  components:
+  - type: FloorTile
+    outputs:
+    - Plating
+    - ClassicFloorTitaniumTiledYellow
+  - type: Stack
+    stackType: ClassicFloorTileTitaniumTiledYellow
+
+- type: entity
+  parent: FloorTileItemWhite
+  id: ClassicFloorTileItemWhite
+  name: classic white tile
+  categories: [ ForkFiltered ]
+  components:
+  - type: FloorTile
+    outputs:
+    - Plating
+    - ClassicFloorWhite
+  - type: Stack
+    stackType: ClassicFloorTileWhite
+
+- type: entity
+  parent: FloorTileItemWhite
+  id: ClassicFloorTileItemWhiteDiagonal
+  name: classic white diagonal tile
+  categories: [ ForkFiltered ]
+  components:
+  - type: FloorTile
+    outputs:
+    - Plating
+    - ClassicFloorWhiteDiagonal
+  - type: Stack
+    stackType: ClassicFloorTileWhiteDiagonal
+
+- type: entity
+  parent: FloorTileItemWhite
+  id: ClassicFloorTileItemWhiteHerringbone
+  name: classic white herringbone tile
+  categories: [ ForkFiltered ]
+  components:
+  - type: FloorTile
+    outputs:
+    - Plating
+    - ClassicFloorWhiteHerringbone
+  - type: Stack
+    stackType: ClassicFloorTileWhiteHerringbone
+
+- type: entity
+  parent: FloorTileItemWhite
+  id: ClassicFloorTileItemWhiteLarge
+  name: classic white large tile
+  categories: [ ForkFiltered ]
+  components:
+  - type: FloorTile
+    outputs:
+    - Plating
+    - ClassicFloorWhiteLarge
+  - type: Stack
+    stackType: ClassicFloorTileWhiteLarge
+
+- type: entity
+  parent: FloorTileItemWhite
+  id: ClassicFloorTileItemWhiteSmall
+  name: classic white small tile
+  categories: [ ForkFiltered ]
+  components:
+  - type: FloorTile
+    outputs:
+    - Plating
+    - ClassicFloorWhiteSmall
+  - type: Stack
+    stackType: ClassicFloorTileWhiteSmall
+
+- type: entity
+  parent: FloorTileItemWood
+  id: ClassicFloorTileItemWood
+  name: classic wood tile
+  categories: [ ForkFiltered ]
+  components:
+  - type: FloorTile
+    outputs:
+    - Plating
+    - ClassicFloorWood
+  - type: Stack
+    stackType: ClassicFloorTileWood
+
+- type: entity
+  parent: FloorTileItemWoodLarge
+  id: ClassicFloorTileItemWoodLarge
+  name: classic wood large tile
+  categories: [ ForkFiltered ]
+  components:
+  - type: FloorTile
+    outputs:
+    - Plating
+    - ClassicFloorWoodLarge
+  - type: Stack
+    stackType: ClassicFloorTileWoodLarge
+
+- type: entity
+  parent: FloorTileItemWood
+  id: ClassicFloorTileItemWoodParquet
+  name: classic wood parquet tile
+  categories: [ ForkFiltered ]
+  components:
+  - type: FloorTile
+    outputs:
+    - Plating
+    - ClassicFloorWoodParquet
+  - type: Stack
+    stackType: ClassicFloorTileWoodParquet
+
+- type: entity
+  parent: FloorTileItemWood
+  id: ClassicFloorTileItemWoodTile
+  name: classic wood tile tile
+  categories: [ ForkFiltered ]
+  components:
+  - type: FloorTile
+    outputs:
+    - Plating
+    - ClassicFloorWoodTile
+  - type: Stack
+    stackType: ClassicFloorTileWoodTile
+

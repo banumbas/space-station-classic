@@ -1,9 +1,10 @@
-- type: entity
+﻿- type: entity
   id: CargoFulton
   parent: BaseItem
   suffix: Full
   name: cargo fulton
   description: A fulton pack tuned to sell extracted cargo through an active sensor tower.
+  categories: [ ForkFiltered ]
   components:
   - type: ClassicCargoFulton
     requiresSensorTower: true
@@ -41,6 +42,7 @@
   parent: CargoFulton
   name: cargo fulton
   suffix: One
+  categories: [ ForkFiltered ]
   components:
   - type: Stack
     count: 1

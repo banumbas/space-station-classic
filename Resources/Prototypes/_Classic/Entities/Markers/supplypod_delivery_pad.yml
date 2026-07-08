@@ -1,4 +1,4 @@
-# Invisible supply pod delivery pad for cargo orders.
+﻿# Invisible supply pod delivery pad for cargo orders.
 # This entity is invisible to normal players but visible to admins with "Show Spawns" enabled.
 # Cargo orders are delivered via supply pods to this location.
 
@@ -8,6 +8,7 @@
   description: An invisible marker where supply pods deliver cargo orders. Only visible to admins.
   parent: MarkerBase
   suffix: SupplyPod Delivery
+  categories: [ ForkFiltered ]
   components:
   - type: ClassicSupplyPodDeliveryPad
   - type: Sprite
