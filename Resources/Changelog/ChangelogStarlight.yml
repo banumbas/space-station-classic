@@ -1,27 +1,6 @@
 Entries:
 - author: Cvlancer
   changes:
-  - message: (ORWELL) Added a new docking area south of arrivals.
-    type: Add
-  id: 406071
-  time: '2026-06-17T08:31:55.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4824
-- author: Cvlancer
-  changes:
-  - message: (ORWELL) Added transrecon. (Non functional admeme only.).
-    type: Add
-  id: 406072
-  time: '2026-06-17T08:31:55.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4824
-- author: Cvlancer
-  changes:
-  - message: (ORWELL) Added papers please maints location near atsmo.
-    type: Add
-  id: 406073
-  time: '2026-06-17T08:31:55.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4824
-- author: Cvlancer
-  changes:
   - message: (ORWELL) Added animal farm maints location west of main engine.
     type: Add
   id: 406074
@@ -2799,4 +2778,25 @@ Entries:
   id: 406470
   time: '2026-07-08T11:11:32.000000+00:00'
   url: https://github.com/ss14Starlight/space-station-14/pull/5036
+- author: Vincolan
+  changes:
+  - message: Reporter simple SOP! Don't abuse press equipment >:( .
+    type: Add
+  id: 406471
+  time: '2026-07-08T12:09:36.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4878
+- author: Vincolan
+  changes:
+  - message: Nerfed Press Armor.
+    type: Tweak
+  id: 406472
+  time: '2026-07-08T12:09:36.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4878
+- author: Vincolan
+  changes:
+  - message: Handheld Cameras are limited to Reporters.
+    type: Tweak
+  id: 406473
+  time: '2026-07-08T12:09:36.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4878
 Order: -1
