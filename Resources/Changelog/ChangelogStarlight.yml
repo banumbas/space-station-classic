@@ -1,20 +1,6 @@
 Entries:
 - author: Cvlancer
   changes:
-  - message: (ORWELL) Added a lot of maints near engie.
-    type: Add
-  id: 406075
-  time: '2026-06-17T08:31:55.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4824
-- author: Cvlancer
-  changes:
-  - message: (ORWELL) Added kiki to botany.
-    type: Add
-  id: 406076
-  time: '2026-06-17T08:31:55.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4824
-- author: Cvlancer
-  changes:
   - message: (ORWELL) Added shipyard console to captains room.
     type: Add
   id: 406077
@@ -2799,4 +2785,18 @@ Entries:
   id: 406474
   time: '2026-07-08T12:09:38.000000+00:00'
   url: https://github.com/ss14Starlight/space-station-14/pull/5043
+- author: Mack
+  changes:
+  - message: Fixed the MedTak Analyse Patient verb popping in by adding client-side verb prediction.
+    type: Fix
+  id: 406475
+  time: '2026-07-08T13:54:26.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/5033
+- author: Mack
+  changes:
+  - message: Fixed the Execute verb popping in by adding client-side verb prediction.
+    type: Fix
+  id: 406476
+  time: '2026-07-08T13:54:26.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/5033
 Order: -1
