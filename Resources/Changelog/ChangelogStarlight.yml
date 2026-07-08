@@ -1,13 +1,6 @@
 Entries:
 - author: Cvlancer
   changes:
-  - message: (ORWELL) Added animal farm maints location west of main engine.
-    type: Add
-  id: 406074
-  time: '2026-06-17T08:31:55.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4824
-- author: Cvlancer
-  changes:
   - message: (ORWELL) Added a lot of maints near engie.
     type: Add
   id: 406075
@@ -2799,4 +2792,11 @@ Entries:
   id: 406473
   time: '2026-07-08T12:09:36.000000+00:00'
   url: https://github.com/ss14Starlight/space-station-14/pull/4878
+- author: Caws
+  changes:
+  - message: You will no longer permanently have the 'seeing stars' effect stuck on your character after waking up from being asleep.
+    type: Fix
+  id: 406474
+  time: '2026-07-08T12:09:38.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/5043
 Order: -1
