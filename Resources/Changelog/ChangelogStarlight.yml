@@ -1,18 +1,4 @@
 Entries:
-- author: Conflee
-  changes:
-  - message: Lowered the volume of the Cargo ad, as it was by far the loudest.
-    type: Tweak
-  id: 406121
-  time: '2026-06-19T13:07:16.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4848
-- author: Conflee
-  changes:
-  - message: Map Upkeep for Box, Cog, Fland, Kiloton, and Space Mall. Added Kiki Spawner to Botany, Reagent Grinder to Botany, Shipyard Console to Bridge/Captain's Office, updated all Fax Machines to use the new prototypes, decorated with Hatches/Wall Fans/Junction Boxes/Platforms/etc, added Random Nest Spawners to maints, gave Box a proper Lawyer Officer where Maints Botany used to be, and added a new Maints Botany to Box next to Maints Bar.
-    type: Tweak
-  id: 406122
-  time: '2026-06-19T13:07:18.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4842
 - author: Hot_Mic
   changes:
   - message: Added Shuttle "NTS 'Kickstart' Ingeniator", a purchasable engineering shuttle in the shipyard console for 100,000 spesos.
@@ -2799,4 +2785,18 @@ Entries:
   id: 406520
   time: '2026-07-10T17:27:38.000000+00:00'
   url: https://github.com/ss14Starlight/space-station-14/pull/5021
+- author: Conflee
+  changes:
+  - message: Resprites Intercoms, based on Imp/TG Sprites, to  be boxier and use the machine color palette. This makes them stand out more against our dark steel walls which makes seeing them easier, which will hopefully lead to them being used more often.
+    type: Tweak
+  id: 406521
+  time: '2026-07-10T17:54:11.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/5062
+- author: Conflee
+  changes:
+  - message: Fixed Intercom Assemblies by adding the InteractionOutline and Clickable components to them, so you no longer have to right click them and click their icon when on that stage of construction/deconstruction.
+    type: Fix
+  id: 406522
+  time: '2026-07-10T17:54:11.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/5062
 Order: -1
