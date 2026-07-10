@@ -1,11 +1,4 @@
 Entries:
-- author: Bornstellar
-  changes:
-  - message: AI no longer killed when pulling an Intellicard out of your pocket with hotkeys.
-    type: Fix
-  id: 406098
-  time: '2026-06-17T14:03:01.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4835
 - author: Toxyams
   changes:
   - message: Toilets give plasteel on deconstruct.
@@ -2799,4 +2792,11 @@ Entries:
   id: 406497
   time: '2026-07-10T10:54:41.000000+00:00'
   url: https://github.com/ss14Starlight/space-station-14/pull/5064
+- author: BornStellar
+  changes:
+  - message: WT550g can no longer accept any ammunition.
+    type: Fix
+  id: 406498
+  time: '2026-07-10T10:54:43.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/5057
 Order: -1
