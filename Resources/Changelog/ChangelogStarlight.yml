@@ -1,13 +1,6 @@
 Entries:
 - author: wonderfulnewworld, Conflee
   changes:
-  - message: Standardizes items in medical vendors, then specializes them based on vendor type.
-    type: Tweak
-  id: 406116
-  time: '2026-06-19T08:19:09.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4856
-- author: wonderfulnewworld, Conflee
-  changes:
   - message: Medical vendors have clearer suffixes now.
     type: Tweak
   id: 406117
@@ -2799,4 +2792,11 @@ Entries:
   id: 406515
   time: '2026-07-10T12:36:58.000000+00:00'
   url: https://github.com/ss14Starlight/space-station-14/pull/5060
+- author: Caws
+  changes:
+  - message: A thruster that was stuck permanently turned off on the NukeOps "GX-86 Omen" shuttle has been fixed.
+    type: Fix
+  id: 406516
+  time: '2026-07-10T13:40:09.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/5067
 Order: -1
