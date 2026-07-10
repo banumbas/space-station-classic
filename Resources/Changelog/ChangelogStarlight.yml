@@ -1,102 +1,4 @@
 Entries:
-- author: Huaqas, DocMoth
-  changes:
-  - message: Rodentia will now be supplied a random piece of cheese from the NanoTrasen Galactic Cheese Vault in their Survival Boxes at round start.
-    type: Add
-  id: 406132
-  time: '2026-06-20T15:27:29.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4853
-- author: wonderfulnewworld
-  changes:
-  - message: Added Surgeon, Coroner, Virologist, Geneticist, and Roboticist lockers.
-    type: Add
-  id: 406133
-  time: '2026-06-21T12:11:02.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4869
-- author: wonderfulnewworld
-  changes:
-  - message: Added large variants of Cargo Technician and Mail Technician lockers.
-    type: Add
-  id: 406134
-  time: '2026-06-21T12:11:02.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4869
-- author: wonderfulnewworld
-  changes:
-  - message: Added roboticist surgical case and bottle case.
-    type: Add
-  id: 406135
-  time: '2026-06-21T12:11:02.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4869
-- author: wonderfulnewworld
-  changes:
-  - message: The Healium Air Tank now has its own sprite.
-    type: Add
-  id: 406136
-  time: '2026-06-21T12:11:02.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4869
-- author: wonderfulnewworld
-  changes:
-  - message: The Healium Air Tank now has Pluox, so it can actually sleep Voxes.
-    type: Tweak
-  id: 406137
-  time: '2026-06-21T12:11:02.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4869
-- author: Sparlight
-  changes:
-  - message: Borgi cubes no longer produce 'mistake' smart corgis that aren't sentient; all 'mistake' corgis will now be ghost roles.
-    type: Tweak
-  id: 406138
-  time: '2026-06-21T12:11:06.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4880
-- author: Johnny
-  changes:
-  - message: Super synths can be played on the neck now.
-    type: Fix
-  id: 406139
-  time: '2026-06-21T12:39:04.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4881
-- author: Johnny
-  changes:
-  - message: (CC_SC17) Security now has a general population cell to throw rowdy prisoners in.
-    type: Add
-  id: 406140
-  time: '2026-06-21T12:39:06.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4850
-- author: Johnny
-  changes:
-  - message: (CC_SC17) Medical is now more fleshed out, larger, and can support more people in it.
-    type: Add
-  id: 406141
-  time: '2026-06-21T12:39:06.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4850
-- author: Johnny
-  changes:
-  - message: (CC_SC17) Lil stupid lil tiny baby medical.
-    type: Remove
-  id: 406142
-  time: '2026-06-21T12:39:06.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4850
-- author: Johnny
-  changes:
-  - message: (CC_SC17) Debrief got moved a bit to make way for the REAL star of the show, genpop.
-    type: Tweak
-  id: 406143
-  time: '2026-06-21T12:39:06.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4850
-- author: Johnny
-  changes:
-  - message: (CC_SC17) The gassing system has been changed to use healium, and is less of a main star of this CC as it literally hasnt been used before.
-    type: Tweak
-  id: 406144
-  time: '2026-06-21T12:39:06.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4850
-- author: Johnny
-  changes:
-  - message: (CC_SC17) Some pipes were apparently set wrong so i fixed those up.
-    type: Fix
-  id: 406145
-  time: '2026-06-21T12:39:06.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4850
 - author: BlythT
   changes:
   - message: TTS pronunciation of apostrophe'd words.
@@ -2799,4 +2701,102 @@ Entries:
   id: 406531
   time: '2026-07-10T18:32:05.000000+00:00'
   url: https://github.com/ss14Starlight/space-station-14/pull/5059
+- author: Caws
+  changes:
+  - message: (Ming) Added some space heaters outside of Atmos, west of the main power engine.
+    type: Add
+  id: 406532
+  time: '2026-07-10T18:32:07.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/5058
+- author: Caws
+  changes:
+  - message: (Ming) Added a civilian NanoMed to Medical's front.
+    type: Add
+  id: 406533
+  time: '2026-07-10T18:32:07.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/5058
+- author: Caws
+  changes:
+  - message: (Ming) Added a civilian NanoMed to Evac.
+    type: Add
+  id: 406534
+  time: '2026-07-10T18:32:07.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/5058
+- author: Caws
+  changes:
+  - message: (Ming) Added a civilian NanoMed to Washrooms.
+    type: Add
+  id: 406535
+  time: '2026-07-10T18:32:07.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/5058
+- author: Caws
+  changes:
+  - message: (Ming) Added a guidebooks crate to the library.
+    type: Add
+  id: 406536
+  time: '2026-07-10T18:32:07.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/5058
+- author: Caws
+  changes:
+  - message: (Ming) Added a document printer and paper bin to Medical reception.
+    type: Add
+  id: 406537
+  time: '2026-07-10T18:32:07.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/5058
+- author: Caws
+  changes:
+  - message: (Ming) Changed up the library's bookshelf layout to be a little more interesting.
+    type: Tweak
+  id: 406538
+  time: '2026-07-10T18:32:07.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/5058
+- author: Caws
+  changes:
+  - message: (Ming) Small changes to Botany to make it feel less cramped.
+    type: Tweak
+  id: 406539
+  time: '2026-07-10T18:32:07.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/5058
+- author: Caws
+  changes:
+  - message: (Ming) Swapped the positions of Botany's front desk and front entrance.
+    type: Tweak
+  id: 406540
+  time: '2026-07-10T18:32:07.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/5058
+- author: Caws
+  changes:
+  - message: (Ming) Added shutters to the NCT Office and gave it proper walls.
+    type: Tweak
+  id: 406541
+  time: '2026-07-10T18:32:07.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/5058
+- author: Caws
+  changes:
+  - message: (Ming) Fixed a broken firelock by Washrooms.
+    type: Fix
+  id: 406542
+  time: '2026-07-10T18:32:07.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/5058
+- author: Caws
+  changes:
+  - message: (Ming) Fixed that one disposal unit  by Engineering front that would spit out all the garbage from Engineering.
+    type: Fix
+  id: 406543
+  time: '2026-07-10T18:32:07.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/5058
+- author: Caws
+  changes:
+  - message: (Ming) Fixed 'disposal unit to nowhere' in Atmospherics.
+    type: Fix
+  id: 406544
+  time: '2026-07-10T18:32:07.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/5058
+- author: Caws
+  changes:
+  - message: (Ming) Camera from Botany's back room.
+    type: Remove
+  id: 406545
+  time: '2026-07-10T18:32:07.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/5058
 Order: -1
