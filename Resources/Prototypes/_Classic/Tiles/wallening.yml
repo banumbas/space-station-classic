@@ -11,10 +11,6 @@
   deconstructTools: [ Prying ]
   itemDrop: ClassicFloorTileItemCafeteria
 
-- type: tileAlias
-  id: ClassicFloorCafeteria
-  target: ClassicCafeteria
-
 - type: tile
   id: ClassicDarkDiagonal
   name: classic-tiles-wallening-dark_diagonal
@@ -30,10 +26,6 @@
   weather: true
   deconstructTools: [ Prying ]
   itemDrop: ClassicFloorTileItemDarkDiagonal
-
-- type: tileAlias
-  id: ClassicFloorDarkDiagonal
-  target: ClassicDarkDiagonal
 
 - type: tile
   id: ClassicDarkHerringbone
@@ -51,10 +43,6 @@
   deconstructTools: [ Prying ]
   itemDrop: ClassicFloorTileItemDarkHerringbone
 
-- type: tileAlias
-  id: ClassicFloorDarkHerringbone
-  target: ClassicDarkHerringbone
-
 - type: tile
   id: ClassicDarkLarge
   name: classic-tiles-wallening-dark_large
@@ -70,10 +58,6 @@
   weather: true
   deconstructTools: [ Prying ]
   itemDrop: ClassicFloorTileItemDarkLarge
-
-- type: tileAlias
-  id: ClassicFloorDarkLarge
-  target: ClassicDarkLarge
 
 - type: tile
   id: ClassicDarkSmall
@@ -91,10 +75,6 @@
   deconstructTools: [ Prying ]
   itemDrop: ClassicFloorTileItemDarkSmall
 
-- type: tileAlias
-  id: ClassicFloorDarkSmall
-  target: ClassicDarkSmall
-
 - type: tile
   id: ClassicDarkfull
   name: classic-tiles-wallening-darkfull
@@ -110,10 +90,6 @@
   weather: true
   deconstructTools: [ Prying ]
   itemDrop: ClassicFloorTileItemDarkfull
-
-- type: tileAlias
-  id: ClassicFloorDarkfull
-  target: ClassicDarkfull
 
 - type: tile
   id: ClassicDiagonal
@@ -131,10 +107,6 @@
   deconstructTools: [ Prying ]
   itemDrop: ClassicFloorTileItemDiagonal
 
-- type: tileAlias
-  id: ClassicFloorDiagonal
-  target: ClassicDiagonal
-
 - type: tile
   id: ClassicFloor
   name: classic-tiles-wallening-floor
@@ -150,10 +122,6 @@
   weather: true
   deconstructTools: [ Prying ]
   itemDrop: ClassicFloorTileItemFloor
-
-- type: tileAlias
-  id: ClassicFloorFloor
-  target: ClassicFloor
 
 - type: tile
   id: ClassicFloorLarge
@@ -171,10 +139,6 @@
   deconstructTools: [ Prying ]
   itemDrop: ClassicFloorTileItemFloorLarge
 
-- type: tileAlias
-  id: ClassicFloorFloorLarge
-  target: ClassicFloorLarge
-
 - type: tile
   id: ClassicHerringbone
   name: classic-tiles-wallening-herringbone
@@ -190,10 +154,6 @@
   weather: true
   deconstructTools: [ Prying ]
   itemDrop: ClassicFloorTileItemHerringbone
-
-- type: tileAlias
-  id: ClassicFloorHerringbone
-  target: ClassicHerringbone
 
 - type: tile
   id: ClassicKitchen
@@ -211,10 +171,6 @@
   deconstructTools: [ Prying ]
   itemDrop: ClassicFloorTileItemKitchen
 
-- type: tileAlias
-  id: ClassicFloorKitchen
-  target: ClassicKitchen
-
 - type: tile
   id: ClassicKitchenDiagonal
   name: classic-tiles-wallening-kitchen_diagonal
@@ -230,10 +186,6 @@
   weather: true
   deconstructTools: [ Prying ]
   itemDrop: ClassicFloorTileItemKitchenDiagonal
-
-- type: tileAlias
-  id: ClassicFloorKitchenDiagonal
-  target: ClassicKitchenDiagonal
 
 - type: tile
   id: ClassicKitchenHerringbone
@@ -251,10 +203,6 @@
   deconstructTools: [ Prying ]
   itemDrop: ClassicFloorTileItemKitchenHerringbone
 
-- type: tileAlias
-  id: ClassicFloorKitchenHerringbone
-  target: ClassicKitchenHerringbone
-
 - type: tile
   id: ClassicKitchenSmall
   name: classic-tiles-wallening-kitchen_small
@@ -270,10 +218,6 @@
   weather: true
   deconstructTools: [ Prying ]
   itemDrop: ClassicFloorTileItemKitchenSmall
-
-- type: tileAlias
-  id: ClassicFloorKitchenSmall
-  target: ClassicKitchenSmall
 
 - type: tile
   id: ClassicMaterialfloor
@@ -291,10 +235,6 @@
   deconstructTools: [ Prying ]
   itemDrop: ClassicFloorTileItemMaterialfloor
 
-- type: tileAlias
-  id: ClassicFloorMaterialfloor
-  target: ClassicMaterialfloor
-
 - type: tile
   id: ClassicPinkblack
   name: classic-tiles-wallening-pinkblack
@@ -310,10 +250,6 @@
   weather: true
   deconstructTools: [ Prying ]
   itemDrop: ClassicFloorTileItemPinkblack
-
-- type: tileAlias
-  id: ClassicFloorPinkblack
-  target: ClassicPinkblack
 
 - type: tile
   id: ClassicPlaque
@@ -331,10 +267,6 @@
   deconstructTools: [ Prying ]
   itemDrop: ClassicFloorTileItemPlaque
 
-- type: tileAlias
-  id: ClassicFloorPlaque
-  target: ClassicPlaque
-
 - type: tile
   id: ClassicPlastic
   name: classic-tiles-wallening-plastic
@@ -350,10 +282,6 @@
   weather: true
   deconstructTools: [ Prying ]
   itemDrop: ClassicFloorTileItemPlastic
-
-- type: tileAlias
-  id: ClassicFloorPlastic
-  target: ClassicPlastic
 
 - type: tile
   id: ClassicPlastitanium
@@ -371,10 +299,6 @@
   deconstructTools: [ Prying ]
   itemDrop: ClassicFloorTileItemPlastitanium
 
-- type: tileAlias
-  id: ClassicFloorPlastitanium
-  target: ClassicPlastitanium
-
 - type: tile
   id: ClassicPlastitaniumRed
   name: classic-tiles-wallening-plastitanium_red
@@ -390,10 +314,6 @@
   weather: true
   deconstructTools: [ Prying ]
   itemDrop: ClassicFloorTileItemPlastitaniumRed
-
-- type: tileAlias
-  id: ClassicFloorPlastitaniumRed
-  target: ClassicPlastitaniumRed
 
 - type: tile
   id: ClassicSepia
@@ -411,10 +331,6 @@
   deconstructTools: [ Prying ]
   itemDrop: ClassicFloorTileItemSepia
 
-- type: tileAlias
-  id: ClassicFloorSepia
-  target: ClassicSepia
-
 - type: tile
   id: ClassicSmall
   name: classic-tiles-wallening-small
@@ -430,10 +346,6 @@
   weather: true
   deconstructTools: [ Prying ]
   itemDrop: ClassicFloorTileItemSmall
-
-- type: tileAlias
-  id: ClassicFloorSmall
-  target: ClassicSmall
 
 - type: tile
   id: ClassicSmooth
@@ -451,10 +363,6 @@
   deconstructTools: [ Prying ]
   itemDrop: ClassicFloorTileItemSmooth
 
-- type: tileAlias
-  id: ClassicFloorSmooth
-  target: ClassicSmooth
-
 - type: tile
   id: ClassicSmoothLarge
   name: classic-tiles-wallening-smooth_large
@@ -470,10 +378,6 @@
   weather: true
   deconstructTools: [ Prying ]
   itemDrop: ClassicFloorTileItemSmoothLarge
-
-- type: tileAlias
-  id: ClassicFloorSmoothLarge
-  target: ClassicSmoothLarge
 
 - type: tile
   id: ClassicStoneFloor
@@ -491,10 +395,6 @@
   deconstructTools: [ Prying ]
   itemDrop: ClassicFloorTileItemStoneFloor
 
-- type: tileAlias
-  id: ClassicFloorStoneFloor
-  target: ClassicStoneFloor
-
 - type: tile
   id: ClassicTerracotta
   name: classic-tiles-wallening-terracotta
@@ -510,10 +410,6 @@
   weather: true
   deconstructTools: [ Prying ]
   itemDrop: ClassicFloorTileItemTerracotta
-
-- type: tileAlias
-  id: ClassicFloorTerracotta
-  target: ClassicTerracotta
 
 - type: tile
   id: ClassicTerracottaDiagonal
@@ -531,10 +427,6 @@
   deconstructTools: [ Prying ]
   itemDrop: ClassicFloorTileItemTerracottaDiagonal
 
-- type: tileAlias
-  id: ClassicFloorTerracottaDiagonal
-  target: ClassicTerracottaDiagonal
-
 - type: tile
   id: ClassicTerracottaHerringbone
   name: classic-tiles-wallening-terracotta_herringbone
@@ -550,10 +442,6 @@
   weather: true
   deconstructTools: [ Prying ]
   itemDrop: ClassicFloorTileItemTerracottaHerringbone
-
-- type: tileAlias
-  id: ClassicFloorTerracottaHerringbone
-  target: ClassicTerracottaHerringbone
 
 - type: tile
   id: ClassicTerracottaSmall
@@ -571,10 +459,6 @@
   deconstructTools: [ Prying ]
   itemDrop: ClassicFloorTileItemTerracottaSmall
 
-- type: tileAlias
-  id: ClassicFloorTerracottaSmall
-  target: ClassicTerracottaSmall
-
 - type: tile
   id: ClassicTextured
   name: classic-tiles-wallening-textured
@@ -590,10 +474,6 @@
   weather: true
   deconstructTools: [ Prying ]
   itemDrop: ClassicFloorTileItemTextured
-
-- type: tileAlias
-  id: ClassicFloorTextured
-  target: ClassicTextured
 
 - type: tile
   id: ClassicTexturedDark
@@ -611,10 +491,6 @@
   deconstructTools: [ Prying ]
   itemDrop: ClassicFloorTileItemTexturedDark
 
-- type: tileAlias
-  id: ClassicFloorTexturedDark
-  target: ClassicTexturedDark
-
 - type: tile
   id: ClassicTexturedDarkLarge
   name: classic-tiles-wallening-textured_dark_large
@@ -630,10 +506,6 @@
   weather: true
   deconstructTools: [ Prying ]
   itemDrop: ClassicFloorTileItemTexturedDarkLarge
-
-- type: tileAlias
-  id: ClassicFloorTexturedDarkLarge
-  target: ClassicTexturedDarkLarge
 
 - type: tile
   id: ClassicTexturedLarge
@@ -651,10 +523,6 @@
   deconstructTools: [ Prying ]
   itemDrop: ClassicFloorTileItemTexturedLarge
 
-- type: tileAlias
-  id: ClassicFloorTexturedLarge
-  target: ClassicTexturedLarge
-
 - type: tile
   id: ClassicTexturedWhite
   name: classic-tiles-wallening-textured_white
@@ -670,10 +538,6 @@
   weather: true
   deconstructTools: [ Prying ]
   itemDrop: ClassicFloorTileItemTexturedWhite
-
-- type: tileAlias
-  id: ClassicFloorTexturedWhite
-  target: ClassicTexturedWhite
 
 - type: tile
   id: ClassicTexturedWhiteLarge
@@ -691,10 +555,6 @@
   deconstructTools: [ Prying ]
   itemDrop: ClassicFloorTileItemTexturedWhiteLarge
 
-- type: tileAlias
-  id: ClassicFloorTexturedWhiteLarge
-  target: ClassicTexturedWhiteLarge
-
 - type: tile
   id: ClassicTitaniumTiled
   name: classic-tiles-wallening-titanium_tiled
@@ -710,10 +570,6 @@
   weather: true
   deconstructTools: [ Prying ]
   itemDrop: ClassicFloorTileItemTitaniumTiled
-
-- type: tileAlias
-  id: ClassicFloorTitaniumTiled
-  target: ClassicTitaniumTiled
 
 - type: tile
   id: ClassicTitaniumTiledBlue
@@ -731,10 +587,6 @@
   deconstructTools: [ Prying ]
   itemDrop: ClassicFloorTileItemTitaniumTiledBlue
 
-- type: tileAlias
-  id: ClassicFloorTitaniumTiledBlue
-  target: ClassicTitaniumTiledBlue
-
 - type: tile
   id: ClassicTitaniumTiledPurple
   name: classic-tiles-wallening-titanium_tiled_purple
@@ -750,10 +602,6 @@
   weather: true
   deconstructTools: [ Prying ]
   itemDrop: ClassicFloorTileItemTitaniumTiledPurple
-
-- type: tileAlias
-  id: ClassicFloorTitaniumTiledPurple
-  target: ClassicTitaniumTiledPurple
 
 - type: tile
   id: ClassicTitaniumTiledWhite
@@ -771,10 +619,6 @@
   deconstructTools: [ Prying ]
   itemDrop: ClassicFloorTileItemTitaniumTiledWhite
 
-- type: tileAlias
-  id: ClassicFloorTitaniumTiledWhite
-  target: ClassicTitaniumTiledWhite
-
 - type: tile
   id: ClassicTitaniumTiledYellow
   name: classic-tiles-wallening-titanium_tiled_yellow
@@ -790,10 +634,6 @@
   weather: true
   deconstructTools: [ Prying ]
   itemDrop: ClassicFloorTileItemTitaniumTiledYellow
-
-- type: tileAlias
-  id: ClassicFloorTitaniumTiledYellow
-  target: ClassicTitaniumTiledYellow
 
 - type: tile
   id: ClassicWhite
@@ -811,10 +651,6 @@
   deconstructTools: [ Prying ]
   itemDrop: ClassicFloorTileItemWhite
 
-- type: tileAlias
-  id: ClassicFloorWhite
-  target: ClassicWhite
-
 - type: tile
   id: ClassicWhiteDiagonal
   name: classic-tiles-wallening-white_diagonal
@@ -830,10 +666,6 @@
   weather: true
   deconstructTools: [ Prying ]
   itemDrop: ClassicFloorTileItemWhiteDiagonal
-
-- type: tileAlias
-  id: ClassicFloorWhiteDiagonal
-  target: ClassicWhiteDiagonal
 
 - type: tile
   id: ClassicWhiteHerringbone
@@ -851,10 +683,6 @@
   deconstructTools: [ Prying ]
   itemDrop: ClassicFloorTileItemWhiteHerringbone
 
-- type: tileAlias
-  id: ClassicFloorWhiteHerringbone
-  target: ClassicWhiteHerringbone
-
 - type: tile
   id: ClassicWhiteLarge
   name: classic-tiles-wallening-white_large
@@ -870,10 +698,6 @@
   weather: true
   deconstructTools: [ Prying ]
   itemDrop: ClassicFloorTileItemWhiteLarge
-
-- type: tileAlias
-  id: ClassicFloorWhiteLarge
-  target: ClassicWhiteLarge
 
 - type: tile
   id: ClassicWhiteSmall
@@ -891,10 +715,6 @@
   deconstructTools: [ Prying ]
   itemDrop: ClassicFloorTileItemWhiteSmall
 
-- type: tileAlias
-  id: ClassicFloorWhiteSmall
-  target: ClassicWhiteSmall
-
 - type: tile
   id: ClassicWood
   name: classic-tiles-wallening-wood
@@ -910,10 +730,6 @@
   weather: true
   deconstructTools: [ Prying ]
   itemDrop: ClassicFloorTileItemWood
-
-- type: tileAlias
-  id: ClassicFloorWood
-  target: ClassicWood
 
 - type: tile
   id: ClassicWoodLarge
@@ -931,10 +747,6 @@
   deconstructTools: [ Prying ]
   itemDrop: ClassicFloorTileItemWoodLarge
 
-- type: tileAlias
-  id: ClassicFloorWoodLarge
-  target: ClassicWoodLarge
-
 - type: tile
   id: ClassicWoodParquet
   name: classic-tiles-wallening-wood_parquet
@@ -951,10 +763,6 @@
   deconstructTools: [ Prying ]
   itemDrop: ClassicFloorTileItemWoodParquet
 
-- type: tileAlias
-  id: ClassicFloorWoodParquet
-  target: ClassicWoodParquet
-
 - type: tile
   id: ClassicWoodTile
   name: classic-tiles-wallening-wood_tile
@@ -970,8 +778,4 @@
   weather: true
   deconstructTools: [ Prying ]
   itemDrop: ClassicFloorTileItemWoodTile
-
-- type: tileAlias
-  id: ClassicFloorWoodTile
-  target: ClassicWoodTile
 
