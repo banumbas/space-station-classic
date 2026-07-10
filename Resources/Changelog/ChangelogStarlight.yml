@@ -1,11 +1,4 @@
 Entries:
-- author: BlythT
-  changes:
-  - message: TTS pronunciation of apostrophe'd words.
-    type: Fix
-  id: 406146
-  time: '2026-06-21T19:41:55.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4882
 - author: Caws
   changes:
   - message: Proto-Resomi eyes now have night vision and flash vulnerability like their non-protogen counterparts.
@@ -2799,4 +2792,11 @@ Entries:
   id: 406545
   time: '2026-07-10T18:32:07.000000+00:00'
   url: https://github.com/ss14Starlight/space-station-14/pull/5058
+- author: wonderfulnewworld
+  changes:
+  - message: Disabled Xenoborgs and Terror Spiders until their respective issues are fixed.
+    type: Remove
+  id: 406546
+  time: '2026-07-10T18:32:10.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/5066
 Order: -1
