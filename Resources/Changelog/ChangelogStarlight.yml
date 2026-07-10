@@ -1,11 +1,4 @@
 Entries:
-- author: CrazyPhantom
-  changes:
-  - message: Removed the Following access from Cyborgs, Captain, HoP, ER, CMO, HoS, RD, QM, Armory, NTR, BSO and Magistrate.
-    type: Remove
-  id: 406097
-  time: '2026-06-17T09:58:03.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4827
 - author: Bornstellar
   changes:
   - message: AI no longer killed when pulling an Intellicard out of your pocket with hotkeys.
@@ -2799,4 +2792,11 @@ Entries:
   id: 406496
   time: '2026-07-08T21:52:47.000000+00:00'
   url: https://github.com/ss14Starlight/space-station-14/pull/5044
+- author: Caws
+  changes:
+  - message: (Leth) You no longer have to deconstruct an reconstruct thrusters & gyroscopes in order make them work - they just start turned on now. Pilots rejoice.
+    type: Fix
+  id: 406497
+  time: '2026-07-10T10:54:41.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/5064
 Order: -1
