@@ -1,11 +1,4 @@
 Entries:
-- author: Hot_Mic
-  changes:
-  - message: Added Shuttle "NTS 'Kickstart' Ingeniator", a purchasable engineering shuttle in the shipyard console for 100,000 spesos.
-    type: Add
-  id: 406123
-  time: '2026-06-19T14:29:18.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4749
 - author: Pon
   changes:
   - message: Changed modular machine parts to come in stacks of 1 instead of 30.
@@ -2799,4 +2792,11 @@ Entries:
   id: 406522
   time: '2026-07-10T17:54:11.000000+00:00'
   url: https://github.com/ss14Starlight/space-station-14/pull/5062
+- author: BlythT
+  changes:
+  - message: Added additional filters to the Voice Selector menu in the Character Editor to make finding and picking a voice much easier (special thanks to those who contributed!).
+    type: Add
+  id: 406523
+  time: '2026-07-10T17:54:17.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/5045
 Order: -1
