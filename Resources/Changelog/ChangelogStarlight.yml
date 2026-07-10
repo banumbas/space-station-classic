@@ -1,32 +1,4 @@
 Entries:
-- author: wonderfulnewworld, Conflee
-  changes:
-  - message: Medical vendors have clearer suffixes now.
-    type: Tweak
-  id: 406117
-  time: '2026-06-19T08:19:09.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4856
-- author: AegisShield
-  changes:
-  - message: Removed silk drops from terror spider webs.
-    type: Remove
-  id: 406118
-  time: '2026-06-19T12:20:45.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4859
-- author: AegisShield
-  changes:
-  - message: Tweaked Airtight, Spiderling, and Thick web colors to be more visually distinct.
-    type: Tweak
-  id: 406119
-  time: '2026-06-19T12:20:45.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4859
-- author: Conflee
-  changes:
-  - message: Added 9 new advertisements to the Speaker, recorded by Mnem.
-    type: Add
-  id: 406120
-  time: '2026-06-19T13:07:16.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4848
 - author: Conflee
   changes:
   - message: Lowered the volume of the Cargo ad, as it was by far the loudest.
@@ -2799,4 +2771,32 @@ Entries:
   id: 406516
   time: '2026-07-10T13:40:09.000000+00:00'
   url: https://github.com/ss14Starlight/space-station-14/pull/5067
+- author: Caws
+  changes:
+  - message: Disposal pipes will now unanchor themselves if items (or mobs) get stuck in them for too long.
+    type: Tweak
+  id: 406517
+  time: '2026-07-10T17:27:38.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/5021
+- author: Caws
+  changes:
+  - message: Entities will now pry up tiles if they exit disposals via disconnected pipes.
+    type: Tweak
+  id: 406518
+  time: '2026-07-10T17:27:38.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/5021
+- author: Caws
+  changes:
+  - message: Mobs will now get knocked prone if they exit disposals through a naked pipe or trunk. You won't be knocked down if you exit via a disposals unit on the other side.
+    type: Tweak
+  id: 406519
+  time: '2026-07-10T17:27:38.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/5021
+- author: Caws
+  changes:
+  - message: Ported updated mailing unit sprites / animations from Upstream.
+    type: Tweak
+  id: 406520
+  time: '2026-07-10T17:27:38.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/5021
 Order: -1
