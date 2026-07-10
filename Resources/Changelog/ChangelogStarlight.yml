@@ -1,60 +1,4 @@
 Entries:
-- author: Pon
-  changes:
-  - message: Changed modular machine parts to come in stacks of 1 instead of 30.
-    type: Fix
-  id: 406124
-  time: '2026-06-20T08:37:05.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4868
-- author: Conflee
-  changes:
-  - message: Updated the LAW sign to be dull brown with gold lettering and iconography, to emphasis that the court of law is not beholden to any department in specific (Law Dept has been dissolved).
-    type: Tweak
-  id: 406125
-  time: '2026-06-20T09:13:14.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4846
-- author: Conflee
-  changes:
-  - message: Updated the LAWYER sign to be Service green (Lawyer is in the Service Dept).
-    type: Tweak
-  id: 406126
-  time: '2026-06-20T09:13:14.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4846
-- author: Conflee
-  changes:
-  - message: Updated the IAA sign to be NanoTrasen blue (IAA is in the NanoTrasen Dept, Law Dept has been dissolved).
-    type: Tweak
-  id: 406127
-  time: '2026-06-20T09:13:14.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4846
-- author: Forrestgod  <br>
-  changes:
-  - message: Added a new mentor Help System Tip!
-    type: Add
-  id: 406128
-  time: '2026-06-20T09:13:15.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4860
-- author: Caws
-  changes:
-  - message: Flash duration modifiers for species have been fixed, meaning that species like Resomi and Shadekin will be flashed for longer (as intended).
-    type: Fix
-  id: 406129
-  time: '2026-06-20T13:12:35.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4826
-- author: Pon
-  changes:
-  - message: Added Coroner, Senior Chemist, Black, and Virology Long Lab Coat variants.
-    type: Add
-  id: 406130
-  time: '2026-06-20T13:41:37.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4861
-- author: Pon
-  changes:
-  - message: Fixed all Long Lab Coat showing the incorrect sprite while worn.
-    type: Fix
-  id: 406131
-  time: '2026-06-20T13:41:37.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4861
 - author: Huaqas, DocMoth
   changes:
   - message: Rodentia will now be supplied a random piece of cheese from the NanoTrasen Galactic Cheese Vault in their Survival Boxes at round start.
@@ -2799,4 +2743,60 @@ Entries:
   id: 406523
   time: '2026-07-10T17:54:17.000000+00:00'
   url: https://github.com/ss14Starlight/space-station-14/pull/5045
+- author: Caws
+  changes:
+  - message: (Cog) Added some space heaters to Atmospherics.
+    type: Add
+  id: 406524
+  time: '2026-07-10T18:32:05.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/5059
+- author: Caws
+  changes:
+  - message: (Cog) Added a guidebooks crate to Library.
+    type: Add
+  id: 406525
+  time: '2026-07-10T18:32:05.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/5059
+- author: Caws
+  changes:
+  - message: (Cog) Added a new cleaning closet for Janitors by Security / Dorms.
+    type: Add
+  id: 406526
+  time: '2026-07-10T18:32:05.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/5059
+- author: Caws
+  changes:
+  - message: (Cog) Added a space cleaner dispenser to the Cleaning Closet by Evac.
+    type: Add
+  id: 406527
+  time: '2026-07-10T18:32:05.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/5059
+- author: Caws
+  changes:
+  - message: "(Cog) Added a new station beacon: \"Cleaning Closet\".'Extra' janitor rooms will be marked with this station beacon in the future. This should make finding the 'main' janitor closet less confusing."
+    type: Add
+  id: 406528
+  time: '2026-07-10T18:32:05.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/5059
+- author: Caws
+  changes:
+  - message: (Cog) Added two water sources to Chemistry.
+    type: Add
+  id: 406529
+  time: '2026-07-10T18:32:05.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/5059
+- author: Caws
+  changes:
+  - message: (Cog) Reworked the layout of Robotics. It now has a front desk and it can see into the IPC repair bay more easily.
+    type: Tweak
+  id: 406530
+  time: '2026-07-10T18:32:05.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/5059
+- author: Caws
+  changes:
+  - message: (Cog) Replaced the empty emergency suit closet in Artifact with a filled one and threw in a nitrogen closet as well.
+    type: Fix
+  id: 406531
+  time: '2026-07-10T18:32:05.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/5059
 Order: -1
