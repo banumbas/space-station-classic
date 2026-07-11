@@ -62,12 +62,16 @@ public sealed partial class BanManager : IBanManager, IPostInjectInit
     [Dependency] private IEntitySystemManager _systems = default!;
     [Dependency] private ITaskManager _taskManager = default!;
     [Dependency] private UserDbDataManager _userDbData = default!;
+    // Classic-Start
+    [Dependency] private IEntityManager _entityManager = default!;
+    // Classic-End
 
     private ISawmill _sawmill = default!;
 
     public const string SawmillId = "admin.bans";
     public const string PrefixAntag = "Antag:";
     public const string PrefixJob = "Job:";
+    public const string PrefixPunishment = "Punish:"; // Classic
 
     private readonly HttpClient _httpClient = new();
     private string _serverName = string.Empty;
@@ -427,9 +431,13 @@ public sealed partial class BanManager : IBanManager, IPostInjectInit
             encodedRole = PrefixJob + role;
         else if (_prototypeManager.HasIndex<AntagPrototype>(role))
             encodedRole = PrefixAntag + role;
+        // Classic-Start
+        else if (role.Id.StartsWith("Punish:"))
+            encodedRole = role.Id;
+        // Classic-End
         else
         {
-            _sawmill.Error($"Creating role ban for {role}: cannot create role ban, role is not a JobPrototype or an AntagPrototype.");
+            _sawmill.Error($"Creating role ban for {role}: cannot create role ban, role is not a JobPrototype or an AntagPrototype or a Punishment.");
 
             return;
         }
@@ -476,6 +484,62 @@ public sealed partial class BanManager : IBanManager, IPostInjectInit
             SendRoleBans(session);
     }
 
+    // Classic-Start
+    public async void CreatePunishment(
+        NetUserId? target,
+        string? targetUsername,
+        NetUserId? banningAdmin,
+        (IPAddress, int)? addressRange,
+        ImmutableTypedHwid? hwid,
+        string punishmentType,
+        uint? minutes,
+        NoteSeverity severity,
+        string reason,
+        DateTimeOffset timeOfBan
+    )
+    {
+        string encodedRole = PrefixPunishment + punishmentType;
+
+        DateTimeOffset? expires = null;
+
+        if (minutes > 0)
+            expires = DateTimeOffset.Now + TimeSpan.FromMinutes(minutes.Value);
+
+        _systems.TryGetEntitySystem(out GameTicker? ticker);
+        int? roundId = ticker == null || ticker.RoundId == 0 ? null : ticker.RoundId;
+        var playtime = target == null ? TimeSpan.Zero : (await _db.GetPlayTimes(target.Value)).Find(p => p.Tracker == PlayTimeTrackingShared.TrackerOverall)?.TimeSpent ?? TimeSpan.Zero;
+
+        var banDef = new ServerRoleBanDef(
+            null,
+            target,
+            addressRange,
+            hwid,
+            timeOfBan,
+            expires,
+            roundId,
+            playtime,
+            reason,
+            severity,
+            banningAdmin,
+            null,
+            encodedRole);
+
+        if (!await AddRoleBan(banDef))
+        {
+            _chat.SendAdminAlert(Loc.GetString("cmd-roleban-existing", ("target", targetUsername ?? "null"), ("role", encodedRole)));
+            return;
+        }
+
+        // We don't send punishments via null link, or maybe we do? We can skip NullLink for now.
+
+        var length = expires == null ? Loc.GetString("cmd-roleban-inf") : Loc.GetString("cmd-roleban-until", ("expires", expires));
+        _chat.SendAdminAlert(Loc.GetString("cmd-roleban-success", ("target", targetUsername ?? "null"), ("role", encodedRole), ("reason", reason), ("length", length)));
+
+        if (target is not null && _playerManager.TryGetSessionById(target.Value, out var session))
+            SendRoleBans(session);
+    }
+    // Classic-End
+
     private async Task<bool> AddRoleBan(ServerRoleBanDef banDef)
     {
         banDef = await _db.AddServerRoleBanAsync(banDef);
@@ -485,6 +549,9 @@ public sealed partial class BanManager : IBanManager, IPostInjectInit
             && _cachedRoleBans.TryGetValue(player, out var cachedBans))
         {
             cachedBans.Add(banDef);
+            // Classic-Start
+            _entityManager.EventBus.RaiseEvent(EventSource.Local, new RoleBansUpdatedEvent(player.UserId));
+            // Classic-End
         }
 
         return true;
@@ -578,6 +645,9 @@ public sealed partial class BanManager : IBanManager, IPostInjectInit
         {
             roleBans.RemoveAll(roleBan => roleBan.Id == ban.Id);
             SendRoleBans(session);
+            // Classic-Start
+            _entityManager.EventBus.RaiseEvent(EventSource.Local, new RoleBansUpdatedEvent(player));
+            // Classic-End
         }
 
         return $"Pardoned ban with id {banId}";
@@ -598,8 +668,41 @@ public sealed partial class BanManager : IBanManager, IPostInjectInit
         if (!_playerManager.TryGetSessionById(playerUserId, out var session))
             return null;
 
-        return GetRoleBans<T>(session, prefix);
+        // Classic-Start
+        if (!_cachedRoleBans.TryGetValue(session, out var roleBans))
+            return null;
+
+        var bans = new HashSet<ProtoId<T>>();
+        foreach (var ban in roleBans)
+        {
+            if (ban.Role.StartsWith(prefix))
+                bans.Add(new ProtoId<T>(ban.Role[prefix.Length..]));
+        }
+
+        return bans;
     }
+
+    public List<ServerRoleBanDef>? GetPunishments(NetUserId playerUserId)
+    {
+        if (!_playerManager.TryGetSessionById(playerUserId, out var session))
+            return null;
+
+        if (!_cachedRoleBans.TryGetValue(session, out var roleBans))
+            return null;
+
+        var bans = new List<ServerRoleBanDef>();
+        foreach (var ban in roleBans)
+        {
+            if (ban.ExpirationTime != null && DateTimeOffset.Now > ban.ExpirationTime)
+                continue;
+
+            if (ban.Role.StartsWith(PrefixPunishment))
+                bans.Add(ban);
+        }
+
+        return bans;
+    }
+    // Classic-End
 
     private HashSet<ProtoId<T>>? GetRoleBans<T>(ICommonSession playerSession, string prefix) where T : class, IPrototype
     {
@@ -607,7 +710,8 @@ public sealed partial class BanManager : IBanManager, IPostInjectInit
             return null;
 
         return roleBans
-            .Where(ban => ban.Role.StartsWith(prefix, StringComparison.Ordinal))
+            // Classic-Edit
+            .Where(ban => (ban.ExpirationTime == null || DateTimeOffset.Now <= ban.ExpirationTime) && ban.Role.StartsWith(prefix, StringComparison.Ordinal))
             .Select(ban => new ProtoId<T>(ban.Role[prefix.Length..]))
             .ToHashSet();
     }
@@ -618,7 +722,8 @@ public sealed partial class BanManager : IBanManager, IPostInjectInit
             return null;
 
         return _cachedRoleBans.TryGetValue(session, out var roleBans)
-            ? roleBans.Select(banDef => banDef.Role).ToHashSet()
+            // Classic-Edit
+            ? roleBans.Where(ban => ban.ExpirationTime == null || DateTimeOffset.Now <= ban.ExpirationTime).Select(banDef => banDef.Role).ToHashSet()
             : null;
     }
 

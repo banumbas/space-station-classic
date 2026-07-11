@@ -19,7 +19,7 @@
        <Label Name="SharedConnections"/>
 
        <BoxContainer Align="Center">
-           <GridContainer Rows="6">
+           <GridContainer Rows="7">
             <Button Name="NotesButton" Text="{Loc player-panel-show-notes}" SetWidth="136" Disabled="True"/>
             <Button Name="AhelpButton" Text="{Loc player-panel-help}" Disabled="True"/>
             <Button Name="FreezeButton" Text = "{Loc player-panel-freeze}" Disabled="True"/>
