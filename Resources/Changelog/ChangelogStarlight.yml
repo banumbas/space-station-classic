@@ -1,13 +1,6 @@
 Entries:
 - author: Johnny
   changes:
-  - message: Recipe to grind a slice of butter for liquid butter.
-    type: Add
-  id: 406157
-  time: '2026-06-22T10:35:46.000000+00:00'
-  url: https://github.com/ss14Starlight/space-station-14/pull/4825
-- author: Johnny
-  changes:
   - message: Cannabis butter had... Less butter than a normal stick of butter? Yeah it has same amount of butter now.
     type: Fix
   id: 406158
@@ -2799,4 +2792,11 @@ Entries:
   id: 406556
   time: '2026-07-11T05:47:24.000000+00:00'
   url: https://github.com/ss14Starlight/space-station-14/pull/4891
+- author: xxhotgirl69
+  changes:
+  - message: Adds new witch hat in Autodrobe and random maint loot.
+    type: Add
+  id: 406557
+  time: '2026-07-11T06:18:12.000000+00:00'
+  url: https://github.com/ss14Starlight/space-station-14/pull/4997
 Order: -1
