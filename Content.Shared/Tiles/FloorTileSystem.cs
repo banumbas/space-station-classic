@@ -173,7 +173,18 @@ public sealed partial class FloorTileSystem : EntitySystem
 
     public bool HasBaseTurf(ContentTileDefinition tileDef, string baseTurf)
     {
-        return tileDef.BaseTurf == baseTurf;
+        // Classic-Start
+        if (tileDef.BaseTurf == baseTurf)
+            return true;
+
+        if (_tileDefinitionManager.TryGetDefinition(baseTurf, out var baseDef) && baseDef is ContentTileDefinition contentBaseDef)
+        {
+            if (tileDef.ID == "Plating" && contentBaseDef.IsSubFloor && !contentBaseDef.MapAtmosphere && tileDef.ID != contentBaseDef.ID)
+                return true;
+        }
+
+        return false;
+        // Classic-End
     }
 
     private void PlaceAt(EntityUid user, EntityUid gridUid, MapGridComponent mapGrid, EntityCoordinates location,

@@ -2,6 +2,7 @@ using System.Linq;
 using System.Numerics;
 using Content.Shared.Coordinates.Helpers;
 using Content.Shared.Decals;
+using Content.Shared.Parallax.Biomes; // Classic-Edit
 using Robust.Shared.Map;
 using Robust.Shared.Map.Components;
 using Robust.Shared.Random;
@@ -20,6 +21,7 @@ public sealed partial class TileSystem : EntitySystem
     [Dependency] private SharedDecalSystem _decal = default!;
     [Dependency] private SharedMapSystem _maps = default!;
     [Dependency] private TurfSystem _turf = default!;
+    [Dependency] private SharedBiomeSystem _biome = default!; // Classic-Edit
 
     /// <summary>
     ///     Returns a weighted pick of a tile variant.
@@ -164,6 +166,18 @@ public sealed partial class TileSystem : EntitySystem
         }
 
         var plating = _tileDefinitionManager[tileDef.BaseTurf];
+
+        // Classic-Start
+        if (plating.TileId == 0 && TryComp<BiomeComponent>(gridUid, out var biome))
+        {
+            if (_biome.TryGetTile(indices, biome.Layers, biome.Seed, (gridUid, mapGrid), out var biomeTile))
+            {
+                _maps.SetTile(gridUid, mapGrid, tileRef.GridIndices, biomeTile.Value);
+                return true;
+            }
+        }
+        // Classic-End
+
         _maps.SetTile(gridUid, mapGrid, tileRef.GridIndices, new Tile(plating.TileId));
 
         return true;

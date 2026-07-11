@@ -6,6 +6,7 @@ using Content.Shared.Atmos;
 using Content.Shared.Gravity;
 using Content.Shared.Light.Components;
 using Content.Shared.Light.EntitySystems;
+using Content.Shared.Parallax;
 using Content.Shared.Parallax.Biomes;
 using Robust.Shared.Map;
 using Robust.Shared.Map.Components;
@@ -114,6 +115,10 @@ public sealed partial class ClassicStationBiomeSystem : EntitySystem
         Dirty(mapUid, light);
 
         EnsureComp<LightCycleComponent>(mapUid);
+
+        var parallax = EnsureComp<ParallaxComponent>(mapUid);
+        parallax.Parallax = "Dirt";
+        Dirty(mapUid, parallax);
 
         _atmosphere.SetMapAtmosphere(mapUid, false, PlanetAtmosphere);
     }
