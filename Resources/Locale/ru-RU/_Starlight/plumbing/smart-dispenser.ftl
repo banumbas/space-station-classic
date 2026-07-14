@@ -1,0 +1,10 @@
+plumbing-smart-dispenser-window-title = Умный дозатор
+plumbing-smart-dispenser-reagent-entry = {$reagent}: {$amount}у
+plumbing-smart-dispenser-empty = Реагенты не хранятся.
+plumbing-smart-dispenser-total = {$count} реагент(ы) — {$total}u всего
+plumbing-smart-dispenser-no-container = Контейнер не привязан.
+plumbing-smart-dispenser-hint = Используйте маркированный контейнер для автоматического дозирования соответствующего реагента или используйте контейнер без маркировки для дозирования вручную.
+plumbing-smart-dispenser-row-tooltip = {$reagent}: {$stored}u / {$max}u сохранено.
+plumbing-smart-dispenser-not-in-stock = {$reagent} нет на складе.
+plumbing-smart-dispenser-jug-full = Контейнер уже полон.
+plumbing-smart-dispenser-filled = Заполнен {$amount}u из {$reagent}.

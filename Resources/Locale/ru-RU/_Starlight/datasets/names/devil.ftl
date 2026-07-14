@@ -1,0 +1,17 @@
+names-devil-dataset-1 = Зал'гот
+names-devil-dataset-2 = Ральгоннас
+names-devil-dataset-3 = Дагон
+names-devil-dataset-4 = Молох
+names-devil-dataset-5 = Ваал
+names-devil-dataset-6 = Луммил
+names-devil-dataset-7 = Рурга
+names-devil-dataset-8 = лиры
+names-devil-dataset-9 = Ленрас
+names-devil-dataset-10 = Рох
+names-devil-dataset-11 = Дунказиэль
+names-devil-dataset-12 = Анролус
+names-devil-dataset-13 = Сазо
+names-devil-dataset-14 = Барса
+names-devil-dataset-15 = Зелно
+names-devil-dataset-16 = Спейсус
+names-devil-dataset-17 = Аполлион

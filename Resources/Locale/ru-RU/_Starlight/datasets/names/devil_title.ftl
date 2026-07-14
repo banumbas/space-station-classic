@@ -1,0 +1,17 @@
+names-devil-title-dataset-1 = Принц Сумрака
+names-devil-title-dataset-2 = Прикованный
+names-devil-title-dataset-3 = Искажённый
+names-devil-title-dataset-4 = козел отпущения
+names-devil-title-dataset-5 = Дух Зла
+names-devil-title-dataset-6 = жестокий
+names-devil-title-dataset-7 = офисный работник
+names-devil-title-dataset-8 = Гневный
+names-devil-title-dataset-9 = звезд
+names-devil-title-dataset-10 = Глубин
+names-devil-title-dataset-11 = из Бездны
+names-devil-title-dataset-12 = прожорливый
+names-devil-title-dataset-13 = о зловонном запахе
+names-devil-title-dataset-14 = Правитель тьмы
+names-devil-title-dataset-15 = Непримечательный
+names-devil-title-dataset-16 = Обычный
+names-devil-title-dataset-17 = странный

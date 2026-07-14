@@ -1,0 +1,20 @@
+# COTTON BURGERS
+
+food-sequence-cotton-burger-content-plushie-panda = панда
+food-sequence-cotton-burger-content-plushie-deer = олень
+food-sequence-cotton-burger-content-plushie-mimelizard = тихий
+food-sequence-cotton-burger-content-plushie-abductor = чужак
+food-sequence-cotton-burger-content-plushie-axolotl = аксолотль
+food-sequence-cotton-burger-content-plushie-borb = борб
+food-sequence-cotton-burger-content-plushie-creature = ЙИППИ
+food-sequence-cotton-burger-content-plushie-gnome = фуберри
+food-sequence-cotton-burger-content-plushie-goat = мягкий
+food-sequence-cotton-burger-content-plushie-lisa = корги
+food-sequence-cotton-burger-content-plushie-kitten = мяуканье
+food-sequence-cotton-burger-content-plushie-pig = свинья
+food-sequence-cotton-burger-content-plushie-renault = ага
+food-sequence-cotton-burger-content-plushie-snail = улитка
+food-sequence-cotton-burger-content-plushie-cow = корова
+food-sequence-cotton-burger-content-plushie-frog = лягушка
+food-sequence-cotton-burger-content-plushie-sus = сус
+food-sequence-cotton-burger-content-plushie-shadekin = жениться

@@ -1,0 +1,10 @@
+﻿advertisement-donkpocket-1 = With great flavor comes great responsibility!
+advertisement-donkpocket-2 = «Братья ДОНК», новые серии выходят каждый четверг на Donk Plus!
+advertisement-donkpocket-3 = Качественная еда по низким ценам!
+advertisement-donkpocket-4 = Лучше сытый, чем мертвый!
+advertisement-donkpocket-5 = По закону это еда!
+advertisement-donkpocket-6 = Производство вафель DONK Pocket со вкусом прекращено.
+advertisement-donkpocket-7 = Попробуйте наше фирменное блюдо Mystery Meat!
+advertisement-donkpocket-8 = Думаете, вы знаете, что в «Клоунском сюрпризе»? Подумайте еще раз!
+advertisement-donkpocket-9 = 9 из 10 врачей согласились под давлением!
+advertisement-donkpocket-10 = Вероятно, не содержит допингов.
