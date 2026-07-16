@@ -11,6 +11,7 @@ using System.Numerics;
 using Robust.Shared.EntitySerialization.Systems;
 using Robust.Shared.Utility;
 using Content.Shared._Starlight.Medical.Body.Systems;
+using Content.Shared._Classic.CCVar;
 
 namespace Content.IntegrationTests.Tests._Starlight.Body
 {
@@ -56,6 +57,10 @@ namespace Content.IntegrationTests.Tests._Starlight.Body
             var server = pair.Server;
 
             await server.WaitIdleAsync();
+
+            var cfg = server.ResolveDependency<IConfigurationManager>();
+            // Set AtmosEnabled to false to recreate the NRE
+            cfg.SetCVar(ClassicCCVars.AtmosEnabled, false);
 
             var entityManager = server.ResolveDependency<IEntityManager>();
             var mapLoader = entityManager.System<MapLoaderSystem>();
@@ -136,6 +141,8 @@ namespace Content.IntegrationTests.Tests._Starlight.Body
             var cfg = server.ResolveDependency<IConfigurationManager>();
             var mapLoader = entityManager.System<MapLoaderSystem>();
             var mapSys = entityManager.System<SharedMapSystem>();
+            
+            cfg.SetCVar(Content.Shared._Classic.CCVar.ClassicCCVars.AtmosEnabled, true);
 
             EntityUid? grid = null;
             RespiratorComponent respirator = null;
