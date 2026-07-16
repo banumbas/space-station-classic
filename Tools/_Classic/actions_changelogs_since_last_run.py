@@ -20,7 +20,7 @@ DEBUG_CHANGELOG_FILE_OLD = Path("Resources/Changelog/Old.yml")
 GITHUB_API_URL = os.environ.get("GITHUB_API_URL", "https://api.github.com")
 
 DISCORD_WEBHOOK_URL = os.environ.get("DISCORD_WEBHOOK_URL")
-DISCORD_CHANGELOG_ROLE_ID = int(os.environ.get("DISCORD_CHANGELOG_ROLE_ID", "1308143973684088883"))
+DISCORD_CHANGELOG_ROLE_ID = int(os.environ.get("DISCORD_CHANGELOG_ROLE_ID", "1510006028404789339"))
 
 CHANGELOG_FILE = "Resources/Changelog/changelog_classic.yml"
 TYPES_TO_EMOJI = {"Fix": "🐛", "Add": "🆕", "Remove": "❌", "Tweak": "⚒️"}
@@ -199,7 +199,7 @@ def send_embed(embed: dict[str, Any]):
 
 
 def ping_role_once(role_id: str):
-    content = f"<@&{role_id}> New changelog updates are ready for release."
+    content = f"<@&{role_id}> Вышел новый список обновлений."
     payload = {
         "content": content,
         "allowed_mentions": {"roles": [int(role_id)]},

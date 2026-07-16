@@ -6,17 +6,3 @@ Entries:
   id: 1
   time: 2026-07-16T03:24:56.000000+00:00
   url: https://github.com/banumbas/space-station-classic/pull/3
-- author: banumbas
-  changes:
-  - message: добавлен LOL.
-    type: Add
-  id: 2
-  time: 2026-07-16T03:43:47.000000+00:00
-  url: ''
-- author: banumbas
-  changes:
-  - message: Добавлен changelog.
-    type: Add
-  id: 3
-  time: 2026-07-16T03:57:27.000000+00:00
-  url: ''
