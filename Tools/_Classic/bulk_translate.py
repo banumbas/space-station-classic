@@ -16,26 +16,26 @@ def safe_translate_batch(texts):
         for i, v in enumerate(vars_found):
             temp_text = temp_text.replace(v, f'<v{i}>')
         temp_texts.append(temp_text)
-        
+
     try:
         translated_texts = translator.translate_batch(temp_texts)
     except Exception as e:
         print(f"Batch translation failed: {e}")
         return texts
-        
+
     final_texts = []
     for i, (translated, vars_found) in enumerate(zip(translated_texts, batch_vars)):
         if not translated:
             final_texts.append(texts[i])
             continue
-            
+
         for j, v in enumerate(vars_found):
             translated = translated.replace(f'<v{j}>', v)
             translated = translated.replace(f'< v{j} >', v)
             translated = translated.replace(f'< v{j}>', v)
             translated = translated.replace(f'<v{j} >', v)
         final_texts.append(translated)
-        
+
     return final_texts
 
 def process_ftl_file(filepath, out_filepath):
@@ -44,16 +44,16 @@ def process_ftl_file(filepath, out_filepath):
 
     with open(filepath, 'r', encoding='utf-8') as f:
         content = f.read()
-    
+
     lines = content.split('\n')
-    
+
     translatable_lines_indices = []
     texts_to_translate = []
-    
+
     for i, line in enumerate(lines):
         if not line.strip() or line.strip().startswith('#'):
             continue
-        
+
         match = re.match(r'^(\s*[a-zA-Z0-9_-]+|\s*\.[a-zA-Z0-9_-]+)\s*=\s*(.*)', line)
         if match:
             val_part = match.group(2)
@@ -66,13 +66,13 @@ def process_ftl_file(filepath, out_filepath):
                 if val_part:
                     translatable_lines_indices.append((i, None, 'multiline'))
                     texts_to_translate.append(val_part)
-                    
+
     if not texts_to_translate:
         # Just copy if nothing to translate
         with open(out_filepath, 'w', encoding='utf-8') as f:
             f.write('\n'.join(lines))
         return
-        
+
     chunk_size = 30
     translated_texts = []
     for i in range(0, len(texts_to_translate), chunk_size):
@@ -92,25 +92,25 @@ def process_ftl_file(filepath, out_filepath):
             print("Failed to translate chunk, keeping original")
             translated_texts.extend(chunk)
         time.sleep(0.3)
-            
+
     for idx_info, translated_val in zip(translatable_lines_indices, translated_texts):
         line_idx = idx_info[0]
         if idx_info[2] == 'key':
             lines[line_idx] = f"{idx_info[1]} = {translated_val}"
         elif idx_info[2] == 'multiline':
             lines[line_idx] = f"    {translated_val}"
-            
+
     with open(out_filepath, 'w', encoding='utf-8') as f:
         f.write('\n'.join(lines))
 
 if __name__ == '__main__':
     dirs = [
-        '_Afterlight', '_Carpmosia', '_CD', '_DEN', '_FarHorizons', 
+        '_Afterlight', '_Carpmosia', '_CD', '_DEN', '_FarHorizons',
         '_Funkystation', '_Impstation', '_Moffstation', '_NullLink', '_Starlight'
     ]
     base_path = r'B:\builds\space-station-classic\Resources\Locale\en-US'
     target_base_path = r'B:\builds\space-station-classic\Resources\Locale\ru-RU'
-    
+
     for d in dirs:
         d_path = os.path.join(base_path, d)
         if os.path.exists(d_path):

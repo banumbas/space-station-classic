@@ -57,7 +57,7 @@ public sealed class PunishmentSystem : EntitySystem
     private void UpdatePunishments(EntityUid uid, NetUserId userId)
     {
         var punishments = _banManager.GetPunishments(userId);
-        
+
         var mutedChannels = ChatChannel.None;
         var paperMuted = false;
         var pacifism = false;
@@ -67,7 +67,7 @@ public sealed class PunishmentSystem : EntitySystem
             foreach (var ban in punishments)
             {
                 var type = ban.Role[BanManager.PrefixPunishment.Length..];
-                
+
                 if (type == "Pacifism")
                     pacifism = true;
                 else if (type == "Mute:Paper")
@@ -86,7 +86,7 @@ public sealed class PunishmentSystem : EntitySystem
         if (mutedChannels == ChatChannel.None && !paperMuted && !pacifism)
         {
             RemComp<PunishmentComponent>(uid);
-            
+
             // Only remove pacifism if they don't have it from somewhere else?
             // Actually, if we just remove PacifiedComponent, it's fine, but let's check if they still need it.
             // For now, removing it directly is okay, as pacifism is usually applied via component.
@@ -98,13 +98,13 @@ public sealed class PunishmentSystem : EntitySystem
         }
 
         var comp = EnsureComp<PunishmentComponent>(uid);
-        
+
         if (comp.MutedChannels == mutedChannels && comp.PaperMuted == paperMuted && comp.ForcedPacifism == pacifism)
             return;
 
         comp.MutedChannels = mutedChannels;
         comp.PaperMuted = paperMuted;
-        
+
         if (pacifism && !comp.ForcedPacifism)
         {
             EnsureComp<PacifiedComponent>(uid);
@@ -113,7 +113,7 @@ public sealed class PunishmentSystem : EntitySystem
         {
             RemComp<PacifiedComponent>(uid);
         }
-        
+
         comp.ForcedPacifism = pacifism;
         Dirty(uid, comp);
     }

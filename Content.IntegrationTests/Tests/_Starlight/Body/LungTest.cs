@@ -141,7 +141,7 @@ namespace Content.IntegrationTests.Tests._Starlight.Body
             var cfg = server.ResolveDependency<IConfigurationManager>();
             var mapLoader = entityManager.System<MapLoaderSystem>();
             var mapSys = entityManager.System<SharedMapSystem>();
-            
+
             cfg.SetCVar(Content.Shared._Classic.CCVar.ClassicCCVars.AtmosEnabled, true);
 
             EntityUid? grid = null;
