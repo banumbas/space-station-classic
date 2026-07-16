@@ -1,0 +1,14 @@
+names-resomi-packs-dataset-1 = Стая «Авиатор»
+names-resomi-packs-dataset-2 = Стая Скринпекеров
+names-resomi-packs-dataset-3 = Стая корпусной стражи
+names-resomi-packs-dataset-4 = Стая Железного Когтя
+names-resomi-packs-dataset-5 = Стая «Защита люка»
+names-resomi-packs-dataset-6 = Стая Спринтеров
+names-resomi-packs-dataset-7 = Стая Плазматалона
+names-resomi-packs-dataset-8 = Стая «Железный коготь»
+names-resomi-packs-dataset-9 = Стальная стая
+names-resomi-packs-dataset-10 = Стая «Серебряное перо»
+names-resomi-packs-dataset-11 = Стая «Минный коготь»
+names-resomi-packs-dataset-12 = Охотничья стая
+names-resomi-packs-dataset-13 = Стая «Темные перья»
+names-resomi-packs-dataset-14 = Стая «Мэйнтснест»

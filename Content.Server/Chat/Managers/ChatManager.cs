@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Runtime.InteropServices;
 using Content.Server._NullLink.PlayerData;
@@ -48,6 +48,9 @@ internal sealed partial class ChatManager : IChatManager
     [Dependency] private ISharedPlayerManager _player = default!;
     [Dependency] private DiscordChatLink _discordLink = default!;
     [Dependency] private ILogManager _logManager = default!;
+    // Classic-Start
+    [Dependency] private IBanManager _banManager = default!;
+    // Classic-End
 
     private ISawmill _sawmill = default!;
 
@@ -264,6 +267,25 @@ internal sealed partial class ChatManager : IChatManager
             return;
         }
         // Starlight-End
+
+        // Classic-Start
+        var punishments = _banManager.GetPunishments(player.UserId);
+        if (punishments != null)
+        {
+            foreach (var ban in punishments)
+            {
+                var punishType = ban.Role[BanManager.PrefixPunishment.Length..];
+
+                if (punishType.StartsWith("Mute:") && Enum.TryParse<ChatChannel>(punishType["Mute:".Length..], out var channel))
+                {
+                    if (type == OOCChatType.OOC && channel.HasFlag(ChatChannel.OOC))
+                        return;
+                    if (type == OOCChatType.Admin && channel.HasFlag(ChatChannel.AdminChat))
+                        return;
+                }
+            }
+        }
+        // Classic-End
 
         switch (type)
         {

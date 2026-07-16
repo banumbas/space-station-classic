@@ -1,0 +1,9 @@
+plushie-morgana-1 = Эй, эй!
+plushie-morgana-2 = Доброта не требует усилий, ненависть требует приверженности.
+plushie-morgana-3 = Мы все заслуживаем второго шанса.
+plushie-morgana-4 = Я верю в тебя.
+plushie-morgana-5 = Будьте добры. Будь хорошим. Оставайтесь в безопасности.
+plushie-morgana-6 = Давай найдём тебе дом.
+plushie-morgana-7 = Даже тьма — наш союзник.
+plushie-morgana-8 = Наша счастливая маленькая семья выстоит вместе.
+plushie-morgana-9 = Упсы!

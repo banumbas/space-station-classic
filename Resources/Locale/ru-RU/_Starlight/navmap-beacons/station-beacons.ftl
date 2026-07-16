@@ -1,0 +1,15 @@
+station-beacon-internal-affairs = ИАА
+station-beacon-nanotrasen-representative = НТР
+station-beacon-blueshield-officer = БСО
+station-beacon-nanotrasen-career-trainer = Офис НКТ
+station-beacon-breakroom-cargo = Комната грузового перерыва
+station-beacon-breakroom-command = Комната отдыха командования
+station-beacon-breakroom-engineering = Инженерная комната отдыха
+station-beacon-nuclear-reactor = Ядерный реактор
+station-beacon-breakroom-medical = Комната медицинского отдыха
+station-beacon-breakroom-science = Комната научного перерыва
+station-beacon-xenobiology = Ксенобиология
+station-beacon-breakroom-security = Комната отдыха безопасности
+station-beacon-breakroom-service = Комната перерыва для обслуживания
+station-beacon-lawyer = Адвокат
+station-beacon-janitor-cleaning-closet = Уборка шкафа

@@ -1,0 +1,12 @@
+﻿advertisement-icecream-1 = It's cooler than smoking!
+advertisement-icecream-2 = Разве вы не хотели бы спастись от жары?
+advertisement-icecream-3 = Эти промышленные станки, должно быть, делают это место довольно теплым, да?
+advertisement-icecream-4 = Мне кажется или в комнате стало жарче?
+advertisement-icecream-5 = Холодный, как глубокий, глубокий космос, окружающий нас.
+advertisement-icecream-6 = Побалуйте себя великолепным гигантским мороженым.
+advertisement-icecream-7 = Попробуйте вкусные крем-сливки!
+advertisement-icecream-8 = Послушайте, на бумаге дымовые сигареты были очень хорошей идеей.
+advertisement-icecream-9 = Номер один среди команды Вокса.
+advertisement-icecream-10 = Номер один среди команды Фоксфолков.
+advertisement-icecream-11 = Номер один среди экипажа Вульпканина.
+advertisement-icecream-12 = Если ты не переносишь жару, я здесь для тебя.

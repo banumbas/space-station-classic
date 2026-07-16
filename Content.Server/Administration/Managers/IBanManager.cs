@@ -58,6 +58,13 @@ public interface IBanManager
     /// </summary>
     public HashSet<ProtoId<AntagPrototype>>? GetAntagBans(NetUserId playerUserId);
 
+    // Classic-Start
+    /// <summary>
+    /// Gets a list of punishment types for the player.
+    /// </summary>
+    public List<ServerRoleBanDef>? GetPunishments(NetUserId playerUserId);
+    // Classic-End
+
     /// <summary>
     /// Creates a job ban for the specified target, username or GUID
     /// </summary>
@@ -83,6 +90,24 @@ public interface IBanManager
         string reason,
         DateTimeOffset timeOfBan
     ) where T : class, IPrototype;
+
+    // Classic-Start
+    /// <summary>
+    /// Creates a punishment (mute/pacifism) for the specified target, username or GUID
+    /// </summary>
+    public void CreatePunishment(
+        NetUserId? target,
+        string? targetUsername,
+        NetUserId? banningAdmin,
+        (IPAddress, int)? addressRange,
+        ImmutableTypedHwid? hwid,
+        string punishmentType,
+        uint? minutes,
+        NoteSeverity severity,
+        string reason,
+        DateTimeOffset timeOfBan
+    );
+    // Classic-End
 
     // Starlight start
     /// <summary>

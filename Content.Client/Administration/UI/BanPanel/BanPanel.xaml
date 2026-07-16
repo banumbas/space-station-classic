@@ -44,6 +44,28 @@
             <ScrollContainer>
                 <BoxContainer Name="RolesContainer"  Orientation="Vertical" />
             </ScrollContainer>
+            <!-- Classic-Start: Punishments list -->
+            <ScrollContainer Name="PunishmentsTabContainer" Visible="False">
+                <BoxContainer Orientation="Vertical" Margin="5">
+                    <Label Text="{Loc 'ban-panel-punishment-channels-label'}" FontColorOverride="LightGray" />
+                    <GridContainer Columns="3" Margin="0,0,0,10">
+                        <CheckBox Name="CheckLocal" Text="{Loc 'ban-panel-punishment-channel-local'}" />
+                        <CheckBox Name="CheckWhisper" Text="{Loc 'ban-panel-punishment-channel-whisper'}" />
+                        <CheckBox Name="CheckRadio" Text="{Loc 'ban-panel-punishment-channel-radio'}" />
+                        <CheckBox Name="CheckLOOC" Text="{Loc 'ban-panel-punishment-channel-looc'}" />
+                        <CheckBox Name="CheckOOC" Text="{Loc 'ban-panel-punishment-channel-ooc'}" />
+                        <CheckBox Name="CheckEmotes" Text="{Loc 'ban-panel-punishment-channel-emotes'}" />
+                        <CheckBox Name="CheckDead" Text="{Loc 'ban-panel-punishment-channel-dead'}" />
+                    </GridContainer>
+
+                    <Label Text="{Loc 'ban-panel-punishment-other-label'}" FontColorOverride="LightGray" />
+                    <GridContainer Columns="2" Margin="0,0,0,10">
+                        <CheckBox Name="CheckPaper" Text="{Loc 'ban-panel-punishment-paper'}" />
+                        <CheckBox Name="CheckPacifism" Text="{Loc 'ban-panel-punishment-pacifism'}" />
+                    </GridContainer>
+                </BoxContainer>
+            </ScrollContainer>
+            <!-- Classic-End -->
         </TabContainer>
         <Button Name="SubmitButton" Text="{Loc ban-panel-submit}" HorizontalExpand="True" />
     </BoxContainer>

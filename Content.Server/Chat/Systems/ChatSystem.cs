@@ -208,6 +208,15 @@ public sealed partial class ChatSystem : SharedChatSystem
             _chatManager.EnsurePlayer(player.UserId).AddEntity(GetNetEntity(source));
         }
 
+        // Classic-Start
+        if (TryComp<Content.Shared._Classic.Administration.Punishment.PunishmentComponent>(source, out var punish))
+        {
+            if (desiredType == InGameICChatType.Speak && punish.MutedChannels.HasFlag(ChatChannel.Local)) return;
+            if (desiredType == InGameICChatType.Whisper && punish.MutedChannels.HasFlag(ChatChannel.Whisper)) return;
+            if (desiredType == InGameICChatType.Emote && punish.MutedChannels.HasFlag(ChatChannel.Emotes)) return;
+        }
+        // Classic-End
+
         if (desiredType == InGameICChatType.Speak && message.Text.StartsWith(LocalPrefix)) //Starlight
         {
             // prevent radios and remove prefix.
@@ -251,6 +260,13 @@ public sealed partial class ChatSystem : SharedChatSystem
         {
             if (TryProcessRadioMessage(source, message.Text, out var modMessage, out var channel, out var customChannel))
             {
+                // Classic-Start
+                if (TryComp<Content.Shared._Classic.Administration.Punishment.PunishmentComponent>(source, out var punishRadio) && punishRadio.MutedChannels.HasFlag(ChatChannel.Radio))
+                {
+                    return;
+                }
+                // Classic-End
+
                 if (language.Speech.RadioChannel is not null)
                     _language.SendEntityRadioLanguage(source, modMessage, language.Speech.RadioChannel.Value, language);
 
@@ -323,6 +339,14 @@ public sealed partial class ChatSystem : SharedChatSystem
         if (!_critLoocEnabled && _mobStateSystem.IsCritical(source) && !critCheckEvent.AllowCritLooc)
             // Starlight edit End
             return;
+
+        // Classic-Start
+        if (TryComp<Content.Shared._Classic.Administration.Punishment.PunishmentComponent>(source, out var punishOOC))
+        {
+            if (sendType == InGameOOCChatType.Looc && punishOOC.MutedChannels.HasFlag(ChatChannel.LOOC)) return;
+            if (sendType == InGameOOCChatType.Dead && punishOOC.MutedChannels.HasFlag(ChatChannel.Dead)) return;
+        }
+        // Classic-End
 
         // Systems can differentiate Looc and DeadChat by type, and cancel the speak attempt if necessary.
         var ev = new InGameOocMessageAttemptEvent(player, sendType);

@@ -13,7 +13,7 @@ comp-light-replacer-insert-broken-light = Вы не можете вставля�
 # Shown when player refill light from light box
 comp-light-replacer-refill-from-storage = Вы пополнили { $light-replacer }.
 
-### Examine 
+### Examine
 
 comp-light-replacer-no-lights = Здесь пусто.
 comp-light-replacer-has-lights = Здесь находится следующее:

@@ -1,0 +1,9 @@
+advertisement-legaldrobe-1 = ДЕРЖИТЕ ЭТО! Добейтесь верховенства закона для себя!
+advertisement-legaldrobe-2 = Приставайте к охране, пока они не начнут соблюдать ваши правила!
+advertisement-legaldrobe-3 = Только что поступило новое дело? Вытащите их из тюрьмы!
+advertisement-legaldrobe-4 = Я бы хотел позвать попугая на стенд!
+advertisement-legaldrobe-5 = Иди беспокой начальника тюрьмы непрерывными дебатами о признании вины.
+advertisement-legaldrobe-6 = Разрешите любой спор, даже самый мелкий!
+advertisement-legaldrobe-7 = Мы не продаем Магатамы.
+advertisement-legaldrobe-8 = Вы или ваш близкий человек пострадал от NanoTrasen? Вызовите юриста!
+advertisement-legaldrobe-9 = Начинается новое судебное разбирательство!

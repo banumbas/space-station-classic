@@ -1,0 +1,47 @@
+# Emote Names
+chat-emote-name-mew = Мью
+chat-emote-name-hiss = шипение
+chat-emote-name-purr = Мурлыкать
+chat-emote-name-meow = мяу
+chat-emote-name-trill = Трель
+chat-emote-name-yip = Йип
+chat-emote-name-marr = Марр
+chat-emote-name-wurble = Вурбл
+chat-emote-name-scree = осыпь
+chat-emote-name-call = Вызов
+chat-emote-name-squawk = Крик
+chat-emote-name-lizardpurr = Мурлыкать
+chat-emote-name-lizardhiss = шипение
+chat-emote-name-lizardrattle = Погремушка
+chat-emote-name-flap-wings = Откидные крылья
+chat-emote-name-bubble = Пузырь
+chat-emote-name-pop = Поп
+chat-emote-name-squee = Скрип
+chat-emote-name-snort = Фыркать
+chat-emote-name-stomp = Топать
+chat-emote-name-hum = Хум
+chat-emote-name-glub = Глуб
+
+# Emote Messages
+chat-emote-msg-mew = конюшни
+chat-emote-msg-hiss = шипит
+chat-emote-msg-purr = мурлыкает
+chat-emote-msg-meow = мяукает
+chat-emote-msg-trill = трели
+chat-emote-msg-yip = упс
+chat-emote-msg-marr = портит
+chat-emote-msg-wurble = колеблется
+chat-emote-msg-scree = осыпи
+chat-emote-msg-call = звонки
+chat-emote-msg-squawk = крики
+chat-emote-msg-lurr = мурлыкает
+chat-emote-msg-liss = шипит
+chat-emote-msg-rattle = гремит
+chat-emote-msg-flap-wings = взмахи {POSS-ADJ($entity)} крыльями.
+chat-emote-msg-bubble = пузыри
+chat-emote-msg-pop = хлопает
+chat-emote-msg-squee = скрипит
+chat-emote-msg-snort = фыркает
+chat-emote-msg-stomp = топает
+chat-emote-msg-hum = жужжит
+chat-emote-msg-glub = глупости

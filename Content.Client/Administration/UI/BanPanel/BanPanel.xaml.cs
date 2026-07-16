@@ -54,7 +54,10 @@ public sealed partial class BanPanel : DefaultWindow
         BasicInfo,
         //Text,
         Players,
-        Roles
+        Roles,
+        // Classic-Start
+        Punishments
+        // Classic-End
     }
 
     private enum Multipliers
@@ -72,7 +75,10 @@ public sealed partial class BanPanel : DefaultWindow
     {
         None,
         Server,
-        Role
+        Role,
+        // Classic-Start
+        Punishment
+        // Classic-End
     }
 
     public BanPanel()
@@ -146,10 +152,17 @@ public sealed partial class BanPanel : DefaultWindow
         Tabs.SetTabTitle((int) TabNumbers.Players, Loc.GetString("ban-panel-tabs-players"));
         Tabs.SetTabTitle((int) TabNumbers.Roles, Loc.GetString("ban-panel-tabs-role"));
         Tabs.SetTabVisible((int) TabNumbers.Roles, false);
+        // Classic-Start
+        Tabs.SetTabTitle((int) TabNumbers.Punishments, Loc.GetString("ban-panel-tabs-punishments"));
+        Tabs.SetTabVisible((int) TabNumbers.Punishments, false);
+        // Classic-End
 
         TypeOption.AddItem(Loc.GetString("ban-panel-select"), (int) Types.None);
         TypeOption.AddItem(Loc.GetString("ban-panel-server"), (int) Types.Server);
         TypeOption.AddItem(Loc.GetString("ban-panel-role"), (int) Types.Role);
+        // Classic-Start
+        TypeOption.AddItem(Loc.GetString("ban-panel-punishment"), (int) Types.Punishment);
+        // Classic-End
 
         ReasonTextEdit.Placeholder = new Rope.Leaf(Loc.GetString("ban-panel-reason"));
 
@@ -493,6 +506,9 @@ public sealed partial class BanPanel : DefaultWindow
     {
         TypeOption.ModulateSelfOverride = null;
         Tabs.SetTabVisible((int) TabNumbers.Roles, TypeOption.SelectedId == (int) Types.Role);
+        // Classic-Start
+        Tabs.SetTabVisible((int) TabNumbers.Punishments, TypeOption.SelectedId == (int) Types.Punishment);
+        // Classic-End
             NoteSeverity? newSeverity = null;
             switch (TypeOption.SelectedId)
             {
@@ -598,6 +614,36 @@ public sealed partial class BanPanel : DefaultWindow
             jobs = jobList.ToArray();
             antags = antagList.ToArray();
         }
+        // Classic-Start
+        else if (TypeOption.SelectedId == (int) Types.Punishment)
+        {
+            var punishmentList = new List<string>();
+
+            if (CheckLocal.Pressed) punishmentList.Add("Punish:Mute:Local");
+            if (CheckWhisper.Pressed) punishmentList.Add("Punish:Mute:Whisper");
+            if (CheckRadio.Pressed) punishmentList.Add("Punish:Mute:Radio");
+            if (CheckLOOC.Pressed) punishmentList.Add("Punish:Mute:LOOC");
+            if (CheckOOC.Pressed) punishmentList.Add("Punish:Mute:OOC");
+            if (CheckEmotes.Pressed) punishmentList.Add("Punish:Mute:Emotes");
+            if (CheckDead.Pressed) punishmentList.Add("Punish:Mute:Dead");
+            if (CheckPaper.Pressed) punishmentList.Add("Punish:Mute:Paper");
+            if (CheckPacifism.Pressed) punishmentList.Add("Punish:Pacifism");
+
+            if (punishmentList.Count == 0)
+            {
+                Tabs.CurrentTab = (int) TabNumbers.Punishments;
+                return;
+            }
+
+            // Treat punishments as "jobs" for BanSubmitted since under the hood they are RoleBans
+            var jobList = new List<ProtoId<JobPrototype>>();
+            foreach (var punishment in punishmentList)
+            {
+                jobList.Add(new ProtoId<JobPrototype>(punishment));
+            }
+            jobs = jobList.ToArray();
+        }
+        // Classic-End
 
         if (TypeOption.SelectedId == (int) Types.None)
         {
