@@ -6,3 +6,11 @@ Entries:
   id: 1
   time: '2026-07-16T00:00:00.000000+00:00'
   url: ''
+- author: banumbas
+  changes:
+  - message: Добавлен Space Station Classic.
+    type: Add
+  id: 101
+  time: 2026-07-16T02:19:35.046727
+  url: https://github.com/banumbas/space-station-classic/pull/1
+
