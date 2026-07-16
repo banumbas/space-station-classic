@@ -1,4 +1,5 @@
 import os
+import sys
 import yaml
 import re
 from datetime import datetime
@@ -14,9 +15,14 @@ print(f"PR_NUMBER: {pr_number}")
 print(f"GITHUB_REPOSITORY: {repo_name}")
 print(f"GITHUB_TOKEN is set: {bool(github_token)}")
 
+if not pr_number or pr_number.strip('"\'') == "":
+    print("No valid PR_NUMBER provided. Exiting.")
+    sys.exit(0)
+
+pr_number_clean = pr_number.strip('"\'')
 g = Github(github_token)
 repo = g.get_repo(repo_name)
-pr = repo.get_pull(int(pr_number))
+pr = repo.get_pull(int(pr_number_clean))
 
 def remove_comments(pr_body):
     """
