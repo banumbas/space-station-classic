@@ -102,7 +102,7 @@ def update_changelog():
             #shift PR number up two digits
             #add current ID to it
             # e.g., PR number 123 -> calculatedID = (123 * 100) = 12300
-            
+
             time_dt = merge_time if merge_time else datetime.now()
             changelog_entry = {
                 "author": block["author"],
