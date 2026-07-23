@@ -40,6 +40,59 @@
               amount: 2
               doAfter: 2
 
+        # Classic-Start
+        - to: ironWall
+          completed:
+            - !type:SnapToGrid
+              southRotation: true
+          conditions:
+            - !type:EntityAnchored {}
+          steps:
+            - material: Steel
+              amount: 4
+              doAfter: 3
+            - material: Plasteel
+              amount: 1
+              doAfter: 1
+            - tool: Welding
+              doAfter: 20
+
+        - to: paperWall
+          completed:
+            - !type:SnapToGrid
+              southRotation: true
+          conditions:
+            - !type:EntityAnchored {}
+          steps:
+            - material: Paper
+              amount: 4
+              doAfter: 1
+
+        - to: paperframeWall
+          completed:
+            - !type:SnapToGrid
+              southRotation: true
+          conditions:
+            - !type:EntityAnchored {}
+          steps:
+            - material: Paper
+              amount: 2
+              doAfter: 1
+            - material: Steel
+              amount: 1
+              doAfter: 1
+
+        - to: pizzaWall
+          completed:
+            - !type:SnapToGrid
+              southRotation: true
+          conditions:
+            - !type:EntityAnchored {}
+          steps:
+            - tag: Pizza
+              doAfter: 2
+        # Classic-End
+
         - to: reinforcedGirder
           completed:
             - !type:SnapToGrid
@@ -145,6 +198,66 @@
           steps:
             - tool: Welding
               doAfter: 10
+
+    - node: icedMetalWall
+      entity: ClassicWallIcedMetal
+      edges:
+        - to: wall
+          completed:
+            - !type:SnapToGrid
+              southRotation: true
+          steps:
+            - tool: Welding
+              doAfter: 20
+
+    - node: ironWall
+      entity: ClassicWallIron
+      edges:
+        - to: girder
+          completed:
+            - !type:GivePrototype
+              prototype: SheetSteel1
+              amount: 4
+          steps:
+            - tool: Welding
+              doAfter: 20
+            - tool: Prying
+              doAfter: 10
+
+    - node: paperWall
+      entity: ClassicWallPaper
+      edges:
+        - to: girder
+          completed:
+            - !type:GivePrototype
+              prototype: SheetPaper1
+              amount: 4
+          steps:
+            - tool: Prying
+              doAfter: 3
+
+    - node: paperframeWall
+      entity: ClassicWallPaperframe
+      edges:
+        - to: girder
+          completed:
+            - !type:GivePrototype
+              prototype: SheetPaper1
+              amount: 2
+            - !type:GivePrototype
+              prototype: SheetSteel1
+              amount: 1
+          steps:
+            - tool: Prying
+              doAfter: 5
+
+    - node: pizzaWall
+      entity: ClassicWallPizza
+      edges:
+        - to: girder
+          steps:
+            - tool: Prying
+              doAfter: 3
 
     - node: wallChitin
       entity: WallSolidChitin

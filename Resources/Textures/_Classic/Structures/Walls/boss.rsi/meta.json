@@ -1,0 +1,46 @@
+{
+  "version": 1,
+  "size": {
+    "x": 32,
+    "y": 64
+  },
+  "license": "CC-BY-SA-3.0",
+  "copyright": "take in https://github.com/wall-nerds/wallening/tree/stable/icons/turf/walls",
+  "states": [
+    {
+      "name": "boss0",
+      "directions": 4
+    },
+    {
+      "name": "boss1",
+      "directions": 4
+    },
+    {
+      "name": "boss2",
+      "directions": 4
+    },
+    {
+      "name": "boss3",
+      "directions": 4
+    },
+    {
+      "name": "boss4",
+      "directions": 4
+    },
+    {
+      "name": "boss5",
+      "directions": 4
+    },
+    {
+      "name": "boss6",
+      "directions": 4
+    },
+    {
+      "name": "boss7",
+      "directions": 4
+    },
+    {
+      "name": "full"
+    }
+  ]
+}

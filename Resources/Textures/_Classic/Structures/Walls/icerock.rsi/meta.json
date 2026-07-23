@@ -1,0 +1,46 @@
+{
+  "version": 1,
+  "size": {
+    "x": 32,
+    "y": 64
+  },
+  "license": "CC-BY-SA-3.0",
+  "copyright": "take in https://github.com/wall-nerds/wallening/tree/stable/icons/turf/walls",
+  "states": [
+    {
+      "name": "icerock0",
+      "directions": 4
+    },
+    {
+      "name": "icerock1",
+      "directions": 4
+    },
+    {
+      "name": "icerock2",
+      "directions": 4
+    },
+    {
+      "name": "icerock3",
+      "directions": 4
+    },
+    {
+      "name": "icerock4",
+      "directions": 4
+    },
+    {
+      "name": "icerock5",
+      "directions": 4
+    },
+    {
+      "name": "icerock6",
+      "directions": 4
+    },
+    {
+      "name": "icerock7",
+      "directions": 4
+    },
+    {
+      "name": "full"
+    }
+  ]
+}

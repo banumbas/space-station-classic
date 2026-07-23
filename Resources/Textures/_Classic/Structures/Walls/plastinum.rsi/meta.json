@@ -1,0 +1,46 @@
+{
+  "version": 1,
+  "size": {
+    "x": 32,
+    "y": 64
+  },
+  "license": "CC-BY-SA-3.0",
+  "copyright": "take in https://github.com/wall-nerds/wallening/tree/stable/icons/turf/walls",
+  "states": [
+    {
+      "name": "plastinum0",
+      "directions": 4
+    },
+    {
+      "name": "plastinum1",
+      "directions": 4
+    },
+    {
+      "name": "plastinum2",
+      "directions": 4
+    },
+    {
+      "name": "plastinum3",
+      "directions": 4
+    },
+    {
+      "name": "plastinum4",
+      "directions": 4
+    },
+    {
+      "name": "plastinum5",
+      "directions": 4
+    },
+    {
+      "name": "plastinum6",
+      "directions": 4
+    },
+    {
+      "name": "plastinum7",
+      "directions": 4
+    },
+    {
+      "name": "full"
+    }
+  ]
+}

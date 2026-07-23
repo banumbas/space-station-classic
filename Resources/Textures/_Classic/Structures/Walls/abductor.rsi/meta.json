@@ -1,0 +1,46 @@
+{
+  "version": 1,
+  "size": {
+    "x": 32,
+    "y": 64
+  },
+  "license": "CC-BY-SA-3.0",
+  "copyright": "take in https://github.com/wall-nerds/wallening/tree/stable/icons/turf/walls",
+  "states": [
+    {
+      "name": "abductor0",
+      "directions": 4
+    },
+    {
+      "name": "abductor1",
+      "directions": 4
+    },
+    {
+      "name": "abductor2",
+      "directions": 4
+    },
+    {
+      "name": "abductor3",
+      "directions": 4
+    },
+    {
+      "name": "abductor4",
+      "directions": 4
+    },
+    {
+      "name": "abductor5",
+      "directions": 4
+    },
+    {
+      "name": "abductor6",
+      "directions": 4
+    },
+    {
+      "name": "abductor7",
+      "directions": 4
+    },
+    {
+      "name": "full"
+    }
+  ]
+}

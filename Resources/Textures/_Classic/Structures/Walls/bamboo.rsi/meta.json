@@ -1,0 +1,46 @@
+{
+  "version": 1,
+  "size": {
+    "x": 32,
+    "y": 64
+  },
+  "license": "CC-BY-SA-3.0",
+  "copyright": "take in https://github.com/wall-nerds/wallening/tree/stable/icons/turf/walls",
+  "states": [
+    {
+      "name": "bamboo0",
+      "directions": 4
+    },
+    {
+      "name": "bamboo1",
+      "directions": 4
+    },
+    {
+      "name": "bamboo2",
+      "directions": 4
+    },
+    {
+      "name": "bamboo3",
+      "directions": 4
+    },
+    {
+      "name": "bamboo4",
+      "directions": 4
+    },
+    {
+      "name": "bamboo5",
+      "directions": 4
+    },
+    {
+      "name": "bamboo6",
+      "directions": 4
+    },
+    {
+      "name": "bamboo7",
+      "directions": 4
+    },
+    {
+      "name": "full"
+    }
+  ]
+}
