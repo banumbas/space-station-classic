@@ -284,19 +284,9 @@
   placementMode: SnapgridCenter
   canRotate: false
 
-- type: construction
-  id: WindowDiagonal
-  name: construction-window-diagonal
-  graph: WindowDiagonal
-  startNode: start
-  targetNode: windowDiagonal
-  category: construction-category-structures
-  canBuildInImpassable: true
-  conditions:
-    - !type:EmptyOrWindowValidInTile
-    - !type:NoWindowsInTile
-  objectType: Structure
-  placementMode: SnapgridCenter
+# Classic-Start
+# Diagonal windows are intentionally unavailable from construction.
+# Classic-End
 
 - type: construction
   id: ReinforcedWindow
@@ -312,19 +302,9 @@
   placementMode: SnapgridCenter
   canRotate: false
 
-- type: construction
-  id: ReinforcedWindowDiagonal
-  name: construction-recipe-reinforced-window-diagonal
-  graph: WindowDiagonal
-  startNode: start
-  targetNode: reinforcedWindowDiagonal
-  category: construction-category-structures
-  canBuildInImpassable: true
-  conditions:
-    - !type:EmptyOrWindowValidInTile
-    - !type:NoWindowsInTile
-  objectType: Structure
-  placementMode: SnapgridCenter
+# Classic-Start
+# Reinforced diagonal windows are intentionally unavailable from construction.
+# Classic-End
 
 - type: construction
   id: TintedWindow
@@ -354,19 +334,9 @@
   placementMode: SnapgridCenter
   canRotate: false
 
-- type: construction
-  id: ClockworkWindowDiagonal
-  name: construction-recipe-clockwork-window-diagonal
-  graph: WindowDiagonal
-  startNode: start
-  targetNode: clockworkWindowDiagonal
-  category: construction-category-structures
-  canBuildInImpassable: true
-  conditions:
-    - !type:EmptyOrWindowValidInTile
-    - !type:NoWindowsInTile
-  objectType: Structure
-  placementMode: SnapgridCenter
+# Classic-Start
+# Clockwork diagonal windows are intentionally unavailable from construction.
+# Classic-End
 
 - type: construction
   id: PlasmaWindow
@@ -410,33 +380,9 @@
   placementMode: SnapgridCenter
   canRotate: false
 
-- type: construction
-  id: PlasmaWindowDiagonal
-  name: construction-recipe-plasma-window-diagonal
-  graph: WindowDiagonal
-  startNode: start
-  targetNode: plasmaWindowDiagonal
-  category: construction-category-structures
-  canBuildInImpassable: true
-  conditions:
-    - !type:EmptyOrWindowValidInTile
-    - !type:NoWindowsInTile
-  objectType: Structure
-  placementMode: SnapgridCenter
-
-- type: construction
-  id: ReinforcedPlasmaWindowDiagonal
-  name: construction-recipe-reinforced-plasma-window-diagonal
-  graph: WindowDiagonal
-  startNode: start
-  targetNode: reinforcedPlasmaWindowDiagonal
-  category: construction-category-structures
-  canBuildInImpassable: true
-  conditions:
-    - !type:EmptyOrWindowValidInTile
-    - !type:NoWindowsInTile
-  objectType: Structure
-  placementMode: SnapgridCenter
+# Classic-Start
+# Plasma diagonal windows are intentionally unavailable from construction.
+# Classic-End
 
 - type: construction
   id: WindowDirectional
@@ -503,88 +449,9 @@
   objectType: Structure
   placementMode: SnapgridCenter
 
-- type: construction
-  id: UraniumWindow
-  graph: Window
-  startNode: start
-  targetNode: uraniumWindow
-  category: construction-category-structures
-  canBuildInImpassable: true
-  conditions:
-    - !type:EmptyOrWindowValidInTile
-    - !type:NoWindowsInTile
-  objectType: Structure
-  placementMode: SnapgridCenter
-  canRotate: false
-
-- type: construction
-  id: ReinforcedUraniumWindow
-  graph: Window
-  startNode: start
-  targetNode: reinforcedUraniumWindow
-  category: construction-category-structures
-  canBuildInImpassable: true
-  conditions:
-    - !type:EmptyOrWindowValidInTile
-    - !type:NoWindowsInTile
-  objectType: Structure
-  placementMode: SnapgridCenter
-  canRotate: false
-
-
-- type: construction
-  id: UraniumWindowDiagonal
-  name: construction-recipe-uranium-window-diagonal
-  graph: WindowDiagonal
-  startNode: start
-  targetNode: uraniumWindowDiagonal
-  category: construction-category-structures
-  canBuildInImpassable: true
-  conditions:
-    - !type:EmptyOrWindowValidInTile
-    - !type:NoWindowsInTile
-  objectType: Structure
-  placementMode: SnapgridCenter
-
-- type: construction
-  id: ReinforcedUraniumWindowDiagonal
-  name: construction-recipe-reinforced-uranium-window-diagonal
-  graph: WindowDiagonal
-  startNode: start
-  targetNode: reinforcedUraniumWindowDiagonal
-  category: construction-category-structures
-  canBuildInImpassable: true
-  conditions:
-    - !type:EmptyOrWindowValidInTile
-    - !type:NoWindowsInTile
-  objectType: Structure
-  placementMode: SnapgridCenter
-
-- type: construction
-  id: UraniumWindowDirectional
-  graph: WindowDirectional
-  startNode: start
-  targetNode: uraniumWindowDirectional
-  category: construction-category-structures
-  canBuildInImpassable: true
-  conditions:
-    - !type:EmptyOrWindowValidInTile
-    - !type:NoWindowsInTile
-  objectType: Structure
-  placementMode: SnapgridCenter
-
-- type: construction
-  id: UraniumReinforcedWindowDirectional
-  graph: WindowDirectional
-  startNode: start
-  targetNode: uraniumReinforcedWindowDirectional
-  category: construction-category-structures
-  canBuildInImpassable: true
-  conditions:
-    - !type:EmptyOrWindowValidInTile
-    - !type:NoWindowsInTile
-  objectType: Structure
-  placementMode: SnapgridCenter
+# Classic-Start
+# Uranium window construction prototypes are intentionally omitted.
+# Classic-End
 
 - type: construction
   id: Firelock

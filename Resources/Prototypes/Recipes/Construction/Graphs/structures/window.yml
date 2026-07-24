@@ -28,17 +28,9 @@
               amount: 2
               doAfter: 3
 
-        - to: uraniumWindow
-          steps:
-            - material: UraniumGlass
-              amount: 2
-              doAfter: 2
-
-        - to: reinforcedUraniumWindow
-          steps:
-            - material: ReinforcedUraniumGlass
-              amount: 2
-              doAfter: 3
+        # Classic-Start
+        # Uranium windows are intentionally unavailable from construction.
+        # Classic-End
 
         - to: window
           steps:
@@ -53,6 +45,17 @@
             - material: ReinforcedGlass
               amount: 2
               doAfter: 4
+
+        # Classic-Start
+        - to: paperWindowFixing
+          steps:
+            - material: WoodPlank
+              amount: 1
+              doAfter: 1
+            - material: Paper
+              amount: 1
+              doAfter: 1
+        # Classic-End
 
         - to: clockworkWindow
           steps:
@@ -254,3 +257,112 @@
               doAfter: 4
             - tool: Anchoring
               doAfter: 1
+
+    # Classic-Start
+    - node: titaniumWindow
+      entity: TitaniumWindow
+      edges:
+        - to: start
+          completed:
+            - !type:GivePrototype
+              prototype: SheetRGlass1
+              amount: 2
+            - !type:GivePrototype
+              prototype: SheetPlasteel1
+              amount: 2
+            - !type:DeleteEntity {}
+          steps:
+            - tool: Welding
+              doAfter: 8
+            - tool: Screwing
+              doAfter: 2
+            - tool: Prying
+              doAfter: 3
+            - tool: Welding
+              doAfter: 7
+            - tool: Anchoring
+              doAfter: 1
+
+    - node: frostedWindow
+      entity: FrostedWindow
+      edges:
+        - to: window
+          steps:
+            - tool: Welding
+              doAfter: 3
+
+    - node: paperWindowFixing
+      entity: PaperWindowFixing
+      edges:
+        - to: paperWindow
+          steps:
+            - material: Paper
+              amount: 1
+              doAfter: 1
+        - to: start
+          completed:
+            - !type:GivePrototype
+              prototype: MaterialWoodPlank1
+              amount: 1
+            - !type:GivePrototype
+              prototype: SheetPaper1
+              amount: 1
+            - !type:DeleteEntity {}
+          steps:
+            - tool: Prying
+              doAfter: 1
+
+    - node: paperWindow
+      entity: PaperWindow
+      edges:
+        - to: start
+          completed:
+            - !type:GivePrototype
+              prototype: MaterialWoodPlank1
+              amount: 1
+            - !type:GivePrototype
+              prototype: SheetPaper1
+              amount: 2
+            - !type:DeleteEntity {}
+          steps:
+            - tool: Prying
+              doAfter: 2
+
+    - node: paperWindowTorn
+      entity: PaperWindowTorn
+      edges:
+        - to: paperWindowTornFixing
+          steps:
+            - material: Paper
+              amount: 1
+              doAfter: 1
+        - to: start
+          completed:
+            - !type:GivePrototype
+              prototype: MaterialWoodPlank1
+              amount: 1
+            - !type:GivePrototype
+              prototype: SheetPaper1
+              amount: 1
+            - !type:DeleteEntity {}
+          steps:
+            - tool: Prying
+              doAfter: 1
+
+    - node: paperWindowTornFixing
+      entity: PaperWindowTornFixing
+      edges:
+        - to: paperWindow
+          steps:
+            - material: Paper
+              amount: 1
+              doAfter: 1
+        - to: paperWindowTorn
+          completed:
+            - !type:GivePrototype
+              prototype: SheetPaper1
+              amount: 1
+          steps:
+            - tool: Prying
+              doAfter: 1
+    # Classic-End

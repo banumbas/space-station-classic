@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "size": {
+    "x": 32,
+    "y": 64
+  },
+  "license": "CC-BY-SA-3.0",
+  "copyright": "take in https://github.com/wall-nerds/wallening/tree/stable/icons/obj/smooth_structures/windows",
+  "states": [
+    {
+      "name": "DamageOverlay_5"
+    },
+    {
+      "name": "DamageOverlay_10"
+    },
+    {
+      "name": "DamageOverlay_20"
+    }
+  ]
+}

@@ -13,33 +13,9 @@
   placementMode: SnapgridCenter
   canRotate: false
 
-- type: construction
-  id: BarWindowDiagonal
-  name: construction-bar-window-diagonal
-  graph: BarWindowDiagonal
-  startNode: start
-  targetNode: barwindowdiagonal
-  category: construction-category-structures
-  canBuildInImpassable: true
-  conditions:
-    - !type:EmptyOrWindowValidInTile
-    - !type:NoWindowsInTile
-  objectType: Structure
-  placementMode: SnapgridCenter
-
-- type: construction
-  id: BarAltWindowDiagonal
-  name: construction-bar-window-diagonal-alt
-  graph: BarWindowDiagonal
-  startNode: start
-  targetNode: baraltwindowdiagonal
-  category: construction-category-structures
-  canBuildInImpassable: true
-  conditions:
-    - !type:EmptyOrWindowValidInTile
-    - !type:NoWindowsInTile
-  objectType: Structure
-  placementMode: SnapgridCenter
+# Classic-Start
+# Bar diagonal windows are intentionally unavailable from construction.
+# Classic-End
 
 #railings
 #region Steel

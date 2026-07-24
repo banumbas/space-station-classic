@@ -3,48 +3,7 @@
   start: start
   graph:
     - node: start
-      edges:
-        - to: plasmaWindowDiagonal
-          steps:
-            - material: PlasmaGlass
-              amount: 2
-              doAfter: 2
-
-        - to: reinforcedWindowDiagonal
-          steps:
-            - material: ReinforcedGlass
-              amount: 2
-              doAfter: 2
-
-        - to: reinforcedPlasmaWindowDiagonal
-          steps:
-            - material: ReinforcedPlasmaGlass
-              amount: 2
-              doAfter: 3
-
-        - to: uraniumWindowDiagonal
-          steps:
-            - material: UraniumGlass
-              amount: 2
-              doAfter: 2
-
-        - to: reinforcedUraniumWindowDiagonal
-          steps:
-            - material: ReinforcedUraniumGlass
-              amount: 2
-              doAfter: 3
-
-        - to: clockworkWindowDiagonal
-          steps:
-            - material: ClockworkGlass
-              amount: 2
-              doAfter: 3
-
-        - to: windowDiagonal
-          steps:
-            - material: Glass
-              amount: 2
-              doAfter: 3
+      edges: [] # Classic-Edit - all diagonal windows are deconstruction-only.
 
     - node: windowDiagonal
       entity: WindowDiagonal

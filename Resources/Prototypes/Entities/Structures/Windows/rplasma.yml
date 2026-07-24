@@ -4,10 +4,11 @@
   parent: [BaseDeltaPressureReinforcedPlasma, WindowRCDResistant]
   components:
   - type: Sprite
-    drawdepth: WallTops
-    sprite: Structures/Windows/reinforced_plasma_window.rsi
+    drawdepth: Overdoors # Classic-Edit
+    sprite: _Classic/Structures/Windows/plasma_reinforced_window.rsi # Classic-Edit
   - type: Icon
-    sprite: Structures/Windows/reinforced_plasma_window.rsi
+    sprite: _Classic/Structures/Windows/plasma_reinforced_window.rsi # Classic-Edit
+    state: full # Classic-Edit
   - type: Damageable
     damageContainer: StructuralInorganic
     damageModifierSet: RGlass
@@ -42,7 +43,7 @@
       - !type:DoActsBehavior
         acts: [ "Destruction" ]
   - type: IconSmooth
-    base: rpwindow
+    base: plasma_reinforced_window # Classic-Edit
   - type: Construction
     graph: Window
     node: reinforcedPlasmaWindow
@@ -52,7 +53,7 @@
     damageDivisor: 6
     trackAllDamage: true
     damageOverlay:
-      sprite: Structures/Windows/cracks.rsi
+      sprite: _Classic/Structures/Windows/window_damage.rsi # Classic-Edit
   - type: StaticPrice
     price: 132
 
