@@ -2,37 +2,74 @@
 using Robust.Client.GameObjects;
 using Robust.Shared.Map.Components;
 using Robust.Shared.Map.Enumerators;
+using Robust.Client.Graphics;
+using Robust.Shared.Maths;
+using Robust.Shared.GameObjects;
 
 namespace Content.Client.IconSmoothing;
 
 public sealed partial class IconSmoothSystem
 {
+    [Dependency] private readonly IEyeManager _eyeManager = default!;
+    [Dependency] private readonly SharedTransformSystem _transform = default!;
+
     internal bool TryGetClassicUpperLayers(
         Entity<SpriteComponent> sprite,
-        out int northEast,
-        out int northWest)
+        out int corner1,
+        out int corner2)
     {
-        northEast = 0;
-        northWest = 0;
+        var angle = _transform.GetWorldRotation(sprite.Owner) + _eyeManager.CurrentEye.Rotation;
+        var rotation = angle.GetCardinalDir();
+        CornerLayers c1, c2;
+
+        switch (rotation)
+        {
+            case Direction.South:
+                c1 = CornerLayers.NE;
+                c2 = CornerLayers.NW;
+                break;
+            case Direction.East:
+                c1 = CornerLayers.NE;
+                c2 = CornerLayers.SE;
+                break;
+            case Direction.North:
+                c1 = CornerLayers.SE;
+                c2 = CornerLayers.SW;
+                break;
+            case Direction.West:
+                c1 = CornerLayers.NW;
+                c2 = CornerLayers.SW;
+                break;
+            default:
+                c1 = CornerLayers.NE;
+                c2 = CornerLayers.NW;
+                break;
+        }
+
+        corner1 = 0;
+        corner2 = 0;
 
         return _sprite.LayerMapTryGet(
                    sprite.AsNullable(),
-                   CornerLayers.NE,
-                   out northEast,
+                   c1,
+                   out corner1,
                    false) &&
                _sprite.LayerMapTryGet(
                    sprite.AsNullable(),
-                   CornerLayers.NW,
-                   out northWest,
+                   c2,
+                   out corner2,
                    false);
     }
 
     internal bool HasClassicNorthNeighbour(Entity<IconSmoothComponent> source)
     {
-        if (!TryComp(source, out TransformComponent? transform) ||
+        var xformQuery = GetEntityQuery<TransformComponent>();
+        var gridQuery = GetEntityQuery<MapGridComponent>();
+
+        if (!xformQuery.TryGetComponent(source, out var transform) ||
             !transform.Anchored ||
             transform.GridUid is not { } gridUid ||
-            !TryComp(gridUid, out MapGridComponent? grid))
+            !gridQuery.TryGetComponent(gridUid, out var grid))
         {
             return false;
         }
@@ -42,21 +79,46 @@ public sealed partial class IconSmoothSystem
             grid,
             transform.Coordinates);
 
+        var gridAngle = _transform.GetWorldRotation(gridUid) + _eyeManager.CurrentEye.Rotation;
+        var gridRotation = gridAngle.GetCardinalDir();
+        Direction topDir;
+
+        switch (gridRotation)
+        {
+            case Direction.South:
+                topDir = Direction.North;
+                break;
+            case Direction.East:
+                topDir = Direction.East;
+                break;
+            case Direction.North:
+                topDir = Direction.South;
+                break;
+            case Direction.West:
+                topDir = Direction.West;
+                break;
+            default:
+                topDir = Direction.North;
+                break;
+        }
+
         return HasMatchingClassicNeighbour(
             source.Comp,
             _mapSystem.GetAnchoredEntitiesEnumerator(
                 gridUid,
                 grid,
-                position.Offset(Direction.North)));
+                position.Offset(topDir)));
     }
 
     private bool HasMatchingClassicNeighbour(
         IconSmoothComponent source,
         AnchoredEntitiesEnumerator candidates)
     {
+        var smoothQuery = GetEntityQuery<IconSmoothComponent>();
+
         while (candidates.MoveNext(out var candidate))
         {
-            if (!TryComp(candidate, out IconSmoothComponent? other) ||
+            if (!smoothQuery.TryGetComponent(candidate, out var other) ||
                 other.SmoothKey == null ||
                 !other.Enabled ||
                 (other.SmoothKey != source.SmoothKey &&
