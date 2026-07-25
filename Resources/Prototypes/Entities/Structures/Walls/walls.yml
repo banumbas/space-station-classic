@@ -140,8 +140,11 @@
   id: WallClock
   name: clock wall
   components:
+  - type: SpriteFade # Classic-Edit
+    fadeTopOnly: true # Classic-Edit
   - type: Sprite
     sprite: _Classic/Structures/Walls/clockwork.rsi
+    drawdepth: Overdoors # Classic-Edit
   - type: Icon
     sprite: _Classic/Structures/Walls/clockwork.rsi
   - type: Construction
@@ -169,8 +172,11 @@
   id: WallClown
   name: bananium wall
   components:
+  - type: SpriteFade # Classic-Edit
+    fadeTopOnly: true # Classic-Edit
   - type: Sprite
     sprite: _Classic/Structures/Walls/bananium.rsi
+    drawdepth: Overdoors # Classic-Edit
   - type: Icon
     sprite: _Classic/Structures/Walls/bananium.rsi
   - type: Construction
@@ -218,8 +224,11 @@
     tags:
       - Wall
       - Structure
+  - type: SpriteFade # Classic-Edit
+    fadeTopOnly: true # Classic-Edit
   - type: Sprite
     sprite: _Classic/Structures/Walls/meat.rsi
+    drawdepth: Overdoors # Classic-Edit
   - type: Icon
     sprite: _Classic/Structures/Walls/meat.rsi
   - type: Construction
@@ -247,8 +256,11 @@
   id: WallCult
   name: cult wall
   components:
+  - type: SpriteFade # Classic-Edit
+    fadeTopOnly: true # Classic-Edit
   - type: Sprite
     sprite: _Classic/Structures/Walls/cult.rsi
+    drawdepth: Overdoors # Classic-Edit
   - type: Icon
     sprite: _Classic/Structures/Walls/cult.rsi
   - type: Destructible
@@ -277,8 +289,11 @@
   - type: Tag
     tags:
       - Wall
+  - type: SpriteFade # Classic-Edit
+    fadeTopOnly: true # Classic-Edit
   - type: Sprite
     sprite: _Classic/Structures/Walls/debug.rsi
+    drawdepth: Overdoors # Classic-Edit
   - type: Icon
     sprite: _Classic/Structures/Walls/debug.rsi
   - type: Destructible
@@ -305,8 +320,11 @@
   components:
   - type: Ricochetable
     chance: 1
+  - type: SpriteFade # Classic-Edit
+    fadeTopOnly: true # Classic-Edit
   - type: Sprite
     sprite: _Classic/Structures/Walls/diamond.rsi
+    drawdepth: Overdoors # Classic-Edit
   - type: Icon
     sprite: _Classic/Structures/Walls/diamond.rsi
   - type: RCDDeconstructable
@@ -335,8 +353,11 @@
   id: WallGold
   name: gold wall
   components:
+  - type: SpriteFade # Classic-Edit
+    fadeTopOnly: true # Classic-Edit
   - type: Sprite
     sprite: _Classic/Structures/Walls/gold.rsi
+    drawdepth: Overdoors # Classic-Edit
   - type: Icon
     sprite: _Classic/Structures/Walls/gold.rsi
   - type: Construction
@@ -414,8 +435,11 @@
   id: WallPlasma
   name: plasma wall
   components:
+  - type: SpriteFade # Classic-Edit
+    fadeTopOnly: true # Classic-Edit
   - type: Sprite
     sprite: _Classic/Structures/Walls/plasma.rsi
+    drawdepth: Overdoors # Classic-Edit
   - type: Icon
     sprite: _Classic/Structures/Walls/plasma.rsi
   - type: Construction
@@ -505,8 +529,11 @@
   components:
     - type: Ricochetable
       chance: 1
+    - type: SpriteFade # Classic-Edit
+      fadeTopOnly: true # Classic-Edit
     - type: Sprite
       sprite: _Classic/Structures/Walls/plastitanium.rsi
+      drawdepth: Overdoors # Classic-Edit
     - type: Icon
       sprite: _Classic/Structures/Walls/plastitanium.rsi
     - type: IconSmooth
@@ -629,6 +656,8 @@
     level: HardenedMetal
   - type: Ricochetable
     chance: 0.75
+  - type: SpriteFade # Classic-Edit
+    fadeTopOnly: true # Classic-Edit
   - type: Sprite
     sprite: _Classic/Structures/Walls/reinforced.rsi # Classic-Edit
     drawdepth: Overdoors # Classic-Edit
@@ -701,6 +730,7 @@
   components:
   - type: Sprite
     sprite: _Classic/Structures/Walls/rusty_reinforced.rsi
+    drawdepth: Overdoors # Classic-Edit
   - type: Icon
     sprite: _Classic/Structures/Walls/rusty_reinforced.rsi
     state: full
@@ -779,8 +809,11 @@
   id: WallRiveted
   name: riveted wall
   components:
+  - type: SpriteFade # Classic-Edit
+    fadeTopOnly: true # Classic-Edit
   - type: Sprite
     sprite: _Classic/Structures/Walls/riveted.rsi
+    drawdepth: Overdoors # Classic-Edit
   - type: Icon
     sprite: _Classic/Structures/Walls/riveted.rsi
   - type: Damageable
@@ -810,8 +843,11 @@
   id: WallSandstone
   name: sandstone wall
   components:
+  - type: SpriteFade # Classic-Edit
+    fadeTopOnly: true # Classic-Edit
   - type: Sprite
     sprite: _Classic/Structures/Walls/sandstone.rsi
+    drawdepth: Overdoors # Classic-Edit
   - type: Icon
     sprite: _Classic/Structures/Walls/sandstone.rsi
   - type: RCDDeconstructable
@@ -840,8 +876,11 @@
   id: WallSilver
   name: silver wall
   components:
+  - type: SpriteFade # Classic-Edit
+    fadeTopOnly: true # Classic-Edit
   - type: Sprite
     sprite: _Classic/Structures/Walls/silver.rsi
+    drawdepth: Overdoors # Classic-Edit
   - type: Icon
     sprite: _Classic/Structures/Walls/silver.rsi
   - type: Construction
@@ -981,8 +1020,11 @@
     price: 250
   - type: RadiationBlocker
     resistance: 5
+  - type: SpriteFade # Classic-Edit
+    fadeTopOnly: true # Classic-Edit
   - type: Sprite
     sprite: _Classic/Structures/Walls/shuttle.rsi
+    drawdepth: Overdoors # Classic-Edit
   - type: Icon
     sprite: _Classic/Structures/Walls/shuttle.rsi
     state: full
@@ -1026,7 +1068,10 @@
   id: WallSolid
   name: solid wall
   components:
-  - type: SpriteFade # Classic-Edit
+  # Classic-Start
+  - type: SpriteFade
+    fadeTopOnly: true
+  # Classic-End
   - type: Sprite
     sprite: _Classic/Structures/Walls/metal.rsi # Classic-Edit
     drawdepth: Overdoors # Classic-Edit
@@ -1110,6 +1155,7 @@
   components:
   - type: Sprite
     sprite: _Classic/Structures/Walls/rusty.rsi
+    drawdepth: Overdoors # Classic-Edit
   - type: Icon
     sprite: _Classic/Structures/Walls/rusty.rsi
     state: full
@@ -1279,8 +1325,11 @@
   components:
   - type: Ricochetable
     chance: 1
+  - type: SpriteFade # Classic-Edit
+    fadeTopOnly: true # Classic-Edit
   - type: Sprite
     sprite: _Classic/Structures/Walls/uranium.rsi
+    drawdepth: Overdoors # Classic-Edit
   - type: Icon
     sprite: _Classic/Structures/Walls/uranium.rsi
   - type: Construction
@@ -1333,8 +1382,11 @@
   components:
   - type: Ricochetable
     chance: 0
+  - type: SpriteFade # Classic-Edit
+    fadeTopOnly: true # Classic-Edit
   - type: Sprite
     sprite: _Classic/Structures/Walls/wood.rsi
+    drawdepth: Overdoors # Classic-Edit
   - type: Icon
     sprite: _Classic/Structures/Walls/wood.rsi
   - type: Construction
@@ -1426,8 +1478,11 @@
   id: WallNecropolis
   name: stone wall
   components:
+  - type: SpriteFade # Classic-Edit
+    fadeTopOnly: true # Classic-Edit
   - type: Sprite
     sprite: _Classic/Structures/Walls/necro.rsi
+    drawdepth: Overdoors # Classic-Edit
   - type: Icon
     sprite: _Classic/Structures/Walls/necro.rsi
   - type: Destructible
@@ -1447,8 +1502,11 @@
   id: WallMining
   name: mining wall
   components:
+  - type: SpriteFade # Classic-Edit
+    fadeTopOnly: true # Classic-Edit
   - type: Sprite
     sprite: _Classic/Structures/Walls/survival_pod.rsi
+    drawdepth: Overdoors # Classic-Edit
   - type: Icon
     sprite: _Classic/Structures/Walls/survival_pod.rsi
   - type: Destructible

@@ -1,0 +1,46 @@
+{
+  "version": 1,
+  "size": {
+    "x": 32,
+    "y": 64
+  },
+  "license": "CC-BY-SA-3.0",
+  "copyright": "take in https://github.com/wall-nerds/wallening/tree/stable/icons/obj/smooth_structures",
+  "states": [
+    {
+      "name": "grille_damaged0",
+      "directions": 4
+    },
+    {
+      "name": "grille_damaged1",
+      "directions": 4
+    },
+    {
+      "name": "grille_damaged2",
+      "directions": 4
+    },
+    {
+      "name": "grille_damaged3",
+      "directions": 4
+    },
+    {
+      "name": "grille_damaged4",
+      "directions": 4
+    },
+    {
+      "name": "grille_damaged5",
+      "directions": 4
+    },
+    {
+      "name": "grille_damaged6",
+      "directions": 4
+    },
+    {
+      "name": "grille_damaged7",
+      "directions": 4
+    },
+    {
+      "name": "full"
+    }
+  ]
+}

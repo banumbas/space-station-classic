@@ -9,6 +9,7 @@
     - Window
   components:
   - type: SpriteFade # Classic-Edit
+    fadeTopOnly: true # Classic-Edit
   - type: Anchorable
     flags:
     - Anchorable

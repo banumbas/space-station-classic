@@ -1,0 +1,6 @@
+# Example:
+# #  yyyy-mm-dd
+# ItemIdFrom: ItemIdTo - Change item
+# ItemIdFrom: null - Removes item from map
+
+Grille: ClassicGrille

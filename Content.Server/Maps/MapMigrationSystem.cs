@@ -27,7 +27,8 @@ public sealed partial class MapMigrationSystem : EntitySystem
     private static readonly string[] _migrationFiles =
     [
         "/migration.yml",
-        "/_Starlight/migration.yml"
+        "/_Starlight/migration.yml",
+        "/_Classic/migration.yml"
     ];
 
     public override void Initialize()

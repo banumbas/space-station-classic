@@ -32,6 +32,7 @@
       path: /Audio/Effects/glass_knock.ogg
   - type: Appearance
   - type: SpriteFade # Classic-Edit
+    fadeTopOnly: true # Classic-Edit
   - type: StaticPrice
     price: 100
   - type: BlockWeather

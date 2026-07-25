@@ -50,6 +50,10 @@ public sealed partial class SpriteFadeSystem : EntitySystem
         _fixturesQuery = GetEntityQuery<FixturesComponent>();
 
         SubscribeLocalEvent<FadingSpriteComponent, ComponentShutdown>(OnFadingShutdown);
+
+        // Classic-Start
+        InitializeClassic();
+        // Classic-End
     }
 
     private void OnFadingShutdown(EntityUid uid, FadingSpriteComponent component, ComponentShutdown args)
@@ -87,10 +91,13 @@ public sealed partial class SpriteFadeSystem : EntitySystem
                 // Also want to handle large entities even if they may not be clickable.
                 foreach (var ent in state.GetClickableEntities(mapPos, excludeFaded: false))
                 {
+                    // Classic-Start
                     if (ent == player ||
-                        !_fadeQuery.HasComponent(ent) ||
+                        !_fadeQuery.TryComp(ent, out var fade) ||
+                        IsClassicTopFade(fade) ||
                         !_spriteQuery.TryGetComponent(ent, out var sprite) ||
                         sprite.DrawDepth < playerSprite.DrawDepth)
+                    // Classic-End
                     {
                         continue;
                     }
@@ -172,6 +179,9 @@ public sealed partial class SpriteFadeSystem : EntitySystem
         var change = ChangeRate * frameTime;
 
         FadeIn(change);
+        // Classic-Start
+        UpdateClassicFade(change);
+        // Classic-End
         FadeOut(change);
 
         _comps.Clear();

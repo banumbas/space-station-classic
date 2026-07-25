@@ -9,6 +9,7 @@
   components:
   - type: Sprite
     sprite: _Classic/Structures/Walls/bamboo.rsi
+    drawdepth: Overdoors
   - type: Icon
     sprite: _Classic/Structures/Walls/bamboo.rsi
   - type: IconSmooth
@@ -22,6 +23,7 @@
   components:
   - type: Sprite
     sprite: _Classic/Structures/Walls/iced_metal.rsi
+    drawdepth: Overdoors
   - type: Icon
     sprite: _Classic/Structures/Walls/iced_metal.rsi
   - type: Construction
@@ -38,6 +40,7 @@
   components:
   - type: Sprite
     sprite: _Classic/Structures/Walls/iron.rsi
+    drawdepth: Overdoors
   - type: Icon
     sprite: _Classic/Structures/Walls/iron.rsi
   - type: Ricochetable
@@ -91,6 +94,7 @@
   components:
   - type: Sprite
     sprite: _Classic/Structures/Walls/material.rsi
+    drawdepth: Overdoors
   - type: Icon
     sprite: _Classic/Structures/Walls/material.rsi
   - type: IconSmooth
@@ -104,6 +108,7 @@
   components:
   - type: Sprite
     sprite: _Classic/Structures/Walls/paperframe.rsi
+    drawdepth: Overdoors
   - type: Icon
     sprite: _Classic/Structures/Walls/paperframe.rsi
   - type: Construction
@@ -140,6 +145,7 @@
   components:
   - type: Sprite
     sprite: _Classic/Structures/Walls/paper.rsi
+    drawdepth: Overdoors
   - type: Icon
     sprite: _Classic/Structures/Walls/paper.rsi
   - type: Ricochetable
@@ -178,6 +184,7 @@
   components:
   - type: Sprite
     sprite: _Classic/Structures/Walls/pizza.rsi
+    drawdepth: Overdoors
   - type: Icon
     sprite: _Classic/Structures/Walls/pizza.rsi
   - type: Construction

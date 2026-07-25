@@ -7,6 +7,7 @@
   components:
   - type: Sprite
     sprite: _Classic/Structures/Walls/bathroom.rsi
+    drawdepth: Overdoors
   - type: Icon
     sprite: _Classic/Structures/Walls/bathroom.rsi
   - type: IconSmooth
@@ -20,6 +21,7 @@
   components:
   - type: Sprite
     sprite: _Classic/Structures/Walls/boss.rsi
+    drawdepth: Overdoors
   - type: Icon
     sprite: _Classic/Structures/Walls/boss.rsi
   - type: IconSmooth
@@ -33,6 +35,7 @@
   components:
   - type: Sprite
     sprite: _Classic/Structures/Walls/hierophant.rsi
+    drawdepth: Overdoors
   - type: Icon
     sprite: _Classic/Structures/Walls/hierophant.rsi
   - type: IconSmooth
@@ -46,6 +49,7 @@
   components:
   - type: Sprite
     sprite: _Classic/Structures/Walls/hotel_door.rsi
+    drawdepth: Overdoors
   - type: Icon
     sprite: _Classic/Structures/Walls/hotel_door.rsi
   - type: IconSmooth
@@ -59,6 +63,7 @@
   components:
   - type: Sprite
     sprite: _Classic/Structures/Walls/hotel.rsi
+    drawdepth: Overdoors
   - type: Icon
     sprite: _Classic/Structures/Walls/hotel.rsi
   - type: IconSmooth
