@@ -131,8 +131,8 @@ public sealed partial class VampireSystem : EntitySystem
                 continue;
 
             var elapsed = comp.LastUpdate == TimeSpan.Zero
-                ? (float) comp.UpdateDelay.TotalSeconds
-                : MathF.Max(0f, (float) (now - comp.LastUpdate).TotalSeconds);
+                ? (float)comp.UpdateDelay.TotalSeconds
+                : MathF.Max(0f, (float)(now - comp.LastUpdate).TotalSeconds);
 
             comp.LastUpdate = now;
             comp.NextUpdate = now + comp.UpdateDelay;
@@ -162,7 +162,10 @@ public sealed partial class VampireSystem : EntitySystem
             return;
         }
 
-        if (!IsInSpace(xform))
+        // Classic-Start
+        var daylightMultiplier = GetPlanetDaylightMultiplier(uid, xform);
+        if (!IsInSpace(xform) && daylightMultiplier <= 0.0)
+        // Classic-End
         {
             ResetSpaceExposure(sunlight);
             return;
@@ -223,16 +226,24 @@ public sealed partial class VampireSystem : EntitySystem
 
     private bool ProcessSpaceExposureTick(EntityUid uid, VampireComponent vampire, VampireSunlightComponent sunlight)
     {
+        // Classic-Start
+        var multiplier = GetPlanetDaylightMultiplier(uid, Transform(uid));
+        if (multiplier <= 0.0 && !IsInSpace(Transform(uid)))
+            return true;
+
+        if (multiplier <= 0.0)
+            multiplier = 1.0;
+        // Classic-End
+
         var hadBlood = vampire.DrunkBlood > 0;
 
         if (hadBlood)
         {
-            DrainBlood(uid, vampire, sunlight);
-
+            DrainBlood(uid, vampire, sunlight, multiplier); // Classic-Edit
         }
         else
         {
-            if (!ApplyGeneticSpaceDamage(uid, sunlight))
+            if (!ApplyGeneticSpaceDamage(uid, sunlight, multiplier)) // Classic-Edit
                 return false;
         }
 
@@ -241,26 +252,29 @@ public sealed partial class VampireSystem : EntitySystem
         var healthy = IsAboveHalfHealth(uid, damageable, thresholds);
 
         var chance = hadBlood ? sunlight.BloodEffectChance : sunlight.BloodlessEffectChance;
-        TryApplySpaceDamage(uid, healthy, chance, sunlight);
+        TryApplySpaceDamage(uid, healthy, chance * (float)multiplier, sunlight, multiplier); // Classic-Edit
 
         return true;
     }
 
-    private void DrainBlood(EntityUid uid, VampireComponent vampire, VampireSunlightComponent sunlight)
+    // Classic-Start
+    private void DrainBlood(EntityUid uid, VampireComponent vampire, VampireSunlightComponent sunlight, double multiplier = 1.0)
     {
-        var drain = Math.Min(sunlight.BloodDrainPerInterval, vampire.DrunkBlood);
+        var scaledDrain = (int)(sunlight.BloodDrainPerInterval * multiplier);
+        var drain = Math.Min(scaledDrain, vampire.DrunkBlood);
+        // Classic-End
         if (drain <= 0)
             return;
 
         TrySpendBlood(uid, vampire, drain, showPopup: false);
     }
 
-    private bool ApplyGeneticSpaceDamage(EntityUid uid, VampireSunlightComponent sunlight)
+    private bool ApplyGeneticSpaceDamage(EntityUid uid, VampireSunlightComponent sunlight, double multiplier = 1.0) // Classic-Edit
     {
         if (!_proto.TryIndex<DamageGroupPrototype>(_geneticGroupId, out var damageGroup))
             return true;
 
-        var spec = new DamageSpecifier(damageGroup, sunlight.GeneticDamagePerInterval);
+        var spec = new DamageSpecifier(damageGroup, sunlight.GeneticDamagePerInterval * (float)multiplier); // Classic-Edit
         _damageableSystem.TryChangeDamage(uid, spec, true);
 
         if (!TryComp(uid, out DamageableComponent? damageable) ||
@@ -279,7 +293,7 @@ public sealed partial class VampireSystem : EntitySystem
         return false;
     }
 
-    private void TryApplySpaceDamage(EntityUid uid, bool isHealthy, float chance, VampireSunlightComponent sunlight)
+    private void TryApplySpaceDamage(EntityUid uid, bool isHealthy, float chance, VampireSunlightComponent sunlight, double multiplier = 1.0) // Classic-Edit
     {
         if (!_rand.Prob(Math.Clamp(chance, 0f, 1f)))
             return;
@@ -288,7 +302,7 @@ public sealed partial class VampireSystem : EntitySystem
         {
             if (_proto.TryIndex(_heatTypeId, out var heat))
             {
-                var spec = new DamageSpecifier(heat, sunlight.BurnDamage);
+                var spec = new DamageSpecifier(heat, sunlight.BurnDamage * (float)multiplier); // Classic-Edit
                 _damageableSystem.TryChangeDamage(uid, spec, true);
             }
         }
@@ -373,7 +387,7 @@ public sealed partial class VampireSystem : EntitySystem
         if (comp.BloodFullness <= 0f && comp.StarvationDrunkBloodDrainPerSecond > 0 && comp.DrunkBlood > 0)
         {
             comp.StarvationDrunkBloodDrainAccumulator += comp.StarvationDrunkBloodDrainPerSecond * elapsed;
-            var drained = Math.Min(comp.DrunkBlood, (int) comp.StarvationDrunkBloodDrainAccumulator);
+            var drained = Math.Min(comp.DrunkBlood, (int)comp.StarvationDrunkBloodDrainAccumulator);
             if (drained <= 0)
                 return changed;
 
