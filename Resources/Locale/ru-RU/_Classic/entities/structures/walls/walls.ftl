@@ -1,7 +1,7 @@
 ent-ClassicWallRock = скала
     .desc = Каменная стена
     .suffix = карта планеты
-ent-ClassicWallRock2 = вариант каменной стены
+ent-ClassicWallRock2 = скала
 ent-ClassicWallSnow = снежная стена
 ent-ClassicWallIcerock = ледяная каменная стена
 ent-ClassicWallRedRock = красная каменная стена

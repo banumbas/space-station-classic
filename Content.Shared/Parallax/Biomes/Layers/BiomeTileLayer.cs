@@ -24,6 +24,20 @@ public sealed partial class BiomeTileLayer : IBiomeLayer
     [DataField]
     public List<byte>? Variants = null;
 
+    /// <summary>
+    /// Which tiles this layer is allowed to override. If specified, it will evaluate lower layers to ensure they yield one of these tiles before spawning.
+    /// </summary>
+    [DataField("allowedTiles")]
+    public List<ProtoId<ContentTileDefinition>>? AllowedTiles;
+
+    // Classic-Start
+    /// <summary>
+    /// If greater than 0, this tile layer will not spawn within this distance from the grid origin (0,0).
+    /// </summary>
+    [DataField]
+    public float MinDistance = 0f;
+    // Classic-End
+
     [DataField(required: true)]
     public ProtoId<ContentTileDefinition> Tile = string.Empty;
 }
