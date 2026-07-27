@@ -20,8 +20,9 @@
           "/Audio/Weapons/smash.ogg"
   - type: InteractionOutline
   - type: Sprite
-    sprite: Structures/Doors/Airlocks/Standard/basic.rsi
-    snapCardinals: true
+    sprite: _Classic/Structures/Doors/Airlocks/Standard/basic.rsi
+    snapCardinals: false
+    drawdepth: Overdoors
     layers:
     - state: closed
       map: ["enum.DoorVisualLayers.Base"]
@@ -44,8 +45,8 @@
       shader: unshaded
       visible: false
       map: ["enum.ElectrifiedLayers.HUD"]
-    - state: electrified
-      sprite: Effects/electricity.rsi
+    - state: sparks
+      sprite: _Classic/Effects/airlock_electrified.rsi
       shader: unshaded
       visible: false
       map: ["enum.ElectrifiedLayers.Sparks"]
@@ -75,6 +76,8 @@
   - type: AccessReader
     containerAccessProvider: board
   - type: Door
+    openDrawDepth: Overdoors
+    closedDrawDepth: Overdoors
     crushDamage:
       types:
         Blunt: 15
@@ -212,7 +215,7 @@
   - type: Occluder
     enabled: false
   - type: Sprite
-    sprite: Structures/Doors/Airlocks/Glass/glass.rsi
+    sprite: _Classic/Structures/Doors/Airlocks/Glass/basic.rsi
   - type: AnimationPlayer
   - type: Fixtures
     fixtures:

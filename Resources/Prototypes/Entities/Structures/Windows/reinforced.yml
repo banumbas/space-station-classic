@@ -67,10 +67,10 @@
     - Window
   components:
   - type: Sprite
-    sprite: Structures/Windows/directional.rsi
+    sprite: _Classic/Structures/Windows/Directional/reinforced.rsi
     state: reinforced_window
   - type: Icon
-    sprite: Structures/Windows/directional.rsi
+    sprite: _Classic/Structures/Windows/Directional/reinforced.rsi
     state: reinforced_window
   - type: Construction
     graph: WindowDirectional

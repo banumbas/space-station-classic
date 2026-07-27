@@ -65,10 +65,10 @@
     - Window
   components:
   - type: Sprite
-    sprite: Structures/Windows/directional.rsi
+    sprite: _Classic/Structures/Windows/Directional/plasma.rsi
     state: plasma_window
   - type: Icon
-    sprite: Structures/Windows/directional.rsi
+    sprite: _Classic/Structures/Windows/Directional/plasma.rsi
     state: plasma_window
   - type: Construction
     graph: WindowDirectional

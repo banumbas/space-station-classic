@@ -6,7 +6,8 @@
   components:
   - type: InteractionOutline
   - type: Sprite
-    sprite: Structures/Doors/Windoors/windoor.rsi
+    sprite: _Classic/Structures/Doors/Windoors/windoor.rsi
+    drawdepth: Overdoors
     layers:
     - state: assembly
   - type: Physics
@@ -56,7 +57,7 @@
   parent: WindoorAssembly
   components:
   - type: Sprite
-    sprite: Structures/Doors/Windoors/windoor.rsi
+    sprite: _Classic/Structures/Doors/Windoors/windoor.rsi
     layers:
     - state: secure_underlay
     - state: assembly
@@ -227,4 +228,3 @@
   - type: Construction
     graph: Windoor
     node: uglassSecure
-

@@ -39,8 +39,9 @@
         - !type:DoActsBehavior
           acts: ["Destruction"]
     - type: Sprite
-      sprite: Structures/Doors/Airlocks/Standard/firelock.rsi
-      snapCardinals: true
+      sprite: _Classic/Structures/Doors/Airlocks/Standard/firelock.rsi
+      snapCardinals: false
+      drawdepth: Overdoors
       layers:
         - state: closed
           map: ["enum.DoorVisualLayers.Base"]
@@ -87,7 +88,8 @@
           layer:
           - AirlockLayer
     - type: Door
-      openDrawDepth: WallTops
+      openDrawDepth: Overdoors
+      closedDrawDepth: Overdoors
       closeTimeOne: 0.1
       closeTimeTwo: 0.6
       openTimeOne: 0.1
@@ -173,7 +175,7 @@
   components:
     - type: StationAiWhitelist
     - type: Sprite
-      sprite: Structures/Doors/Airlocks/Glass/firelock.rsi
+      sprite: _Classic/Structures/Doors/Airlocks/Glass/firelock.rsi
     - type: Occluder
       enabled: false
     - type: Fixtures
@@ -199,7 +201,7 @@
   components:
     - type: StationAiWhitelist
     - type: Sprite
-      sprite: Structures/Doors/edge_door_hazard.rsi
+      sprite: _Classic/Structures/Doors/edge_door_hazard.rsi
       snapCardinals: false
     - type: Airtight
       airBlocked: false

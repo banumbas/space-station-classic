@@ -1,0 +1,15 @@
+{
+    "version":  1,
+    "license":  "CC-BY-SA-3.0",
+    "copyright":  "Converted from wall-nerds/wallening directional window DMI",
+    "size":  {
+                 "x":  32,
+                 "y":  64
+             },
+    "states":  [
+                   {
+                       "name":  "pod_window",
+                       "directions":  4
+                   }
+               ]
+}
