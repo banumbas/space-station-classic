@@ -9,6 +9,8 @@ using Content.Shared.Speech;
 using Content.Shared.StatusEffectNew.Components;
 using Content.Shared.Stunnable;
 using Robust.Shared.Player;
+using Content.Shared._Classic.ZLevels.Core.EntitySystems;
+using Content.Shared.Gravity;
 
 namespace Content.Shared.StatusEffectNew;
 
@@ -16,6 +18,12 @@ public sealed partial class StatusEffectsSystem
 {
     private void InitializeRelay()
     {
+        //Classic zone
+        SubscribeLocalEvent<StatusEffectContainerComponent, ClassicCheckGravityEvent>(RelayStatusEffectEvent);
+        SubscribeLocalEvent<StatusEffectContainerComponent, ClassicGetZVelocityEvent>(RefRelayStatusEffectEvent);
+        SubscribeLocalEvent<StatusEffectContainerComponent, IsWeightlessEvent>(RefRelayStatusEffectEvent);
+        //Classic zone end
+
         SubscribeLocalEvent<StatusEffectContainerComponent, LocalPlayerAttachedEvent>(RelayStatusEffectEvent);
         SubscribeLocalEvent<StatusEffectContainerComponent, LocalPlayerDetachedEvent>(RelayStatusEffectEvent);
         SubscribeLocalEvent<StatusEffectContainerComponent, RejuvenateEvent>(RelayStatusEffectEvent);

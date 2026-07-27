@@ -23,6 +23,24 @@
             prefixCreator: '14'
         - type: StationEmergencyShuttle
           emergencyShuttlePath: /Maps/_Starlight/Shuttles/emergency_lox.yml
+        - type: ClassicStationZLevels
+          mapsBelow: []
+          mapsAbove:
+          - /Maps/Test/empty.yml
+          zLevelsComponentOverrides:
+            - type: MapAtmosphere
+              space: False
+              mixture:
+                volume: 2500
+                immutable: True
+                temperature: 293.15
+                moles:
+                  Oxygen: 21.824879
+                  Nitrogen: 82.10312
+            - type: Parallax
+              parallax: Dirt
+            - type: ClassicZLevelRoof
+            - type: ClassicGridStability
         - type: StationJobs
           availableJobs:
             #command

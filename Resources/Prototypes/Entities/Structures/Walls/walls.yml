@@ -63,6 +63,7 @@
   parent: BaseStructureWall
   id: BaseWall
   components:
+  - type: ClassicGridStabilitySupport
   - type: Occluder # Breaks on diagonal walls
 
 - type: entity

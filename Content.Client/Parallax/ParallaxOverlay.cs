@@ -1,6 +1,8 @@
 using System.Numerics;
 using Content.Client.Parallax.Managers;
+using Content.Client.Viewport;
 using Content.Client.Weather;
+using Content.Shared._Classic.ZLevels.Core.EntitySystems;
 using Content.Shared._Starlight.Weather;
 using Content.Shared.CCVar;
 using Content.Shared.Parallax.Biomes;
@@ -29,6 +31,7 @@ public sealed partial class ParallaxOverlay : Overlay
     private readonly WeatherSystem _weather; // SL
     private readonly SpriteSystem _sprite; // SL
     private readonly StatusEffectsSystem _statusEffects; // SL
+    private readonly ClassicSharedZLevelsSystem _zLevel; //Classic
     private HashSet<Entity<ParallaxStatusEffectComponent, StatusEffectComponent>>? _parallaxSet = new(); // SL
 
     public override OverlaySpace Space => OverlaySpace.WorldSpaceBelowWorld;
@@ -42,6 +45,7 @@ public sealed partial class ParallaxOverlay : Overlay
         _weather = _entManager.System<WeatherSystem>(); // SL
         _sprite = _entManager.System<SpriteSystem>(); // SL
         _statusEffects = _entManager.System<StatusEffectsSystem>(); // SL
+        _zLevel = _entManager.System<ClassicSharedZLevelsSystem>(); //Classic
     }
 
     protected override bool BeforeDraw(in OverlayDrawArgs args)
@@ -49,7 +53,12 @@ public sealed partial class ParallaxOverlay : Overlay
         if (args.MapId == MapId.Nullspace || _entManager.HasComponent<BiomeComponent>(_mapSystem.GetMapOrInvalid(args.MapId)))
             return false;
 
-        return true;
+        //Classic draw parallax only for lowest zlevel
+        if (args.Viewport.Eye is ScalingViewport.ZEye zEye)
+            return zEye.LowestDepth == zEye.Depth;
+        else
+            return !_zLevel.TryMapDown(args.MapUid, out _);
+        //Classic end
     }
 
     protected override void Draw(in OverlayDrawArgs args)

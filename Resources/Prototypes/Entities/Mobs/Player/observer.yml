@@ -61,6 +61,7 @@
   - type: LanguageSpeaker # Starlight
   - type: UniversalLanguageSpeaker # Starlight
   - type: DarkLight # Starlight
+  - type: ClassicZLevelGhostMover
   - type: ActiveRadio
     receiveAllChannels: true
     globalReceive: true

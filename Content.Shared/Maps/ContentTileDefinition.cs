@@ -90,7 +90,7 @@ namespace Content.Shared.Maps
         [DataField("heatCapacity")] public float HeatCapacity = Atmospherics.MinimumHeatCapacity;
 
         [DataField("itemDrop", customTypeSerializer:typeof(PrototypeIdSerializer<EntityPrototype>))]
-        public string ItemDropPrototypeName { get; private set; } = "FloorTileItemSteel";
+        public string? ItemDropPrototypeName { get; private set; } //Classic nullable
 
         // TODO rename data-field in yaml
         /// <summary>
@@ -122,9 +122,20 @@ namespace Content.Shared.Maps
         /// </summary>
         [DataField("indestructible")] public bool Indestructible = false;
 
+        /// <summary>
+        ///     Hide this tile in the tile placement editor.
+        /// </summary>
+        [DataField] public bool EditorHidden { get; private set; } = true; //Classic
+
         public void AssignTileId(ushort id)
         {
             TileId = id;
         }
+
+        /// <summary>
+        /// Classic: used for lightning calculation through zlevels
+        /// </summary>
+        [DataField]
+        public bool Transparent = false;
     }
 }

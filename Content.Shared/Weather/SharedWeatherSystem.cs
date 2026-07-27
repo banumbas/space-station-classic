@@ -4,6 +4,7 @@ using Content.Shared.Light.EntitySystems;
 using Content.Shared.Maps;
 using Content.Shared.StatusEffectNew;
 using Content.Shared.StatusEffectNew.Components;
+using Content.Shared._Classic.ZLevels.Core.EntitySystems;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Map;
 using Robust.Shared.Map.Components;
@@ -21,6 +22,7 @@ public abstract partial class SharedWeatherSystem : EntitySystem
     [Dependency] private SharedMapSystem _mapSystem = default!;
     [Dependency] private SharedRoofSystem _roof = default!;
     [Dependency] private StatusEffectsSystem _statusEffects = default!;
+    [Dependency] private ClassicSharedZLevelsSystem _zLevel = default!; //Classic
 
     private EntityQuery<BlockWeatherComponent> _blockQuery;
     private EntityQuery<WeatherStatusEffectComponent> _weatherQuery;
@@ -38,13 +40,16 @@ public abstract partial class SharedWeatherSystem : EntitySystem
 
     public bool CanWeatherAffect(Entity<MapGridComponent?, RoofComponent?> ent, TileRef tileRef)
     {
-        if (tileRef.Tile.IsEmpty)
-            return true;
+        //if (tileRef.Tile.IsEmpty) //Classic - we can have space tiles under roofs on zLevel above
+        //    return true;
 
         if (!Resolve(ent, ref ent.Comp1))
             return false;
 
         if (Resolve(ent, ref ent.Comp2, false) && _roof.IsRooved((ent, ent.Comp1, ent.Comp2), tileRef.GridIndices))
+            return false;
+
+        if (_zLevel.HasTileAbove(tileRef.GridIndices, (ent.Owner, null))) //Classic - we need also custom check for zLevel roofs above empty (unrooved by roofSystem) tiles
             return false;
 
         var tileDef = (ContentTileDefinition)_tileDefManager[tileRef.Tile.TypeId];
