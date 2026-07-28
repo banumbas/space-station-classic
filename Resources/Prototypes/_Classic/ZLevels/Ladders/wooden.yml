@@ -30,18 +30,9 @@
   - ClassicZLevelLadderBase
   - ClassicZLevelsLadderWoodenBase
   id: ClassicZLevelLadderWooden
-  components:
-  - type: Construction
-    graph: ClassicZLevelLadderWooden
-    node: ClassicZLevelLadderWooden
-
 - type: entity
   parent:
   - ClassicZLevelLadderCornerBase
   - ClassicZLevelsLadderWoodenBase
   id: ClassicZLevelLadderWoodenCorner
   suffix: Corner
-  components:
-  - type: Construction
-    graph: ClassicZLevelLadderWooden
-    node: ClassicZLevelLadderWoodenCorner

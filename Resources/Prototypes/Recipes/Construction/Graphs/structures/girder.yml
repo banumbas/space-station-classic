@@ -90,6 +90,7 @@
             - !type:EntityAnchored {}
           steps:
             - tag: Pizza
+              name: ent-FoodPizzaBase
               doAfter: 2
         # Classic-End
 

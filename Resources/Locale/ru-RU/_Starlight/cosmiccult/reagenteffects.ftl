@@ -1,7 +1,7 @@
 reagent-effect-guidebook-cleanse-cultist =
-    { $шанс ->
+    { $chance ->
     [1] очищает
-    *[другое] очищение
+    *[other] очищение
     } потусторонние влияния
 
 entropy-effect-numb = Вы чувствуете себя жутко онемевшим.

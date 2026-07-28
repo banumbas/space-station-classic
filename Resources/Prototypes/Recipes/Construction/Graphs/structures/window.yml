@@ -260,7 +260,7 @@
 
     # Classic-Start
     - node: titaniumWindow
-      entity: TitaniumWindow
+      entity: ClassicTitaniumWindow
       edges:
         - to: start
           completed:
@@ -284,7 +284,7 @@
               doAfter: 1
 
     - node: frostedWindow
-      entity: FrostedWindow
+      entity: ClassicFrostedWindow
       edges:
         - to: window
           steps:
@@ -292,7 +292,7 @@
               doAfter: 3
 
     - node: paperWindowFixing
-      entity: PaperWindowFixing
+      entity: ClassicPaperWindowFixing
       edges:
         - to: paperWindow
           steps:
@@ -313,7 +313,7 @@
               doAfter: 1
 
     - node: paperWindow
-      entity: PaperWindow
+      entity: ClassicPaperWindow
       edges:
         - to: start
           completed:
@@ -329,7 +329,7 @@
               doAfter: 2
 
     - node: paperWindowTorn
-      entity: PaperWindowTorn
+      entity: ClassicPaperWindowTorn
       edges:
         - to: paperWindowTornFixing
           steps:
@@ -350,7 +350,7 @@
               doAfter: 1
 
     - node: paperWindowTornFixing
-      entity: PaperWindowTornFixing
+      entity: ClassicPaperWindowTornFixing
       edges:
         - to: paperWindow
           steps:

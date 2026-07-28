@@ -27,29 +27,15 @@
   - ClassicZLevelLadderBase
   - ClassicZLevelsLadderStoneBase
   id: ClassicZLevelLadderStone
-  components:
-  - type: Construction
-    graph: ClassicZLevelLadderStone
-    node: ClassicZLevelLadderStone
-
 - type: entity
   parent:
   - ClassicZLevelLadderCornerBase
   - ClassicZLevelsLadderStoneBase
   id: ClassicZLevelLadderStoneCorner
   suffix: Corner
-  components:
-  - type: Construction
-    graph: ClassicZLevelLadderStone
-    node: ClassicZLevelLadderStoneCorner
-
 - type: entity
   parent:
   - ClassicZLevelLadderCornerInnerBase
   - ClassicZLevelsLadderStoneBase
   id: ClassicZLevelLadderStoneCornerInner
   suffix: Inner Corner
-  components:
-  - type: Construction
-    graph: ClassicZLevelLadderStone
-    node: ClassicZLevelLadderStoneCornerInner

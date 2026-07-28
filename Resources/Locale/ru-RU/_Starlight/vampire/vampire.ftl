@@ -143,7 +143,7 @@ vampire-subspace-swap-failed = Подпространственный разло
 vampire-subspace-swap-success = Пространство искривляется, когда вы меняетесь местами с {CAPITALIZE(THE($target))}!
 vampire-subspace-swap-target = Реальность искажается и вас рвёт в новое положение!
 
-vampire-rally-thralls-success = {$счет ->
+vampire-rally-thralls-success = {$count ->
     [one] Ваш призыв вернет на вашу сторону раба!
     *[other] Ваш призыв мобилизует {$count} обратно на вашу сторону!
 }

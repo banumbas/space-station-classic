@@ -15,8 +15,6 @@ loadout-group-assistant-backpack = Помощник рюкзак
 loadout-group-boxer-jumpsuit = Боксёрский комбинезон
 loadout-group-boxer-gloves = Боксерские перчатки
 
-loadout-group-reporter-head = Репортер руководитель
-
 loadout-group-musician-head = Музыкант голова
 
 # Command

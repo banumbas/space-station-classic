@@ -66,7 +66,7 @@ public sealed partial class ClassicZCollapseSystem : EntitySystem
         },
     };
 
-    private static readonly EntProtoId CollapseDustEffect = "CEDustTileEffect";
+    private static readonly EntProtoId CollapseDustEffect = "ClassicDustEffect";
 
     private static readonly SoundSpecifier CollapseSound = new SoundPathSpecifier("/Audio/Magic/rumble.ogg");
 

@@ -81,7 +81,7 @@
   - !type:TileNotBlocked
 
 - type: construction
-  id: PaperWindow
+  id: ClassicPaperWindow
   graph: Window
   startNode: start
   targetNode: paperWindow

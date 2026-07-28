@@ -4,8 +4,6 @@ command-description-radio-remcustom =
     Удалите пользовательский канал с заданным идентификатором из указанного компонента в передаваемом объекте.
 command-description-container-insertentity =
     Вставляет заданный объект в указанный контейнер в передаваемом объекте.
-command-description-container-insert =
-    Вставляет переданные по конвейеру объекты в указанный контейнер указанного объекта.
 command-description-container-create =
     Создает новый контейнер в передаваемом объекте.
 command-description-container-createslot =
@@ -18,8 +16,6 @@ command-description-container-dropandget =
     Удаляет все содержащиеся сущности из указанного контейнера в передаваемой по конвейеру сущности и возвращает все удаленные элементы вместо переданной по конвейеру сущности.
 command-description-container-dropanddelete =
     Удаляет все содержащиеся объекты из указанного контейнера в передаваемом по конвейеру объекте, а затем удаляет контейнер.
-command-description-container-get =
-    Получает объект-контейнер с заданным идентификатором контейнера в передаваемом объекте.
 command-description-container-getentities =
     Получает все объекты в заданном контейнере в передаваемом объекте.
 command-description-container-getcontaining =
