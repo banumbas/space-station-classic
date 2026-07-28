@@ -1,4 +1,4 @@
-accent-nerd-replaced-1 = шлюзовая камера
+accent-nerd-replaced-1 = шлюз
 accent-nerd-replacement-1 = дверной проем для выравнивания атмосферного давления
 
 accent-nerd-replaced-2 = дверь
@@ -88,50 +88,50 @@ accent-nerd-replacement-29 = авангард
 accent-nerd-replaced-30 = главный герой
 accent-nerd-replacement-30 = главный герой
 
-accent-nerd-replaced-31 = robust
-accent-nerd-replacement-31 = resilient
+accent-nerd-replaced-31 = робаст
+accent-nerd-replacement-31 = устойчивый
 
-accent-nerd-replaced-32 = window
-accent-nerd-replacement-32 = visual purviewer
+accent-nerd-replaced-32 = окно
+accent-nerd-replacement-32 = визуальный обозреватель
 
-accent-nerd-replaced-33 = captain
-accent-nerd-replacement-33 = grand admiral
+accent-nerd-replaced-33 = кэп
+accent-nerd-replacement-33 = гранд-адмирал
 
-accent-nerd-replaced-34 = anomaly
-accent-nerd-replacement-34 = aberration
+accent-nerd-replaced-34 = аномалия
+accent-nerd-replacement-34 = аберрация
 
-accent-nerd-replaced-35 = artifact
-accent-nerd-replacement-35 = tangible instantiation
+accent-nerd-replaced-35 = артефакт
+accent-nerd-replacement-35 = материализованный объект
 
-accent-nerd-replaced-36 = borg
-accent-nerd-replacement-36 = cybernetic organism
+accent-nerd-replaced-36 = борг
+accent-nerd-replacement-36 = кибернетический организм
 
-accent-nerd-replaced-37 = bot
-accent-nerd-replacement-37 = cybernetic organism
+accent-nerd-replaced-37 = бот
+accent-nerd-replacement-37 = кибернетический организм
 
-accent-nerd-replaced-38 = ai
-accent-nerd-replacement-38 = artificial intelligence
+accent-nerd-replaced-38 = ии
+accent-nerd-replacement-38 = искусственный интеллект
 
-accent-nerd-replaced-39 = jetpack
-accent-nerd-replacement-39 = personal flight module
+accent-nerd-replaced-39 = джетпак
+accent-nerd-replacement-39 = персональный летный модуль
 
-accent-nerd-replaced-40 = pda
-accent-nerd-replacement-40 = personal digital assistant
+accent-nerd-replaced-40 = кпк
+accent-nerd-replacement-40 = персональный цифровой помощник
 
-accent-nerd-replaced-41 = scientist
-accent-nerd-replacement-41 = empirical investigator
+accent-nerd-replaced-41 = ученый
+accent-nerd-replacement-41 = эмпирический исследователь
 
-accent-nerd-replaced-42 = roboticist
-accent-nerd-replacement-42 = aficionado of autonomous mechatronics
+accent-nerd-replaced-42 = робототехник
+accent-nerd-replacement-42 = поклонник автономной мехатроники
 
-accent-nerd-replaced-43 = RD
-accent-nerd-replacement-43 = principal investigator of research endeavors
+accent-nerd-replaced-43 = РД
+accent-nerd-replacement-43 = главный исследователь научных инициатив
 
-accent-nerd-replaced-44 = secoff
-accent-nerd-replacement-44 = sentient firewall entity
+accent-nerd-replaced-44 = офицер
+accent-nerd-replacement-44 = разумный межсетевой экран
 
-accent-nerd-replaced-45 = cargo
-accent-nerd-replacement-45 = the logistics and procurement department
+accent-nerd-replaced-45 = карго
+accent-nerd-replacement-45 = отдел логистики и снабжения
 
 accent-nerd-replaced-46 = кухня
 accent-nerd-replacement-46 = гастрономическая лаборатория

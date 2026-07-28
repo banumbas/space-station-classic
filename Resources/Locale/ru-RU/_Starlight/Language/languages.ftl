@@ -67,7 +67,7 @@ language-VoxPidgin-description = Общий язык различных кора
 language-Zombie-name = Зомби
 language-Zombie-description = Мозги... Брааааааааа..
 
-language-CodeSpeak-name = CodeSpeak
+language-CodeSpeak-name = Код-спик
 language-CodeSpeak-description = Оперативники синдиката могут использовать серию кодовых слов для передачи сложной информации, при этом для любого, кто их слушает, это звучит как случайные понятия и напитки.
 
 language-Carptongue-name = Карптонг

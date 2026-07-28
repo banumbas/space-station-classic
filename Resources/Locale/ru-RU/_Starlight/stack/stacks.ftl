@@ -45,7 +45,7 @@ stack-ornate-floor = богато украшенный пол
 stack-rough-metal-floor = грубый металлический пол
 stack-rusty-metal-floor = ржавый металлический пол
 stack-steel-grate-floor = пол из стальной решетки
-stack-tech-greeb-floor = tech maints Greeb Floor
+stack-tech-greeb-floor = технический пол Гриб
 
 stack-bluespacecrystal = {$amount ->
     [1] синее пространство
