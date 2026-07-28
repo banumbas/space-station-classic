@@ -1,0 +1,59 @@
+- type: entity
+  parent: VendingMachine
+  id: ClassicPointsVendorBase
+  abstract: true
+  components:
+  - type: ClassicAutomatedVendor
+    pointsType: Points
+    sound:
+      path: /Audio/Machines/machine_vend.ogg
+  - type: ActivatableUI
+    key: enum.ClassicAutomatedVendorUI.Key
+  - type: UserInterface
+    interfaces:
+      enum.ClassicAutomatedVendorUI.Key:
+        type: ClassicAutomatedVendorBui
+
+- type: entity
+  parent: ClassicPointsVendorBase
+  id: ClassicTestPointsVendor
+  name: test points vendor
+  description: A test vendor for spending points.
+  components:
+  - type: Sprite
+    sprite: Structures/Machines/VendingMachines/general.rsi
+    layers:
+    - state: off
+      map: ["enum.VendingMachineVisualLayers.Base"]
+    - state: normal
+      map: ["enum.VendingMachineVisualLayers.BaseUnshaded"]
+      shader: unshaded
+  - type: ClassicAutomatedVendor
+    pointsType: null
+    userWhitelist:
+      components:
+      - ClassicVendorUser
+    sections:
+    - name: Weapons
+      entries:
+      - id: WeaponPistolViper
+        points: 50
+        name: Viper Pistol
+      - id: WeaponShotgunDoubleBarreled
+        points: 100
+        name: Double-Barreled Shotgun
+    - name: Ammo
+      entries:
+      - id: BoxMagazinePistolCaselessRubber
+        points: 10
+      - id: BoxShellShotgunLethal
+        points: 20
+
+- type: entity
+  parent: MobHuman
+  id: MobHumanPointsTest
+  name: points tester
+  suffix: Points
+  components:
+  - type: ClassicVendorUser
+    points: 150
