@@ -12,10 +12,6 @@
       components:
         - type: ClassicStationBiome
           biome: GrasslandsClassic
-          roofStationTiles: true
-          stationRoofTiles:
-            - Plating
-            - Lattice
         - type: StationNameSetup
           mapNameTemplate: '{0} Planet {1}'
           nameGenerator:
@@ -40,6 +36,7 @@
             - type: Parallax
               parallax: Dirt
             - type: ClassicZLevelRoof
+            - type: ClassicAutoGridGravity
             - type: ClassicGridStability
         - type: StationJobs
           availableJobs:

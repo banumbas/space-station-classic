@@ -5,7 +5,6 @@ using Content.Server.Station.Systems;
 using Content.Shared.Atmos;
 using Content.Shared.Gravity;
 using Content.Shared.Light.Components;
-using Content.Shared.Light.EntitySystems;
 using Content.Shared.Parallax;
 using Content.Shared.Parallax.Biomes;
 using Robust.Shared.Map;
@@ -25,10 +24,8 @@ public sealed partial class ClassicStationBiomeSystem : EntitySystem
     [Dependency] private AtmosphereSystem _atmosphere = default!;
     [Dependency] private BiomeSystem _biome = default!;
     [Dependency] private IPrototypeManager _proto = default!;
-    [Dependency] private SharedRoofSystem _roof = default!;
     [Dependency] private StationSystem _station = default!;
     [Dependency] private SharedMapSystem _map = default!;
-    [Dependency] private ITileDefinitionManager _tile = default!;
 
     public override void Initialize()
     {
@@ -81,31 +78,11 @@ public sealed partial class ClassicStationBiomeSystem : EntitySystem
         gravity.Inherent = true;
         Dirty(gridUid, gravity);
 
-        var roof = EnsureComp<RoofComponent>(gridUid);
+        EnsureComp<RoofComponent>(gridUid);
         RemCompDeferred<ImplicitRoofComponent>(gridUid);
-        SetupStationRoof(gridUid, grid, roof, component);
 
         EnsureComp<SunShadowComponent>(gridUid);
         EnsureComp<SunShadowCycleComponent>(gridUid);
-    }
-
-    private void SetupStationRoof(EntityUid gridUid, MapGridComponent grid, RoofComponent roof, ClassicStationBiomeComponent component)
-    {
-        if (!component.RoofStationTiles || component.StationRoofTiles.Count == 0)
-            return;
-
-        var tiles = _map.GetAllTilesEnumerator(gridUid, grid);
-        while (tiles.MoveNext(out var tileRef))
-        {
-            if (tileRef.Value.Tile.IsEmpty)
-                continue;
-
-            var tileDef = _tile[tileRef.Value.Tile.TypeId];
-            if (!component.StationRoofTiles.Contains(tileDef.ID))
-                continue;
-
-            _roof.SetRoof((gridUid, grid, roof), tileRef.Value.GridIndices, true);
-        }
     }
 
     private void SetupPlanetMap(EntityUid mapUid, ClassicStationBiomeComponent component)

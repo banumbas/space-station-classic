@@ -13,8 +13,17 @@ public sealed partial class ClassicAutoGridGravitySystem : EntitySystem
     public override void Initialize()
     {
         base.Initialize();
+        SubscribeLocalEvent<ClassicAutoGridGravityComponent, ComponentInit>(OnComponentInit);
         SubscribeLocalEvent<ClassicAutoGridGravityComponent, MapInitEvent>(OnComponentInit);
         SubscribeLocalEvent<GridInitializeEvent>(OnGridInit);
+    }
+
+    private void OnComponentInit(Entity<ClassicAutoGridGravityComponent> ent, ref ComponentInit args)
+    {
+        if (!_map.IsInitialized(ent.Owner))
+            return;
+
+        EnableMapGravity(ent.Owner);
     }
 
     // Fires when the component is added to the map entity.
@@ -25,12 +34,18 @@ public sealed partial class ClassicAutoGridGravitySystem : EntitySystem
         if (!TryComp<MapComponent>(ent, out var mapComp) || !_map.IsInitialized(ent.Owner))
             return;
 
-        foreach (var grid in _mapManager.GetAllGrids(mapComp.MapId))
-        {
-            EnableGravity(grid.Owner);
-        }
+        EnableMapGravity(ent.Owner, mapComp);
+    }
 
-        EnableGravity(ent);
+    private void EnableMapGravity(EntityUid mapUid, MapComponent? mapComp = null)
+    {
+        if (!TryComp(mapUid, out mapComp))
+            return;
+
+        foreach (var grid in _mapManager.GetAllGrids(mapComp.MapId))
+            EnableGravity(grid.Owner);
+
+        EnableGravity(mapUid);
     }
 
     // Fires for every grid that initializes. Handles both map-load time (component already on map)

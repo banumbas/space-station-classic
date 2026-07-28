@@ -24,6 +24,7 @@ public abstract partial class ClassicSharedZLevelsRoofSystem : EntitySystem
     [Dependency] protected ClassicSharedZLevelsSystem ZLevel = null!;
     [Dependency] protected SharedRoofSystem Roof = null!;
     [Dependency] protected SharedMapSystem Map = null!;
+    [Dependency] protected IMapManager MapManager = null!;
     [Dependency] protected ITileDefinitionManager TilDefMan = null!;
 
     [Dependency] protected EntityQuery<MapGridComponent> GridQuery = default!;
@@ -48,8 +49,14 @@ public abstract partial class ClassicSharedZLevelsRoofSystem : EntitySystem
         if (args.Changes.Length == 0)
             return;
 
-        if (ZMapQuery.TryComp(ent, out var zLevelMapComp))
-            OnMapTileChanged(ent, currentMapGrid, currentRoof, zLevelMapComp, args);
+        EntityUid? mapUid = null;
+        if (ZMapQuery.HasComp(ent))
+            mapUid = ent.Owner;
+        else if (XformQuery.TryGetComponent(ent, out var xform))
+            mapUid = xform.MapUid;
+
+        if (mapUid is { } map && ZMapQuery.TryComp(map, out var zLevelMapComp))
+            OnMapTileChanged(map, ent.Owner, currentMapGrid, currentRoof, zLevelMapComp, args);
         else
             OnGridTileChanged(ent, currentMapGrid, currentRoof, args);
     }
@@ -59,6 +66,7 @@ public abstract partial class ClassicSharedZLevelsRoofSystem : EntitySystem
     /// </summary>
     private void OnMapTileChanged(
         EntityUid mapUid,
+        EntityUid currentGridUid,
         MapGridComponent currentMapGrid,
         RoofComponent currentRoof,
         ClassicZMapComponent zLevelMapComp,
@@ -67,9 +75,35 @@ public abstract partial class ClassicSharedZLevelsRoofSystem : EntitySystem
         Dictionary<Vector2i, bool> roofMap = new();
         foreach (var change in args.Changes)
         {
-            var tileDef = (ContentTileDefinition)TilDefMan[change.NewTile.TypeId];
-            var roovedAbove = Roof.IsRooved((mapUid, currentMapGrid, currentRoof), change.GridIndices);
-            roofMap.Add(change.GridIndices, roovedAbove || !tileDef.Transparent);
+            var worldTile = ZLevel.GridTileToWorldTile(currentGridUid, currentMapGrid, change.GridIndices);
+            var newTileDef = (ContentTileDefinition)TilDefMan[change.NewTile.TypeId];
+            var covered = !change.NewTile.IsEmpty && !newTileDef.Transparent;
+
+            // Preserve an explicitly managed roof on the current tile when the
+            // changed tile itself did not replace it with an open tile.
+            if (!covered)
+                covered = Roof.IsRooved((currentGridUid, currentMapGrid, currentRoof), change.GridIndices);
+
+            if (TryComp<MapComponent>(mapUid, out var mapComponent))
+            {
+                foreach (var grid in MapManager.GetAllGrids(mapComponent.MapId))
+                {
+                    if (!TryWorldTileToLocalTile(grid.Owner, grid.Comp, worldTile, out var localTile))
+                        continue;
+
+                    if (!Map.TryGetTileRef(grid.Owner, grid.Comp, localTile, out var tileRef) || tileRef.Tile.IsEmpty)
+                        continue;
+
+                    var tileDef = (ContentTileDefinition)TilDefMan[tileRef.Tile.TypeId];
+                    if (!tileDef.Transparent)
+                    {
+                        covered = true;
+                        break;
+                    }
+                }
+            }
+
+            roofMap[worldTile] = covered;
         }
 
         var mapsBelow = ZLevel.GetAllMapsBelow((mapUid, zLevelMapComp));
@@ -78,17 +112,35 @@ public abstract partial class ClassicSharedZLevelsRoofSystem : EntitySystem
 
         foreach (var mapBelow in mapsBelow)
         {
-            if (!GridQuery.TryComp(mapBelow, out var mapGridBelow))
+            if (!TryComp<MapComponent>(mapBelow, out var mapComponentBelow))
                 continue;
 
-            var roofBelow = EnsureComp<RoofComponent>(mapBelow);
+            var ownSolidTiles = new HashSet<Vector2i>();
 
-            foreach (var (indices, rooved) in roofMap)
+            foreach (var (worldTile, rooved) in roofMap)
             {
-                Roof.SetRoof((mapBelow, mapGridBelow, roofBelow), indices, rooved);
+                foreach (var gridBelow in MapManager.GetAllGrids(mapComponentBelow.MapId))
+                {
+                    if (!TryWorldTileToLocalTile(gridBelow.Owner, gridBelow.Comp, worldTile, out var localTile))
+                        continue;
 
-                if (Map.TryGetTile(mapGridBelow, indices, out var tile) && !tile.IsEmpty)
-                    roofMap[indices] = true;
+                    if (!Map.TryGetTileRef(gridBelow.Owner, gridBelow.Comp, localTile, out var tileRef) || tileRef.Tile.IsEmpty)
+                        continue;
+
+                    var roofBelow = EnsureComp<RoofComponent>(gridBelow.Owner);
+                    EnsureComp<ClassicZLevelRoofComponent>(gridBelow.Owner);
+                    Roof.SetRoof((gridBelow.Owner, gridBelow.Comp, roofBelow), localTile, rooved);
+
+                    var tileDef = (ContentTileDefinition)TilDefMan[tileRef.Tile.TypeId];
+                    if (!tileDef.Transparent)
+                        ownSolidTiles.Add(worldTile);
+                }
+            }
+
+            foreach (var worldTile in ownSolidTiles)
+            {
+                if (roofMap.ContainsKey(worldTile))
+                    roofMap[worldTile] = true;
             }
         }
     }

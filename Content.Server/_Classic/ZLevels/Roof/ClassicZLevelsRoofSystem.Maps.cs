@@ -6,8 +6,11 @@
 using System.Linq;
 using Content.Server._Classic.ZLevels.Core;
 using Content.Shared._Classic.ZLevels.Core.Components;
+using Content.Shared._Classic.ZLevels.Roof;
 using Content.Shared.Light.Components;
 using Content.Shared.Maps;
+using Robust.Shared.Map;
+using Robust.Shared.Map.Components;
 
 namespace Content.Server._Classic.ZLevels.Roof;
 
@@ -27,32 +30,37 @@ public sealed partial class ClassicZLevelsRoofSystem
     {
         _roofMap.Clear();
 
-        List<EntityUid> sortedMaps = new();
-        foreach (var mapUid in network.Comp.ZLevels
-                     .OrderByDescending(kv => kv.Key) // depth sorting
+        foreach (var map in network.Comp.ZLevels
+                     .OrderByDescending(kv => kv.Key)
                      .Select(kv => kv.Value)
                      .Where(uid => uid.HasValue)
                      .Select(uid => uid!.Value))
         {
-            sortedMaps.Add(mapUid);
-        }
-
-        foreach (var map in sortedMaps)
-        {
-            if (!GridQuery.TryComp(map, out var mapGrid))
+            if (!TryComp<MapComponent>(map, out var mapComponent))
                 continue;
 
-            var enumerator = Map.GetAllTilesEnumerator(map, mapGrid);
-            var roofComp = EnsureComp<RoofComponent>(map);
-
-            while (enumerator.MoveNext(out var tileRef))
+            foreach (var grid in _mapManager.GetAllGrids(mapComponent.MapId))
             {
-                Roof.SetRoof((map, mapGrid, roofComp), tileRef.Value.GridIndices, _roofMap.Contains(tileRef.Value.GridIndices));
+                var gridUid = grid.Owner;
+                var roofComp = EnsureComp<RoofComponent>(gridUid);
+                EnsureComp<ClassicZLevelRoofComponent>(gridUid);
+                RemCompDeferred<ImplicitRoofComponent>(gridUid);
 
-                var tileDef = (ContentTileDefinition)TilDefMan[tileRef.Value.Tile.TypeId];
+                var enumerator = Map.GetAllTilesEnumerator(gridUid, grid.Comp);
+                while (enumerator.MoveNext(out var tileRef))
+                {
+                    var worldTile = ZLevel.GridTileToWorldTile(gridUid, grid.Comp, tileRef.Value.GridIndices);
+                    Roof.SetRoof((gridUid, grid.Comp, roofComp),
+                        tileRef.Value.GridIndices,
+                        _roofMap.Contains(worldTile));
 
-                if (!tileDef.Transparent)
-                    _roofMap.Add(tileRef.Value.GridIndices);
+                    if (tileRef.Value.Tile.IsEmpty)
+                        continue;
+
+                    var tileDef = (ContentTileDefinition)TilDefMan[tileRef.Value.Tile.TypeId];
+                    if (!tileDef.Transparent)
+                        _roofMap.Add(worldTile);
+                }
             }
         }
     }

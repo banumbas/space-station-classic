@@ -103,6 +103,7 @@
   - type: MobMover
   - type: MovementSpeedModifier
   - type: LagCompensation
+  - type: ClassicZPhysics
 
 - type: entity
   save: false

@@ -17,6 +17,9 @@
   - type: Physics
     bodyType: KinematicController
     bodyStatus: InAir
+  - type: ClassicZPhysics
+    autoStep: false
+    velocityGravity: false
   - type: CanMoveInAir
   - type: Fixtures
     fixtures:

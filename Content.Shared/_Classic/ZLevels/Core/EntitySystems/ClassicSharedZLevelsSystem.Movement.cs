@@ -221,15 +221,26 @@ public abstract partial class ClassicSharedZLevelsSystem
     public bool HasTileAbove(Vector2i indices, Entity<ClassicZMapComponent?> map)
     {
         if (!Resolve(map, ref map.Comp, false))
+        {
+            var mapUid = Transform(map.Owner).MapUid;
+            if (mapUid is null || !_zMapQuery.TryComp(mapUid.Value, out var mapComp))
+                return false;
+
+            map = (mapUid.Value, mapComp);
+        }
+
+        if (!_gridQuery.TryComp(map.Owner, out var currentGrid))
             return false;
 
         if (!TryMapUp(map, out var mapAboveUid))
             return false;
 
-        if (!_gridQuery.TryComp(mapAboveUid, out var mapAboveGrid))
+        var worldTile = GridTileToWorldTile(map.Owner, currentGrid, indices);
+        var worldPos = new Vector2(worldTile.X + 0.5f, worldTile.Y + 0.5f);
+        if (!_mapManager.TryFindGridAt(mapAboveUid, worldPos, out var mapAboveGridUid, out var mapAboveGrid))
             return false;
 
-        if (_map.TryGetTileRef(mapAboveUid, mapAboveGrid, indices, out var tileRef) &&
+        if (_map.TryGetTileRef(mapAboveGridUid, mapAboveGrid, worldPos, out var tileRef) &&
             !tileRef.Tile.IsEmpty)
             return true;
 
