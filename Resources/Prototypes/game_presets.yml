@@ -38,7 +38,7 @@
   description: all-at-once-description
   showInVote: false
   rules:
-    - Nukeops
+    - PMC
     - Traitor
     - Revolutionary
     - Zombie
@@ -71,7 +71,7 @@
   showInVote: false #Please god dont do this
   minPlayers: 50 # Starlight
   rules:
-    - Nukeops
+    - PMC
     - Traitor
     - Revolutionary
     - Zombie
@@ -210,15 +210,16 @@
 #Starlight end
 
 - type: gamePreset
-  id: Nukeops
+  id: PMC
   alias:
+    - pmc
     - nukeops
-  name: nukeops-title
-  description: nukeops-description
+  name: pmc-title
+  description: pmc-description
   minPlayers: 40
   showInVote: true # 🌟Starlight🌟
   rules:
-  - Nukeops
+  - PMC
   # - DummyNonAntagChance 🌟Starlight🌟
   - SubGamemodesRuleNuclearOperativeScaling # Starlight
   - BasicStationEventScheduler

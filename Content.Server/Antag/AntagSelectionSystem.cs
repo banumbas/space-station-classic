@@ -468,6 +468,18 @@ public sealed partial class AntagSelectionSystem : GameRuleSystem<AntagSelection
             return;
         }
 
+        // Classic-Start
+        if (!isSpawner)
+        {
+            // The following is where we apply components, equipment, and other changes to our antagonist entity.
+            EntityManager.AddComponents(player, def.Components);
+
+            // Starlight-start
+            _tag.AddTags(player, def.Tags);
+            // Starlight-end
+        }
+        // Classic-End
+
         // TODO: This is really messy because this part runs twice for midround events.
         // Once when the ghostrole spawner is created and once when a player takes it.
         // Therefore any component subscribing to this has to make sure both subscriptions return the same value
@@ -505,13 +517,6 @@ public sealed partial class AntagSelectionSystem : GameRuleSystem<AntagSelection
             spawnerComp.Definition = def;
             return;
         }
-
-        // The following is where we apply components, equipment, and other changes to our antagonist entity.
-        EntityManager.AddComponents(player, def.Components);
-
-        // Starlight-start
-        _tag.AddTags(player, def.Tags);
-        // Starlight-end
 
         // Equip the entity's RoleLoadout and LoadoutGroup
         List<ProtoId<StartingGearPrototype>> gear = new();

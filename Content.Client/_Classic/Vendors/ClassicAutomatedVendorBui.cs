@@ -123,6 +123,7 @@ public sealed class ClassicAutomatedVendorBui : BoundUserInterface
     {
         var msg = new ClassicVendorVendBuiMsg(sectionIndex, entryIndex);
         SendPredictedMessage(msg);
+        Refresh();
     }
 
     private void OnSearchChanged(LineEditEventArgs args)
@@ -161,16 +162,28 @@ public sealed class ClassicAutomatedVendorBui : BoundUserInterface
 
     public void Refresh()
     {
-        if (_window == null || _lastState == null)
+        if (_window == null)
             return;
 
         if (!EntMan.TryGetComponent(Owner, out ClassicAutomatedVendorComponent? vendor))
             return;
 
+        var user = _player.LocalEntity;
+        ClassicVendorUserComponent? userComp = user != null ? EntMan.GetComponentOrNull<ClassicVendorUserComponent>(user.Value) : null;
+
+        if (_lastState == null && userComp == null)
+            return;
+
+        var points = _lastState?.Points ?? userComp?.Points ?? 0;
+        var extraPoints = _lastState?.ExtraPoints ?? userComp?.ExtraPoints;
+        var choices = _lastState?.Choices ?? userComp?.Choices ?? new();
+        var takeAll = _lastState?.TakeAll ?? userComp?.TakeAll ?? new();
+        var takeOne = _lastState?.TakeOne ?? userComp?.TakeOne ?? new();
+
         var anyEntryWithPoints = false;
         var userPoints = vendor.PointsType == null
-            ? _lastState.Points
-            : _lastState.ExtraPoints?.GetValueOrDefault(vendor.PointsType) ?? 0;
+            ? points
+            : extraPoints?.GetValueOrDefault(vendor.PointsType) ?? 0;
 
         for (var sectionIndex = 0; sectionIndex < vendor.Sections.Count; sectionIndex++)
         {
@@ -182,9 +195,9 @@ public sealed class ClassicAutomatedVendorBui : BoundUserInterface
             var uiSection = (ClassicAutomatedVendorSection) _window.Sections.GetChild(sectionIndex);
             
             var sectionDisabled = false;
-            if (section.Choices is { } choices)
+            if (section.Choices is { } choicesDef)
             {
-                if (_lastState.Choices.GetValueOrDefault(choices.Id) >= choices.Amount)
+                if (choices.GetValueOrDefault(choicesDef.Id) >= choicesDef.Amount)
                 {
                     sectionDisabled = true;
                 }
@@ -203,26 +216,36 @@ public sealed class ClassicAutomatedVendorBui : BoundUserInterface
                 
                 if (section.TakeAll is { } takeAllId)
                 {
-                    if (_lastState.TakeAll.Contains((takeAllId, entry.Id.Id)))
+                    if (takeAll.Contains((takeAllId, entry.Id.Id)))
                         disabled = true;
                 }
                 if (section.TakeOne is { } takeOneId)
                 {
-                    if (_lastState.TakeOne.Contains(takeOneId))
+                    if (takeOne.Contains(takeOneId))
+                        disabled = true;
+                }
+                if (entry.Stock is { } stock)
+                {
+                    if (stock <= 0)
                         disabled = true;
                 }
 
-                if (entry.Points != null)
+                if (entry.Points != null && entry.Points.Value > 0)
                 {
                     anyEntryWithPoints = true;
                     uiEntry.Amount.Text = $"{entry.Points}P";
 
-                    if (userPoints < entry.Points)
+                    if (userPoints < entry.Points.Value)
                         disabled = true;
                 }
                 else
                 {
-                    uiEntry.Amount.Text = entry.Amount?.ToString() ?? "∞";
+                    if (entry.Stock != null)
+                        uiEntry.Amount.Text = $"{entry.Stock.Value}";
+                    else if (entry.Amount != null)
+                        uiEntry.Amount.Text = $"{entry.Amount.Value}";
+                    else
+                        uiEntry.Amount.Text = string.Empty;
                 }
 
                 uiEntry.Amount.Modulate = disabled ? Color.Red : Color.White;
@@ -266,6 +289,10 @@ public sealed class ClassicAutomatedVendorBui : BoundUserInterface
 
     private FormattedMessage GetSectionName(ClassicVendorSection section)
     {
+        var user = _player.LocalEntity;
+        ClassicVendorUserComponent? userComp = user != null ? EntMan.GetComponentOrNull<ClassicVendorUserComponent>(user.Value) : null;
+        var choices = _lastState?.Choices ?? userComp?.Choices;
+
         var name = new FormattedMessage();
         name.PushTag(new MarkupNode("bold", new MarkupParameter(section.Name.ToUpperInvariant()), null));
         name.AddText(section.Name.ToUpperInvariant());
@@ -274,9 +301,9 @@ public sealed class ClassicAutomatedVendorBui : BoundUserInterface
             name.AddText(" (TAKE ALL)");
         else if (section.TakeOne != null)
             name.AddText(" (TAKE ONE)");
-        else if (section.Choices is { } choices)
+        else if (section.Choices is { } choicesDef)
         {
-            var left = choices.Amount - (_lastState?.Choices.GetValueOrDefault(choices.Id) ?? 0);
+            var left = choicesDef.Amount - (choices?.GetValueOrDefault(choicesDef.Id) ?? 0);
             if (left > 0)
                 name.AddText($" (CHOOSE {left})");
         }

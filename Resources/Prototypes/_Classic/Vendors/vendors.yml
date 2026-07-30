@@ -21,13 +21,11 @@
   description: A test vendor for spending points.
   components:
   - type: Sprite
-    sprite: Structures/Machines/VendingMachines/general.rsi
+    sprite: _Classic/Structures/Machines/VendingMachines/ColMarTech/equipment.rsi
     layers:
-    - state: off
-      map: ["enum.VendingMachineVisualLayers.Base"]
-    - state: normal
-      map: ["enum.VendingMachineVisualLayers.BaseUnshaded"]
-      shader: unshaded
+    - state: base
+    - state: panel
+      map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
   - type: ClassicAutomatedVendor
     pointsType: null
     userWhitelist:

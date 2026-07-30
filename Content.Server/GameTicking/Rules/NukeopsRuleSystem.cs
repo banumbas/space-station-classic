@@ -163,8 +163,8 @@ public sealed partial class NukeopsRuleSystem : GameRuleSystem<NukeopsRuleCompon
                 if (ev.OwningStation == GetOutpost(uid))
                 {
                     nukeops.WinConditions.Add(WinCondition.NukeExplodedOnNukieOutpost);
-                    SetWinType((uid, nukeops), WinType.CrewMajor, GameTicker.IsGameRuleActive("Nukeops")); // End the round ONLY if the actual gamemode is NukeOps.
-                    if (!GameTicker.IsGameRuleActive("Nukeops")) // End the rule if the LoneOp shuttle got nuked, because that particular LoneOp clearly failed, and should not be considered a Syndie victory even if a future LoneOp wins.
+                    SetWinType((uid, nukeops), WinType.CrewMajor, GameTicker.IsGameRuleActive("PMC") || GameTicker.IsGameRuleActive("Nukeops")); // End the round ONLY if the actual gamemode is NukeOps.
+                    if (!GameTicker.IsGameRuleActive("PMC") && !GameTicker.IsGameRuleActive("Nukeops")) // End the rule if the LoneOp shuttle got nuked, because that particular LoneOp clearly failed, and should not be considered a Syndie victory even if a future LoneOp wins.
                         GameTicker.EndGameRule(uid);
                     continue;
                 }
@@ -195,7 +195,7 @@ public sealed partial class NukeopsRuleSystem : GameRuleSystem<NukeopsRuleCompon
                 nukeops.WinConditions.Add(WinCondition.NukeExplodedOnIncorrectLocation);
             }
 
-            if (GameTicker.IsGameRuleActive("Nukeops")) // If it's Nukeops then end the round on any detonation
+            if (GameTicker.IsGameRuleActive("PMC") || GameTicker.IsGameRuleActive("Nukeops")) // If it's Nukeops then end the round on any detonation
             {
                 _roundEndSystem.EndRound(TimeSpan.FromSeconds(_cfg.GetCVar(StarlightCCVars.NukeRoundRestartTime))); // Starlight Edit: Round end timer set by Cvar
             }
@@ -351,6 +351,14 @@ public sealed partial class NukeopsRuleSystem : GameRuleSystem<NukeopsRuleCompon
         {
             if (ev.Uid != GetShuttle((uid, nukeops)))
                 continue;
+
+            if (nukeops.RequireWar && nukeops.WarDeclaredTime == null)
+            {
+                ev.Cancelled = true;
+                ev.Reason = Loc.GetString("war-ops-infiltrator-unavailable",
+                    ("time", "10:00"));
+                continue;
+            }
 
             if (nukeops.WarDeclaredTime != null)
             {
@@ -607,17 +615,26 @@ public sealed partial class NukeopsRuleSystem : GameRuleSystem<NukeopsRuleCompon
     {
         var target = (ent.Comp.TargetStation is not null) ? Name(ent.Comp.TargetStation.Value) : "the target";
 
+        var isPmc = MetaData(ent).EntityPrototype?.ID == "PMC";
+        var welcomeString = isPmc ? "pmc-welcome" : "nukeops-welcome";
+        var color = isPmc ? Color.FromHex("#C0C0C0") : Color.Red;
+
         _antag.SendBriefing(args.Session,
-            Loc.GetString("nukeops-welcome",
+            Loc.GetString(welcomeString,
                 ("station", target),
                 ("name", Name(ent))),
-            Color.Red,
+            color,
             ent.Comp.GreetSoundNotification);
     }
 
     private void OnGetBriefing(Entity<NukeopsRoleComponent> role, ref GetBriefingEvent args)
     {
-        // TODO Different character screen briefing for the 3 nukie types
+        if (GameTicker.IsGameRuleActive("PMC"))
+        {
+            args.Append(Loc.GetString("pmc-briefing"));
+            return;
+        }
+
         args.Append(Loc.GetString("nukeops-briefing"));
     }
 

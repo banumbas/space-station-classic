@@ -1,0 +1,297 @@
+- type: entity
+  parent: ClassicPointsVendorBase
+  id: VendingMachinePMCAssault
+  components:
+  - type: Sprite
+    sprite: _Classic/Structures/Machines/VendingMachines/ColMarTech/pmc.rsi
+    layers:
+    - state: base
+    - state: panel
+      map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
+  - type: ClassicAutomatedVendor
+    pointsType: null
+    userWhitelist:
+      components:
+      - PMCAssault
+    sections:
+    - name: Base Kits
+      takeOne: "BaseKit"
+      entries:
+      - id: ClothingUniformJumpsuitOperativePMC
+        points: 0
+        autoEquip: true
+        autoEquipContents:
+        - ClothingShoesBootsMagPMC
+        - ClothingHandsGlovesCombat
+        - ClothingHeadsetPMC
+        - ClothingBeltMilitaryWebbing
+        - ClothingBackpackMessengerPMC
+        - ClothingEyesHudPMC
+        - PMCPDA
+      - id: ClothingUniformJumpsuitOperativePMCSkirt
+        points: 0
+        autoEquip: true
+        autoEquipContents:
+        - ClothingShoesBootsMagPMC
+        - ClothingHandsGlovesCombat
+        - ClothingHeadsetPMC
+        - ClothingBeltMilitaryWebbing
+        - ClothingBackpackMessengerPMC
+        - ClothingEyesHudPMC
+        - PMCPDA
+      - id: ClothingUniformJumpsuitOperativePMCBlack
+        points: 0
+        autoEquip: true
+        autoEquipContents:
+        - ClothingShoesBootsMagPMC
+        - ClothingHandsGlovesCombat
+        - ClothingHeadsetPMC
+        - ClothingBeltMilitaryWebbing
+        - ClothingBackpackMessengerPMC
+        - ClothingEyesHudPMC
+        - PMCPDA
+    - name: Armor
+      takeOne: "ClassArmor"
+      entries:
+      - id: ClothingOuterArmorPMC
+        points: 0
+        autoEquip: true
+        autoEquipContents:
+        - ClothingHeadHelmetPMCAssault
+    - name: Weapons
+      takeOne: "ClassWeapon"
+      entries:
+      - id: BoxPMCWeaponA
+        points: 0
+      - id: BoxPMCWeaponB
+        points: 0
+      - id: BoxPMCWeaponC
+        points: 0
+        stock: 1
+      - id: BoxPMCWeaponD
+        points: 0
+        stock: 1
+    - name: Medicine
+      entries:
+      - id: HyposprayLOLPMC
+        points: 12
+
+- type: entity
+  parent: ClassicPointsVendorBase
+  id: VendingMachinePMCMedic
+  components:
+  - type: Sprite
+    sprite: _Classic/Structures/Machines/VendingMachines/ColMarTech/equipment.rsi
+    layers:
+    - state: base
+    - state: panel
+      map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
+  - type: ClassicAutomatedVendor
+    pointsType: null
+    userWhitelist:
+      components:
+      - PMCMedic
+    sections:
+    - name: Base Kits
+      takeOne: "BaseKit"
+      entries:
+      - id: ClothingUniformJumpsuitOperativePMC
+        points: 0
+        autoEquip: true
+        autoEquipContents:
+        - ClothingShoesBootsMagPMC
+        - ClothingHandsGlovesCombat
+        - ClothingHeadsetPMC
+        - ClothingBeltMilitaryWebbing
+        - ClothingBackpackMessengerPMCMedic
+        - ClothingEyesHudPMC
+        - PMCMedicPDA
+      - id: ClothingUniformJumpsuitOperativePMCSkirt
+        points: 0
+        autoEquip: true
+        autoEquipContents:
+        - ClothingShoesBootsMagPMC
+        - ClothingHandsGlovesCombat
+        - ClothingHeadsetPMC
+        - ClothingBeltMilitaryWebbing
+        - ClothingBackpackMessengerPMCMedic
+        - ClothingEyesHudPMC
+        - PMCMedicPDA
+      - id: ClothingUniformJumpsuitOperativePMCBlack
+        points: 0
+        autoEquip: true
+        autoEquipContents:
+        - ClothingShoesBootsMagPMC
+        - ClothingHandsGlovesCombat
+        - ClothingHeadsetPMC
+        - ClothingBeltMilitaryWebbing
+        - ClothingBackpackMessengerPMCMedic
+        - ClothingEyesHudPMC
+        - PMCMedicPDA
+    - name: Armor
+      takeOne: "ClassArmor"
+      entries:
+      - id: ClothingOuterArmorPMCMedic
+        points: 0
+        autoEquip: true
+        autoEquipContents:
+        - ClothingHeadHelmetPMCMedic
+    - name: Weapons
+      takeOne: "ClassWeapon"
+      entries:
+      - id: BoxPMCWeaponA
+        points: 0
+      - id: BoxPMCWeaponB
+        points: 0
+      - id: BoxPMCWeaponC
+        points: 0
+        stock: 1
+      - id: BoxPMCWeaponD
+        points: 0
+        stock: 1
+
+- type: entity
+  parent: ClassicPointsVendorBase
+  id: VendingMachinePMCSpecialist
+  components:
+  - type: Sprite
+    sprite: _Classic/Structures/Machines/VendingMachines/ColMarTech/specialist_gear.rsi
+    layers:
+    - state: base
+    - state: panel
+      map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
+  - type: ClassicAutomatedVendor
+    pointsType: null
+    userWhitelist:
+      components:
+      - PMCSpecialist
+    sections:
+    - name: Base Kits
+      takeOne: "BaseKit"
+      entries:
+      - id: ClothingUniformJumpsuitOperativePMC
+        points: 0
+        autoEquip: true
+        autoEquipContents:
+        - ClothingShoesBootsMagPMC
+        - ClothingHandsGlovesCombat
+        - ClothingHeadsetPMC
+        - ClothingBeltMilitaryWebbing
+        - ClothingBackpackMessengerPMC
+        - ClothingEyesHudPMC
+        - PMCSpecialistPDA
+      - id: ClothingUniformJumpsuitOperativePMCSkirt
+        points: 0
+        autoEquip: true
+        autoEquipContents:
+        - ClothingShoesBootsMagPMC
+        - ClothingHandsGlovesCombat
+        - ClothingHeadsetPMC
+        - ClothingBeltMilitaryWebbing
+        - ClothingBackpackMessengerPMC
+        - ClothingEyesHudPMC
+        - PMCSpecialistPDA
+      - id: ClothingUniformJumpsuitOperativePMCBlack
+        points: 0
+        autoEquip: true
+        autoEquipContents:
+        - ClothingShoesBootsMagPMC
+        - ClothingHandsGlovesCombat
+        - ClothingHeadsetPMC
+        - ClothingBeltMilitaryWebbing
+        - ClothingBackpackMessengerPMC
+        - ClothingEyesHudPMC
+        - PMCSpecialistPDA
+    - name: Scout Kit
+      takeOne: "ClassWeapon"
+      entries:
+      - id: ClothingOuterArmorPMCSpecialist
+        points: 0
+        autoEquip: true
+        autoEquipContents:
+        - ClothingHeadHelmetPMCSpecialist
+        - BoxPMCWeaponScout
+    - name: Medicine
+      entries:
+      - id: HyposprayLOLPMC
+        points: 12
+
+- type: entity
+  parent: ClassicPointsVendorBase
+  id: VendingMachinePMCCommander
+  components:
+  - type: Sprite
+    sprite: _Classic/Structures/Machines/VendingMachines/ColMarTech/smart_gun_operator_gear.rsi
+    layers:
+    - state: base
+    - state: panel
+      map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
+  - type: ClassicAutomatedVendor
+    pointsType: null
+    userWhitelist:
+      components:
+      - PMCCommander
+    sections:
+    - name: Base Kits
+      takeOne: "BaseKit"
+      entries:
+      - id: ClothingUniformJumpsuitOperativePMC
+        points: 0
+        autoEquip: true
+        autoEquipContents:
+        - ClothingShoesBootsMagPMC
+        - ClothingHandsGlovesCombat
+        - ClothingHeadsetPMC
+        - ClothingBeltMilitaryWebbing
+        - ClothingBackpackMessengerPMC
+        - ClothingEyesHudPMC
+        - PMCCommanderPDA
+      - id: ClothingUniformJumpsuitOperativePMCSkirt
+        points: 0
+        autoEquip: true
+        autoEquipContents:
+        - ClothingShoesBootsMagPMC
+        - ClothingHandsGlovesCombat
+        - ClothingHeadsetPMC
+        - ClothingBeltMilitaryWebbing
+        - ClothingBackpackMessengerPMC
+        - ClothingEyesHudPMC
+        - PMCCommanderPDA
+      - id: ClothingUniformJumpsuitOperativePMCBlack
+        points: 0
+        autoEquip: true
+        autoEquipContents:
+        - ClothingShoesBootsMagPMC
+        - ClothingHandsGlovesCombat
+        - ClothingHeadsetPMC
+        - ClothingBeltMilitaryWebbing
+        - ClothingBackpackMessengerPMC
+        - ClothingEyesHudPMC
+        - PMCCommanderPDA
+    - name: Armor
+      takeOne: "ClassArmor"
+      entries:
+      - id: ClothingOuterArmorPMCCommander
+        points: 0
+        autoEquip: true
+        autoEquipContents:
+        - ClothingHeadHelmetPMCCommander
+    - name: Weapons
+      takeOne: "ClassWeapon"
+      entries:
+      - id: BoxPMCWeaponComm1
+        points: 0
+      - id: BoxPMCWeaponComm2
+        points: 0
+    - name: Medicine
+      entries:
+      - id: HyposprayLOLPMC
+        points: 12
+    - name: Team Supplies
+      entries:
+      - id: MagazineRifleFMJ
+        points: 10
+      - id: BoxBeanbag
+        points: 10
+      - id: BoxLethalshot
+        points: 10

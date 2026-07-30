@@ -1,0 +1,35 @@
+- type: entity
+  parent: SyndiOperativePDA
+  id: PMCPDA
+  name: ent-PMCPDA
+  description: ent-PMCPDA-desc
+  components:
+  - type: Pda
+    id: PMCAssaultIDCard
+
+- type: entity
+  parent: SyndiOperativePDA
+  id: PMCMedicPDA
+  name: ent-PMCMedicPDA
+  description: ent-PMCMedicPDA-desc
+  components:
+  - type: Pda
+    id: PMCMedicIDCard
+
+- type: entity
+  parent: SyndiOperativePDA
+  id: PMCSpecialistPDA
+  name: ent-PMCSpecialistPDA
+  description: ent-PMCSpecialistPDA-desc
+  components:
+  - type: Pda
+    id: PMCSpecialistIDCard
+
+- type: entity
+  parent: SyndiCommanderPDA
+  id: PMCCommanderPDA
+  name: ent-PMCCommanderPDA
+  description: ent-PMCCommanderPDA-desc
+  components:
+  - type: Pda
+    id: PMCCommanderIDCard

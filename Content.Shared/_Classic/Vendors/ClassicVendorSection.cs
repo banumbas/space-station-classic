@@ -39,7 +39,7 @@ public sealed partial class ClassicVendorSection
 /// </summary>
 [DataDefinition]
 [Serializable, NetSerializable]
-public sealed partial record ClassicVendorEntry
+public sealed partial class ClassicVendorEntry
 {
     /// <summary>
     /// The prototype ID of the entity that will be spawned when purchased.
@@ -62,6 +62,13 @@ public sealed partial record ClassicVendorEntry
     public int? Amount;
 
     /// <summary>
+    /// Global stock of this item in the vendor. 
+    /// If null, it is infinite.
+    /// </summary>
+    [DataField]
+    public int? Stock;
+
+    /// <summary>
     /// The point cost for this entry. If null, the item might be free or rely on other limits.
     /// </summary>
     [DataField]
@@ -76,4 +83,19 @@ public sealed partial record ClassicVendorEntry
 
     [DataField]
     public bool Recommended;
+
+    /// <summary>
+    /// If true, the item will be automatically equipped to the recipient's inventory slot
+    /// instead of being handed directly. Useful for clothing and armor.
+    /// </summary>
+    [DataField]
+    public bool AutoEquip;
+
+    /// <summary>
+    /// Additional items to spawn and auto-equip alongside the main item (Id).
+    /// Only used when <see cref="AutoEquip"/> is true.
+    /// Allows a single vendor entry to equip a full set of clothing/armor.
+    /// </summary>
+    [DataField]
+    public List<EntProtoId> AutoEquipContents = new();
 }

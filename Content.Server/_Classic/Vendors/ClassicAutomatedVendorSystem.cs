@@ -1,5 +1,6 @@
 using Content.Shared._Classic.Vendors;
 using Content.Shared.Hands.EntitySystems;
+using Content.Shared.Inventory;
 using Robust.Server.GameObjects;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Containers;
@@ -12,13 +13,13 @@ public sealed class ClassicAutomatedVendorSystem : SharedClassicAutomatedVendorS
     [Dependency] private readonly SharedAudioSystem _audio = default!;
     [Dependency] private readonly SharedHandsSystem _hands = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
+    [Dependency] private readonly InventorySystem _inventory = default!;
 
     public override void Initialize()
     {
         base.Initialize();
         
         SubscribeLocalEvent<ClassicAutomatedVendorComponent, BoundUIOpenedEvent>(OnUIOpened);
-        SubscribeLocalEvent<ClassicAutomatedVendorComponent, ClassicVendorVendBuiMsg>(OnVendMessage);
     }
 
     private void OnUIOpened(Entity<ClassicAutomatedVendorComponent> vendor, ref BoundUIOpenedEvent args)
@@ -26,7 +27,7 @@ public sealed class ClassicAutomatedVendorSystem : SharedClassicAutomatedVendorS
         UpdateUIState(vendor.Owner, args.Actor);
     }
 
-    private void OnVendMessage(Entity<ClassicAutomatedVendorComponent> vendor, ref ClassicVendorVendBuiMsg args)
+    protected override void OnVendMessage(Entity<ClassicAutomatedVendorComponent> vendor, ref ClassicVendorVendBuiMsg args)
     {
         var user = args.Actor;
 
@@ -43,39 +44,87 @@ public sealed class ClassicAutomatedVendorSystem : SharedClassicAutomatedVendorS
 
         var entry = section.Entries[args.Entry];
         
-        // Point validation
         var userPoints = vendor.Comp.PointsType == null
             ? userComp.Points
             : userComp.ExtraPoints?.GetValueOrDefault(vendor.Comp.PointsType) ?? 0;
 
-        if (entry.Points != null && userPoints < entry.Points)
-            return; // Not enough points
+        if (entry.Points != null && entry.Points.Value > 0 && userPoints < entry.Points.Value)
+            return;
 
-        // Validation for limits (TakeAll, TakeOne, Choices) could be added here
-        
-        // Deduct points
-        if (entry.Points != null)
-        {
-            if (vendor.Comp.PointsType == null)
-                userComp.Points -= entry.Points.Value;
-            else
-            {
-                userComp.ExtraPoints ??= new();
-                userComp.ExtraPoints[vendor.Comp.PointsType] = userPoints - entry.Points.Value;
-            }
-        }
+        if (entry.Stock != null && entry.Stock.Value <= 0)
+            return;
 
-        // Spawn items
+        if (section.TakeOne != null && userComp.TakeOne.Contains(section.TakeOne))
+            return;
+
+        if (section.TakeAll != null && userComp.TakeAll.Contains((section.TakeAll, entry.Id.Id)))
+            return;
+
+        base.OnVendMessage(vendor, ref args);
+
         for (int i = 0; i < entry.Spawn; i++)
         {
             var spawned = Spawn(entry.Id, Transform(vendor.Owner).Coordinates);
-            _hands.TryPickupAnyHand(user, spawned);
+
+            if (entry.AutoEquip)
+            {
+                if (!TryAutoEquip(user, spawned))
+                    _hands.TryPickupAnyHand(user, spawned);
+
+                foreach (var contentId in entry.AutoEquipContents)
+                {
+                    var extra = Spawn(contentId, Transform(vendor.Owner).Coordinates);
+                    if (!TryAutoEquip(user, extra))
+                        _hands.TryPickupAnyHand(user, extra);
+                }
+            }
+            else
+            {
+                _hands.TryPickupAnyHand(user, spawned);
+            }
         }
 
         if (vendor.Comp.Sound != null)
             _audio.PlayPvs(vendor.Comp.Sound, vendor.Owner);
 
         UpdateUIState(vendor.Owner, user);
+    }
+
+    /// <summary>
+    /// Tries to equip the given entity to any free inventory slot of the user.
+    /// Returns true if successfully equipped, false if no slot was found.
+    /// </summary>
+    private bool TryAutoEquip(EntityUid user, EntityUid item)
+    {
+        if (!_inventory.TryGetSlots(user, out var slots))
+            return false;
+
+        // If the item can be equipped into the 'id' slot (e.g. PDA), prioritize the 'id' slot
+        if (_inventory.TryGetSlot(user, "id", out _) && _inventory.CanEquip(user, item, "id", out _))
+        {
+            if (_inventory.TryGetSlotEntity(user, "id", out var existingId))
+            {
+                if (_inventory.TryUnequip(user, "id", out var unequipped, silent: true, force: true))
+                {
+                    if (!TryAutoEquip(user, unequipped.Value))
+                        _hands.TryPickupAnyHand(user, unequipped.Value);
+                }
+            }
+
+            if (_inventory.TryEquip(user, item, "id", silent: true, force: false))
+                return true;
+        }
+
+        foreach (var slot in slots)
+        {
+            if (_inventory.TryGetSlotEntity(user, slot.Name, out _))
+                continue;
+
+            if (_inventory.TryEquip(user, item, slot.Name, silent: true, force: false))
+                return true;
+        }
+
+        return false;
     }
 
     private void UpdateUIState(EntityUid vendor, EntityUid user)

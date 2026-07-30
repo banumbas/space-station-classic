@@ -1,4 +1,4 @@
-﻿- type: entity
+- type: entity
   parent: BaseGameRule
   id: DynamicRule
   components:
@@ -20,7 +20,7 @@
           conditions:
           - !type:HasBudgetCondition
           - !type:MaxRuleOccurenceCondition
-        - id: Nukeops
+        - id: PMC
           weight: 25
           conditions:
           - !type:HasBudgetCondition
