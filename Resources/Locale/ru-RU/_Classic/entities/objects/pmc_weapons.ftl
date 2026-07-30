@@ -20,7 +20,5 @@ ent-WeaponOrbitalDesignatorPMC = ЧВК целеуказатель орбита�
 ent-PMCOrbitalMarker = маркер орбитального удара
     .desc = Маркер целеуказания орбитального удара.
 
-orbital-designator-component-cooldown = Перезарядка целеуказателя ещё не завершена.
-
 ent-WeaponRocketLauncherPMC = ЧВК ракетная установка
     .desc = Однозарядный гранатомёт ЧВК Эридани.
