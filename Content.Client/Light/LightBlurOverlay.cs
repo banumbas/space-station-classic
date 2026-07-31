@@ -1,4 +1,5 @@
 using Content.Client.Graphics;
+using Content.Client._Classic.ZLevels.Core; // Classic-Edit
 using Robust.Client.Graphics;
 using Robust.Shared.Enums;
 
@@ -22,6 +23,13 @@ public sealed partial class LightBlurOverlay : Overlay
     {
         IoCManager.InjectDependencies(this);
         ZIndex = ContentZIndex;
+    }
+
+    // Classic-Edit
+    protected override bool BeforeDraw(in OverlayDrawArgs args)
+    {
+        return args.Viewport.Eye is not IClassicZLevelRenderQuality quality ||
+               quality.DrawContentLightBlur && !quality.UseDirectContentLightTarget;
     }
 
     protected override void Draw(in OverlayDrawArgs args)

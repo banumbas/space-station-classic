@@ -60,6 +60,7 @@ public abstract partial class ClassicSharedZLevelsSystem
 
     private void OnParentChanged(Entity<ClassicZPhysicsComponent> entity, ref EntParentChangedMessage args)
     {
+        OnZPositionChanged(entity);
         RefreshBody(entity);
 
         if (ZPhysicsQuery.TryComp(args.OldParent, out var oldParentPhysics))

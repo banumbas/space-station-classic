@@ -248,5 +248,3 @@ public sealed partial class ClassicZCollapseSystem
         return result;
     }
 }
-
-

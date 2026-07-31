@@ -1,4 +1,5 @@
 using System.Numerics;
+using Content.Client._Classic.ZLevels.Core; // Classic-Edit
 using Content.Shared.Light.Components;
 using Content.Shared.Light.EntitySystems;
 using Content.Shared.Maps;
@@ -50,10 +51,22 @@ public sealed partial class RoofOverlay : Overlay
         var eye = args.Viewport.Eye;
 
         var worldHandle = args.WorldHandle;
-        var lightoverlay = _overlay.GetOverlay<BeforeLightTargetOverlay>();
-        var lightRes = lightoverlay.GetCachedForViewport(args.Viewport);
-        var bounds = lightoverlay.EnlargedBounds;
-        var target = lightRes.EnlargedLightTarget;
+        // Classic-Edit start - lower Z-levels can avoid the enlarged target and copy-back pass.
+        Box2Rotated bounds;
+        IRenderTexture target;
+        if (eye is IClassicZLevelRenderQuality { UseDirectContentLightTarget: true })
+        {
+            bounds = args.WorldBounds;
+            target = viewport.LightRenderTarget;
+        }
+        else
+        {
+            var lightOverlay = _overlay.GetOverlay<BeforeLightTargetOverlay>();
+            var lightRes = lightOverlay.GetCachedForViewport(args.Viewport);
+            bounds = lightOverlay.EnlargedBounds;
+            target = lightRes.EnlargedLightTarget;
+        }
+        // Classic-Edit end
 
         _grids.Clear();
         _mapManager.FindGridsIntersecting(args.MapId, bounds, ref _grids, approx: true, includeMap: true);

@@ -158,8 +158,13 @@ public abstract partial class ClassicSharedZLevelsSystem
         if (float.Abs(oldVelocity - zPhysicsComponent.Velocity) > 0.001f)
             DirtyField(entity, zPhysicsComponent, nameof(ClassicZPhysicsComponent.Velocity));
 
-        if (float.Abs(oldHeight - zPhysicsComponent.LocalPosition) > 0.001f)
-            DirtyField(entity, zPhysicsComponent, nameof(ClassicZPhysicsComponent.LocalPosition));
+        if (oldHeight != zPhysicsComponent.LocalPosition)
+        {
+            OnZPositionChanged((entity.Owner, zPhysicsComponent));
+
+            if (float.Abs(oldHeight - zPhysicsComponent.LocalPosition) > 0.001f)
+                DirtyField(entity, zPhysicsComponent, nameof(ClassicZPhysicsComponent.LocalPosition));
+        }
 
         if (zPhysicsComponent.VelocityGravity)
         {

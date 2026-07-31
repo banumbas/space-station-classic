@@ -3,6 +3,7 @@
  * https://github.com/space-wizards/space-station-14/blob/master/LICENSE.TXT
  */
 
+using System.Collections.Generic;
 using System.Numerics;
 using Content.Client._Classic.ZLevels.Core.Overlays;
 using Content.Shared._Classic.ZLevels.Core.Components;
@@ -12,6 +13,7 @@ using Content.Shared.StatusEffectNew.Components;
 using Robust.Client.GameObjects;
 using Robust.Client.Graphics;
 using Robust.Shared.GameObjects;
+using Robust.Shared.GameStates;
 using Robust.Shared.Map.Components;
 using Robust.Shared.Maths;
 
@@ -25,12 +27,22 @@ public sealed partial class ClassicClientZLevelsSystem : ClassicSharedZLevelsSys
     [Dependency] private IOverlayManager _overlay = default!;
     [Dependency] private IEyeManager _eye = default!;
 
+    /// <summary>
+    /// Entities with a non-zero visual Z contribution found by the pre-animation pass.
+    /// The post-animation pass consumes this list instead of running the same global
+    /// three-component query again.
+    /// </summary>
+    internal readonly List<Entity<ClassicZPhysicsComponent, SpriteComponent, TransformComponent>> VisualEntities = new();
+    internal readonly HashSet<EntityUid> VisualEntitySet = new();
+    internal readonly HashSet<EntityUid> PendingVisualEntities = new();
+
     public override void Initialize()
     {
         base.Initialize();
         _overlay.AddOverlay(new ClassicZLevelBlurOverlay());
 
         SubscribeLocalEvent<ClassicZPhysicsComponent, ComponentStartup>(OnStartup);
+        SubscribeLocalEvent<ClassicZPhysicsComponent, AfterAutoHandleStateEvent>(OnAfterHandleState);
         SubscribeLocalEvent<ClassicZPhysicsComponent, GetEyeOffsetEvent>(OnEyeOffset);
     }
 
@@ -59,6 +71,8 @@ public sealed partial class ClassicClientZLevelsSystem : ClassicSharedZLevelsSys
         if (!TryComp<SpriteComponent>(ent, out var sprite))
             return;
 
+        PendingVisualEntities.Add(ent);
+
         if (sprite.SnapCardinals)
             return;
 
@@ -66,10 +80,23 @@ public sealed partial class ClassicClientZLevelsSystem : ClassicSharedZLevelsSys
         ent.Comp.SpriteOffsetDefault = sprite.Offset;
     }
 
+    private void OnAfterHandleState(Entity<ClassicZPhysicsComponent> ent, ref AfterAutoHandleStateEvent args)
+    {
+        PendingVisualEntities.Add(ent);
+    }
+
+    protected override void OnZPositionChanged(Entity<ClassicZPhysicsComponent> ent)
+    {
+        PendingVisualEntities.Add(ent);
+    }
+
     public override void Shutdown()
     {
         base.Shutdown();
         _overlay.RemoveOverlay<ClassicZLevelBlurOverlay>();
+        VisualEntities.Clear();
+        VisualEntitySet.Clear();
+        PendingVisualEntities.Clear();
     }
 }
 
@@ -82,9 +109,12 @@ public sealed partial class ClassicClientZLevelsSystem : ClassicSharedZLevelsSys
 /// </summary>
 internal sealed partial class ClassicClientZLevelsPreAnimSystem : EntitySystem
 {
+    [Dependency] private ClassicClientZLevelsSystem _zLevels = default!;
     [Dependency] private SpriteSystem _sprite = default!;
     [Dependency] private EntityQuery<MapGridComponent> _mapGridQuery = default!;
     [Dependency] private EntityQuery<ClassicZPhysicsComponent> _zPhysQuery = default!;
+    [Dependency] private EntityQuery<SpriteComponent> _spriteQuery = default!;
+    [Dependency] private EntityQuery<TransformComponent> _xformQuery = default!;
 
     public override void Initialize()
     {
@@ -94,17 +124,41 @@ internal sealed partial class ClassicClientZLevelsPreAnimSystem : EntitySystem
 
     public override void FrameUpdate(float frameTime)
     {
+        var visualEntities = _zLevels.VisualEntities;
+        var visualEntitySet = _zLevels.VisualEntitySet;
+
         // Phase 1 (per render frame): strip any Z left from last frame so the animation player
         // always starts from a Z-free base, and Phase 2 can add exactly one Z contribution.
-        var query = EntityQueryEnumerator<ClassicZPhysicsComponent, SpriteComponent, TransformComponent>();
-        while (query.MoveNext(out var uid, out var zPhys, out var sprite, out var xform))
+        for (var i = visualEntities.Count - 1; i >= 0; i--)
         {
-            var localPosition = ClassicClientZLevelsSystem.GetVisualLocalPosition(uid, zPhys, xform, _zPhysQuery);
-            _sprite.SetOffset((uid, sprite), zPhys.SpriteOffsetDefault);
-            _sprite.SetDrawDepth((uid, sprite), localPosition > 0 ? (int)Shared.DrawDepth.DrawDepth.OverMobs : zPhys.DrawDepthDefault);
+            var entity = visualEntities[i];
+            if (entity.Comp1.Deleted || entity.Comp2.Deleted || entity.Comp3.Deleted)
+            {
+                visualEntitySet.Remove(entity.Owner);
+                visualEntities.RemoveAt(i);
+                continue;
+            }
+
+            var localPosition = PrepareVisual(entity.Owner, entity.Comp1, entity.Comp2, entity.Comp3);
+            if (localPosition == 0f)
+            {
+                visualEntitySet.Remove(entity.Owner);
+                visualEntities.RemoveAt(i);
+                continue;
+            }
+
+            TrackChildren(entity.Comp3);
         }
 
-        // Set parent-synced status effect offsets to the parent's current Z value each frame — prevents accumulation.
+        // Component startup/state/parent changes catch newly spawned or network-updated bodies.
+        foreach (var uid in _zLevels.PendingVisualEntities)
+        {
+            if (TryTrackVisual(uid, out var xform))
+                TrackChildren(xform);
+        }
+        _zLevels.PendingVisualEntities.Clear();
+
+        // Set parent-synced status effect offsets to the parent's current Z value each frame.
         var syncQuery = EntityQueryEnumerator<StatusEffectComponent, SpriteComponent, TransformComponent>();
         while (syncQuery.MoveNext(out var uid, out _, out var sprite, out var xform))
         {
@@ -114,8 +168,65 @@ internal sealed partial class ClassicClientZLevelsPreAnimSystem : EntitySystem
             if (!_zPhysQuery.TryComp(parent, out var parentZPhys))
                 continue;
             var zOffset = new Vector2(0, parentZPhys.LocalPosition * ClassicSharedZLevelsSystem.ZLevelOffset);
-            _sprite.SetOffset((uid, sprite), zOffset);
+            if (sprite.Offset != zOffset)
+                _sprite.SetOffset((uid, sprite), zOffset);
         }
+    }
+
+    private bool TryTrackVisual(EntityUid uid, out TransformComponent xform)
+    {
+        xform = null!;
+        if (_zLevels.VisualEntitySet.Contains(uid))
+        {
+            if (!_xformQuery.TryComp(uid, out var trackedXform))
+                return false;
+
+            xform = trackedXform;
+            return true;
+        }
+
+        if (!_zPhysQuery.TryComp(uid, out var zPhys) ||
+            !_spriteQuery.TryComp(uid, out var sprite) ||
+            !_xformQuery.TryComp(uid, out var foundXform))
+        {
+            return false;
+        }
+
+        xform = foundXform;
+
+        if (PrepareVisual(uid, zPhys, sprite, xform) == 0f)
+            return false;
+
+        _zLevels.VisualEntitySet.Add(uid);
+        _zLevels.VisualEntities.Add((uid, zPhys, sprite, xform));
+        return true;
+    }
+
+    private void TrackChildren(TransformComponent xform)
+    {
+        var children = xform.ChildEnumerator;
+        while (children.MoveNext(out var child))
+            TryTrackVisual(child, out _);
+    }
+
+    private float PrepareVisual(
+        EntityUid uid,
+        ClassicZPhysicsComponent zPhys,
+        SpriteComponent sprite,
+        TransformComponent xform)
+    {
+        var localPosition = ClassicClientZLevelsSystem.GetVisualLocalPosition(uid, zPhys, xform, _zPhysQuery);
+
+        if (sprite.Offset != zPhys.SpriteOffsetDefault)
+            _sprite.SetOffset((uid, sprite), zPhys.SpriteOffsetDefault);
+
+        var drawDepth = localPosition > 0
+            ? (int) Shared.DrawDepth.DrawDepth.OverMobs
+            : zPhys.DrawDepthDefault;
+        if (sprite.DrawDepth != drawDepth)
+            _sprite.SetDrawDepth((uid, sprite), drawDepth);
+
+        return localPosition;
     }
 }
 
@@ -128,6 +239,7 @@ internal sealed partial class ClassicClientZLevelsPreAnimSystem : EntitySystem
 /// </summary>
 internal sealed partial class ClassicClientZLevelsPostAnimSystem : EntitySystem
 {
+    [Dependency] private ClassicClientZLevelsSystem _zLevels = default!;
     [Dependency] private SpriteSystem _sprite = default!;
     [Dependency] private SharedTransformSystem _xform = default!;
     [Dependency] private EntityQuery<ClassicZPhysicsComponent> _zPhysQuery = default!;
@@ -144,17 +256,33 @@ internal sealed partial class ClassicClientZLevelsPostAnimSystem : EntitySystem
         // At this point sprite.Offset == animationValue (or SpriteOffsetDefault if no anim ran).
         // The offset is counter-rotated by the entity's world angle so it always points world-up,
         // preventing it from orbiting the pivot when the entity has angular velocity (e.g. shurikens).
-        var query = EntityQueryEnumerator<ClassicZPhysicsComponent, SpriteComponent, TransformComponent>();
-        while (query.MoveNext(out var uid, out var zPhys, out var sprite, out var xform))
+        var visualEntities = _zLevels.VisualEntities;
+        for (var i = 0; i < visualEntities.Count; i++)
         {
-            var localPosition = ClassicClientZLevelsSystem.GetVisualLocalPosition(uid, zPhys, xform, _zPhysQuery);
+            var entity = visualEntities[i];
+            var zPhys = entity.Comp1;
+            var sprite = entity.Comp2;
+            var xform = entity.Comp3;
+
+            // An animation or another system may have removed the entity between the
+            // two passes. The cached component references are otherwise safe to reuse.
+            if (zPhys.Deleted || sprite.Deleted || xform.Deleted)
+                continue;
+
+            var localPosition = ClassicClientZLevelsSystem.GetVisualLocalPosition(entity.Owner, zPhys, xform, _zPhysQuery);
+
+            // At ground level there is no Z contribution. In particular, do not call
+            // GetWorldRotation or rebuild the sprite matrix for the common case.
+            if (localPosition == 0f)
+                continue;
+
             var rawZ = new Vector2(0, localPosition * ClassicSharedZLevelsSystem.ZLevelOffset);
             Vector2 zOffset;
             if (sprite.NoRotation)
                 zOffset = rawZ;
             else
                 zOffset = new Angle(-_xform.GetWorldRotation(xform)).RotateVec(rawZ);
-            _sprite.SetOffset((uid, sprite), sprite.Offset + zOffset);
+            _sprite.SetOffset((entity.Owner, sprite), sprite.Offset + zOffset);
         }
     }
 }

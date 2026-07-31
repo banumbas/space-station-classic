@@ -1,5 +1,6 @@
 using System.Numerics;
 using Content.Client.Graphics;
+using Content.Client._Classic.ZLevels.Core; // Classic-Edit
 using Content.Shared.CCVar;
 using Content.Shared.Maps;
 using Robust.Client.Graphics;
@@ -34,6 +35,12 @@ public sealed partial class AmbientOcclusionOverlay : Overlay
     {
         IoCManager.InjectDependencies(this);
         ZIndex = AfterLightTargetOverlay.ContentZIndex + 1;
+    }
+
+    // Classic-Edit
+    protected override bool BeforeDraw(in OverlayDrawArgs args)
+    {
+        return args.Viewport.Eye is not IClassicZLevelRenderQuality quality || quality.DrawAmbientOcclusion;
     }
 
     protected override void Draw(in OverlayDrawArgs args)

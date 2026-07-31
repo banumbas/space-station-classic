@@ -49,4 +49,40 @@ public sealed partial class CCVars
 
     public static readonly CVarDef<int>
         ClassicZLevelsRenderingMaxZLevelsBelowRendering = CVarDef.Create("ce.zlevels.rendering.max_zLevels_below_rendering", 1, CVar.SERVER | CVar.REPLICATED);
+
+    /// <summary>
+    /// Apply the engine light-map blur to Z-levels below the player.
+    /// Disabled by default because the lower level is already blurred by the Z overlay,
+    /// while the light-map blur adds six more full-screen passes per visible level.
+    /// </summary>
+    public static readonly CVarDef<bool>
+        ClassicZLevelsRenderingLowerLevelLightBlur = CVarDef.Create("ce.zlevels.rendering.lower_level_light_blur", false, CVar.CLIENTONLY | CVar.ARCHIVE);
+
+    /// <summary>
+    /// Apply the content-side blur used for roof and tile-emission lighting to Z-levels below the player.
+    /// The final Z-level blur normally provides enough smoothing for the lower layer on its own.
+    /// </summary>
+    public static readonly CVarDef<bool>
+        ClassicZLevelsRenderingLowerLevelContentLightBlur = CVarDef.Create("ce.zlevels.rendering.lower_level_content_light_blur", false, CVar.CLIENTONLY | CVar.ARCHIVE);
+
+    /// <summary>
+    /// Draw the ambient-occlusion overlay on Z-levels below the player.
+    /// This does not control point-light shadows.
+    /// </summary>
+    public static readonly CVarDef<bool>
+        ClassicZLevelsRenderingLowerLevelAmbientOcclusion = CVarDef.Create("ce.zlevels.rendering.lower_level_ambient_occlusion", false, CVar.CLIENTONLY | CVar.ARCHIVE);
+
+    /// <summary>
+    /// Draw lower-level roof and tile-emission lighting directly into the viewport light target when
+    /// the content-side blur is disabled, avoiding the enlarged intermediate target and copy-back pass.
+    /// </summary>
+    public static readonly CVarDef<bool>
+        ClassicZLevelsRenderingLowerLevelDirectLightTarget = CVarDef.Create("ce.zlevels.rendering.lower_level_direct_light_target", true, CVar.CLIENTONLY | CVar.ARCHIVE);
+
+    /// <summary>
+    /// Use soft point-light shadows on Z-levels below the player.
+    /// Hard shadows retain occlusion while using the cheaper light shader.
+    /// </summary>
+    public static readonly CVarDef<bool>
+        ClassicZLevelsRenderingLowerLevelSoftShadows = CVarDef.Create("ce.zlevels.rendering.lower_level_soft_shadows", false, CVar.CLIENTONLY | CVar.ARCHIVE);
 }

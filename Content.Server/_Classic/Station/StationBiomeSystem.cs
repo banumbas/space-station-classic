@@ -91,7 +91,11 @@ public sealed partial class ClassicStationBiomeSystem : EntitySystem
         light.AmbientLightColor = component.MapLightColor;
         Dirty(mapUid, light);
 
-        EnsureComp<LightCycleComponent>(mapUid);
+        var cycle = EnsureComp<LightCycleComponent>(mapUid);
+        if (cycle.OriginalColor == Color.Transparent)
+            cycle.OriginalColor = light.AmbientLightColor;
+        cycle.InitialOffset = false;
+        Dirty(mapUid, cycle);
 
         var parallax = EnsureComp<ParallaxComponent>(mapUid);
         parallax.Parallax = "Dirt";

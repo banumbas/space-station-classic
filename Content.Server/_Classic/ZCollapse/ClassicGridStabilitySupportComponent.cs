@@ -20,4 +20,3 @@ public sealed partial class ClassicGridStabilitySupportComponent : Component
     public int TransferLoss = 0;
 }
 
-

@@ -272,7 +272,16 @@ public abstract partial class ClassicSharedZLevelsSystem
 
         ent.Comp.LocalPosition = newPosition;
         DirtyField(ent, ent.Comp, nameof(ClassicZPhysicsComponent.LocalPosition));
+        OnZPositionChanged((ent, ent.Comp));
         WakeBody(ent);
+    }
+
+    /// <summary>
+    /// Allows the client implementation to maintain its visual Z set without scanning every
+    /// entity carrying <see cref="ClassicZPhysicsComponent"/> each render frame.
+    /// </summary>
+    protected virtual void OnZPositionChanged(Entity<ClassicZPhysicsComponent> ent)
+    {
     }
 
     [PublicAPI]

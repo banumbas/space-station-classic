@@ -125,7 +125,7 @@ namespace Content.Shared.Maps
         /// <summary>
         ///     Hide this tile in the tile placement editor.
         /// </summary>
-        [DataField] public bool EditorHidden { get; private set; } = true; //Classic
+        [DataField] public bool EditorHidden { get; private set; } = false; //Classic
 
         public void AssignTileId(ushort id)
         {
