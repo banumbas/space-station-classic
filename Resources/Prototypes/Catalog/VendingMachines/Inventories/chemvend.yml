@@ -54,6 +54,13 @@
     JugSugar: 3
     JugSulfur: 1
     JugWeldingFuel: 1
+    # Classic-Start
+    JugPunctTranex: 2
+    JugPyraDerma: 2
+    JugDexPlusSaline: 1
+    JugDylovene: 1
+    JugDesoxyephedrineDylovene: 2
+    # Classic-End
     PlasmaChemistryVial: 1
   contrabandInventory:
     DrinkLithiumFlask: 1

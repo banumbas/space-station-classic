@@ -1,7 +1,7 @@
 - type: gameMap
   id: ClassicClassic
   mapName: 'Classic'
-  mapPath: /Maps/_Classic/Stations/classic.yml
+  mapPath: /Maps/_Classic/Stations/Colony/Colony0.yml
   maxRandomOffset: 0
   randomRotation: false
   minPlayers: 5
@@ -22,7 +22,7 @@
         - type: ClassicStationZLevels
           mapsBelow: []
           mapsAbove:
-          - /Maps/Test/empty.yml
+          - /Maps/_Classic/Stations/Colony/Colony1.yml
           zLevelsComponentOverrides:
             - type: MapAtmosphere
               space: False
