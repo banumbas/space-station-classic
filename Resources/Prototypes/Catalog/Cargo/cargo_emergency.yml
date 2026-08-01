@@ -41,7 +41,7 @@
 - type: cargoProduct
   id: EmergencyRadiation
   icon:
-    sprite: Structures/Wallmounts/signs.rsi
+    sprite: _Classic/Structures/Wallmounts/signs.rsi
     state: radiation
   product: CrateEmergencyRadiation
   cost: 1000

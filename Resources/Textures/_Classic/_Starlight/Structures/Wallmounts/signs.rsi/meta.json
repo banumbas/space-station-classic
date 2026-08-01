@@ -1,0 +1,57 @@
+{
+  "version": 1,
+  "license": "CC-BY-SA-3.0",
+  "copyright": "Taken from https://github.com/wall-nerds/wallening (signs.dmi)",
+  "size": {
+    "x": 82,
+    "y": 82
+  },
+  "states": [
+    {
+      "name": "brigmed"
+    },
+    {
+      "name": "disposals_proper"
+    },
+    {
+      "name": "nosmoking",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (signs.dmi)"
+    },
+    {
+      "name": "secureareasmall"
+    },
+    {
+      "name": "wall_biohazard"
+    },
+    {
+      "name": "wall_extremeheat"
+    },
+    {
+      "name": "yessmoking",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (signs.dmi)"
+    },
+    {
+      "name": "direction_mining",
+      "directions": 4
+    },
+    {
+      "name": "mining"
+    },
+    {
+      "name": "iaa"
+    },
+    {
+      "name": "law"
+    },
+    {
+      "name": "lawyer",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (signs.dmi)"
+    },
+    {
+      "name": "magistrate"
+    },
+    {
+      "name": "ntr"
+    }
+  ]
+}

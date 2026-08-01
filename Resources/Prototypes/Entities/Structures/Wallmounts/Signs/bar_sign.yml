@@ -1,4 +1,4 @@
-﻿- type: entity
+- type: entity
   id: BaseBarSign
   parent: [ BaseWallmountGlass, BaseWallmountMachine ]
   name: bar sign
@@ -12,7 +12,9 @@
   - type: WallMount
     arc: 360
   - type: Sprite
-    sprite: Structures/Wallmounts/barsign.rsi
+    sprite: _Classic/Structures/Wallmounts/barsign.rsi
+    noRot: true
+    snapCardinals: false
     state: empty
   - type: BarSign
   - type: AccessReader

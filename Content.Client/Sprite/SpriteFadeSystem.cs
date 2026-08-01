@@ -37,7 +37,7 @@ public sealed partial class SpriteFadeSystem : EntitySystem
     private EntityQuery<FadingSpriteComponent> _fadingQuery;
     private EntityQuery<FixturesComponent> _fixturesQuery;
 
-    private const float TargetAlpha = 0.4f;
+    private const float TargetAlpha = 0.25f;
     private const float ChangeRate = 1f;
 
     public override void Initialize()
@@ -94,7 +94,7 @@ public sealed partial class SpriteFadeSystem : EntitySystem
                     // Classic-Start
                     if (ent == player ||
                         !_fadeQuery.TryComp(ent, out var fade) ||
-                        IsClassicTopFade(fade) ||
+                        !CanUseRegularFade(ent, fade) ||
                         !_spriteQuery.TryGetComponent(ent, out var sprite) ||
                         sprite.DrawDepth < playerSprite.DrawDepth)
                     // Classic-End
@@ -127,22 +127,31 @@ public sealed partial class SpriteFadeSystem : EntitySystem
                         }
                     }
 
-                    if (!_fadingQuery.TryComp(ent, out var fading))
-                    {
-                        fading = AddComp<FadingSpriteComponent>(ent);
-                        fading.OriginalAlpha = sprite.Color.A;
-                    }
-
-                    _comps.Add(fading);
-                    var newColor = Math.Max(sprite.Color.A - change, TargetAlpha);
-
-                    if (!sprite.Color.A.Equals(newColor))
-                    {
-                        _sprite.SetColor((ent, sprite), sprite.Color.WithAlpha(newColor));
-                    }
+                    TryFadeRegular(ent, sprite, change);
                 }
             }
         }
+    }
+
+    /// <summary>
+    /// Fades an entire sprite and records it as active for this frame. The set
+    /// guard prevents the player and cursor proximity paths from applying the
+    /// fade rate more than once in a single frame.
+    /// </summary>
+    private void TryFadeRegular(EntityUid entity, SpriteComponent sprite, float change)
+    {
+        if (!_fadingQuery.TryComp(entity, out var fading))
+        {
+            fading = AddComp<FadingSpriteComponent>(entity);
+            fading.OriginalAlpha = sprite.Color.A;
+        }
+
+        if (!_comps.Add(fading))
+            return;
+
+        var newColor = Math.Max(sprite.Color.A - change, TargetAlpha);
+        if (!sprite.Color.A.Equals(newColor))
+            _sprite.SetColor((entity, sprite), sprite.Color.WithAlpha(newColor));
     }
 
     /// <summary>

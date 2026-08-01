@@ -90,14 +90,20 @@ public sealed partial class SpriteFadeSystem
 
         foreach (var entity in _classicNearby)
         {
-            if (!entity.Comp.FadeTopOnly ||
-                !_spriteQuery.TryGetComponent(entity, out var sprite) ||
+            if (!_spriteQuery.TryGetComponent(entity, out var sprite) ||
                 sprite.DrawDepth < playerSprite.DrawDepth)
             {
                 continue;
             }
 
-            TryFadeClassic(entity, sprite, change);
+            if (IsClassicTopFade(entity, entity.Comp))
+            {
+                TryFadeClassic(entity, sprite, change);
+                continue;
+            }
+
+            if (entity.Comp.FadeTopOnly && CanUseRegularFade(entity, entity.Comp))
+                TryFadeRegular(entity, sprite, change);
         }
     }
 
@@ -123,7 +129,7 @@ public sealed partial class SpriteFadeSystem
 
                 if (entity == player ||
                     !_fadeQuery.TryComp(entity, out var fade) ||
-                    !fade.FadeTopOnly ||
+                    !IsClassicTopFade(entity, fade) ||
                     !_spriteQuery.TryGetComponent(entity, out var sprite) ||
                     sprite.DrawDepth < playerSprite.DrawDepth)
                 {
@@ -212,9 +218,28 @@ public sealed partial class SpriteFadeSystem
         return false;
     }
 
-    private static bool IsClassicTopFade(SpriteFadeComponent component)
+    /// <summary>
+    /// Only IconSmooth entities have distinct upper layers that can be faded
+    /// independently. Other entities with FadeTopOnly use the regular whole-
+    /// sprite fade path instead of being silently discarded here.
+    /// </summary>
+    private bool IsClassicTopFade(EntityUid entity, SpriteFadeComponent component)
     {
-        return component.FadeTopOnly;
+        return component.FadeTopOnly && HasComp<IconSmoothComponent>(entity);
+    }
+
+    /// <summary>
+    /// Non-smoothed wall mounts cannot fade individual IconSmooth layers.
+    /// For them FadeTopOnly means that the regular whole-sprite fade is only
+    /// active while the entity faces north, where it overlaps the wall top.
+    /// </summary>
+    private bool CanUseRegularFade(EntityUid entity, SpriteFadeComponent component)
+    {
+        if (!component.FadeTopOnly)
+            return true;
+
+        return !HasComp<IconSmoothComponent>(entity) &&
+               _transform.GetWorldRotation(entity).GetCardinalDir() == Direction.North;
     }
 
     private void FadeOutClassic(float change)

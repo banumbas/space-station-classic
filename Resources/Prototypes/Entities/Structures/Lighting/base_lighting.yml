@@ -16,14 +16,18 @@
         collection: GlassSmash
   - type: Transform
     anchored: true
+  - type: Rotatable
+  - type: WallMount
   - type: Clickable
   - type: InteractionOutline
   - type: Construction
     graph: LightFixture
     node: tubeLight
   - type: Sprite
-    sprite: Structures/Wallmounts/Lighting/light_tube.rsi
-    drawdepth: WallMountedItems
+    sprite: _Classic/Structures/Wallmounts/Lighting/light_tube.rsi
+    drawdepth: Effects
+    noRot: true
+    snapCardinals: false
     layers:
     - map: ["enum.PoweredLightLayers.Base"]
       state: base
@@ -36,6 +40,8 @@
     energy: 0.8
     radius: 10
     softness: 1
+    mask: /Textures/Effects/LightMasks/cone.png
+    autoRot: true
     offset: "0, -0.5"
   - type: Damageable
     damageContainer: Inorganic
@@ -98,7 +104,7 @@
   parent: AlwaysPoweredWallLight
   components:
   - type: Sprite
-    sprite: Structures/Wallmounts/Lighting/light_tube.rsi
+    sprite: _Classic/Structures/Wallmounts/Lighting/light_tube.rsi
     state: empty
   - type: PointLight
     enabled: false
@@ -261,7 +267,7 @@
       sound:
         path: /Audio/Ambience/Objects/light_hum.ogg
     - type: Sprite
-      sprite: Structures/Wallmounts/Lighting/light_small.rsi
+      sprite: _Classic/Structures/Wallmounts/Lighting/light_small.rsi
       state: base
     - type: PointLight
       energy: 1.0
@@ -315,7 +321,7 @@
   parent: SmallLight
   components:
   - type: Sprite
-    sprite: Structures/Wallmounts/Lighting/light_small.rsi
+    sprite: _Classic/Structures/Wallmounts/Lighting/light_small.rsi
     state: empty
   - type: AmbientSound
     enabled: false

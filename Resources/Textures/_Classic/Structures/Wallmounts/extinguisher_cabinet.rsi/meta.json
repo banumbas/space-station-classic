@@ -1,0 +1,48 @@
+{
+  "version": 1,
+  "license": "CC-BY-SA-3.0",
+  "copyright": "Taken from https://github.com/wall-nerds/wallening (extinguisher.dmi)",
+  "size": {
+    "x": 82,
+    "y": 82
+  },
+  "states": [
+    {
+      "name": "extinguisher_closed"
+    },
+    {
+      "name": "extinguisher_empty"
+    },
+    {
+      "name": "extinguisher_full"
+    },
+    {
+      "name": "extinguisher_mini"
+    },
+    {
+      "name": "closed",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (extinguisher.dmi)",
+      "directions": 4
+    },
+    {
+      "name": "extinguisher",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (extinguisher.dmi)",
+      "directions": 4
+    },
+    {
+      "name": "extinguisher-mini",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (extinguisher.dmi)",
+      "directions": 4
+    },
+    {
+      "name": "frame",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (extinguisher.dmi)",
+      "directions": 4
+    },
+    {
+      "name": "open",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (extinguisher.dmi)",
+      "directions": 4
+    }
+  ]
+}

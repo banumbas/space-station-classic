@@ -10,9 +10,10 @@
     timerOffset: 0,-4
     rows: 2
   - type: Sprite
-    drawdepth: WallMountedItems
-    sprite: Structures/Wallmounts/screen.rsi
+    drawdepth: Effects
+    sprite: _Classic/Structures/Wallmounts/screen.rsi
     noRot: true
+    snapCardinals: false
     layers:
       - state: screen
       - state: green

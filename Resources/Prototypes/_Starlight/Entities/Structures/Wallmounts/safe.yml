@@ -17,9 +17,10 @@
   - type: Transform
     noRot: false
   - type: Sprite
-    drawdepth: WallMountedItems
-    noRot: false
-    sprite: _Starlight/Structures/Storage/safe.rsi
+    drawdepth: Effects
+    noRot: true
+    snapCardinals: false
+    sprite: _Classic/_Starlight/Structures/Storage/safe.rsi
     layers:
     - state: icon
     - state: open

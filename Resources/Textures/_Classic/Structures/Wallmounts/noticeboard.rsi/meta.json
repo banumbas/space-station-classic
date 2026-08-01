@@ -1,0 +1,39 @@
+{
+  "version": 1,
+  "size": {
+    "x": 32,
+    "y": 32
+  },
+  "copyright": "Taken from https://github.com/wall-nerds/wallening (wallmounts.dmi)",
+  "license": "CC-BY-SA-3.0",
+  "states": [
+    {
+      "name": "noticeboard",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (wallmounts.dmi)"
+    },
+    {
+      "name": "notice-0",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (wallmounts.dmi)"
+    },
+    {
+      "name": "notice-1",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (wallmounts.dmi)"
+    },
+    {
+      "name": "notice-2",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (wallmounts.dmi)"
+    },
+    {
+      "name": "notice-3",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (wallmounts.dmi)"
+    },
+    {
+      "name": "notice-4",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (wallmounts.dmi)"
+    },
+    {
+      "name": "notice-5",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (wallmounts.dmi)"
+    }
+  ]
+}

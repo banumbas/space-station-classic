@@ -8,8 +8,9 @@
     mode: SnapgridCenter
   components:
   - type: Sprite
-    sprite: Structures/Wallmounts/defib_cabinet.rsi
-    noRot: false
+    sprite: _Classic/Structures/Wallmounts/defib_cabinet.rsi
+    noRot: true
+    snapCardinals: false
     layers:
     - state: frame
     - state: fill

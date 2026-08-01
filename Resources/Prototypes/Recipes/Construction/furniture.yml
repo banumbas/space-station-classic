@@ -280,6 +280,18 @@
     - !type:TileNotBlocked
 
 - type: construction
+  id: TableReinforcedPlasmaGlass
+  graph: Table
+  startNode: start
+  targetNode: TableReinforcedPlasmaGlass
+  category: construction-category-furniture
+  objectType: Structure
+  placementMode: SnapgridCenter
+  canBuildInImpassable: false
+  conditions:
+    - !type:TileNotBlocked
+
+- type: construction
   id: TableBrass
   graph: Table
   startNode: start
@@ -438,6 +450,30 @@
   graph: Table
   startNode: start
   targetNode: TableFancyWhite
+  category: construction-category-furniture
+  objectType: Structure
+  placementMode: SnapgridCenter
+  canBuildInImpassable: false
+  conditions:
+    - !type:TileNotBlocked
+
+- type: construction
+  id: TableFancyRoyalBlack
+  graph: Table
+  startNode: start
+  targetNode: TableFancyRoyalBlack
+  category: construction-category-furniture
+  objectType: Structure
+  placementMode: SnapgridCenter
+  canBuildInImpassable: false
+  conditions:
+    - !type:TileNotBlocked
+
+- type: construction
+  id: TableFancyRoyalBlue
+  graph: Table
+  startNode: start
+  targetNode: TableFancyRoyalBlue
   category: construction-category-furniture
   objectType: Structure
   placementMode: SnapgridCenter

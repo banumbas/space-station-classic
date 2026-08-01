@@ -1,0 +1,202 @@
+{
+  "version": 1,
+  "size": {
+    "x": 32,
+    "y": 64
+  },
+  "copyright": "Taken from https://github.com/wall-nerds/wallening (icons/obj/storage/closet.dmi)",
+  "license": "CC-BY-SA-3.0",
+  "states": [
+    {
+      "name": "generic"
+    },
+    {
+      "name": "generic_door"
+    },
+    {
+      "name": "generic_icon"
+    },
+    {
+      "name": "generic_open"
+    },
+    {
+      "name": "bssecure_door"
+    },
+    {
+      "name": "bssecure"
+    },
+    {
+      "name": "bssecure_open"
+    },
+    {
+      "name": "welded"
+    },
+    {
+      "name": "unlocked"
+    },
+    {
+      "name": "locked"
+    },
+    {
+      "name": "sparking",
+      "delays": [
+        [
+          0.1,
+          0.1,
+          0.1,
+          0.1
+        ]
+      ]
+    },
+    {
+      "name": "miner"
+    },
+    {
+      "name": "miner_door"
+    },
+    {
+      "name": "miner_open"
+    },
+    {
+      "name": "panel_open"
+    },
+    {
+      "name": "salvagelead"
+    },
+    {
+      "name": "salvagelead_door"
+    },
+    {
+      "name": "salvagelead_open"
+    },
+    {
+      "name": "janitor"
+    },
+    {
+      "name": "janitor_door"
+    },
+    {
+      "name": "janitor_open"
+    },
+    {
+      "name": "ntr",
+      "copyright": "Taken from tgstation, resprited into NTR by wonderfulnewworld (GitHub)"
+    },
+    {
+      "name": "ntr_door",
+      "copyright": "Taken from tgstation, resprited into NTR by wonderfulnewworld (GitHub)"
+    },
+    {
+      "name": "nanotrasen-black_open",
+      "copyright": "Taken from tgstation, resprited into NanoTrasen Black by wonderfulnewworld (GitHub)"
+    },
+    {
+      "name": "magi",
+      "copyright": "Taken from tgstation, resprited into Magi by wonderfulnewworld (GitHub)"
+    },
+    {
+      "name": "magi_door",
+      "copyright": "Taken from tgstation, resprited into Magi by wonderfulnewworld (GitHub)"
+    },
+    {
+      "name": "bso",
+      "copyright": "Taken from tgstation, resprited into BSO by wonderfulnewworld (GitHub)"
+    },
+    {
+      "name": "bso_door",
+      "copyright": "Taken from tgstation, resprited into BSO by wonderfulnewworld (GitHub)"
+    },
+    {
+      "name": "iaa",
+      "copyright": "Taken from tgstation, resprited into IAA by wonderfulnewworld (GitHub)"
+    },
+    {
+      "name": "iaa_door",
+      "copyright": "Taken from tgstation, resprited into IAA by wonderfulnewworld (GitHub)"
+    },
+    {
+      "name": "nct",
+      "copyright": "Taken from tgstation, resprited into NCT by wonderfulnewworld (GitHub)"
+    },
+    {
+      "name": "nct_door",
+      "copyright": "Taken from tgstation, resprited into NCT by wonderfulnewworld (GitHub)"
+    },
+    {
+      "name": "cargo",
+      "copyright": "Taken from tgstation, resprited into Cargo by wonderfulnewworld (GitHub)"
+    },
+    {
+      "name": "cargo_door",
+      "copyright": "Taken from tgstation, resprited into Cargo by wonderfulnewworld (GitHub)"
+    },
+    {
+      "name": "cargo_open",
+      "copyright": "Taken from tgstation, resprited into Cargo by wonderfulnewworld (GitHub)"
+    },
+    {
+      "name": "mail",
+      "copyright": "Taken from tgstation, resprited into Mail by wonderfulnewworld (GitHub)"
+    },
+    {
+      "name": "mail_door",
+      "copyright": "Taken from tgstation, resprited into Mail by wonderfulnewworld (GitHub)"
+    },
+    {
+      "name": "mail_open",
+      "copyright": "Taken from tgstation, resprited into Mail by wonderfulnewworld (GitHub)"
+    },
+    {
+      "name": "medical_open",
+      "copyright": "Taken from tgstation"
+    },
+    {
+      "name": "robosurgeon-black_open",
+      "copyright": "Taken from tgstation, resprited into robosurgeon by wonderfulnewworld (GitHub)"
+    },
+    {
+      "name": "surgeon",
+      "copyright": "Taken from tgstation, resprited into Surgeon by wonderfulnewworld (GitHub)"
+    },
+    {
+      "name": "surgeon_door",
+      "copyright": "Taken from tgstation, resprited into Surgeon by wonderfulnewworld (GitHub)"
+    },
+    {
+      "name": "coroner",
+      "copyright": "Taken from tgstation, resprited into Coroner by wonderfulnewworld (GitHub)"
+    },
+    {
+      "name": "coroner_door",
+      "copyright": "Taken from tgstation, resprited into Coroner by wonderfulnewworld (GitHub)"
+    },
+    {
+      "name": "coroner_open",
+      "copyright": "Taken from tgstation, resprited into Coroner by wonderfulnewworld (GitHub)"
+    },
+    {
+      "name": "virologist",
+      "copyright": "Taken from tgstation, resprited into Virologist by wonderfulnewworld (GitHub)"
+    },
+    {
+      "name": "virologist_door",
+      "copyright": "Taken from tgstation, resprited into Virologist by wonderfulnewworld (GitHub)"
+    },
+    {
+      "name": "geneticist",
+      "copyright": "Taken from tgstation, resprited into Geneticist by wonderfulnewworld (GitHub)"
+    },
+    {
+      "name": "geneticist_door",
+      "copyright": "Taken from tgstation, resprited into Geneticist by wonderfulnewworld (GitHub)"
+    },
+    {
+      "name": "roboticist",
+      "copyright": "Taken from tgstation, resprited into Roboticist by wonderfulnewworld (GitHub)"
+    },
+    {
+      "name": "roboticist_door",
+      "copyright": "Taken from tgstation, resprited into Roboticist by wonderfulnewworld (GitHub)"
+    }
+  ]
+}

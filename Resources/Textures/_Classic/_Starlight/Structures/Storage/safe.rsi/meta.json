@@ -1,0 +1,37 @@
+{
+  "version": 1,
+  "license": "CC-BY-SA-3.0",
+  "copyright": "Taken from https://github.com/wall-nerds/wallening (storage\\storage.dmi)",
+  "size": {
+    "x": 82,
+    "y": 82
+  },
+  "states": [
+    {
+      "name": "icon",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (storage\\storage.dmi)",
+      "directions": 4
+    },
+    {
+      "name": "closed",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (storage\\storage.dmi)",
+      "directions": 4
+    },
+    {
+      "name": "open",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (storage\\storage.dmi)",
+      "directions": 4
+    },
+    {
+      "name": "spark",
+      "delays": [
+        [
+          0.1,
+          0.1,
+          0.1,
+          0.1
+        ]
+      ]
+    }
+  ]
+}

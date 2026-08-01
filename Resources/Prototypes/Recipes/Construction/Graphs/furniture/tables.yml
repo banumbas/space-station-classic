@@ -82,6 +82,12 @@
               amount: 1
               doAfter: 1
 
+        - to: TableReinforcedPlasmaGlass
+          steps:
+            - material: ReinforcedPlasmaGlass
+              amount: 1
+              doAfter: 1
+
         - to: TableBrass
           steps:
             - material: Brass
@@ -204,6 +210,18 @@
             - tool: Anchoring
               doAfter: 1
 
+    - node: TableReinforcedPlasmaGlass
+      entity: TableReinforcedPlasmaGlass
+      edges:
+        - to: TableFrame
+          completed:
+            - !type:SpawnPrototype
+              prototype: SheetRPGlass1
+              amount: 1
+          steps:
+            - tool: Anchoring
+              doAfter: 1
+
     - node: TableBrass
       entity: TableBrass
       edges:
@@ -282,6 +300,16 @@
         - to: TableFancyWhite
           steps:
             - material: FloorCarpetWhite
+              amount: 1
+
+        - to: TableFancyRoyalBlack
+          steps:
+            - material: FloorCarpetBlack
+              amount: 1
+
+        - to: TableFancyRoyalBlue
+          steps:
+            - material: FloorCarpetBlue
               amount: 1
 
     - node: TableCarpet
@@ -411,6 +439,30 @@
           completed:
             - !type:SpawnPrototype
               prototype: FloorCarpetItemWhite
+              amount: 1
+          steps:
+            - tool: Prying
+              doAfter: 1
+
+    - node: TableFancyRoyalBlack
+      entity: TableFancyRoyalBlack
+      edges:
+        - to: TableWood
+          completed:
+            - !type:SpawnPrototype
+              prototype: FloorCarpetItemBlack
+              amount: 1
+          steps:
+            - tool: Prying
+              doAfter: 1
+
+    - node: TableFancyRoyalBlue
+      entity: TableFancyRoyalBlue
+      edges:
+        - to: TableWood
+          completed:
+            - !type:SpawnPrototype
+              prototype: FloorCarpetItemBlue
               amount: 1
           steps:
             - tool: Prying

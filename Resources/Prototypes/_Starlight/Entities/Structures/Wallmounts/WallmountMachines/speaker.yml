@@ -18,7 +18,7 @@
     damageContainer: StructuralInorganic
     damageModifierSet: Metallic
   - type: Sprite
-    drawdepth: WallMountedItems
+    drawdepth: Effects
     sprite: _Starlight/Structures/Machines/speaker.rsi
     state: speaker
   - type: StaticPrice

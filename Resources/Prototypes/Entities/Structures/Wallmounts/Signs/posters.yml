@@ -42,7 +42,7 @@
   description: "You can't make out anything from the poster's original print. It's ruined."
   components:
   - type: Sprite
-    drawdepth: WallTops
+    drawdepth: Effects
     sprite: Structures/Wallmounts/posters.rsi
     state: poster_broken
   - type: Destructible

@@ -1,0 +1,46 @@
+{
+  "version": 1,
+  "size": {
+    "x": 32,
+    "y": 32
+  },
+  "license": "CC-BY-SA-3.0",
+  "copyright": "take in https://github.com/wall-nerds/wallening/tree/stable/icons/obj/smooth_structures/window_frames",
+  "states": [
+    {
+      "name": "window_frame_sandstone0",
+      "directions": 4
+    },
+    {
+      "name": "window_frame_sandstone1",
+      "directions": 4
+    },
+    {
+      "name": "window_frame_sandstone2",
+      "directions": 4
+    },
+    {
+      "name": "window_frame_sandstone3",
+      "directions": 4
+    },
+    {
+      "name": "window_frame_sandstone4",
+      "directions": 4
+    },
+    {
+      "name": "window_frame_sandstone5",
+      "directions": 4
+    },
+    {
+      "name": "window_frame_sandstone6",
+      "directions": 4
+    },
+    {
+      "name": "window_frame_sandstone7",
+      "directions": 4
+    },
+    {
+      "name": "full"
+    }
+  ]
+}

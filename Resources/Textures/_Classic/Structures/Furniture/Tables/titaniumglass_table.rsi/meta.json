@@ -1,0 +1,46 @@
+{
+  "version": 1,
+  "size": {
+    "x": 32,
+    "y": 48
+  },
+  "license": "CC-BY-SA-3.0",
+  "copyright": "take in https://github.com/wall-nerds/wallening/tree/stable/icons/obj/smooth_structures/tables",
+  "states": [
+    {
+      "name": "titaniumglass_table0",
+      "directions": 4
+    },
+    {
+      "name": "titaniumglass_table1",
+      "directions": 4
+    },
+    {
+      "name": "titaniumglass_table2",
+      "directions": 4
+    },
+    {
+      "name": "titaniumglass_table3",
+      "directions": 4
+    },
+    {
+      "name": "titaniumglass_table4",
+      "directions": 4
+    },
+    {
+      "name": "titaniumglass_table5",
+      "directions": 4
+    },
+    {
+      "name": "titaniumglass_table6",
+      "directions": 4
+    },
+    {
+      "name": "titaniumglass_table7",
+      "directions": 4
+    },
+    {
+      "name": "full"
+    }
+  ]
+}

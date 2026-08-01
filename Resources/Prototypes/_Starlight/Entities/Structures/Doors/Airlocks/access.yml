@@ -622,7 +622,7 @@
   suffix: Communist, Locked
   components:
     - type: Sprite
-      sprite: Structures/Doors/Airlocks/Standard/basic.rsi
+      sprite: _Classic/Structures/Doors/Airlocks/Standard/basic.rsi
     - type: ContainerFill
       containers:
         board: [ DoorElectronicsCommunist ]
@@ -635,7 +635,7 @@
   suffix: Communist, Locked
   components:
     - type: Sprite
-      sprite: Structures/Doors/Airlocks/Glass/glass.rsi
+      sprite: _Classic/Structures/Doors/Airlocks/Glass/glass.rsi
     - type: ContainerFill
       containers:
         board: [ DoorElectronicsCommunist ]
@@ -648,7 +648,7 @@
   suffix: Communist, Locked
   components:
     - type: Sprite
-      sprite: Structures/Doors/Airlocks/Standard/maint.rsi
+      sprite: _Classic/Structures/Doors/Airlocks/Standard/maint.rsi
 
 - type: entity
   parent: AirlockHatch
@@ -732,7 +732,7 @@
   suffix: Wizard, Locked
   components:
     - type: Sprite
-      sprite: Structures/Doors/Airlocks/Standard/basic.rsi
+      sprite: _Classic/Structures/Doors/Airlocks/Standard/basic.rsi
     - type: ContainerFill
       containers:
         board: [ DoorElectronicsWizard ]
@@ -745,7 +745,7 @@
   suffix: Wizard, Locked
   components:
     - type: Sprite
-      sprite: Structures/Doors/Airlocks/Glass/glass.rsi
+      sprite: _Classic/Structures/Doors/Airlocks/Glass/glass.rsi
     - type: ContainerFill
       containers:
         board: [ DoorElectronicsWizard ]
@@ -758,7 +758,7 @@
   suffix: Wizard, Locked
   components:
     - type: Sprite
-      sprite: Structures/Doors/Airlocks/Standard/maint.rsi
+      sprite: _Classic/Structures/Doors/Airlocks/Standard/maint.rsi
 
 - type: entity
   parent: AirlockHatch
@@ -842,7 +842,7 @@
   suffix: Blackstar, Locked
   components:
     - type: Sprite
-      sprite: Structures/Doors/Airlocks/Standard/basic.rsi
+      sprite: _Classic/Structures/Doors/Airlocks/Standard/basic.rsi
     - type: ContainerFill
       containers:
         board: [ DoorElectronicsBlackstar ]
@@ -855,7 +855,7 @@
   suffix: Blackstar, Locked
   components:
     - type: Sprite
-      sprite: Structures/Doors/Airlocks/Glass/glass.rsi
+      sprite: _Classic/Structures/Doors/Airlocks/Glass/glass.rsi
     - type: ContainerFill
       containers:
         board: [ DoorElectronicsBlackstar ]
@@ -868,7 +868,7 @@
   suffix: Blackstar, Locked
   components:
     - type: Sprite
-      sprite: Structures/Doors/Airlocks/Standard/maint.rsi
+      sprite: _Classic/Structures/Doors/Airlocks/Standard/maint.rsi
 
 - type: entity
   parent: AirlockHatch
@@ -898,7 +898,7 @@
   suffix: External, Blackstar, Locked
   components:
     - type: Sprite
-      sprite: Structures/Doors/Airlocks/Standard/external.rsi
+      sprite: _Classic/Structures/Doors/Airlocks/Standard/external.rsi
     - type: ContainerFill
       containers:
         board: [ DoorElectronicsBlackstar ]
@@ -911,7 +911,7 @@
   suffix: Glass, External, Blackstar, Locked
   components:
     - type: Sprite
-      sprite: Structures/Doors/Airlocks/Glass/external.rsi
+      sprite: _Classic/Structures/Doors/Airlocks/Glass/external.rsi
     - type: ContainerFill
       containers:
         board: [ DoorElectronicsBlackstar ]
@@ -924,7 +924,7 @@
   suffix: Docking, Blackstar, Locked
   components:
     - type: Sprite
-      sprite: Structures/Doors/Airlocks/Standard/shuttle.rsi
+      sprite: _Classic/Structures/Doors/Airlocks/Standard/shuttle.rsi
     - type: ContainerFill
       containers:
         board: [ DoorElectronicsBlackstar ]
@@ -937,7 +937,7 @@
   suffix: Glass, Docking, Blackstar, Locked
   components:
     - type: Sprite
-      sprite: Structures/Doors/Airlocks/Glass/shuttle.rsi
+      sprite: _Classic/Structures/Doors/Airlocks/Glass/shuttle.rsi
     - type: ContainerFill
       containers:
         board: [ DoorElectronicsBlackstar ]
@@ -950,7 +950,7 @@
   suffix: Blackstar, Locked
   components:
     - type: Sprite
-      sprite: Structures/Doors/Airlocks/highsec/highsec.rsi
+      sprite: _Classic/Structures/Doors/Airlocks/highsec/highsec.rsi
     - type: ContainerFill
       containers:
         board: [ DoorElectronicsBlackstar ]

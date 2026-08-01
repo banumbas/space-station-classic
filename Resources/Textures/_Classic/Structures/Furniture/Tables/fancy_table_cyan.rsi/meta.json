@@ -1,0 +1,46 @@
+{
+  "version": 1,
+  "size": {
+    "x": 32,
+    "y": 50
+  },
+  "license": "CC-BY-SA-3.0",
+  "copyright": "take in https://github.com/wall-nerds/wallening/tree/stable/icons/obj/smooth_structures/tables",
+  "states": [
+    {
+      "name": "fancy_table_cyan0",
+      "directions": 4
+    },
+    {
+      "name": "fancy_table_cyan1",
+      "directions": 4
+    },
+    {
+      "name": "fancy_table_cyan2",
+      "directions": 4
+    },
+    {
+      "name": "fancy_table_cyan3",
+      "directions": 4
+    },
+    {
+      "name": "fancy_table_cyan4",
+      "directions": 4
+    },
+    {
+      "name": "fancy_table_cyan5",
+      "directions": 4
+    },
+    {
+      "name": "fancy_table_cyan6",
+      "directions": 4
+    },
+    {
+      "name": "fancy_table_cyan7",
+      "directions": 4
+    },
+    {
+      "name": "full"
+    }
+  ]
+}

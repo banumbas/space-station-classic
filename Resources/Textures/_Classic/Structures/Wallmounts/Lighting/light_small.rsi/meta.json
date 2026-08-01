@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "size": {
+    "x": 82,
+    "y": 82
+  },
+  "license": "CC-BY-SA-3.0",
+  "copyright": "Taken from https://github.com/wall-nerds/wallening (lighting.dmi)",
+  "states": [
+    {
+      "name": "broken",
+      "directions": 4,
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (lighting.dmi)"
+    },
+    {
+      "name": "burned",
+      "directions": 4,
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (lighting.dmi)"
+    },
+    {
+      "name": "empty",
+      "directions": 4,
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (lighting.dmi)"
+    },
+    {
+      "name": "base",
+      "directions": 4,
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (lighting.dmi)"
+    },
+    {
+      "name": "glow",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (lighting.dmi)",
+      "directions": 4
+    }
+  ]
+}

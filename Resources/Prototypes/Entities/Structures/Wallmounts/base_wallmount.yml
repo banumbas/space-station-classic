@@ -21,7 +21,7 @@
     tags:
     - Structure
   - type: Sprite
-    drawdepth: WallMountedItems
+    drawdepth: Effects
 
 - type: entity
   parent: BaseWallmount
