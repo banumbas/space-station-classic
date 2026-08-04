@@ -10,6 +10,7 @@
         id: Syringe
         amount: 6
   - type: Sprite
+    sprite: Objects/Storage/boxes.rsi
     layers:
       - state: box
       - state: syringe
@@ -26,6 +27,7 @@
         id: PillCanister
         amount: 9
   - type: Sprite
+    sprite: Objects/Storage/boxes.rsi
     layers:
       - state: box
       - state: pillbox
@@ -42,6 +44,7 @@
         id: ChemistryEmptyBottle01
         amount: 6
   - type: Sprite
+    sprite: Objects/Storage/boxes.rsi
     layers:
       - state: box
       - state: bottle
@@ -62,6 +65,7 @@
         id: ClothingMaskSterile
         amount: 4
   - type: Sprite
+    sprite: Objects/Storage/boxes.rsi
     layers:
       - state: box
       - state: sterile
@@ -78,6 +82,7 @@
         id: ClothingHandsGlovesLatex
         amount: 4
   - type: Sprite
+    sprite: Objects/Storage/boxes.rsi
     layers:
       - state: box
       - state: latex
@@ -94,6 +99,7 @@
         id: ClothingHandsGlovesNitrile
         amount: 4
   - type: Sprite
+    sprite: Objects/Storage/boxes.rsi
     layers:
       - state: box
       - state: nitrile
@@ -110,6 +116,7 @@
         id: BodyBagFolded
         amount: 4
   - type: Sprite
+    sprite: Objects/Storage/boxes.rsi
     layers:
       - state: box
       - state: bodybags
@@ -136,6 +143,7 @@
         - id: ChemistryEmptyVialSmall
         rolls: 2 # group the small vials on the right column
   - type: Sprite
+    sprite: Objects/Storage/boxes.rsi
     layers:
       - state: box
       - state: vials

@@ -52,8 +52,8 @@
     proto: ProjectileRocketStructuralPMC
   - type: Appearance
   - type: SpentAmmoVisuals
-    State: icon
-    Suffix: true
+    state: icon
+    suffix: true
   - type: Tag
     tags:
     - CartridgeRocket

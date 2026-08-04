@@ -8,7 +8,7 @@
   - type: SolutionContainerMixer
   - type: ReactionMixer
   - type: Sprite
-    drawdepth: SmallObjects
+    drawdepth: LargeObjects
     snapCardinals: true
   - type: Appearance
   - type: Physics

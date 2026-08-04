@@ -50,6 +50,7 @@
         id: ThrowingKnife
         amount: 8
   - type: Sprite
+    sprite: Objects/Storage/boxes.rsi
     layers:
       - state: box_of_doom
       - state: throwing_knives
@@ -61,6 +62,7 @@
   description: Six deathrattle implants for the whole squad.
   components:
   - type: Sprite
+    sprite: Objects/Storage/boxes.rsi
     layers:
       - state: box_of_doom
       - state: syringe
@@ -88,6 +90,7 @@
     shape:
     - 0,0,3,3
   - type: Sprite
+    sprite: Objects/Storage/boxes.rsi
     layers:
       - state: box_of_doom
       - state: france

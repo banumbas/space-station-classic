@@ -8,10 +8,10 @@
     sound:
       path: /Audio/Items/welder_drop.ogg
   - type: Sprite
-    sprite: Objects/Tools/welder.rsi
+    sprite: _Classic/Objects/Tools/tools.rsi
     layers:
-    - state: icon
-    - state: welder_flame
+    - state: welder
+    - state: welder-on
       visible: false
       shader: unshaded
       map: ["enum.ToggleableVisuals.Layer"]
@@ -63,10 +63,12 @@
     spriteLayer: flame
     inhandVisuals:
       left:
-      - state: inhand-left-flame
+      - sprite: Objects/Tools/welder.rsi
+        state: inhand-left-flame
         shader: unshaded
       right:
-      - state: inhand-right-flame
+      - sprite: Objects/Tools/welder.rsi
+        state: inhand-right-flame
         shader: unshaded
   - type: UseDelay
   - type: MeleeWeapon
@@ -129,7 +131,13 @@
   description: "An industrial welder with over double the fuel capacity."
   components:
   - type: Sprite
-    sprite: Objects/Tools/welder_industrial.rsi
+    sprite: _Classic/Objects/Tools/tools.rsi
+    layers:
+    - state: indwelder
+    - state: indwelder-on
+      visible: false
+      shader: unshaded
+      map: ["enum.ToggleableVisuals.Layer"]
   - type: Item
     sprite: Objects/Tools/welder_industrial.rsi
   - type: SolutionContainerManager
@@ -150,7 +158,13 @@
   description: "An advanced industrial welder with over double the fuel capacity and hotter flame."
   components:
   - type: Sprite
-    sprite: Objects/Tools/welder_industrialadv.rsi
+    sprite: _Classic/Objects/Tools/tools.rsi
+    layers:
+    - state: upindwelder
+    - state: upindwelder-on
+      visible: false
+      shader: unshaded
+      map: ["enum.ToggleableVisuals.Layer"]
   - type: Item
     sprite: Objects/Tools/welder_industrialadv.rsi
   - type: SolutionContainerManager
@@ -174,7 +188,13 @@
   description: "An experimental welder capable of self-fuel generation and less harmful to the eyes."
   components:
   - type: Sprite
-    sprite: Objects/Tools/welder_experimental.rsi
+    sprite: _Classic/Objects/Tools/tools.rsi
+    layers:
+    - state: exwelder
+    - state: exwelder-on
+      visible: false
+      shader: unshaded
+      map: ["enum.ToggleableVisuals.Layer"]
   - type: Item
     sprite: Objects/Tools/welder_experimental.rsi
   - type: SolutionContainerManager
@@ -208,7 +228,13 @@
   description: "A miniature welder used during emergencies."
   components:
   - type: Sprite
-    sprite: Objects/Tools/welder_mini.rsi
+    sprite: _Classic/Objects/Tools/tools.rsi
+    layers:
+    - state: miniwelder
+    - state: miniwelder-on
+      visible: false
+      shader: unshaded
+      map: ["enum.ToggleableVisuals.Layer"]
   - type: Item
     size: Tiny
     sprite: Objects/Tools/welder_mini.rsi

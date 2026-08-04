@@ -327,8 +327,8 @@
   id: ChemDispenser
   name: steal-target-groups-chem-dispenser
   sprite:
-    sprite: Structures/dispensers.rsi
-    state: industrial-working
+    sprite: _Classic/Objects/Specific/Medical/chemical.rsi
+    state: dispenser
 
 - type: stealTargetGroup
   id: XenoArtifact

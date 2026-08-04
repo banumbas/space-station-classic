@@ -14,10 +14,11 @@
       Glass: 25
   - type: SpaceGarbage
   - type: Sprite
-    sprite: Objects/Specific/Chemistry/bottle.rsi
+    sprite: _Classic/Objects/Specific/Medical/chemical.rsi
     layers:
-    - state: bottle-1
+    - state: bottle
     - state: bottle-1-1
+      sprite: Objects/Specific/Chemistry/bottle.rsi
       map: ["enum.SolutionContainerLayers.Fill"]
       visible: false
   - type: Appearance
@@ -114,8 +115,10 @@
   components:
   - type: Sprite
     layers:
-    - state: bottle-2
-    - state: bottle-2-1
+    - sprite: Objects/Specific/Chemistry/bottle.rsi
+      state: bottle-2
+    - sprite: Objects/Specific/Chemistry/bottle.rsi
+      state: bottle-2-1
       map: ["enum.SolutionContainerLayers.Fill"]
       visible: false
   - type: SolutionContainerVisuals
@@ -127,8 +130,10 @@
   components:
   - type: Sprite
     layers:
-    - state: bottle-3
-    - state: bottle-3-1
+    - sprite: Objects/Specific/Chemistry/bottle.rsi
+      state: bottle-3
+    - sprite: Objects/Specific/Chemistry/bottle.rsi
+      state: bottle-3-1
       map: ["enum.SolutionContainerLayers.Fill"]
       visible: false
   - type: SolutionContainerVisuals
@@ -140,8 +145,10 @@
   components:
   - type: Sprite
     layers:
-    - state: bottle-4
-    - state: bottle-4-1
+    - sprite: Objects/Specific/Chemistry/bottle.rsi
+      state: bottle-4
+    - sprite: Objects/Specific/Chemistry/bottle.rsi
+      state: bottle-4-1
       map: ["enum.SolutionContainerLayers.Fill"]
       visible: false
   - type: SolutionContainerVisuals

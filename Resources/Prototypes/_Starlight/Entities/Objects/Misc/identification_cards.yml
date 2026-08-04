@@ -13,9 +13,8 @@
         - sprite: *id-rsi
           state: stripe_bottom
           color: "#6b6b6b"
-        - sprite: &starlight-icon-rsi _Starlight/Interface/Misc/job_icons.rsi
-          offset: &icon-offset -0.09375, 0.0625 #3 pixels left, 2 pixels up
-          state: Magistrate
+        - sprite: &starlight-icon-rsi _Classic/Objects/Misc/id_cards.rsi
+          state: trim_lawyer
     - type: Item
       sprite: Objects/Misc/id_cards.rsi
       heldPrefix: blue
@@ -28,7 +27,7 @@
   name: CentComm operator ID card
   components:
   - type: Sprite
-    sprite: _Starlight/Objects/Misc/id_cards.rsi
+    sprite: _Classic/Objects/Misc/id_cards.rsi
     layers:
     - state: centcom
     - sprite: *id-rsi
@@ -38,8 +37,7 @@
       state: stripe_bottom
       color: "#6b6b6b"
     - sprite: *starlight-icon-rsi
-      offset: *icon-offset
-      state: CentCommOperator
+      state: trim_centcom
   - type: Item
     sprite: Objects/Misc/id_cards.rsi
     heldPrefix: green
@@ -60,9 +58,8 @@
       color: &color-science-top "#a53aaa"
     - state: stripe_bottom
       color: &color-science-bottom "#652368"
-    - sprite: &icon-rsi Interface/Misc/job_icons.rsi
-      offset: *icon-offset
-      state: Roboticist
+    - sprite: &icon-rsi _Classic/Objects/Misc/id_cards.rsi
+      state: trim_roboticist
   - type: PresetIdCard
     job: Roboticist
 
@@ -72,7 +69,7 @@
   name: NanoTrasen representative ID Card
   components:
   - type: Sprite
-    sprite: _Starlight/Objects/Misc/id_cards.rsi
+    sprite: _Classic/Objects/Misc/id_cards.rsi
     layers:
     - state: nanotrasen
     - sprite: *id-rsi
@@ -82,8 +79,7 @@
       state: stripe_bottom
       color: "#876c00"
     - sprite: *starlight-icon-rsi
-      offset: *icon-offset
-      state: NanoTrasenRepresentative
+      state: trim_centcom
   - type: Item
     sprite: Objects/Misc/id_cards.rsi
     heldPrefix: blue
@@ -96,7 +92,7 @@
   name: internal affairs agent ID card
   components:
   - type: Sprite
-    sprite: _Starlight/Objects/Misc/id_cards.rsi
+    sprite: _Classic/Objects/Misc/id_cards.rsi
     layers:
     - state: silver
     - sprite: *id-rsi
@@ -106,8 +102,7 @@
       state: stripe_bottom
       color: "#96064c"
     - sprite: *starlight-icon-rsi
-      offset: *icon-offset
-      state: IAA
+      state: trim_lawyer
   - type: PresetIdCard
     job: IAA
 
@@ -117,7 +112,7 @@
   name: blue shield ID card
   components:
   - type: Sprite
-    sprite: _Starlight/Objects/Misc/id_cards.rsi
+    sprite: _Classic/Objects/Misc/id_cards.rsi
     layers:
     - state: silver
     - sprite: *id-rsi
@@ -127,8 +122,7 @@
       state: stripe_bottom
       color: "#062d4d"
     - sprite: *starlight-icon-rsi
-      offset: *icon-offset
-      state: BlueShield
+      state: trim_securityofficer
   - type: PresetIdCard
     job: BlueShield
 
@@ -138,7 +132,7 @@
   name: NanoTrasen navy corps marine's ID card
   components:
   - type: Sprite
-    sprite: _Starlight/Objects/Misc/id_cards.rsi
+    sprite: _Classic/Objects/Misc/id_cards.rsi
     layers:
     - state: gold
     - sprite: *id-rsi
@@ -148,8 +142,7 @@
       state: stripe_bottom
       color: "#0d304d"
     - sprite: *starlight-icon-rsi
-      offset: *icon-offset
-      state: NTNCBlueShield
+      state: trim_securityofficer
   - type: Item
     sprite: Objects/Misc/id_cards.rsi
     heldPrefix: gold
@@ -176,8 +169,7 @@
           state: stripe_bottom
           color: "#0a5715" #Starlight
         - sprite: *starlight-icon-rsi
-          offset: *icon-offset
-          state: CCGreenShield
+          state: trim_ert_commander
     - type: Item
       sprite: Objects/Misc/id_cards.rsi
       heldPrefix: gold
@@ -192,7 +184,7 @@
   name: salvage lead ID card
   components:
   - type: Sprite
-    sprite: _Starlight/Objects/Misc/id_cards.rsi
+    sprite: _Classic/Objects/Misc/id_cards.rsi
     layers:
     - state: default
     - sprite: *id-rsi
@@ -202,8 +194,7 @@
       state: stripe_bottom
       color: &color-supply-bottom "#5b4523"
     - sprite: *starlight-icon-rsi
-      offset: *icon-offset
-      state: SalvageLead
+      state: trim_shaftminer
   - type: PresetIdCard
     job: SalvageLead
 
@@ -213,7 +204,7 @@
   name: mining ID card
   components:
   - type: Sprite
-    sprite: _Starlight/Objects/Misc/id_cards.rsi
+    sprite: _Classic/Objects/Misc/id_cards.rsi
     layers:
     - state: default
     - sprite: *id-rsi
@@ -223,8 +214,7 @@
       state: stripe_bottom
       color: *color-supply-bottom
     - sprite: *icon-rsi
-      offset: *icon-offset
-      state: ShaftMiner
+      state: trim_shaftminer
   - type: PresetIdCard
     job: MiningSpecialist
 
@@ -234,7 +224,7 @@
   name: mail technician ID card
   components:
   - type: Sprite
-    sprite: _Starlight/Objects/Misc/id_cards.rsi
+    sprite: _Classic/Objects/Misc/id_cards.rsi
     layers:
     - state: default
     - sprite: *id-rsi
@@ -244,8 +234,7 @@
       state: stripe_bottom
       color: *color-supply-bottom
     - sprite: *starlight-icon-rsi
-      offset: *icon-offset
-      state: MailTech
+      state: trim_cargotechnician
   - type: PresetIdCard
     job: MailTech
 
@@ -262,8 +251,7 @@
     - state: stripe_bottom
       color: &color-service-bottom "#446326"
     - sprite: *starlight-icon-rsi
-      offset: *icon-offset
-      state: Performer
+      state: trim_bartender
   - type: PresetIdCard
     job: Performer
 
@@ -273,7 +261,7 @@
   name: duty officer ID card
   components:
   - type: Sprite
-    sprite: _Starlight/Objects/Misc/id_cards.rsi
+    sprite: _Classic/Objects/Misc/id_cards.rsi
     layers:
     - state: default
     - sprite: *id-rsi
@@ -283,8 +271,7 @@
       state: stripe_bottom
       color: &color-security-bottom "#830000"
     - sprite: *starlight-icon-rsi
-      offset: *icon-offset
-      state: DutyOfficer
+      state: trim_securityofficer
   - type: PresetIdCard
     job: DutyOfficer
 
@@ -301,8 +288,7 @@
     - state: stripe_bottom
       color: *color-service-bottom
     - sprite: *icon-rsi
-      offset: *icon-offset
-      state: Botanist
+      state: trim_botanist
   - type: PresetIdCard
     job: Botanist
     name: Kiki
@@ -316,7 +302,7 @@
   name: soviet id card
   components:
   - type: Sprite
-    sprite: _Starlight/Objects/Misc/id_cards.rsi
+    sprite: _Classic/Objects/Misc/id_cards.rsi
     layers:
     - state: sovietid
   - type: IdCard
@@ -341,8 +327,7 @@
     - state: stripe_bottom
       color: &color-syndicate-bottom "#960606"
     - sprite: *icon-rsi
-      offset: *icon-offset
-      state: Syndicate
+      state: trim_syndicate
   - type: IdCard
     jobIcon: JobIconSyndicate
 
@@ -356,8 +341,7 @@
       layers:
         - state: syndi
         - sprite: *starlight-icon-rsi
-          offset: *icon-offset
-          state: Commander
+          state: trim_syndicate
     - type: Access
       tags:
         - Maintenance
@@ -384,8 +368,7 @@
       layers:
         - state: syndi
         - sprite: *starlight-icon-rsi
-          offset: *icon-offset
-          state: SyndicateAgent
+          state: trim_syndicate
     - type: Access
       tags:
         - Maintenance
@@ -412,8 +395,7 @@
       layers:
         - state: syndi
         - sprite: *starlight-icon-rsi
-          offset: *icon-offset
-          state: Operative
+          state: trim_syndicate
     - type: Access
       tags:
         - Maintenance
@@ -440,8 +422,7 @@
     layers:
     - state: default
     - sprite: *icon-rsi
-      offset: *icon-offset
-      state: Assistant
+      state: trim_assistant
   - type: IdCard
     jobTitle: job-title-borgi
     jobIcon: JobIconBorg
@@ -474,7 +455,7 @@
   name: NTSF ID card
   components:
   - type: Sprite
-    sprite: _Starlight/Objects/Misc/id_cards.rsi
+    sprite: _Classic/Objects/Misc/id_cards.rsi
     layers:
     - state: nanotrasen
     - sprite: *id-rsi
@@ -484,8 +465,7 @@
       state: stripe_bottom
       color: "#0d304d"
     - sprite: *starlight-icon-rsi
-      offset: *icon-offset
-      state: NTSF
+      state: trim_centcom
   - type: Item
     sprite: Objects/Misc/id_cards.rsi
     heldPrefix: blue
@@ -516,7 +496,7 @@
   description: An identification card issued by the Trans Solar Federation.
   components:
   - type: Sprite
-    sprite: _Starlight/Objects/Misc/id_cards.rsi
+    sprite: _Classic/Objects/Misc/id_cards.rsi
     layers:
     - state: tsf
     - sprite: *id-rsi
@@ -526,8 +506,7 @@
       state: stripe_bottom
       color: "#145683"
     - sprite: *starlight-icon-rsi
-      offset: *icon-offset
-      state: TSF
+      state: trim_centcom
   - type: Item
     heldPrefix: silver
   - type: IdCard
@@ -551,8 +530,7 @@
       state: stripe_bottom
       color: "#145683"
     - sprite: *starlight-icon-rsi
-      offset: *icon-offset
-      state: TSFOfficer
+      state: trim_centcom
   - type: PresetIdCard
     job: SolGovOfficer
   - type: IdCard
@@ -600,8 +578,7 @@
     layers:
     - state: default
     - sprite: *icon-rsi
-      offset: *icon-offset
-      state: Cluwne
+      state: trim_clown
   - type: IdCard
     jobTitle: job-title-cluwne
   - type: NanoChatCard
@@ -613,7 +590,7 @@
   name: NanoTrasen career trainer ID Card
   components:
   - type: Sprite
-    sprite: _Starlight/Objects/Misc/id_cards.rsi
+    sprite: _Classic/Objects/Misc/id_cards.rsi
     layers:
     - sprite: *id-rsi
       state: silver
@@ -624,8 +601,7 @@
       state: stripe_bottom
       color: "#630232"
     - sprite: *starlight-icon-rsi
-      offset: *icon-offset
-      state: NanoTrasenCareerTrainer
+      state: trim_centcom
   - type: PresetIdCard
     job: NanotrasenCareerTrainer
 
@@ -639,7 +615,7 @@
     quickEquip: false
     slots:
     - idcard
-    sprite: Objects/Misc/id_cards.rsi
+    sprite: _Classic/Objects/Misc/id_cards.rsi
   - type: Sprite
     sprite: _Starlight/Objects/Devices/nctdatachip.rsi
     layers:
@@ -664,12 +640,12 @@
   description: A set of door electronics rewired to act as an ID card.
   components: # Noteably absent is the ID card component and nanochat component - so borgs will treat you as non crew. It also can't be used in a PDA, and cannot be reprogrammed by an ID card computer.
   - type: Sprite
-    sprite: _Starlight/Objects/Misc/id_cards.rsi
+    sprite: _Classic/Objects/Misc/id_cards.rsi
     state: makeshift
   - type: Clothing
     slots:
     - idcard
-    sprite: _Starlight/Objects/Misc/id_cards.rsi # Moffstation
+    sprite: _Classic/Objects/Misc/id_cards.rsi # Moffstation
   - type: Access
     tags:
     - Maintenance
@@ -687,7 +663,7 @@
   name: command officer ID card
   components:
   - type: Sprite
-    sprite: _Starlight/Objects/Misc/id_cards.rsi
+    sprite: _Classic/Objects/Misc/id_cards.rsi
     layers:
     - state: centcom
     - sprite: *id-rsi
@@ -697,8 +673,7 @@
       state: stripe_bottom
       color: "#876c00"
     - sprite: *starlight-icon-rsi
-      offset: *icon-offset
-      state: CentComm
+      state: trim_centcom
   - type: Item
     sprite: Objects/Misc/id_cards.rsi
     heldPrefix: green
@@ -713,7 +688,7 @@
   name: ERT leader ID card
   components:
   - type: Sprite
-    sprite: _Starlight/Objects/Misc/id_cards.rsi
+    sprite: _Classic/Objects/Misc/id_cards.rsi
     layers:
     - state: centcomgold
     - sprite: *id-rsi
@@ -722,9 +697,8 @@
     - sprite: *id-rsi
       state: stripe_bottom
       color: "#0a5715" #Starlight
-    - sprite: *starlight-icon-rsi #Starlight
-      offset: *icon-offset
-      state: ERTLeader
+    - sprite: *starlight-icon-rsi
+      state: trim_ert_commander
   - type: Item
     sprite: Objects/Misc/id_cards.rsi
     heldPrefix: gold
@@ -739,7 +713,7 @@
   name: ERT chaplain ID card
   components:
   - type: Sprite
-    sprite: _Starlight/Objects/Misc/id_cards.rsi
+    sprite: _Classic/Objects/Misc/id_cards.rsi
     layers:
     - state: centcomsilver #Starlight
     - sprite: *id-rsi
@@ -748,9 +722,8 @@
     - sprite: *id-rsi
       state: stripe_bottom
       color: "#0a5715" #Starlight
-    - sprite: *starlight-icon-rsi #Starlight
-      offset: *icon-offset
-      state: ERTChaplain
+    - sprite: *starlight-icon-rsi
+      state: trim_ert_commander
   - type: Item
     sprite: Objects/Misc/id_cards.rsi
     heldPrefix: silver
@@ -765,7 +738,7 @@
   name: ERT engineer ID card
   components:
   - type: Sprite
-    sprite: _Starlight/Objects/Misc/id_cards.rsi
+    sprite: _Classic/Objects/Misc/id_cards.rsi
     layers:
     - state: centcomsilver #Starlight
     - sprite: *id-rsi
@@ -774,9 +747,8 @@
     - sprite: *id-rsi
       state: stripe_bottom
       color: "#0a5715" #Starlight
-    - sprite: *starlight-icon-rsi #Starlight
-      offset: *icon-offset
-      state: ERTEngineer
+    - sprite: *starlight-icon-rsi
+      state: trim_ert_commander
   - type: Item
     sprite: Objects/Misc/id_cards.rsi
     heldPrefix: silver
@@ -791,7 +763,7 @@
   name: ERT janitor ID card
   components:
   - type: Sprite
-    sprite: _Starlight/Objects/Misc/id_cards.rsi
+    sprite: _Classic/Objects/Misc/id_cards.rsi
     layers:
     - state: centcomsilver #Starlight
     - sprite: *id-rsi
@@ -800,9 +772,8 @@
     - sprite: *id-rsi
       state: stripe_bottom
       color: "#0a5715" #Starlight
-    - sprite: *starlight-icon-rsi #Starlight
-      offset: *icon-offset
-      state: ERTJanitor
+    - sprite: *starlight-icon-rsi
+      state: trim_ert_commander
   - type: Item
     sprite: Objects/Misc/id_cards.rsi
     heldPrefix: silver
@@ -817,7 +788,7 @@
   name: ERT medic ID card
   components:
   - type: Sprite
-    sprite: _Starlight/Objects/Misc/id_cards.rsi
+    sprite: _Classic/Objects/Misc/id_cards.rsi
     layers:
     - state: centcomsilver #Starlight
     - sprite: *id-rsi
@@ -826,9 +797,8 @@
     - sprite: *id-rsi
       state: stripe_bottom
       color: "#0a5715" #Starlight
-    - sprite: *starlight-icon-rsi #Starlight
-      offset: *icon-offset
-      state: ERTMedical
+    - sprite: *starlight-icon-rsi
+      state: trim_ert_commander
   - type: Item
     sprite: Objects/Misc/id_cards.rsi
     heldPrefix: silver
@@ -843,7 +813,7 @@
   name: ERT security ID card
   components:
   - type: Sprite
-    sprite: _Starlight/Objects/Misc/id_cards.rsi
+    sprite: _Classic/Objects/Misc/id_cards.rsi
     layers:
     - state: centcomsilver #Starlight
     - sprite: *id-rsi
@@ -852,9 +822,8 @@
     - sprite: *id-rsi
       state: stripe_bottom
       color: "#0a5715" #Starlight
-    - sprite: *starlight-icon-rsi #Starlight
-      offset: *icon-offset
-      state: ERTSecurity
+    - sprite: *starlight-icon-rsi
+      state: trim_ert_commander
   - type: Item
     sprite: Objects/Misc/id_cards.rsi
     heldPrefix: silver
@@ -869,7 +838,7 @@
   name: death squad ID card
   components:
   - type: Sprite
-    sprite: _Starlight/Objects/Misc/id_cards.rsi
+    sprite: _Classic/Objects/Misc/id_cards.rsi
     layers:
     - state: nanotrasen
     - sprite: *id-rsi
@@ -879,8 +848,7 @@
       state: stripe_bottom
       color: "#0d304d"
     - sprite: *icon-rsi
-      offset: *icon-offset
-      state: DeathSquad
+      state: trim_deathcommando
   - type: Item
     sprite: Objects/Misc/id_cards.rsi
     heldPrefix: blue
@@ -896,7 +864,7 @@
   suffix: CBURN
   components:
   - type: Sprite
-    sprite: _Starlight/Objects/Misc/id_cards.rsi
+    sprite: _Classic/Objects/Misc/id_cards.rsi
     layers:
     - state: centcomsilver #Starlight
     - sprite: *id-rsi
@@ -905,9 +873,8 @@
     - sprite: *id-rsi
       state: stripe_bottom
       color: "#0a5715" #Starlight
-    - sprite: *starlight-icon-rsi #Starlight
-      offset: *icon-offset
-      state: CBURN
+    - sprite: *starlight-icon-rsi
+      state: trim_ert_commander
   - type: Item
     sprite: Objects/Misc/id_cards.rsi
     heldPrefix: silver

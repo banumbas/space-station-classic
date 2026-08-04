@@ -1,0 +1,121 @@
+{
+  "version": 1,
+  "license": "CC-BY-SA-3.0",
+  "copyright": "Taken from https://github.com/wall-nerds/wallening (icons/obj/tools.dmi)",
+  "size": {
+    "x": 32,
+    "y": 32
+  },
+  "states": [
+    {
+      "name": "welder"
+    },
+    {
+      "name": "welder-on",
+      "delays": [
+        [
+          0.1,
+          0.1
+        ]
+      ]
+    },
+    {
+      "name": "indwelder"
+    },
+    {
+      "name": "indwelder-on",
+      "delays": [
+        [
+          0.1,
+          0.1
+        ]
+      ]
+    },
+    {
+      "name": "miniwelder"
+    },
+    {
+      "name": "miniwelder-on",
+      "delays": [
+        [
+          0.2,
+          0.1
+        ]
+      ]
+    },
+    {
+      "name": "upindwelder"
+    },
+    {
+      "name": "upindwelder-on",
+      "delays": [
+        [
+          0.1,
+          0.1
+        ]
+      ]
+    },
+    {
+      "name": "exwelder",
+      "delays": [
+        [
+          0.1,
+          0.1,
+          0.1,
+          0.1
+        ]
+      ]
+    },
+    {
+      "name": "exwelder-on",
+      "delays": [
+        [
+          0.1,
+          0.1
+        ]
+      ]
+    },
+    {
+      "name": "screwdriver"
+    },
+    {
+      "name": "screwdriver_screwybits"
+    },
+    {
+      "name": "wrench"
+    },
+    {
+      "name": "crowbar"
+    },
+    {
+      "name": "crowbar_red"
+    },
+    {
+      "name": "drill"
+    },
+    {
+      "name": "drill_on"
+    },
+    {
+      "name": "jaws_on"
+    },
+    {
+      "name": "jaws"
+    },
+    {
+      "name": "jaws_syndie_on"
+    },
+    {
+      "name": "jaws_syndie"
+    },
+    {
+      "name": "rcd"
+    },
+    {
+      "name": "cutters_cutty_thingy"
+    },
+    {
+      "name": "cutters"
+    }
+  ]
+}

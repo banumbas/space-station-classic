@@ -12,6 +12,7 @@
         - id: Flare
         - id: PowerCellSmall
   - type: Sprite
+    sprite: Objects/Storage/boxes.rsi
     layers:
     - state: internals
 
@@ -29,6 +30,7 @@
         - id: FoodSnackNutribrick
         - id: DrinkWaterBottleFull
   - type: Sprite
+    sprite: Objects/Storage/boxes.rsi
     layers:
     - state: internals
     - state: shadekin
@@ -56,6 +58,7 @@
   suffix: Emergency, Nonbreather
   components:
   - type: Sprite
+    sprite: Objects/Storage/boxes.rsi
     layers:
     - state: box_hug
     - state: shadekin
@@ -90,6 +93,7 @@
         - id: FoodSnackNutribrick
         - id: DrinkAleBottlePlasticFull
   - type: Sprite
+    sprite: Objects/Storage/boxes.rsi
     layers:
     - state: dwarfemergencytank
 
@@ -111,6 +115,7 @@
         - id: FoodSnackNutribrick
         - id: DrinkAleBottlePlasticFull
   - type: Sprite
+    sprite: Objects/Storage/boxes.rsi
     layers:
     - state: dwarfextendedtank
 
@@ -154,6 +159,7 @@
   suffix: Emergency Dwarf
   components:
   - type: Sprite
+    sprite: Objects/Storage/boxes.rsi
     layers:
     - state: box_hug
     - state: heart
@@ -191,6 +197,7 @@
         - id: FoodBreadNutriBatard
         - id: DrinkAleBottlePlasticFull
   - type: Sprite
+    sprite: Objects/Storage/boxes.rsi
     layers:
     - state: dwarfemergencytank
 
@@ -212,6 +219,7 @@
         - id: FoodPacketCheeseBox
         - id: DrinkWaterBottleFull
   - type: Sprite
+    sprite: Objects/Storage/boxes.rsi
     layers:
     - state: internals
     - state: cheese
@@ -248,6 +256,7 @@
         - id: FoodPacketCheeseBox
         - id: DrinkWaterBottleFull
   - type: Sprite
+    sprite: Objects/Storage/boxes.rsi
     layers:
     - state: internals
     - state: cheese
@@ -275,6 +284,7 @@
   description: It's a box with basic internals inside.
   components:
   - type: Sprite
+    sprite: Objects/Storage/boxes.rsi
     layers:
     - state: internals
     - state: emergencytank
@@ -306,6 +316,7 @@
         - id: FoodPacketCheeseBox
         - id: DrinkWaterBottleFull
   - type: Sprite
+    sprite: Objects/Storage/boxes.rsi
     layers:
     - state: box_hug
     - state: cheese

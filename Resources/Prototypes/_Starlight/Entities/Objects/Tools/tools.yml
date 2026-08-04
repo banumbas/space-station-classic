@@ -105,6 +105,8 @@
   components:
   - type: Sprite
     sprite: _Starlight/Objects/Tools/multitool.rsi
+    layers:
+    - state: icon
   - type: Tag
     tags:
       - Multitool
@@ -933,6 +935,7 @@
     rechargeDuration: 15
   - type: Sprite
     sprite: _Starlight/Objects/Tools/rcd.rsi
+    state: icon
 
 - type: entity
   id: RPD
@@ -975,6 +978,7 @@
     maxCharges: 90
   - type: Sprite
     sprite: _Starlight/Objects/Tools/rpd.rsi
+    state: icon
   - type: StealTarget
     stealGroup: RCDRPDCollection
 
@@ -1044,6 +1048,7 @@
     maxCharges: 45
   - type: Sprite
     sprite: _Starlight/Objects/Tools/rpld.rsi
+    state: icon
 
 - type: entity
   id: RPLDEmpty

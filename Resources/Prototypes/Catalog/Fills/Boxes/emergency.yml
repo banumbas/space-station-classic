@@ -16,6 +16,7 @@
         - id: FoodSnackNutribrick
         - id: DrinkWaterBottleFull
   - type: Sprite
+    sprite: Objects/Storage/boxes.rsi
     layers:
     - state: internals
     - state: emergencytank
@@ -43,6 +44,7 @@
         - id: FoodSnackNutribrick
         - id: DrinkWaterBottleFull
   - type: Sprite
+    sprite: Objects/Storage/boxes.rsi
     layers:
     - state: internals
     - state: nitrogentank
@@ -67,6 +69,7 @@
         - id: FoodSnackNutribrick
         - id: DrinkWaterBottleFull
   - type: Sprite
+    sprite: Objects/Storage/boxes.rsi
     layers:
     - state: internals
     - state: extendedtank
@@ -87,6 +90,7 @@
         - id: FoodSnackNutribrick
         - id: DrinkWaterBottleFull
   - type: Sprite
+    sprite: Objects/Storage/boxes.rsi
     layers:
     - state: internals
     - state: nitrogentank
@@ -131,6 +135,7 @@
         - id: FoodSnackNutribrick
         - id: DrinkWaterBottleFull
   - type: Sprite
+    sprite: Objects/Storage/boxes.rsi
     layers:
     - state: internals
     - state: nitrogentank
@@ -175,6 +180,7 @@
         - id: FoodSnackNutribrick
         - id: DrinkWaterBottleFull
   - type: Sprite
+    sprite: Objects/Storage/boxes.rsi
     layers:
     - state: internals
     - state: nitrogentank
@@ -189,6 +195,7 @@
   suffix: Emergency
   components:
   - type: Sprite
+    sprite: Objects/Storage/boxes.rsi
     layers:
     - state: box_hug
     - state: heart
@@ -299,6 +306,7 @@
         - id: Flare
         - id: FoodSnackNutribrick
   - type: Sprite
+    sprite: Objects/Storage/boxes.rsi
   # - type: Sprite # Starlight start - reparent
   #   layers:
   #   - state: internals
@@ -319,6 +327,7 @@
         - id: Flare
         - id: FoodSnackNutribrick
   - type: Sprite
+    sprite: Objects/Storage/boxes.rsi
     layers:
     - state: internals
     - state: nitrogentank
@@ -340,6 +349,7 @@
         - id: EmergencyMedipen
         - id: Flare
   - type: Sprite
+    sprite: Objects/Storage/boxes.rsi
     layers:
     - state: internals
     - state: extendedtank
@@ -357,6 +367,7 @@
         - id: EmergencyMedipen
         - id: Flare
   - type: Sprite
+    sprite: Objects/Storage/boxes.rsi
     layers:
     - state: internals
     - state: nitrogentank

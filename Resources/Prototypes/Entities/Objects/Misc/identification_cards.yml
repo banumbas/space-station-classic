@@ -6,13 +6,16 @@
   abstract: true
   components:
   - type: Sprite
-    sprite: Objects/Misc/id_cards.rsi
+    sprite: _Classic/Objects/Misc/id_cards.rsi
   - type: Clothing
     slots:
     - idcard
-    sprite: Objects/Misc/id_cards.rsi
+    sprite: _Classic/Objects/Misc/id_cards.rsi
   - type: Item
     size: Small
+    # World and worn card faces use the SS13 RSI. Keep the original item RSI
+    # here because it supplies all directional in-hand states.
+    sprite: Objects/Misc/id_cards.rsi
     heldPrefix: default
     storedRotation: -90
   - type: Access
@@ -37,9 +40,8 @@
   - type: Sprite
     layers:
     - state: default
-    - sprite: &icon-rsi Interface/Misc/job_icons.rsi
-      offset: &icon-offset -0.09375, 0.0625 #3 pixels left, 2 pixels up
-      state: Assistant
+    - sprite: &icon-rsi _Classic/Objects/Misc/id_cards.rsi
+      state: trim_assistant
   - type: PresetIdCard
     job: Assistant
 
@@ -59,8 +61,7 @@
     - state: stripe_bottom
       color: "#0e4069"
     - sprite: *icon-rsi
-      offset: *icon-offset
-      state: Captain
+      state: trim_captain
   - type: Item
     heldPrefix: gold
   - type: PresetIdCard
@@ -87,8 +88,7 @@
     - state: stripe_bottom
       color: &color-service-bottom "#446326"
     - sprite: *icon-rsi
-      offset: *icon-offset
-      state: HeadOfPersonnel
+      state: trim_headofpersonnel
   - type: Item
     heldPrefix: silver
   - type: PresetIdCard
@@ -109,8 +109,7 @@
     - state: stripe_bottom
       color: &color-engineering-bottom "#bc5b00"
     - sprite: *icon-rsi
-      offset: *icon-offset
-      state: ChiefEngineer
+      state: departmenthead
   - type: Item
     heldPrefix: silver
   - type: PresetIdCard
@@ -129,8 +128,7 @@
     - state: stripe_bottom
       color: &color-medical-bottom "#325f7a"
     - sprite: *icon-rsi
-      offset: *icon-offset
-      state: ChiefMedicalOfficer
+      state: departmenthead
   - type: Item
     heldPrefix: silver
   - type: PresetIdCard
@@ -149,8 +147,7 @@
     - state: stripe_bottom
       color: &color-science-bottom "#652368"
     - sprite: *icon-rsi
-      offset: *icon-offset
-      state: ResearchDirector
+      state: departmenthead
   - type: Item
     heldPrefix: silver
   - type: PresetIdCard
@@ -169,8 +166,7 @@
     - state: stripe_bottom
       color: &color-security-bottom "#830000"
     - sprite: *icon-rsi
-      offset: *icon-offset
-      state: HeadOfSecurity
+      state: departmenthead
   - type: Item
     heldPrefix: silver
   - type: PresetIdCard
@@ -189,8 +185,7 @@
     - state: stripe_bottom
       color: &color-supply-bottom "#5b4523"
     - sprite: *icon-rsi
-      offset: *icon-offset
-      state: QuarterMaster
+      state: departmenthead
   - type: Item
     heldPrefix: silver
   - type: PresetIdCard
@@ -211,8 +206,7 @@
     - state: stripe_bottom
       color: *color-engineering-bottom
     - sprite: *icon-rsi
-      offset: *icon-offset
-      state: TechnicalAssistant
+      state: trim_stationengineer
   - type: PresetIdCard
     job: TechnicalAssistant
 
@@ -229,8 +223,7 @@
     - state: stripe_bottom
       color: *color-engineering-bottom
     - sprite: *icon-rsi
-      offset: *icon-offset
-      state: StationEngineer
+      state: trim_stationengineer
   - type: PresetIdCard
     job: StationEngineer
 
@@ -247,8 +240,7 @@
     - state: stripe_bottom
       color: *color-engineering-bottom
     - sprite: *icon-rsi
-      offset: *icon-offset
-      state: AtmosphericTechnician
+      state: trim_atmospherictechnician
   - type: PresetIdCard
     job: AtmosphericTechnician
 
@@ -265,8 +257,7 @@
     - state: stripe_bottom
       color: *color-engineering-bottom
     - sprite: *icon-rsi
-      offset: *icon-offset
-      state: SeniorEngineer
+      state: trim_stationengineer
 
 #Medical
 
@@ -283,8 +274,7 @@
     - state: stripe_bottom
       color: *color-medical-bottom
     - sprite: *icon-rsi
-      offset: *icon-offset
-      state: MedicalIntern
+      state: trim_medicaldoctor
   - type: PresetIdCard
     job: MedicalIntern
 
@@ -301,8 +291,7 @@
     - state: stripe_bottom
       color: *color-medical-bottom
     - sprite: *icon-rsi
-      offset: *icon-offset
-      state: MedicalDoctor
+      state: trim_medicaldoctor
   - type: PresetIdCard
     job: MedicalDoctor
 
@@ -319,8 +308,7 @@
     - state: stripe_bottom
       color: *color-medical-bottom
     - sprite: *icon-rsi
-      offset: *icon-offset
-      state: Paramedic
+      state: trim_paramedic
   - type: PresetIdCard
     job: Paramedic
 
@@ -337,8 +325,7 @@
     - state: stripe_bottom
       color: *color-medical-bottom
     - sprite: *icon-rsi
-      offset: *icon-offset
-      state: Chemist
+      state: trim_chemist
   - type: PresetIdCard
     job: Chemist
 
@@ -355,8 +342,7 @@
     - state: stripe_bottom
       color: *color-medical-bottom
     - sprite: *icon-rsi
-      offset: *icon-offset
-      state: Psychologist
+      state: trim_psychologist
   - type: PresetIdCard
     job: Psychologist
 
@@ -373,8 +359,7 @@
     - state: stripe_bottom
       color: *color-medical-bottom
     - sprite: *icon-rsi
-      offset: *icon-offset
-      state: SeniorPhysician
+      state: trim_medicaldoctor
 
 #Science
 
@@ -391,8 +376,7 @@
     - state: stripe_bottom
       color: *color-science-bottom
     - sprite: *icon-rsi
-      offset: *icon-offset
-      state: ResearchAssistant
+      state: trim_scientist
   - type: PresetIdCard
     job: ResearchAssistant
 
@@ -409,8 +393,7 @@
     - state: stripe_bottom
       color: *color-science-bottom
     - sprite: *icon-rsi
-      offset: *icon-offset
-      state: Scientist
+      state: trim_scientist
   - type: PresetIdCard
     job: Scientist
 
@@ -427,8 +410,7 @@
     - state: stripe_bottom
       color: *color-science-bottom
     - sprite: *icon-rsi
-      offset: *icon-offset
-      state: SeniorResearcher
+      state: trim_scientist
 
 #Security
 
@@ -445,8 +427,7 @@
     - state: stripe_bottom
       color: *color-security-bottom
     - sprite: *icon-rsi
-      offset: *icon-offset
-      state: SecurityCadet
+      state: trim_securityofficer
   - type: PresetIdCard
     job: SecurityCadet
 
@@ -463,8 +444,7 @@
     - state: stripe_bottom
       color: *color-security-bottom
     - sprite: *icon-rsi
-      offset: *icon-offset
-      state: SecurityOfficer
+      state: trim_securityofficer
   - type: PresetIdCard
     job: SecurityOfficer
 
@@ -481,8 +461,7 @@
     - state: stripe_bottom
       color: *color-security-bottom
     - sprite: *icon-rsi
-      offset: *icon-offset
-      state: Warden
+      state: trim_warden
   - type: PresetIdCard
     job: Warden
 
@@ -499,8 +478,7 @@
     - state: stripe_bottom
       color: *color-security-bottom
     - sprite: *icon-rsi
-      offset: *icon-offset
-      state: Detective
+      state: trim_detective
   - type: PresetIdCard
     job: Detective
 
@@ -517,8 +495,7 @@
     - state: stripe_bottom
       color: *color-security-bottom
     - sprite: *icon-rsi
-      offset: *icon-offset
-      state: Brigmedic
+      state: trim_paramedic
   - type: PresetIdCard # Starlight
     job: Brigmedic # Starlight
 
@@ -535,8 +512,7 @@
     - state: stripe_bottom
       color: *color-security-bottom
     - sprite: *icon-rsi
-      offset: *icon-offset
-      state: SeniorOfficer
+      state: trim_securityofficer
 
 #Service
 
@@ -553,8 +529,7 @@
     - state: stripe_bottom
       color: *color-service-bottom
     - sprite: *icon-rsi
-      offset: *icon-offset
-      state: ServiceWorker
+      state: trim_assistant
   - type: PresetIdCard
     job: ServiceWorker
 
@@ -568,8 +543,7 @@
     - state: default
     - state: stripe_clown
     - sprite: *icon-rsi
-      offset: *icon-offset
-      state: Clown
+      state: trim_clown
   - type: PresetIdCard
     job: Clown
 
@@ -586,8 +560,7 @@
     - state: stripe_bottom
       color: "#1d1d1d"
     - sprite: *icon-rsi
-      offset: *icon-offset
-      state: Mime
+      state: trim_mime
   - type: PresetIdCard
     job: Mime
 
@@ -604,8 +577,7 @@
     - state: stripe_bottom
       color: "#524089"
     - sprite: *icon-rsi
-      offset: *icon-offset
-      state: Musician
+      state: trim_unknown
   - type: PresetIdCard
     job: Musician
 
@@ -622,8 +594,7 @@
     - state: stripe_bottom
       color: *color-service-bottom
     - sprite: *icon-rsi
-      offset: *icon-offset
-      state: Chaplain
+      state: trim_chaplain
   - type: PresetIdCard
     job: Chaplain
 
@@ -640,8 +611,7 @@
     - state: stripe_bottom
       color: *color-service-bottom
     - sprite: *icon-rsi
-      offset: *icon-offset
-      state: Janitor
+      state: trim_janitor
   - type: PresetIdCard
     job: Janitor
 
@@ -658,8 +628,7 @@
     - state: stripe_bottom
       color: *color-service-bottom
     - sprite: *icon-rsi
-      offset: *icon-offset
-      state: Bartender
+      state: trim_bartender
   - type: PresetIdCard
     job: Bartender
 
@@ -676,8 +645,7 @@
     - state: stripe_bottom
       color: *color-service-bottom
     - sprite: *icon-rsi
-      offset: *icon-offset
-      state: Bartender
+      state: trim_bartender
   - type: PresetIdCard
     job: Bartender
     name: Pun Pun
@@ -698,8 +666,7 @@
     - state: stripe_bottom
       color: *color-service-bottom
     - sprite: *icon-rsi
-      offset: *icon-offset
-      state: Chef
+      state: trim_cook
   - type: PresetIdCard
     job: Chef
 
@@ -716,8 +683,7 @@
     - state: stripe_bottom
       color: *color-service-bottom
     - sprite: *icon-rsi
-      offset: *icon-offset
-      state: Botanist
+      state: trim_botanist
   - type: PresetIdCard
     job: Botanist
 
@@ -734,8 +700,7 @@
     - state: stripe_bottom
       color: *color-service-bottom
     - sprite: *icon-rsi
-      offset: *icon-offset
-      state: Librarian
+      state: trim_curator
   - type: PresetIdCard
     job: Librarian
 
@@ -751,9 +716,8 @@
       color: *color-service-top
     - state: stripe_bottom
       color: *color-service-bottom
-    - sprite: &starlight-icon-rsi _Starlight/Interface/Misc/job_icons.rsi # Starlight
-      offset: *icon-offset
-      state: LawyerSL # Starlight
+    - sprite: &starlight-icon-rsi _Classic/Objects/Misc/id_cards.rsi
+      state: trim_lawyer
   - type: PresetIdCard
     job: Lawyer
 
@@ -770,8 +734,7 @@
     - state: stripe_bottom
       color: *color-service-bottom
     - sprite: *icon-rsi
-      offset: *icon-offset
-      state: Reporter
+      state: trim_unknown
   - type: PresetIdCard
     job: Reporter
 
@@ -788,8 +751,7 @@
     - state: stripe_bottom
       color: *color-service-bottom
     - sprite: *icon-rsi
-      offset: *icon-offset
-      state: Boxer
+      state: trim_unknown
   # Starlight start
   - type: PresetIdCard
     job: Boxer
@@ -808,8 +770,7 @@
     - state: stripe_bottom
       color: *color-service-bottom
     - sprite: *icon-rsi
-      offset: *icon-offset
-      state: Zookeeper
+      state: trim_botanist
   # Starlight start
   - type: PresetIdCard
     job: Zookeeper
@@ -830,8 +791,7 @@
     - state: stripe_bottom
       color: *color-supply-bottom
     - sprite: *icon-rsi
-      offset: *icon-offset
-      state: CargoTechnician
+      state: trim_cargotechnician
   - type: PresetIdCard
     job: CargoTechnician
 
@@ -847,9 +807,8 @@
       color: *color-supply-top
     - state: stripe_bottom
       color: *color-supply-bottom
-    - sprite: *starlight-icon-rsi # Starlight
-      offset: *icon-offset
-      state: SalvageSpecialist # Starlight - Salvage -> SalvageSpecialist
+    - sprite: *starlight-icon-rsi
+      state: trim_shaftminer
   - type: PresetIdCard
     job: SalvageSpecialist
 
@@ -865,8 +824,7 @@
     layers:
     - state: orange
     - sprite: *icon-rsi
-      offset: *icon-offset
-      state: Prisoner
+      state: trim_prisoner_1
   - type: Item
     heldPrefix: orange
   - type: Access
@@ -906,8 +864,7 @@
     - state: stripe_bottom
       color: "#3f9b53"
     - sprite: *icon-rsi
-      offset: *icon-offset
-      state: Cluwne
+      state: trim_clown
   - type: IdCard
     jobTitle: job-title-cluwne
     jobIcon: JobIconCluwne
@@ -924,8 +881,7 @@
     layers:
     - state: default
     - sprite: *icon-rsi
-      offset: *icon-offset
-      state: Visitor
+      state: trim_unknown
   - type: IdCard
     jobTitle: job-title-visitor
     jobIcon: JobIconVisitor
@@ -952,8 +908,7 @@
     layers:
     - state: default
     - sprite: *icon-rsi
-      offset: *icon-offset
-      state: Assistant
+      state: trim_assistant
   - type: AgentIDCard
   - type: UIRequiresLock
   - type: ActivatableUI
@@ -1002,8 +957,7 @@
     - state: stripe_bottom
       color: &color-syndicate-bottom "#960606"
     - sprite: *icon-rsi
-      offset: *icon-offset
-      state: Syndicate
+      state: trim_syndicate
   - type: Item
     heldPrefix: black
   - type: Access
@@ -1026,8 +980,7 @@
     - state: stripe_bottom
       color: *color-syndicate-bottom
     - sprite: *icon-rsi
-      offset: *icon-offset
-      state: SyndicateOperative
+      state: trim_syndicate
   - type: AgentIDCard
   - type: IdCard
     jobIcon: JobIconSyndicate # Starlight-edit - SyndicateOperative -> Syndicate
@@ -1047,8 +1000,7 @@
     - state: stripe_bottom
       color: *color-syndicate-bottom
     - sprite: *icon-rsi
-      offset: *icon-offset
-      state: SyndicateCorpsman
+      state: trim_syndicate
   - type: IdCard
     jobIcon: JobIconSyndicate # Starlight-edit - SyndicateCorpsman -> Syndicate
   - type: NanoChatCard # CD
@@ -1067,8 +1019,7 @@
     - state: stripe_bottom
       color: *color-syndicate-bottom
     - sprite: *icon-rsi
-      offset: *icon-offset
-      state: SyndicateCommander
+      state: trim_syndicate
   - type: IdCard
     jobIcon: JobIconSyndicate # Starlight-edit - SyndicateCommander -> Syndicate
   - type: NanoChatCard # CD
@@ -1088,8 +1039,7 @@
     - state: stripe_bottom
       color: "#309000"
     - sprite: *icon-rsi
-      offset: *icon-offset
-      state: Ninja
+      state: trim_unknown
   - type: Item
     heldPrefix: green
   - type: AgentIDCard
@@ -1110,8 +1060,7 @@
     layers:
     - state: pirate
     - sprite: *icon-rsi
-      offset: *icon-offset
-      state: Pirate
+      state: trim_unknown
   - type: Item
     heldPrefix: orange #this is close enough to the weird puce color pirate IDs have going on
   - type: IdCard
@@ -1143,8 +1092,7 @@
     layers:
     - state: wizard
     - sprite: *icon-rsi
-      offset: *icon-offset
-      state: Wizard
+      state: trim_unknown
   - type: Item
     heldPrefix: green
   - type: Access
@@ -1165,14 +1113,13 @@
   description: An ID card that gives you access beyond your wildest dreams.
   components:
   - type: Sprite
-    sprite: Objects/Misc/id_cards.rsi
+    sprite: _Classic/Objects/Misc/id_cards.rsi
     layers:
     - state: admin
     - sprite: *icon-rsi
-      offset: *icon-offset
-      state: Admin
+      state: trim_centcom
   - type: Clothing
-    sprite: Objects/Misc/id_cards.rsi
+    sprite: _Classic/Objects/Misc/id_cards.rsi
   - type: Item
     heldPrefix: green
   - type: IdCard

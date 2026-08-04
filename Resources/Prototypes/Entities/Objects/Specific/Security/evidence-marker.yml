@@ -97,6 +97,7 @@
         - id: EvidenceMarkerEight
         - id: EvidenceMarkerNine
   - type: Sprite
+    sprite: Objects/Storage/boxes.rsi
     layers:
       - state: box_security
       - state: evidence_markers

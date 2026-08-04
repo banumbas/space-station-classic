@@ -10,6 +10,7 @@
         id: Handcuffs
         amount: 4
   - type: Sprite
+    sprite: Objects/Storage/boxes.rsi
     layers:
     - state: box_security
     - state: handcuff
@@ -26,6 +27,7 @@
         id: Zipties
         amount: 9
   - type: Sprite
+    sprite: Objects/Storage/boxes.rsi
     layers:
     - state: box_security
     - state: ziptie
@@ -42,6 +44,7 @@
         id: GrenadeFlashBang
         amount: 4
   - type: Sprite
+    sprite: Objects/Storage/boxes.rsi
     layers:
     - state: box_security
     - state: flashbang
@@ -58,6 +61,7 @@
         id: GrenadeStinger
         amount: 4
   - type: Sprite
+    sprite: Objects/Storage/boxes.rsi
     layers:
     - state: box_security
     - state: flashbang
@@ -74,6 +78,7 @@
         id: TearGasGrenade
         amount: 4
   - type: Sprite
+    sprite: Objects/Storage/boxes.rsi
     layers:
     - state: box_security
     - state: flashbang
@@ -90,6 +95,7 @@
         id: ClothingEyesHudSecurity
         amount: 4
   - type: Sprite
+    sprite: Objects/Storage/boxes.rsi
     layers:
     - state: box_security
     - state: sechud
@@ -106,6 +112,7 @@
         id: ClothingEyesGlassesSecurity
         amount: 4
   - type: Sprite
+    sprite: Objects/Storage/boxes.rsi
     layers:
     - state: box_security
     - state: secglasses
@@ -122,6 +129,7 @@
         id: ClothingEyesGlassesSunglasses
         amount: 4
   - type: Sprite
+    sprite: Objects/Storage/boxes.rsi
     layers:
     - state: box_security
     - state: sunglasses
@@ -141,6 +149,7 @@
         id: ForensicPad
         amount: 9
   - type: Sprite
+    sprite: Objects/Storage/boxes.rsi
     layers:
     - state: box_security
     - state: forensic
@@ -164,6 +173,7 @@
           amount: 2
         - id: VoiceTrigger
   - type: Sprite
+    sprite: Objects/Storage/boxes.rsi
     layers:
     - state: box_security
     - state: trigger

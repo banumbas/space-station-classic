@@ -1,0 +1,167 @@
+{
+  "version": 1,
+  "license": "CC-BY-SA-3.0",
+  "copyright": "Card base sprites from /tg/station 13 Wallening card.dmi; stripe overlays retained from the existing ID-card RSI.",
+  "size": {
+    "x": 32,
+    "y": 32
+  },
+  "states": [
+    {
+      "name": "default"
+    },
+    {
+      "name": "silver"
+    },
+    {
+      "name": "gold"
+    },
+    {
+      "name": "centcom"
+    },
+    {
+      "name": "black"
+    },
+    {
+      "name": "admin"
+    },
+    {
+      "name": "nanotrasen"
+    },
+    {
+      "name": "centcomgold"
+    },
+    {
+      "name": "centcomsilver"
+    },
+    {
+      "name": "sovietid"
+    },
+    {
+      "name": "syndi"
+    },
+    {
+      "name": "tsf"
+    },
+    {
+      "name": "makeshift"
+    },
+    {
+      "name": "stripe_top"
+    },
+    {
+      "name": "stripe_bottom"
+    },
+    {
+      "name": "orange"
+    },
+    {
+      "name": "ninja"
+    },
+    {
+      "name": "pirate"
+    },
+    {
+      "name": "wizard"
+    },
+    {
+      "name": "stripe_clown"
+    },
+    {
+      "name": "departmenthead"
+    },
+    {
+      "name": "trim_assistant"
+    },
+    {
+      "name": "trim_atmospherictechnician"
+    },
+    {
+      "name": "trim_bartender"
+    },
+    {
+      "name": "trim_botanist"
+    },
+    {
+      "name": "trim_captain"
+    },
+    {
+      "name": "trim_cargotechnician"
+    },
+    {
+      "name": "trim_centcom"
+    },
+    {
+      "name": "trim_chaplain"
+    },
+    {
+      "name": "trim_chemist"
+    },
+    {
+      "name": "trim_clown"
+    },
+    {
+      "name": "trim_cook"
+    },
+    {
+      "name": "trim_curator"
+    },
+    {
+      "name": "trim_deathcommando"
+    },
+    {
+      "name": "trim_detective"
+    },
+    {
+      "name": "trim_ert_commander"
+    },
+    {
+      "name": "trim_headofpersonnel"
+    },
+    {
+      "name": "trim_janitor"
+    },
+    {
+      "name": "trim_lawyer"
+    },
+    {
+      "name": "trim_medicaldoctor"
+    },
+    {
+      "name": "trim_mime"
+    },
+    {
+      "name": "trim_paramedic"
+    },
+    {
+      "name": "trim_prisoner_1"
+    },
+    {
+      "name": "trim_psychologist"
+    },
+    {
+      "name": "trim_roboticist"
+    },
+    {
+      "name": "trim_scientist"
+    },
+    {
+      "name": "trim_securityofficer"
+    },
+    {
+      "name": "trim_shaftminer"
+    },
+    {
+      "name": "trim_stationengineer"
+    },
+    {
+      "name": "trim_syndicate"
+    },
+    {
+      "name": "trim_unknown"
+    },
+    {
+      "name": "trim_warden"
+    }
+  ]
+}

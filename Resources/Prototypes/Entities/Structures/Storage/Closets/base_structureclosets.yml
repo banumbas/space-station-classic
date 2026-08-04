@@ -10,7 +10,8 @@
   - type: Transform
     noRot: true
   - type: Sprite
-    drawdepth: Effects
+    # Lockers stay behind the foreground of adjacent tables and walls.
+    drawdepth: Walls
     noRot: true
     sprite: _Classic/Structures/Storage/closet.rsi
     layers:
