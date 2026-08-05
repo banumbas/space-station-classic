@@ -1,7 +1,8 @@
 {
     "version": 1,
     "license": "CC-BY-SA-3.0",
-    "copyright": "Made by IntegerTempest, edited by Golinth. Equipped-EYES-arachnid modified from equipped-EYES by HTMLSystem. equipped-EYES-dog modified from equipped-EYES by Sparlight (GitHub). Equipped-EYES-resomi modified from equipped-EYES by Huaqas (GitHub).",
+    "copyright": "Made by IntegerTempest, edited by Golinth. Equipped-EYES-arachnid modified from equipped-EYES by HTMLSystem.",
+  "copyright": "Sprited by discord:@mishutka09 & Made by IntegerTempest, edited by Golinth. Equipped-EYES-arachnid modified from equipped-EYES by HTMLSystem",
     "size": {
         "x": 32,
         "y": 32
@@ -16,14 +17,6 @@
         },
         {
             "name": "equipped-EYES-arachnid",
-            "directions": 4
-        },
-        {
-            "name": "equipped-EYES-dog",
-            "directions": 4
-        },
-        {
-            "name": "equipped-EYES-resomi",
             "directions": 4
         },
         {
