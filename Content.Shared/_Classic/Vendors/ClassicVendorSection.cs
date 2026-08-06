@@ -1,6 +1,7 @@
 using Content.Shared.Inventory;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization;
+using Robust.Shared.Utility;
 
 namespace Content.Shared._Classic.Vendors;
 
@@ -48,11 +49,31 @@ public sealed partial class ClassicVendorEntry
     public EntProtoId Id;
 
     /// <summary>
+    /// Optional prototype ID of an entity to use for the icon, name, and description in the vendor UI.
+    /// Useful when vending boxes or containers (e.g. weapon cases) so the vendor shows the actual weapon inside.
+    /// </summary>
+    [DataField]
+    public EntProtoId? DisplayEntity;
+
+    /// <summary>
+    /// Optional sprite specifier to display as icon in the vendor UI.
+    /// </summary>
+    [DataField]
+    public SpriteSpecifier? Icon;
+
+    /// <summary>
     /// Overrides the name of the item shown in the UI. 
     /// If null, the prototype's default name is used.
     /// </summary>
     [DataField]
     public string? Name;
+
+    /// <summary>
+    /// Overrides the description of the item shown in the UI tooltip.
+    /// If null, the prototype's default description is used.
+    /// </summary>
+    [DataField]
+    public string? Description;
 
     /// <summary>
     /// Amount of items given (e.g. ammo in a box). 

@@ -1,6 +1,5 @@
 # PMC Ammunition
-ent-MagazineLightRifle60PMC = магазин M52 на 60 патронов ЧВК
-    .desc = Вмещает 60 винтовочных патронов.
+ent-MagazineLightRifle60PMC = магазин (.20 rifle FMJ)
 
 ent-AmmoRocketStructuralPMC = противоукрепительная ракета
     .desc = Ракета для уничтожения построек и стен.
@@ -16,6 +15,3 @@ ent-CartridgeSniperZhihaoPMC = крупнокалиберный бронебой
 
 ent-MagazineBoxSniperZhihaoPMC = короб патронов Zhihao (.50 AP)
     .desc = Коробка с крупнокалиберными бронебойными патронами .50 AP для снайперской винтовки Zhihao.
-
-ent-CartridgeLightRiflePMC = патрон ЧВК
-    .desc = Патрон винтовочного калибра ЧВК.

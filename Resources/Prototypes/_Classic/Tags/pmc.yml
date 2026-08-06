@@ -3,3 +3,6 @@
 
 - type: Tag
   id: PMCGunCaseAllowed
+
+- type: Tag
+  id: MagazineLightRifle60PMC

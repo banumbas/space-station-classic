@@ -1,24 +1,27 @@
 # PMC Weapons
-ent-WeaponShotgunBulldogPMC = ЧВК Bulldog
+ent-WeaponShotgunBulldogPMC = Bulldog
     .desc = Компактный дробовик с магазинным питанием. Используется ЧВК Эридани.
 
-ent-WeaponShotgunZhihaoPMC = ЧВК Zhihao
+ent-WeaponShotgunZhihaoPMC = обрез Zhihao
     .desc = Одноручный дробовик с барабанным спидлоадером. Предназначен для быстрой зачистки помещений.
 
-ent-WeaponSniperZhihaoPMC = ЧВК Снайперская Zhihao
+ent-WeaponSniperZhihaoPMC = снайперская винтовка Zhihao
     .desc = Снайперская винтовка Zhihao. Обладает невероятной бронепробиваемостью.
 
-ent-WeaponRifleM90PMC = ЧВК M90
+ent-WeaponRifleM90PMC = M90
     .desc = Улучшенная штурмовая винтовка ARG. Отличается высокой скорострельностью.
 
-ent-WeaponRifleM52PMC = ЧВК M52
+ent-WeaponRifleM52PMC = M52
     .desc = Модифицированная винтовка M52 с барабанным магазином на 60 патронов.
 
-ent-WeaponOrbitalDesignatorPMC = ЧВК целеуказатель орбитального удара
+ent-WeaponOrbitalDesignatorPMC = целеуказатель орбитального удара
     .desc = Наводит цель для орбитального удара. Захват цели требует удержания в обеих руках.
 
 ent-PMCOrbitalMarker = маркер орбитального удара
     .desc = Маркер целеуказания орбитального удара.
 
-ent-WeaponRocketLauncherPMC = ЧВК ракетная установка
+ent-WeaponRocketLauncherPMC = ракетная установка
     .desc = Однозарядный гранатомёт ЧВК Эридани.
+
+ent-WeaponRevolverProtocol = протокол-0
+    .desc = Револьвер с внутренним генератором патронов, 45 FMJ. Приговор вступает в силу немедленно и пересмотру не подлежит.

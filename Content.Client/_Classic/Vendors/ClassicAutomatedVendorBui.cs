@@ -13,11 +13,11 @@ using static Robust.Client.UserInterface.Controls.LineEdit;
 
 namespace Content.Client._Classic.Vendors;
 
-public sealed class ClassicAutomatedVendorBui : BoundUserInterface
+public sealed partial class ClassicAutomatedVendorBui : BoundUserInterface
 {
-    [Dependency] private readonly IPlayerManager _player = default!;
-    [Dependency] private readonly IPrototypeManager _prototype = default!;
-    [Dependency] private readonly IResourceCache _resource = default!;
+    [Dependency] private IPlayerManager _player = default!;
+    [Dependency] private IPrototypeManager _prototype = default!;
+    [Dependency] private IResourceCache _resource = default!;
 
     private ClassicAutomatedVendorWindow? _window;
     private ClassicAutomatedVendorBuiState? _lastState;
@@ -60,15 +60,28 @@ public sealed class ClassicAutomatedVendorBui : BoundUserInterface
 
                 if (_prototype.TryIndex(entry.Id, out var entity))
                 {
-                    uiEntry.Texture.Textures = SpriteComponent.GetPrototypeTextures(entity, _resource)
-                        .Select(o => o.Default)
-                        .ToList();
-                    if (entity.TryGetComponent<SpriteComponent>("Sprite", out var entitySprites) && entitySprites.AllLayers.Any())
-                        uiEntry.Texture.Modulate = entitySprites.AllLayers.First().Color;
+                    if (entry.Icon != null)
+                    {
+                        var spriteSys = EntMan.System<SpriteSystem>();
+                        uiEntry.Texture.Textures = new List<Texture> { spriteSys.Frame0(entry.Icon) };
+                    }
+                    else
+                    {
+                        var displayId = entry.DisplayEntity ?? entry.Id;
+                        if (_prototype.TryIndex(displayId, out var iconEntity))
+                        {
+                            uiEntry.Texture.Textures = SpriteComponent.GetPrototypeTextures(iconEntity, _resource)
+                                .Select(o => o.Default)
+                                .ToList();
+                            if (iconEntity.TryGetComponent<SpriteComponent>("Sprite", out var entitySprites) && entitySprites.AllLayers.Any())
+                                uiEntry.Texture.Modulate = entitySprites.AllLayers.First().Color;
+                        }
+                    }
 
-                    uiEntry.Panel.Button.Label.Text = entry.Name?.Replace("\\n", "\n") ?? entity.Name;
+                    var entryName = entry.Name != null ? Loc.GetString(entry.Name) : null;
+                    uiEntry.Panel.Button.Label.Text = entryName?.Replace("\\n", "\n") ?? entity.Name;
 
-                    var name = entity.Name;
+                    var name = entryName ?? entity.Name;
                     var color = ClassicAutomatedVendorPanel.DefaultColor;
                     var borderColor = ClassicAutomatedVendorPanel.DefaultBorderColor;
                     var hoverColor = ClassicAutomatedVendorPanel.DefaultBorderColor;
@@ -93,17 +106,19 @@ public sealed class ClassicAutomatedVendorBui : BoundUserInterface
                     uiEntry.Panel.BorderColor = borderColor;
                     uiEntry.Panel.HoveredColor = hoverColor;
 
+                    var entryDescription = entry.Description != null ? Loc.GetString(entry.Description) : entity.Description;
+
                     var msg = new FormattedMessage();
                     msg.AddText(name);
                     msg.PushNewline();
 
-                    if (!string.IsNullOrWhiteSpace(entity.Description))
-                        msg.AddText(entity.Description);
+                    if (!string.IsNullOrWhiteSpace(entryDescription))
+                        msg.AddText(entryDescription);
 
                     var tooltip = new Tooltip();
                     tooltip.SetMessage(msg);
 
-                    uiEntry.TooltipLabel.ToolTip = entity.Description;
+                    uiEntry.TooltipLabel.ToolTip = entryDescription;
                     uiEntry.TooltipLabel.TooltipDelay = 0;
                     uiEntry.TooltipLabel.TooltipSupplier = _ => tooltip;
 
@@ -188,12 +203,12 @@ public sealed class ClassicAutomatedVendorBui : BoundUserInterface
         for (var sectionIndex = 0; sectionIndex < vendor.Sections.Count; sectionIndex++)
         {
             var section = vendor.Sections[sectionIndex];
-            
+
             if (sectionIndex >= _window.Sections.ChildCount)
                 continue;
 
-            var uiSection = (ClassicAutomatedVendorSection) _window.Sections.GetChild(sectionIndex);
-            
+            var uiSection = (ClassicAutomatedVendorSection)_window.Sections.GetChild(sectionIndex);
+
             var sectionDisabled = false;
             if (section.Choices is { } choicesDef)
             {
@@ -207,13 +222,13 @@ public sealed class ClassicAutomatedVendorBui : BoundUserInterface
             for (var entryIndex = 0; entryIndex < section.Entries.Count; entryIndex++)
             {
                 var entry = section.Entries[entryIndex];
-                
+
                 if (entryIndex >= uiSection.Entries.ChildCount)
                     continue;
-                    
-                var uiEntry = (ClassicAutomatedVendorEntry) uiSection.Entries.GetChild(entryIndex);
+
+                var uiEntry = (ClassicAutomatedVendorEntry)uiSection.Entries.GetChild(entryIndex);
                 var disabled = sectionDisabled || (entry.Amount.HasValue && entry.Amount <= 0);
-                
+
                 if (section.TakeAll is { } takeAllId)
                 {
                     if (takeAll.Contains((takeAllId, entry.Id.Id)))
@@ -259,7 +274,7 @@ public sealed class ClassicAutomatedVendorBui : BoundUserInterface
             {
                 if (entryIndex >= uiSection.Entries.ChildCount)
                     continue;
-                var uiEntry = (ClassicAutomatedVendorEntry) uiSection.Entries.GetChild(entryIndex);
+                var uiEntry = (ClassicAutomatedVendorEntry)uiSection.Entries.GetChild(entryIndex);
                 uiEntry.Amount.Visible = anyAmount;
             }
         }
@@ -279,7 +294,7 @@ public sealed class ClassicAutomatedVendorBui : BoundUserInterface
     protected override void UpdateState(BoundUserInterfaceState state)
     {
         base.UpdateState(state);
-        
+
         if (state is ClassicAutomatedVendorBuiState vendorState)
         {
             _lastState = vendorState;
@@ -296,7 +311,7 @@ public sealed class ClassicAutomatedVendorBui : BoundUserInterface
         var name = new FormattedMessage();
         name.PushTag(new MarkupNode("bold", new MarkupParameter(section.Name.ToUpperInvariant()), null));
         name.AddText(section.Name.ToUpperInvariant());
-        
+
         if (section.TakeAll != null)
             name.AddText(" (TAKE ALL)");
         else if (section.TakeOne != null)

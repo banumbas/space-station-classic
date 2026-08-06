@@ -69,7 +69,7 @@
   components:
   - type: StorageFill
     contents:
-      - id: ClothingUniformJumpskirtOperativePMC
+      - id: ClothingUniformJumpsuitOperativePMCSkirt
       - id: ClothingShoesBootsMagPMC
       - id: ClothingHandsGlovesCombat
       - id: ClothingHeadsetPMC
@@ -206,7 +206,7 @@
   - type: ItemSlots
     slots:
       slot_1:
-        startingItem: WeaponRifleM90PMC
+        startingItem: WeaponRifleARG
 
 - type: entity
   id: BoxPMCWeaponC
@@ -217,7 +217,7 @@
       slot_1:
         startingItem: WeaponRevolverProtocol
       slot_2:
-        startingItem: EnergySwordDouble
+        startingItem: EnergySword
 
 - type: entity
   id: BoxPMCWeaponD
@@ -264,3 +264,48 @@
         startingItem: WeaponRifleM52PMC
       slot_2:
         startingItem: WeaponOrbitalDesignatorPMC
+
+- type: entity
+  id: BoxPMCAmmoKit
+  parent: BoxPMCEquipmentBase
+  name: PMC ammunition kit
+  description: A cardboard box filled with an extensive supply of ammunition for PMC squad weapons.
+  components:
+  - type: Storage
+    maxItemSize: Huge
+    grid:
+    - 0,0,8,3
+  - type: StorageFill
+    contents:
+    - id: MagazineLightRifleFMJ
+      amount: 4
+    - id: MagazineLightRifle60PMC
+      amount: 2
+    - id: MagazineShotgun
+      amount: 3
+    - id: MagazineBoxSniperZhihaoPMC
+      amount: 1
+    - id: SpeedLoaderShotgunZhihao
+      amount: 2
+    - id: MagazinePistolSubMachineGunFMJ
+      amount: 4
+
+- type: entity
+  id: BoxPMCMedicalKit
+  parent: BoxPMCEquipmentBase
+  name: PMC medical kit
+  description: A cardboard box filled with medical supplies and hyposprays for PMC field operations.
+  components:
+  - type: Storage
+    maxItemSize: Huge
+    grid:
+    - 0,0,8,3
+  - type: StorageFill
+    contents:
+    - id: DefibrillatorSyndicate
+    - id: MedkitCombatFilled
+      amount: 4
+    - id: CombatMedipen
+      amount: 6
+    - id: Stimpack
+      amount: 3

@@ -42,9 +42,9 @@
         name: Double-Barreled Shotgun
     - name: Ammo
       entries:
-      - id: BoxMagazinePistolCaselessRubber
+      - id: BoxMagazinePistolRubber
         points: 10
-      - id: BoxShellShotgunLethal
+      - id: BoxLethalshot
         points: 20
 
 - type: entity

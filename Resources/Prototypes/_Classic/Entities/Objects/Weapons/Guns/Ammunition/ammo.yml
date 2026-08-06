@@ -160,26 +160,8 @@
   parent: SpeedLoaderShotgunEmpty
   components:
   - type: BallisticAmmoProvider
-    capacity: 8
+    capacity: 16
     proto: ShellShotgun
-
-- type: entity
-  parent: BulletLightRifle
-  id: ProjectileLightRiflePMC
-  name: PMC light rifle bullet
-  categories: [ HideSpawnMenu ]
-  components:
-  - type: Projectile
-    damage:
-      types:
-        Piercing: 22
-
-- type: entity
-  parent: BaseCartridgeLightRifleSP
-  id: CartridgeLightRiflePMC
-  components:
-  - type: CartridgeAmmo
-    proto: ProjectileLightRiflePMC
 
 - type: entity
   parent: BaseMagazineBoxAntiMateriel

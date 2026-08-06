@@ -9,7 +9,6 @@
       components:
       - PMCCommander
   - type: SpawnPoint
-    job_id: PMCCommander
   - type: Sprite
     sprite: Markers/jobs.rsi
     state: green
@@ -24,7 +23,6 @@
       components:
       - PMCMedic
   - type: SpawnPoint
-    job_id: PMCMedic
   - type: Sprite
     sprite: Markers/jobs.rsi
     state: green
@@ -39,7 +37,6 @@
       components:
       - PMCSpecialist
   - type: SpawnPoint
-    job_id: PMCSpecialist
   - type: Sprite
     sprite: Markers/jobs.rsi
     state: green
@@ -54,7 +51,6 @@
       components:
       - PMCAssault
   - type: SpawnPoint
-    job_id: PMCAssault
   - type: Sprite
     sprite: Markers/jobs.rsi
     state: green

@@ -14,6 +14,9 @@
     - 0,0,1,4
     - 3,0,6,4
     - 8,0,9,4
+  - type: StorageFill
+    contents:
+      - id: DeathAcidifierImplanter
   - type: ExplosionResistance
     damageCoefficient: 0.1 # 90% resistance
 
@@ -26,6 +29,7 @@
   - type: StorageFill
     contents:
       - id: HypospraySakuraPMC
+      - id: DeathAcidifierImplanter
 
 - type: entity
   parent: ClothingBackpackMessengerPMC
@@ -53,4 +57,5 @@
       - id: AmmoRocketFragPMC
       - id: AmmoRocketFragPMC
       - id: AmmoRocketFragPMC
+      - id: DeathAcidifierImplanter
 

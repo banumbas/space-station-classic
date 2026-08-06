@@ -14,7 +14,8 @@ using Robust.Shared.Prototypes;
 using Robust.Shared.Utility;
 using Robust.Shared.Configuration;
 using Content.Shared._Starlight.CCVar;
-using Content.Shared._Starlight.GameTicking.Rules;
+using Content.Shared._Starlight.GameTicking.Rules; // Starlight
+using Content.Shared._Classic.CCVar; // Classic
 
 namespace Content.Server.GameTicking.Rules;
 
@@ -44,7 +45,7 @@ public sealed partial class LoadMapRuleSystem : StationEventSystem<LoadMapRuleCo
         }
 
         // Starlight start
-        if (_cfg.GetCVar(StarlightCCVars.DisableLoadMapRule))
+        if (_cfg.GetCVar(StarlightCCVars.DisableLoadMapRule) || _cfg.GetCVar(ClassicCCVars.DisableShuttleEvents)) // Classic
             return;
 
         if (comp.MapTag.HasValue && LoadMapTag(uid, comp, rule, args, comp.MapTag.Value))
@@ -132,11 +133,13 @@ public sealed partial class LoadMapRuleSystem : StationEventSystem<LoadMapRuleCo
     /// <summary>
     /// Recursively propagate the load event up the rule tree.
     /// </summary>
-    private void PropagateLoadEvent(EntityUid child, MapId mapId, IReadOnlyList<EntityUid> grids) {
+    private void PropagateLoadEvent(EntityUid child, MapId mapId, IReadOnlyList<EntityUid> grids)
+    {
         var dynamicRules = _entMan.AllEntityQueryEnumerator<DynamicRuleComponent>();
         while (dynamicRules.MoveNext(out var uid, out var comp))
         {
-            if (_dynamicRule.Rules((uid, (DynamicRuleComponent?)comp)).Contains(child)) {
+            if (_dynamicRule.Rules((uid, (DynamicRuleComponent?)comp)).Contains(child))
+            {
                 var ev = new RuleLoadedGridsEvent(mapId, grids);
                 RaiseLocalEvent(uid, ref ev);
                 PropagateLoadEvent(uid, mapId, grids);
@@ -146,7 +149,8 @@ public sealed partial class LoadMapRuleSystem : StationEventSystem<LoadMapRuleCo
         var parentRules = _entMan.AllEntityQueryEnumerator<SubRuleComponent>();
         while (parentRules.MoveNext(out var uid, out var comp))
         {
-            if (comp.Rules.Contains(child)) {
+            if (comp.Rules.Contains(child))
+            {
                 var ev = new RuleLoadedGridsEvent(mapId, grids);
                 RaiseLocalEvent(uid, ref ev);
                 PropagateLoadEvent(uid, mapId, grids);
@@ -188,6 +192,4 @@ public sealed partial class LoadMapRuleSystem : StationEventSystem<LoadMapRuleCo
         }
         return false;
     }
-
-    // Starlight end
 }

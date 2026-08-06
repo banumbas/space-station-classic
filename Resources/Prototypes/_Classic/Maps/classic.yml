@@ -17,8 +17,6 @@
           nameGenerator:
             !type:NanotrasenNameGenerator
             prefixCreator: '14'
-        - type: StationEmergencyShuttle
-          emergencyShuttlePath: /Maps/_Starlight/Shuttles/emergency_lox.yml
         - type: ClassicStationZLevels
           mapsBelow: []
           mapsAbove:
