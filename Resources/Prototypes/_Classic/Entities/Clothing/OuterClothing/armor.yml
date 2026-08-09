@@ -114,8 +114,8 @@
   - type: ToggleClothing
     action: ActionTogglePMCSpecialist
   - type: ClothingSpeedModifier
-    walkModifier: 1.30
-    sprintModifier: 1.30
+    walkModifier: 1.35
+    sprintModifier: 1.35
     requireActivated: true
   - type: ContainerContainer
     containers:
@@ -134,12 +134,19 @@
   - type: ToggleArmorModifier
     activeDamageModifiers:
       coefficients:
-        Blunt: 0.65
-        Slash: 0.65
-        Piercing: 0.65
-        Heat: 0.65
-        Radiation: 0.65
-        Caustic: 0.65
+        Blunt: 0.7
+        Slash: 0.7
+        Piercing: 0.7
+        Heat: 0.7
+        Radiation: 0.7
+        Caustic: 0.7
+  - type: ClothingTrail
+    trail:
+      color: "#00E5FF"
+      fadeColor: "#00E5FF00"
+      mode: SpriteGhost
+      maxPoints: 10
+      minDistance: 0.4
   - type: Appearance
   - type: GenericVisualizer
     visuals:
@@ -147,4 +154,3 @@
         enum.ToggleableVisuals.Layer:
           True: {state: icon-on}
           False: {state: icon}
-
