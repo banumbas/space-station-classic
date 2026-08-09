@@ -2,7 +2,10 @@
   "version": 1,
   "license": "CC-BY-SA-3.0",
   "copyright": "Made by PixelTheKermit (github) for SS14, fix digi sprites by DreamlyJack",
-  "size": {"x": 32, "y": 32},
+  "size": {
+    "x": 32,
+    "y": 32
+  },
   "states": [
     {
       "name": "icon"
@@ -17,6 +20,10 @@
     },
     {
       "name": "inhand-right",
+      "directions": 4
+    },
+    {
+      "name": "equipped-INNERCLOTHING-rollup",
       "directions": 4
     }
   ]

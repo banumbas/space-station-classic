@@ -1,7 +1,7 @@
 - type: species
   id: ProtoVox
   name: subspecies-name-protovox
-  roundStart: true
+  roundStart: false
   prototype: MobProtoVox
   sprites: MobProtoVoxSprites
   defaultSkinTone: "#6c741d"

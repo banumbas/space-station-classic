@@ -1,7 +1,7 @@
 - type: species
   id: ProtoThaven
   name: subspecies-name-protothaven
-  roundStart: true
+  roundStart: false
   prototype: MobProtoThaven
   sprites: MobProtoThavenSprites
   defaultSkinTone: "#ffffff"

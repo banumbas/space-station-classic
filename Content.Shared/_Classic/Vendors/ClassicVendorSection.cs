@@ -62,7 +62,7 @@ public sealed partial class ClassicVendorEntry
     public SpriteSpecifier? Icon;
 
     /// <summary>
-    /// Overrides the name of the item shown in the UI. 
+    /// Overrides the name of the item shown in the UI.
     /// If null, the prototype's default name is used.
     /// </summary>
     [DataField]
@@ -76,14 +76,14 @@ public sealed partial class ClassicVendorEntry
     public string? Description;
 
     /// <summary>
-    /// Amount of items given (e.g. ammo in a box). 
+    /// Amount of items given (e.g. ammo in a box).
     /// Used for display purposes in the UI to indicate quantity.
     /// </summary>
     [DataField]
     public int? Amount;
 
     /// <summary>
-    /// Global stock of this item in the vendor. 
+    /// Global stock of this item in the vendor.
     /// If null, it is infinite.
     /// </summary>
     [DataField]

@@ -1,7 +1,7 @@
 - type: species
   id: ProtoCyclorite
   name: subspecies-name-protocyclorite
-  roundStart: true
+  roundStart: false
   prototype: MobProtoCyclorite
   sprites: MobProtoCycloriteSprites
   markingLimits: MobProtoCycloriteMarkingLimits

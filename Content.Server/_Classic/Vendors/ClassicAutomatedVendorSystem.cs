@@ -18,7 +18,7 @@ public sealed class ClassicAutomatedVendorSystem : SharedClassicAutomatedVendorS
     public override void Initialize()
     {
         base.Initialize();
-        
+
         SubscribeLocalEvent<ClassicAutomatedVendorComponent, BoundUIOpenedEvent>(OnUIOpened);
     }
 
@@ -38,12 +38,12 @@ public sealed class ClassicAutomatedVendorSystem : SharedClassicAutomatedVendorS
             return;
 
         var section = vendor.Comp.Sections[args.Section];
-        
+
         if (args.Entry < 0 || args.Entry >= section.Entries.Count)
             return;
 
         var entry = section.Entries[args.Entry];
-        
+
         var userPoints = vendor.Comp.PointsType == null
             ? userComp.Points
             : userComp.ExtraPoints?.GetValueOrDefault(vendor.Comp.PointsType) ?? 0;

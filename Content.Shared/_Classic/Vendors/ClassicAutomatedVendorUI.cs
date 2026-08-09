@@ -50,22 +50,22 @@ public sealed class ClassicAutomatedVendorBuiState : BoundUserInterfaceState
     /// User's available primary points.
     /// </summary>
     public readonly int Points;
-    
+
     /// <summary>
     /// User's available extra point pools.
     /// </summary>
     public readonly Dictionary<string, int>? ExtraPoints;
-    
+
     /// <summary>
     /// Tracks items chosen via the Choice system.
     /// </summary>
     public readonly Dictionary<string, int> Choices;
-    
+
     /// <summary>
     /// Tracks categories exhausted via the TakeAll system.
     /// </summary>
     public readonly HashSet<(string Category, string Ent)> TakeAll;
-    
+
     /// <summary>
     /// Tracks categories exhausted via the TakeOne system.
     /// </summary>

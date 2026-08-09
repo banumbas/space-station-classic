@@ -1,7 +1,7 @@
 - type: species
   id: ProtoElf
   name: subspecies-name-protoelf
-  roundStart: true
+  roundStart: false
   prototype: MobProtoElf
   sprites: MobProtoElfSprites
   defaultSkinTone: "#ffda93"

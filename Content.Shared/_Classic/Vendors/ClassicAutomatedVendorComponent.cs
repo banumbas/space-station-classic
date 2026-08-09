@@ -22,8 +22,8 @@ public sealed partial class ClassicAutomatedVendorComponent : Component
     public List<ClassicVendorSection> Sections = new();
 
     /// <summary>
-    /// The specific type of points this vendor uses. 
-    /// If null, it uses the standard Points pool from the user. 
+    /// The specific type of points this vendor uses.
+    /// If null, it uses the standard Points pool from the user.
     /// If set (e.g. "Medical"), it pulls from the user's ExtraPoints under that key.
     /// </summary>
     [DataField, AutoNetworkedField]

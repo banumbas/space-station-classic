@@ -1,7 +1,7 @@
 - type: species
   id: ProtoAvali
   name: subspecies-name-protoavali
-  roundStart: true
+  roundStart: false
   prototype: MobProtoAvali
   sprites: MobProtoAvaliSprites
   markingLimits: MobProtoAvaliMarkingLimits

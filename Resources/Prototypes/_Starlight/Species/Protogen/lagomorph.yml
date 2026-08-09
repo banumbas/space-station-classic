@@ -1,7 +1,7 @@
 - type: species
   id: ProtoLagomorph
   name: subspecies-name-protolagomorph
-  roundStart: true
+  roundStart: false
   prototype: MobProtoLagomorph
   sprites: MobProtoLagomorphSprites
   defaultSkinTone: "#ffda93"

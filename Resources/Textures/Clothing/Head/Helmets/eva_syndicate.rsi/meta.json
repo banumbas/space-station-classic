@@ -33,6 +33,14 @@
     {
       "name": "equipped-HELMET-vulpkanin",
       "directions": 4
+    },
+    {
+      "name": "equipped-HELMET-avali",
+      "directions": 4
+    },
+    {
+      "name": "equipped-HELMET-resomi",
+      "directions": 4
     }
   ]
 }

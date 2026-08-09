@@ -1,7 +1,7 @@
 - type: species
   id: Lagomorph
   name: species-name-lagomorph
-  roundStart: true
+  roundStart: false
   prototype: MobLagomorph
   sprites: MobLagomorphSprites
   markingLimits: MobLagomorphMarkingLimits

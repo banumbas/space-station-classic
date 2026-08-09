@@ -1,7 +1,7 @@
 - type: species
   id: Cyclorite
   name: species-name-cyclorite
-  roundStart: true
+  roundStart: false
   prototype: MobCyclorite
   sprites: MobCycloriteSprites
   markingLimits: MobCycloriteMarkingLimits

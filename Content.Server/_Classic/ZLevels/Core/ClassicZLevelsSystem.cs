@@ -73,7 +73,7 @@ public sealed partial class ClassicZLevelsSystem : ClassicSharedZLevelsSystem
 
             Log.Info($"Created map {mapEnt.Value.Comp.MapId} for Station zNetwork at level {depth}");
             _map.InitializeMap(mapEnt.Value.Comp.MapId);
-            
+
             if (hasGravity)
             {
                 var grav = EnsureComp<GravityComponent>(mapEnt.Value);

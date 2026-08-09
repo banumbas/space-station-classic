@@ -1,7 +1,7 @@
 - type: species
   id: ProtoArachnid
   name: subspecies-name-protoarachnid
-  roundStart: true
+  roundStart: false
   prototype: MobProtoArachnid
   sprites: MobProtoArachnidSprites
   markingLimits: MobProtoArachnidMarkingLimits

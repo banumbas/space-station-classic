@@ -510,7 +510,7 @@
     - name: Ammo
       entries:
       - id: MagazineLightRifleFMJ
-        points: 3   
+        points: 3
       - id: MagazineLightRifle60PMC
         points: 5
       - id: AmmoRocketFragPMC

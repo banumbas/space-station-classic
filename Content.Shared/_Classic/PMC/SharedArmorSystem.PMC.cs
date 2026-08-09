@@ -9,7 +9,7 @@ public abstract partial class SharedArmorSystem
     {
         if (!Resolve(uid, ref component))
             return;
-        
+
         component.Modifiers = modifiers;
         Dirty(uid, component);
     }
