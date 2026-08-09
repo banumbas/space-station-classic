@@ -37,7 +37,7 @@
     state: base
   - type: PointLight
     color: "#FFE4CE" # 5000K color temp
-    energy: 1.8 # classic
+    energy: 1.6 # classic
     radius: 12 # classic
     softness: 1
     mask: /Textures/Effects/LightMasks/cone.png
@@ -270,7 +270,7 @@
       sprite: _Classic/Structures/Wallmounts/Lighting/light_small.rsi
       state: base
     - type: PointLight
-      energy: 1.8 # classic
+      energy: 1.6 # classic
       radius: 8 # classic
       softness: 1.1
       enabled: true

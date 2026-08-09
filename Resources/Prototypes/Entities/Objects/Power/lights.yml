@@ -123,7 +123,7 @@
   - type: LightBulb
     bulb: Bulb
     color: "#FFD1A3" # 4000K color temp
-    lightEnergy: 1.8 # classic
+    lightEnergy: 1.5 # classic
     lightRadius: 8 # classic
     lightSoftness: 1.1
   - type: Tag
@@ -140,7 +140,7 @@
   - type: LightBulb
     bulb: Bulb
     color: "#EEEEFF"
-    lightEnergy: 2.0 # classic
+    lightEnergy: 1.6 # classic
     lightRadius: 10 # classic
     lightSoftness: 1
     BurningTemperature: 350 #LEDs are colder than incandescent bulbs
@@ -178,7 +178,7 @@
   - type: LightBulb
     bulb: Bulb
     color: "#ff9833" # 2200k color temp
-    lightEnergy: 1.8 # classic
+    lightEnergy: 1.5 # classic
     lightRadius: 8 # classic
     lightSoftness: 3
   - type: Tag
@@ -235,7 +235,7 @@
   components:
   - type: LightBulb
     color: "#FFE4CE" # 5000K color temp
-    lightEnergy: 1.8 # classic
+    lightEnergy: 1.5 # classic
     lightRadius: 12 # classic
     lightSoftness: 1
     PowerUse: 25
@@ -272,7 +272,7 @@
   components:
   - type: LightBulb
     color: "#EEEEFF"
-    lightEnergy: 2.0 # classic
+    lightEnergy: 1.6 # classic
     lightRadius: 16 # classic
     lightSoftness: 0.9
     BurningTemperature: 350
