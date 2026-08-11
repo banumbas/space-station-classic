@@ -18,7 +18,7 @@
   description: ent-ActionTogglePMCSpecialist-desc
   components:
   - type: Action
-    useDelay: 1
+    useDelay: 3
     itemIconStyle: BigItem
     icon: { sprite: _Classic/Clothing/OuterClothing/Armor/pmc_reactive.rsi, state: icon }
     iconOn: { sprite: _Classic/Clothing/OuterClothing/Armor/pmc_reactive.rsi, state: icon-on }

@@ -26,7 +26,7 @@
     - state: base
       map: [ "enum.GunVisualLayers.Base" ]
   - type: Item
-    sprite: _Classic/Objects/Weapons/Guns/zhihao_sawn.rsi
+    sprite: _Classic/Objects/Weapons/Guns/zhihao_sawn_inhands_64x.rsi
   - type: Clothing
     sprite: _Classic/Objects/Weapons/Guns/zhihao_sawn.rsi
     slots: [ Back, suitStorage, Belt ]
