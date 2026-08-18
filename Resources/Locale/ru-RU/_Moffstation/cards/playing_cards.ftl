@@ -4,19 +4,19 @@ playing-card-desc-reverse = С этой стороны невозможно ск
 playing-card-name = {$card} из {$suit}
 playing-card-desc = Артистизм изысканный!
 
-playing-card-suit-name = { $костюм ->
-    [клубы] Клубы
-    [бриллианты] Бриллианты
-    [сердца] Сердечки
-    [пики] Пики
+playing-card-suit-name = { $suit ->
+    [clubs] Клубы
+    [diamonds] Бриллианты
+    [hearts] Сердечки
+    [spades] Пики
    *[invalid] !!{$suit}!!
 }
 
-playing-card-value-name = { $карта ->
-    [туз] туз
-    [Дж] Джек
-    [д] Королева
-    [к] Король
+playing-card-value-name = { $card ->
+    [ace] туз
+    [J] Джек
+    [Q] Королева
+    [K] Король
    *[other] {$card}
 }
 

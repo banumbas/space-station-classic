@@ -7,7 +7,7 @@ sensor-monitoring-value-display = { $unit ->
     [TemperatureK] { TOSTRING($value, "N3") } K
     [Ratio] { NATURALPERCENT($value) }
     [Moles] { TOSTRING($value, "N3") } моль
-    *[Other] { $value }
+    *[other] { $value }
 }
 
 # ({ TOSTRING(SUB($value, 273.15), "N3") } °C)

@@ -1,5 +1,5 @@
 reagent-effect-guidebook-dissolvable-reaction =
-    { $шанс ->
+    { $chance ->
     [1] Причины
-    *[другая] причина
+    *[other] причина
     } уничтожает объекты

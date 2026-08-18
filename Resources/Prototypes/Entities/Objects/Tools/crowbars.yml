@@ -62,7 +62,8 @@
   id: Crowbar
   components:
   - type: Sprite
-    state: icon
+    sprite: _Classic/Objects/Tools/tools.rsi
+    state: crowbar
   - type: Item
     storedSprite:
       sprite: Objects/Tools/crowbar.rsi
@@ -78,10 +79,8 @@
     - Crowbar
     - CrowbarRed
   - type: Sprite
-    layers:
-    - state: icon
-    - state: cover-icon
-      color: "#990000"
+    sprite: _Classic/Objects/Tools/tools.rsi
+    state: crowbar_red
   - type: Item
     storedSprite:
       state: red-storage
@@ -109,8 +108,10 @@
   components:
   - type: Sprite
     layers:
-    - state: icon
-    - state: cover-icon
+    - sprite: _Classic/Objects/Tools/tools.rsi
+      state: crowbar
+    - sprite: Objects/Tools/crowbar.rsi
+      state: cover-icon
       color: "#00621c"
   - type: Item
     storedSprite:
@@ -139,8 +140,10 @@
   components:
   - type: Sprite
     layers:
-    - state: icon
-    - state: cover-icon
+    - sprite: _Classic/Objects/Tools/tools.rsi
+      state: crowbar
+    - sprite: Objects/Tools/crowbar.rsi
+      state: cover-icon
       color: "#673800"
   - type: Item
     storedSprite:
@@ -169,8 +172,10 @@
   components:
   - type: Sprite
     layers:
-    - state: icon
-    - state: cover-icon
+    - sprite: _Classic/Objects/Tools/tools.rsi
+      state: crowbar
+    - sprite: Objects/Tools/crowbar.rsi
+      state: cover-icon
       color: "#968000"
   - type: Item
     storedSprite:

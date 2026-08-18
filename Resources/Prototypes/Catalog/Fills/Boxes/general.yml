@@ -13,6 +13,7 @@
     materialComposition:
       Cardboard: 100
   - type: Sprite
+    sprite: _Classic/Objects/Storage/box.rsi
     state: box
   - type: Tag
     tags:
@@ -33,6 +34,7 @@
     materialComposition:
       Cardboard: 50
   - type: Sprite
+    sprite: Objects/Storage/boxes.rsi
     state: box
   - type: Tag
     tags:
@@ -50,6 +52,7 @@
         id: Mousetrap
         amount: 4
   - type: Sprite
+    sprite: Objects/Storage/boxes.rsi
     layers:
       - state: box
       - state: mousetraps
@@ -61,6 +64,7 @@
   description: This box is shaped on the inside so that only light tubes and bulbs fit.
   components:
   - type: Sprite
+    sprite: Objects/Storage/boxes.rsi
     layers:
       - state: box
       - state: light
@@ -93,6 +97,7 @@
   id: BoxLighttube
   components:
   - type: Sprite
+    sprite: Objects/Storage/boxes.rsi
     layers:
       - state: box
       - state: lighttube
@@ -108,6 +113,7 @@
   id: BoxLightMixed
   components:
   - type: Sprite
+    sprite: Objects/Storage/boxes.rsi
     layers:
       - state: box
       - state: lightmixed
@@ -145,6 +151,7 @@
         id: AssistantPDA #Starlight assistant
         amount: 4
   - type: Sprite
+    sprite: Objects/Storage/boxes.rsi
     layers:
       - state: box
       - state: pda
@@ -161,6 +168,7 @@
         id: AssistantIDCard #Starlight assistant
         amount: 4
   - type: Sprite
+    sprite: Objects/Storage/boxes.rsi
     layers:
       - state: box
       - state: pda
@@ -177,6 +185,7 @@
         id: ClothingHeadsetAssistant #Starlight assistant
         amount: 4
   - type: Sprite
+    sprite: Objects/Storage/boxes.rsi
     layers:
       - state: box
       - state: headset
@@ -188,6 +197,7 @@
   description: A small box containing stamps.
   components: # Baking a "default" EntityTableContainerFill into this prototype seems like bad practice, so this is currently an empty box. If you need a new type of prefilled stamp box, create a new child prototype with the appropriate stamps!
   - type: Sprite
+    sprite: Objects/Storage/boxes.rsi
     layers:
       - state: box
       - state: stamp
@@ -204,6 +214,7 @@
         id: ClothingEyesGlassesMeson
         amount: 4
   - type: Sprite
+    sprite: Objects/Storage/boxes.rsi
     layers:
       - state: box
       - state: meson
@@ -223,6 +234,7 @@
         - id: FoodSnackMREBrownie
         - id: FoodCondimentPacketKetchup
   - type: Sprite
+    sprite: Objects/Storage/boxes.rsi
     layers:
       - state: box
       - state: writing
@@ -253,6 +265,7 @@
           - id: InflatableDoorStack
             amount: 2
   - type: Sprite
+    sprite: Objects/Storage/boxes.rsi
     layers:
       - state: box
       - state: inflatable
@@ -285,6 +298,7 @@
         id: Flare
         amount: 6
   - type: Sprite
+    sprite: Objects/Storage/boxes.rsi
     layers:
       - state: box
       - state: flare
@@ -308,6 +322,7 @@
       tags:
         - TrashBag
   - type: Sprite
+    sprite: Objects/Storage/boxes.rsi
     layers:
       - state: box
       - state: trashbag
@@ -324,6 +339,7 @@
         id: EncryptionKeyCommon
         amount: 4
   - type: Sprite
+    sprite: Objects/Storage/boxes.rsi
     layers:
       - state: box
       - state: encryptokey
@@ -443,6 +459,7 @@
   description: This box stymies the transmission of harmful radiation.
   components:
   - type: Sprite
+    sprite: Objects/Storage/boxes.rsi
     state: box
   - type: RadiationBlockingContainer
     resistance: 2
@@ -454,6 +471,7 @@
   description: This box is specifically moulded to only carry candles.
   components:
   - type: Sprite
+    sprite: Objects/Storage/boxes.rsi
     layers:
       - state: box
       - state: candle
@@ -511,6 +529,7 @@
   - type: Storage
     maxItemSize: Tiny
   - type: Sprite
+    sprite: Objects/Storage/boxes.rsi
     layers:
       - state: box
       - state: darts
@@ -534,6 +553,7 @@
   description: A box filled with envelopes.
   components:
   - type: Sprite
+    sprite: Objects/Storage/boxes.rsi
     layers:
       - state: box
       - state: envelope
@@ -550,6 +570,7 @@
   description: A box filled with forks and spoons.
   components:
   - type: Sprite
+    sprite: Objects/Storage/boxes.rsi
     layers:
       - state: box
       - state: utensils

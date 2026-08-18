@@ -1,0 +1,122 @@
+# Map Position Markers (No GhostRoles, purely for map grid placement)
+- type: entity
+  id: SpawnPointPMCCommanderMarker
+  parent: MarkerBase
+  name: PMC Commander Spawn Point
+  components:
+  - type: AntagGridSpawnPoint
+    whitelist:
+    - PMCCommander
+  - type: SpawnPoint
+  - type: Sprite
+    sprite: Markers/jobs.rsi
+    state: green
+
+- type: entity
+  id: SpawnPointPMCMedicMarker
+  parent: MarkerBase
+  name: PMC Medic Spawn Point
+  components:
+  - type: AntagGridSpawnPoint
+    whitelist:
+    - PMCMedic
+  - type: SpawnPoint
+  - type: Sprite
+    sprite: Markers/jobs.rsi
+    state: green
+
+- type: entity
+  id: SpawnPointPMCSpecialistMarker
+  parent: MarkerBase
+  name: PMC Specialist Spawn Point
+  components:
+  - type: AntagGridSpawnPoint
+    whitelist:
+    - PMCSpecialist
+  - type: SpawnPoint
+  - type: Sprite
+    sprite: Markers/jobs.rsi
+    state: green
+
+- type: entity
+  id: SpawnPointPMCAssaultMarker
+  parent: MarkerBase
+  name: PMC Assault Spawn Point
+  components:
+  - type: AntagGridSpawnPoint
+    whitelist:
+    - PMCAssault
+  - type: SpawnPoint
+  - type: Sprite
+    sprite: Markers/jobs.rsi
+    state: green
+
+# GameRule Dynamic GhostRole Spawners
+- type: entity
+  categories: [ HideSpawnMenu, Spawner ]
+  parent: BaseAntagSpawner
+  id: SpawnPointPMCCommander
+  name: spawn-point-pmc-commander
+  components:
+  - type: PMCCommander
+  - type: GhostRole
+    name: roles-antag-pmc-commander-name
+    description: roles-antag-pmc-commander-objective
+    rules: ghost-role-information-rules-default-team-antagonist
+    mindRoles:
+    - MindRoleNukeopsCommander
+  - type: Sprite
+    sprite: Markers/jobs.rsi
+    state: green
+
+- type: entity
+  categories: [ HideSpawnMenu, Spawner ]
+  parent: BaseAntagSpawner
+  id: SpawnPointPMCMedic
+  name: spawn-point-pmc-medic
+  components:
+  - type: PMCMedic
+  - type: GhostRole
+    name: roles-antag-pmc-medic-name
+    description: roles-antag-pmc-medic-objective
+    rules: ghost-role-information-rules-default-team-antagonist
+    mindRoles:
+    - MindRoleNukeopsMedic
+  - type: Sprite
+    sprite: Markers/jobs.rsi
+    state: green
+
+- type: entity
+  categories: [ HideSpawnMenu, Spawner ]
+  parent: BaseAntagSpawner
+  id: SpawnPointPMCSpecialist
+  name: spawn-point-pmc-specialist
+  components:
+  - type: PMCSpecialist
+  - type: GhostRole
+    name: roles-antag-pmc-specialist-name
+    description: roles-antag-pmc-specialist-objective
+    rules: ghost-role-information-rules-default-team-antagonist
+    mindRoles:
+    - MindRoleNukeops
+  - type: Sprite
+    sprite: Markers/jobs.rsi
+    state: green
+
+- type: entity
+  categories: [ HideSpawnMenu, Spawner ]
+  parent: BaseAntagSpawner
+  id: SpawnPointPMCAssault
+  name: spawn-point-pmc-assault
+  components:
+  - type: PMCAssault
+  - type: GhostRole
+    name: roles-antag-pmc-assault-name
+    description: roles-antag-pmc-assault-objective
+    rules: ghost-role-information-rules-default-team-antagonist
+    mindRoles:
+    - MindRoleNukeops
+  - type: Sprite
+    sprite: Markers/jobs.rsi
+    state: green
+

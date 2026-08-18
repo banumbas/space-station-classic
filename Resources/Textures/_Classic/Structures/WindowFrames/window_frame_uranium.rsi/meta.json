@@ -1,0 +1,46 @@
+{
+  "version": 1,
+  "size": {
+    "x": 32,
+    "y": 32
+  },
+  "license": "CC-BY-SA-3.0",
+  "copyright": "take in https://github.com/wall-nerds/wallening/tree/stable/icons/obj/smooth_structures/window_frames",
+  "states": [
+    {
+      "name": "window_frame_uranium0",
+      "directions": 4
+    },
+    {
+      "name": "window_frame_uranium1",
+      "directions": 4
+    },
+    {
+      "name": "window_frame_uranium2",
+      "directions": 4
+    },
+    {
+      "name": "window_frame_uranium3",
+      "directions": 4
+    },
+    {
+      "name": "window_frame_uranium4",
+      "directions": 4
+    },
+    {
+      "name": "window_frame_uranium5",
+      "directions": 4
+    },
+    {
+      "name": "window_frame_uranium6",
+      "directions": 4
+    },
+    {
+      "name": "window_frame_uranium7",
+      "directions": 4
+    },
+    {
+      "name": "full"
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-guide-entry-sl-rules = Server rules: STARLIGHT
+guide-entry-sl-rules = Server rules: MOONLIGHT
 guide-entry-sl-rule-0 = Rule 0
 guide-entry-sl-rule-1 = Rule 1
 guide-entry-sl-rule-2 = Rule 2
@@ -57,6 +57,13 @@ guide-entry-sl-command-clarifications = Command Clarifications
 guide-entry-sl-general-command-staff = General Command Staff
 guide-entry-sl-captain = Captain
 guide-entry-sl-ai = AI
+guide-entry-sl-secure-terminal = Secure Terminal
+guide-entry-sl-secure-terminal-ert = ERT Teams
+guide-entry-sl-secure-terminal-alerts = Alert Levels
+guide-entry-sl-secure-terminal-armories = Armories & Pods
+guide-entry-sl-secure-terminal-misc = Misc
+
+guide-entry-sl-secure-terminal-guide = Secure Terminal
 
 guide-entry-sl-non-crew-policies = Non-crew Policies
 guide-entry-sl-docking-and-visitors = Docking and Visitors
@@ -91,6 +98,11 @@ guide-entry-sl-legal-sop-intro = Legal
 guide-entry-sl-engineering-sop-intro = Engineering
 guide-entry-sl-engineering-sop-genproc-intro = General Procedures
 guide-entry-sl-engineering-sop-power-generation = Power Generation
+guide-entry-sl-engineering-supermatter = Supermatter Crystal
+guide-entry-sl-engineering-supermatter-stability = Stability
+guide-entry-sl-engineering-supermatter-structural-recovery = Structural Recovery
+guide-entry-sl-engineering-supermatter-delamination = Delamination
+guide-entry-sl-engineering-supermatter-advanced-handling = Advanced Supermatter Handling
 guide-entry-sl-engineering-sop-station-damage = Station Damage
 guide-entry-sl-engineering-sop-staff-intro = Staff Procedures
 guide-entry-sl-engineering-sop-chief-engineer = Chief Engineer
@@ -157,6 +169,8 @@ guide-entry-terror-spiders = Terror Spiders
 guide-entry-devil = Devil
 
 guide-entry-sl-deepfried-recipes = Deep Fried
+guide-entry-sl-dough-recipes = Dough
+guide-entry-sl-ice-cream-recipes = Ice Cream Maker
 
 # Plumbing guides
 guide-entry-plumbing = Plumbing
@@ -169,10 +183,16 @@ guide-entry-records = Character Records
 # Tools
 guide-entry-tools-combination-locks = Combination Locks
 
-
 # Roleplay
 guide-entry-roleplay-intro = Roleplay Guides
 guide-entry-roleplay-01 = The Basics
 guide-entry-roleplay-02 = Collaborative Storytelling
 guide-entry-roleplay-03 = Losing Is Fun
 guide-entry-roleplay-04 = Acting With Mechanics
+
+# Engineering
+guide-entry-gasses = Mundane Gasses
+guide-entry-gasses2 = Key Gasses
+guide-entry-gasses3 = Utility Gasses
+guide-entry-gasses4 = Advanced Gasses
+guide-entry-gasses5 = Rare Gasses

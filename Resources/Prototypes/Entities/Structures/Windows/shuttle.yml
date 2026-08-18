@@ -1,13 +1,15 @@
 - type: entity
   id: ShuttleWindow
   name: shuttle window
+  description: A durable pressure window designed for shuttles and survival pods. # Classic-Edit
   parent: [BaseDeltaPressureReinforcedGlass, WindowRCDResistant]
   components:
   - type: Sprite
-    drawdepth: WallTops
-    sprite: Structures/Windows/shuttle_window.rsi
+    drawdepth: Overdoors # Classic-Edit
+    sprite: _Classic/Structures/Windows/pod_window.rsi # Classic-Edit
   - type: Icon
-    sprite: Structures/Windows/shuttle_window.rsi
+    sprite: _Classic/Structures/Windows/pod_window.rsi # Classic-Edit
+    state: full # Classic-Edit
   - type: Repairable
     fuelCost: 15
     doAfterDelay: 3
@@ -40,7 +42,7 @@
       - !type:DoActsBehavior
         acts: [ "Destruction" ]
   - type: IconSmooth
-    base: swindow
+    base: pod_window # Classic-Edit
   - type: Construction
     graph: Window
     node: shuttleWindow
@@ -50,7 +52,7 @@
     damageDivisor: 20
     trackAllDamage: true
     damageOverlay:
-      sprite: Structures/Windows/cracks.rsi
+      sprite: _Classic/Structures/Windows/window_damage.rsi # Classic-Edit
   - type: StaticPrice
     price: 150
 

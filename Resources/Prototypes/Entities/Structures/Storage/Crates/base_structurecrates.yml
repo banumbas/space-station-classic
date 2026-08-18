@@ -9,11 +9,11 @@
   - type: Transform
     noRot: true
   - type: Icon
-    sprite: Structures/Storage/Crates/generic.rsi
+    sprite: _Classic/Structures/Storage/Crates/generic.rsi
     state: icon
   - type: Sprite
     noRot: true
-    sprite: Structures/Storage/Crates/generic.rsi
+    sprite: _Classic/Structures/Storage/Crates/generic.rsi
     layers:
     - state: base
       map: ["enum.StorageVisualLayers.Base"]
@@ -114,10 +114,10 @@
   - type: LockVisuals
   - type: AccessReader
   - type: Icon
-    sprite: Structures/Storage/Crates/secure.rsi
+    sprite: _Classic/Structures/Storage/Crates/secure.rsi
     state: icon
   - type: Sprite
-    sprite: Structures/Storage/Crates/secure.rsi
+    sprite: _Classic/Structures/Storage/Crates/secure.rsi
     layers:
     - state: base
     - state: closed
@@ -198,4 +198,19 @@
         enum.ElectrifiedLayers.Sparks:
           True: { visible: True }
           False: { visible: False }
+      enum.PaperLabelVisuals.HasLabel:
+        enum.PaperLabelVisuals.Layer:
+          True: { visible: true }
+          False: { visible: false }
+      enum.PaperLabelVisuals.LabelType:
+        enum.PaperLabelVisuals.Layer:
+          Paper: { state: paper }
+          Bounty: { state: bounty }
+          CaptainsPaper: { state: captains_paper }
+          Invoice: { state: invoice }
   # Starlight-end
+  # ES Start
+  - type: ESSparkOnHit
+    prob: 0.25
+    count: 2
+  # ES End

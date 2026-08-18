@@ -112,13 +112,30 @@
   name: grille
   description: A flimsy framework of iron rods. It has seen better days.
   components:
+  # Classic-Start
   - type: Sprite
     drawdepth: Walls
-    sprite: Structures/Walls/grille.rsi
-    state: grille_broken
+    sprite: _Classic/Structures/Walls/grille_damaged.rsi
   - type: Icon
-    sprite: Structures/Walls/grille.rsi
-    state: grille_broken
+    sprite: _Classic/Structures/Walls/grille_damaged.rsi
+    state: full
+  - type: IconSmooth
+    key: walls
+    base: grille_damaged
+  - type: SpeedModifierContacts
+    walkSpeedModifier: 0.2
+    sprintSpeedModifier: 0.2
+  - type: Fixtures
+    fixtures:
+      fix1:
+        hard: false
+        density: 7
+        shape:
+          !type:PhysShapeAabb
+          bounds: "-0.5,-0.5,0.5,0.5"
+        layer:
+        - MidImpassable
+  # Classic-End
   - type: RCDDeconstructable
     cost: 6
     delay: 4
@@ -127,10 +144,10 @@
     graph: Grille
     node: grilleBroken
     deconstructionTarget: start
-  - type: Fixtures # overwrite BaseStructure parent.
+  #- type: Fixtures # overwrite BaseStructure parent.
   - type: Physics
     bodyType: Static
-    canCollide: false
+    canCollide: true # Classic-Edit
   - type: Tag
     tags:
     - ForceNoFixRotations
@@ -154,13 +171,17 @@
   name: clockwork grille
   description: A flimsy framework of iron rods assembled in traditional Ratvarian fashion. It has seen better days.
   components:
+  # Classic-Start
   - type: Sprite
     drawdepth: Walls
-    sprite: Structures/Walls/clockwork_grille.rsi
-    state: brokenratvargrille
+    sprite: _Classic/Structures/Walls/grille_damaged.rsi
   - type: Icon
-    sprite: Structures/Walls/clockwork_grille.rsi
-    state: brokenratvargrille
+    sprite: _Classic/Structures/Walls/grille_damaged.rsi
+    state: full
+  - type: IconSmooth
+    key: walls
+    base: grille_damaged
+  # Classic-End
   - type: Construction
     graph: ClockGrille
     node: clockGrilleBroken
@@ -240,4 +261,3 @@
   - type: Construction
     graph: GrilleDiagonal
     node: clockworkGrilleDiagonal
-

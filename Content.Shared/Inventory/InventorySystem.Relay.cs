@@ -37,6 +37,7 @@ using Content.Shared._Starlight.Body.Events;
 using Content.Shared._Starlight.Weapons.Hitscan.Events;
 using Content.Shared._Starlight.Overlay.Components;
 #endregion
+using Content.Shared._Classic.ZLevels.Core.EntitySystems;
 
 namespace Content.Shared.Inventory;
 
@@ -44,6 +45,10 @@ public partial class InventorySystem
 {
     public void InitializeRelay()
     {
+        //Classic relays
+        SubscribeLocalEvent<InventoryComponent, ClassicZLevelChasmAttempt>(RelayInventoryEvent);
+        //Classic end
+
         SubscribeLocalEvent<InventoryComponent, HitScanPierceAttemptEvent>(RefRelayInventoryEvent); // Starlight: Should be RefRelay
         SubscribeLocalEvent<InventoryComponent, DamageModifyEvent>(RelayInventoryEvent);
         SubscribeLocalEvent<InventoryComponent, StaminaModifyEvent>(RelayInventoryEvent);
@@ -104,6 +109,7 @@ public partial class InventorySystem
         SubscribeLocalEvent<InventoryComponent, RefreshEquipmentHudEvent<ShowThirstIconsComponent>>(RefRelayInventoryEvent);
         SubscribeLocalEvent<InventoryComponent, RefreshEquipmentHudEvent<ShowMindShieldIconsComponent>>(RefRelayInventoryEvent);
         SubscribeLocalEvent<InventoryComponent, RefreshEquipmentHudEvent<ShowSyndicateIconsComponent>>(RefRelayInventoryEvent);
+        SubscribeLocalEvent<InventoryComponent, RefreshEquipmentHudEvent<ShowPMCIconsComponent>>(RefRelayInventoryEvent); // Classic
         SubscribeLocalEvent<InventoryComponent, RefreshEquipmentHudEvent<ShowCriminalRecordIconsComponent>>(RefRelayInventoryEvent);
         SubscribeLocalEvent<InventoryComponent, RefreshEquipmentHudEvent<BlackAndWhiteOverlayComponent>>(RefRelayInventoryEvent);
         SubscribeLocalEvent<InventoryComponent, RefreshEquipmentHudEvent<NoirOverlayComponent>>(RefRelayInventoryEvent);

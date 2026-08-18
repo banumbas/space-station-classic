@@ -11,7 +11,7 @@
        !type:String
        pda
   - type: Sprite
-    sprite: Objects/Devices/pda.rsi
+    sprite: _Classic/Objects/Devices/pda.rsi
     layers:
     - map: [ "enum.PdaVisualLayers.Base" ]
       state: "pda"
@@ -24,7 +24,7 @@
       shader: "unshaded"
       visible: false
   - type: Icon
-    sprite: Objects/Devices/pda.rsi
+    sprite: _Classic/Objects/Devices/pda.rsi
     state: pda
   - type: Pda
     paiSlot:
@@ -48,6 +48,9 @@
   - type: PdaVisuals
   - type: Item
     size: Small
+    # The modern SS13 world frames are in _Classic; retain the existing
+    # directional in-hand frames from the original RSI.
+    sprite: Objects/Devices/pda.rsi
   - type: ContainerContainer
     containers:
       PDA-id: !type:ContainerSlot {}
@@ -100,7 +103,6 @@
   - type: UserInterface
     interfaces:
       enum.PdaUiKey.Key:
-        requireInputValidation: false #Starlight pAI can open PDAs, see PR #3272
         type: PdaBoundUserInterface
       enum.StoreUiKey.Key:
         type: StoreBoundUserInterface
@@ -133,7 +135,7 @@
   abstract: true
   components:
   - type: Sprite
-    sprite: Objects/Devices/pda.rsi
+    sprite: _Classic/Objects/Devices/pda.rsi
     layers:
     - map: [ "enum.PdaVisualLayers.Base" ]
       state: "pda"
@@ -1138,6 +1140,10 @@
   - type: Tag #  Ignore Chameleon tags
     tags:
     - DoorBumpOpener
+  - type: CartridgeLoader # Starlight
+    uiKey: enum.PdaUiKey.Key
+    preinstalled:
+      - AstroNavCartridge
 
 - type: entity
   parent: [ BasePDA, BaseSyndicateContraband ]

@@ -1,0 +1,10 @@
+- type: entity
+  parent: ClothingHeadsetAltSyndicateAgent
+  id: ClothingHeadsetPMC
+  name: ent-ClothingHeadsetPMC
+  description: ent-ClothingHeadsetPMC-desc
+  components:
+  - type: ContainerFill
+    containers:
+      key_slots:
+      - EncryptionKeyPMC

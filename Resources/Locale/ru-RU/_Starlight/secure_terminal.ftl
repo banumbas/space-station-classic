@@ -12,7 +12,7 @@ secure-terminal-request-button-confirm = Подтверждать?
 secure-terminal-authorize-button = Авторизовать
 secure-terminal-deny-button = Запретить/Отменить
 secure-terminal-recall-button = Вспомнить Оружейную
-secure-terminal-recall-locked = { $минуты ->
+secure-terminal-recall-locked = { $minutes ->
     [1] Возврат возможен через 1 минуту.
    *[other] Recall available in {$minutes} minutes.
 }
@@ -28,7 +28,7 @@ secure-terminal-countdown-label = Активация через {$minutes}м {$s
 
 secure-terminal-fee-note = Плата за обработку: {$fee}
 secure-terminal-salary-note = Зарплата станции уменьшена на {$penalty}% из-за затрат на мобилизацию.
-secure-terminal-delay-note = { $минуты ->
+secure-terminal-delay-note = { $minutes ->
     [1] Расчетное время прибытия: 1 минута после авторизации.
    *[other] ETA: {$minutes} minutes after authorization.
 }
@@ -36,11 +36,11 @@ secure-terminal-delay-note = { $минуты ->
 secure-terminal-requires-no-war-note = Отключено во время военных операций.
 secure-terminal-requires-war-note = Доступно только во время военных операций.
 secure-terminal-requires-alert-note = Требуется, чтобы оповещение {$level} было активным.
-secure-terminal-alert-time-remaining = { $минуты ->
+secure-terminal-alert-time-remaining = { $minutes ->
     [1] Оповещение должно быть активным еще 1 минуту, прежде чем его можно будет запросить.
    *[other] Alert must be active for {$minutes} more minutes before this can be requested.
 }
-secure-terminal-on-cooldown-note = { $минуты ->
+secure-terminal-on-cooldown-note = { $minutes ->
     [1] По перезарядке — доступно через 1 минуту.
    *[other] On cooldown — available in {$minutes} minutes.
 }

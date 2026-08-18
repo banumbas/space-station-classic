@@ -1,7 +1,7 @@
 {
   "version": 1,
   "license": "CC-BY-SA-3.0",
-  "copyright": "Made by KREKS (ss14 discord) for ss14. Resomi state modified from equipped-FEET by Huaqas (GitHub).",
+  "copyright": "Made by KREKS (ss14 discord) for ss14, fix digi sprites by DreamlyJack",
   "size": {
     "x": 32,
     "y": 32
@@ -15,7 +15,7 @@
       "directions": 4
     },
     {
-      "name": "equipped-FEET-resomi",
+      "name": "equipped-FEET-reptilian",
       "directions": 4
     },
     {
@@ -24,6 +24,10 @@
     },
     {
       "name": "inhand-right",
+      "directions": 4
+    },
+    {
+      "name": "equipped-FEET-resomi",
       "directions": 4
     }
   ]

@@ -25,7 +25,9 @@
         sound:
           collection: MetalGlassBreak
   - type: Sprite
-    sprite: Structures/Wallmounts/fireaxe_cabinet.rsi
+    sprite: _Classic/Structures/Wallmounts/fireaxe_cabinet.rsi
+    noRot: true
+    snapCardinals: false
     layers:
     - state: cabinet
     - state: fireaxe

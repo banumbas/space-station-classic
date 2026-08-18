@@ -1,4 +1,4 @@
-- type: entity
+﻿- type: entity
   name: wirecutter
   parent: BaseItem
   id: Wirecutter
@@ -12,11 +12,11 @@
     - PlantSampleTaker
     - Wirecutter
   - type: Sprite
-    sprite: Objects/Tools/wirecutters.rsi
+    sprite: _Classic/Objects/Tools/tools.rsi
     layers:
     - state: cutters
       map: [ "enum.DamageStateVisualLayers.Base" ]
-    - state: cutters-cutty-thingy
+    - state: cutters_cutty_thingy
   - type: MeleeWeapon
     wideAnimationRotation: -90
     damage:
@@ -72,11 +72,11 @@
     tags:
     - Screwdriver
   - type: Sprite
-    sprite: Objects/Tools/screwdriver.rsi
+    sprite: _Classic/Objects/Tools/tools.rsi
     layers:
       - state: screwdriver
         map: [ "enum.DamageStateVisualLayers.Base" ]
-      - state: screwdriver-screwybits
+      - state: screwdriver_screwybits
   - type: Item
     sprite: Objects/Tools/screwdriver.rsi
     storedRotation: -90
@@ -129,8 +129,8 @@
     tags:
     - Wrench
   - type: Sprite
-    sprite: Objects/Tools/wrench.rsi
-    state: icon
+    sprite: _Classic/Objects/Tools/tools.rsi
+    state: wrench
   - type: Item
     sprite: Objects/Tools/wrench.rsi
     storedSprite:
@@ -176,11 +176,9 @@
     sound:
       path: /Audio/Items/multitool_drop.ogg
   - type: Sprite
-    sprite: Objects/Tools/multitool.rsi
+    sprite: _Classic/Objects/Devices/tool.rsi
     layers:
-    - state: icon
-    - state: green-unlit
-      shader: unshaded
+    - state: multitool
   - type: Item
     size: Small
   - type: Clothing
@@ -250,12 +248,6 @@
       slots:
         - Belt
     - type: Appearance
-    - type: GenericVisualizer
-      visuals:
-        enum.NetworkConfiguratorVisuals.Mode:
-          enum.NetworkConfiguratorLayers.ModeLight:
-            True: { state: mode-link }
-            False: { state: mode-list }
     - type: NetworkConfigurator
     - type: ActivatableUI
       key: enum.NetworkConfiguratorUiKey.List
@@ -289,8 +281,8 @@
     tags:
     - Powerdrill
   - type: Sprite
-    sprite: Objects/Tools/drill.rsi
-    state: drill_screw
+    sprite: _Classic/Objects/Tools/tools.rsi
+    state: drill
   - type: Item
     sprite: Objects/Tools/drill.rsi
     size: Small
@@ -304,16 +296,16 @@
     entries:
       - behavior: Screwing
         sprite:
-          sprite: Objects/Tools/drill.rsi
-          state: drill_screw
+          sprite: _Classic/Objects/Tools/tools.rsi
+          state: drill
         useSound:
           path: /Audio/Items/drill_use.ogg
         changeSound:
           path: /Audio/Items/change_drill.ogg
       - behavior: Anchoring
         sprite:
-          sprite: Objects/Tools/drill.rsi
-          state: drill_bolt
+          sprite: _Classic/Objects/Tools/tools.rsi
+          state: drill_on
         useSound:
           path: /Audio/Items/drill_use.ogg
         changeSound:
@@ -376,11 +368,15 @@
     - HVCable
     - CableTerminal
     - Deconstruct
+    #Starlight start
+    - FirelockEdge
+    - LightPostSmall
+    #Starlight end
   - type: LimitedCharges
     maxCharges: 30
   - type: Sprite
-    sprite: Objects/Tools/rcd.rsi
-    state: icon
+    sprite: _Classic/Objects/Tools/tools.rsi
+    state: rcd
   - type: Item #SL
     size: Small
     shape:
@@ -550,7 +546,11 @@
   - type: StaticPrice
     price: 25
   - type: Shovel
-
+  # 🌟Starlight-start🌟
+  - type: Tool
+    qualities:
+      - Digging
+  # 🌟Starlight-end🌟
 - type: entity
   parent: BaseItem
   id: RollingPin

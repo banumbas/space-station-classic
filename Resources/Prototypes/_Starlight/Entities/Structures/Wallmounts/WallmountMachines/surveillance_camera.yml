@@ -22,7 +22,7 @@
      graph: SurveillanceCamera
      node: reinforced_assembly
    - type: Sprite
-     drawdepth: WallMountedItems
+     drawdepth: Effects
      sprite: _Starlight/Structures/Wallmounts/camera_reinforced.rsi
      layers:
        - state: reinforced_camera_assembly
@@ -40,7 +40,7 @@
       graph: SurveillanceCamera
       node: camera_reinforced
     - type: Sprite
-      drawdepth: WallMountedItems
+      drawdepth: Effects
       sprite: _Starlight/Structures/Wallmounts/camera_reinforced.rsi
       layers:
         - map: [ "enum.SurveillanceCameraVisualsKey.Layer" ]

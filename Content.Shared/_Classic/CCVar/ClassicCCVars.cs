@@ -11,4 +11,10 @@ public sealed partial class ClassicCCVars
     /// </summary>
     public static readonly CVarDef<bool> AtmosEnabled =
         CVarDef.Create("atmos.enabled", false, CVar.SERVERONLY | CVar.ARCHIVE);
+
+    /// <summary>
+    /// When true, shuttle game rules, event shuttles, unknown shuttles, evac pods, and shuttle map loads are disabled.
+    /// </summary>
+    public static readonly CVarDef<bool> DisableShuttleEvents =
+        CVarDef.Create("classic.shuttle_events.disable", false, CVar.SERVERONLY);
 }

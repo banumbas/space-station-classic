@@ -12,6 +12,7 @@
           amount: 4
         - id: TapeRecorder
   - type: Sprite
+    sprite: Objects/Storage/boxes.rsi
     layers:
       - state: box_security
       - sprite: _Starlight/Objects/Storage/boxes.rsi

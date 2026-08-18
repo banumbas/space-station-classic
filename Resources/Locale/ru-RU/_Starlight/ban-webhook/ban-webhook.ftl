@@ -2,16 +2,16 @@ server-ban-string-infinity = Навсегда
 server-ban-no-name = Не найдено. ({ $hwid })
 server-time-ban =
     Временный бан на { $mins } { $mins ->
-    [одна] минута
-    [несколько] минут
-    *[другие] минуты
+    [one] минута
+    [few] минут
+    *[other] минуты
     }.
 server-perma-ban = Постоянный бан
 server-role-ban =
     Временный запрет на работу на { $mins } { $mins ->
-    [одна] минута
-    [несколько] минут
-    *[другие] минуты
+    [one] минута
+    [few] минут
+    *[other] минуты
     }.
 server-perma-role-ban = Постоянный запрет на работу
 server-time-ban-string =

@@ -4,12 +4,14 @@ using Content.Shared.Database;
 using Content.Shared.Gravity;
 using Content.Shared.Physics;
 using Content.Shared.Movement.Pulling.Events;
+using Content.Shared._Classic.ZLevels.Core.EntitySystems;
 using Robust.Shared.Network;
 using Robust.Shared.Physics;
 using Robust.Shared.Physics.Components;
 using Robust.Shared.Physics.Events;
 using Robust.Shared.Physics.Systems;
 using Robust.Shared.Timing;
+using Content.Shared._Starlight.Throwing; // Starlight
 
 namespace Content.Shared.Throwing
 {
@@ -25,6 +27,7 @@ namespace Content.Shared.Throwing
         [Dependency] private SharedBroadphaseSystem _broadphase = default!;
         [Dependency] private SharedPhysicsSystem _physics = default!;
         [Dependency] private SharedGravitySystem _gravity = default!;
+        [Dependency] private ClassicSharedZLevelsSystem _zLevels = default!; //Classic
 
         private const string ThrowingFixture = "throw-fixture";
 
@@ -113,6 +116,7 @@ namespace Content.Shared.Throwing
             var ev = new StopThrowEvent(thrownItemComponent.Thrower);
             RaiseLocalEvent(uid, ref ev);
             RemComp<ThrownItemComponent>(uid);
+            if (_netMan.IsServer) RemComp<PredictedThrownItemComponent>(uid); // Starlight
         }
 
         public void LandComponent(EntityUid uid, ThrownItemComponent thrownItem, PhysicsComponent physics, bool playSound)
@@ -127,6 +131,11 @@ namespace Content.Shared.Throwing
                 _adminLogger.Add(LogType.Landed, LogImpact.Low, $"{ToPrettyString(uid):entity} thrown by {ToPrettyString(thrownItem.Thrower.Value):thrower} landed.");
 
             _broadphase.RegenerateContacts((uid, physics));
+
+            //Classic dont call LandEvent if we dont have ground
+            if (_zLevels.DistanceToGround(uid) > 0.5f)
+                return;
+            //Classic end
             var landEvent = new LandEvent(thrownItem.Thrower, playSound);
             RaiseLocalEvent(uid, ref landEvent);
         }

@@ -1,0 +1,46 @@
+{
+  "version": 1,
+  "size": {
+    "x": 32,
+    "y": 64
+  },
+  "license": "CC-BY-SA-3.0",
+  "copyright": "take in https://github.com/wall-nerds/wallening/tree/stable/icons/turf/walls",
+  "states": [
+    {
+      "name": "rock_wall20",
+      "directions": 4
+    },
+    {
+      "name": "rock_wall21",
+      "directions": 4
+    },
+    {
+      "name": "rock_wall22",
+      "directions": 4
+    },
+    {
+      "name": "rock_wall23",
+      "directions": 4
+    },
+    {
+      "name": "rock_wall24",
+      "directions": 4
+    },
+    {
+      "name": "rock_wall25",
+      "directions": 4
+    },
+    {
+      "name": "rock_wall26",
+      "directions": 4
+    },
+    {
+      "name": "rock_wall27",
+      "directions": 4
+    },
+    {
+      "name": "full"
+    }
+  ]
+}

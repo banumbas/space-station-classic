@@ -9,9 +9,9 @@
       enum.StackCustomSplitUiKey.Key:
         type: StackCustomSplitBoundUserInterface
   - type: Sprite
-    sprite: Objects/Materials/materials.rsi
+    sprite: _Classic/Objects/Materials/materials.rsi
   - type: Item
-    sprite: Objects/Materials/materials.rsi
+    sprite: _Classic/Objects/Materials/materials.rsi
     size: Normal
   - type: Tag
     tags:

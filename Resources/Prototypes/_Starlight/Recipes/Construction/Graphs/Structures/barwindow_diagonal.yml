@@ -3,17 +3,7 @@
   start: start
   graph:
     - node: start
-      edges:
-        - to: barwindowdiagonal
-          steps:
-            - material: Glass
-              amount: 2
-              doAfter: 3
-        - to: baraltwindowdiagonal
-          steps:
-            - material: Glass
-              amount: 2
-              doAfter: 3
+      edges: [] # Classic-Edit - bar diagonal windows are deconstruction-only.
 
     - node: barwindowdiagonal
       entity: BarWindowDiagonal

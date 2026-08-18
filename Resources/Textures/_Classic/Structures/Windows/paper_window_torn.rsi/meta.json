@@ -1,0 +1,46 @@
+{
+  "version": 1,
+  "size": {
+    "x": 32,
+    "y": 64
+  },
+  "license": "CC-BY-SA-3.0",
+  "copyright": "take in https://github.com/wall-nerds/wallening/tree/stable/icons/obj/smooth_structures/windows",
+  "states": [
+    {
+      "name": "paper_window_torn0",
+      "directions": 4
+    },
+    {
+      "name": "paper_window_torn1",
+      "directions": 4
+    },
+    {
+      "name": "paper_window_torn2",
+      "directions": 4
+    },
+    {
+      "name": "paper_window_torn3",
+      "directions": 4
+    },
+    {
+      "name": "paper_window_torn4",
+      "directions": 4
+    },
+    {
+      "name": "paper_window_torn5",
+      "directions": 4
+    },
+    {
+      "name": "paper_window_torn6",
+      "directions": 4
+    },
+    {
+      "name": "paper_window_torn7",
+      "directions": 4
+    },
+    {
+      "name": "full"
+    }
+  ]
+}

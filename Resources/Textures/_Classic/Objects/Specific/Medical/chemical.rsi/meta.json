@@ -1,0 +1,117 @@
+{
+  "version": 1,
+  "license": "CC-BY-SA-3.0",
+  "copyright": "Taken from https://github.com/wall-nerds/wallening (icons/obj/chemical.dmi)",
+  "size": {
+    "x": 32,
+    "y": 32
+  },
+  "states": [
+    {
+      "name": "bottle"
+    },
+    {
+      "name": "beaker"
+    },
+    {
+      "name": "beakerlarge"
+    },
+    {
+      "name": "beakerbluespace",
+      "delays": [
+        [
+          0.15,
+          0.15,
+          0.15,
+          0.15,
+          0.15
+        ]
+      ]
+    },
+    {
+      "name": "pill"
+    },
+    {
+      "name": "pill1"
+    },
+    {
+      "name": "pill3"
+    },
+    {
+      "name": "pill4"
+    },
+    {
+      "name": "pill5"
+    },
+    {
+      "name": "pill8"
+    },
+    {
+      "name": "pill9"
+    },
+    {
+      "name": "pill10"
+    },
+    {
+      "name": "pill13"
+    },
+    {
+      "name": "pill14"
+    },
+    {
+      "name": "pill16"
+    },
+    {
+      "name": "pill17"
+    },
+    {
+      "name": "pill21"
+    },
+    {
+      "name": "pill_canister"
+    },
+    {
+      "name": "beakernoreact",
+      "delays": [
+        [
+          0.05,
+          0.05,
+          0.05,
+          0.05,
+          0.05,
+          0.05,
+          0.05,
+          0.05,
+          0.05,
+          0.05,
+          0.05,
+          0.05,
+          0.05,
+          0.05,
+          0.05,
+          0.05,
+          0.05,
+          0.05
+        ]
+      ]
+    },
+    {
+      "name": "dispenser"
+    },
+    {
+      "name": "dispenser_nopower"
+    },
+    {
+      "name": "dispenser_panel-o"
+    },
+    {
+      "name": "chemmaster"
+    },
+    {
+      "name": "chemmaster_overlay_container"
+    },
+    {
+      "name": "chemmaster_overlay_screen"
+    }
+  ]
+}

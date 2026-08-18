@@ -6,6 +6,7 @@
   description: Pieces of metal that make the frame of a table.
   components:
   - type: Sprite
+    drawdepth: WallTops
     sprite: Structures/Furniture/Tables/frame.rsi
   - type: Icon
     sprite: Structures/Furniture/Tables/frame.rsi
@@ -63,6 +64,7 @@
   components:
   - type: SpriteFade
   - type: Sprite
+    drawdepth: WallTops
     sprite: Structures/Furniture/Tables/frame.rsi
   - type: Icon
     sprite: Structures/Furniture/Tables/frame.rsi
@@ -117,6 +119,7 @@
   description: Pieces of metal that make the frame of a table.
   components:
   - type: Sprite
+    drawdepth: WallTops
     sprite: Structures/Furniture/Tables/frame.rsi
   - type: Icon
     sprite: Structures/Furniture/Tables/frame.rsi
@@ -162,9 +165,9 @@
   description: A square piece of metal standing on four metal legs.
   components:
   - type: Sprite
-    sprite: Structures/Furniture/Tables/generic.rsi
+    sprite: _Classic/Structures/Furniture/Tables/table.rsi
   - type: Icon
-    sprite: Structures/Furniture/Tables/generic.rsi
+    sprite: _Classic/Structures/Furniture/Tables/table.rsi
   - type: Damageable
     damageContainer: StructuralInorganic
     damageModifierSet: Metallic
@@ -194,7 +197,7 @@
         acts: [ "Destruction" ]
   - type: IconSmooth
     key: metaltable
-    base: state_
+    base: table
   - type: Construction
     graph: Table
     node: Table
@@ -206,9 +209,9 @@
   description: A square piece of metal standing on four metal legs. Extra robust.
   components:
   - type: Sprite
-    sprite: Structures/Furniture/Tables/reinforced.rsi
+    sprite: _Classic/Structures/Furniture/Tables/reinforced_table.rsi
   - type: Icon
-    sprite: Structures/Furniture/Tables/reinforced.rsi
+    sprite: _Classic/Structures/Furniture/Tables/reinforced_table.rsi
   - type: Destructible
     thresholds:
     - trigger:
@@ -235,6 +238,7 @@
         acts: [ "Destruction" ]
   - type: IconSmooth
     key: metalreinforcedtable
+    base: reinforced_table
   - type: Construction
     graph: Table
     node: TableReinforced
@@ -253,9 +257,9 @@
   description: A square piece of glass, standing on four metal legs.
   components:
   - type: Sprite
-    sprite: Structures/Furniture/Tables/glass.rsi
+    sprite: _Classic/Structures/Furniture/Tables/glass_table.rsi
   - type: Icon
-    sprite: Structures/Furniture/Tables/glass.rsi
+    sprite: _Classic/Structures/Furniture/Tables/glass_table.rsi
   - type: GlassTable
     climberDamage:
       types:
@@ -293,6 +297,7 @@
         acts: [ "Destruction" ]
   - type: IconSmooth
     key: glasstable
+    base: glass_table
   - type: Construction
     graph: Table
     node: TableGlass
@@ -362,9 +367,9 @@
   description: A square piece of glass, standing on four metal legs. Extra robust.
   components:
   - type: Sprite
-    sprite: Structures/Furniture/Tables/r_glass.rsi
+    sprite: _Classic/Structures/Furniture/Tables/rglass_table.rsi
   - type: Icon
-    sprite: Structures/Furniture/Tables/r_glass.rsi
+    sprite: _Classic/Structures/Furniture/Tables/rglass_table.rsi
   - type: GlassTable
     climberDamage:
       types:
@@ -405,6 +410,7 @@
         acts: [ "Destruction" ]
   - type: IconSmooth
     key: reinforcedglasstable
+    base: rglass_table
   - type: Construction
     graph: Table
     node: TableReinforcedGlass
@@ -419,9 +425,9 @@
   description: A square piece of plasma glass, standing on four metal legs. Pretty!
   components:
   - type: Sprite
-    sprite: Structures/Furniture/Tables/plasma.rsi
+    sprite: _Classic/Structures/Furniture/Tables/plasmaglass_table.rsi
   - type: Icon
-    sprite: Structures/Furniture/Tables/plasma.rsi
+    sprite: _Classic/Structures/Furniture/Tables/plasmaglass_table.rsi
   - type: GlassTable
     climberDamage:
       types:
@@ -462,6 +468,7 @@
         acts: [ "Destruction" ]
   - type: IconSmooth
     key: plasmaglasstable
+    base: plasmaglass_table
   - type: Construction
     graph: Table
     node: TablePlasmaGlass
@@ -476,9 +483,9 @@
   description: A shiny, corrosion resistant brass table. Steampunk!
   components:
   - type: Sprite
-    sprite: Structures/Furniture/Tables/brass.rsi
+    sprite: _Classic/Structures/Furniture/Tables/brass_table.rsi
   - type: Icon
-    sprite: Structures/Furniture/Tables/brass.rsi
+    sprite: _Classic/Structures/Furniture/Tables/brass_table.rsi
   - type: Damageable
     damageContainer: StructuralInorganic
     damageModifierSet: Metallic
@@ -508,9 +515,170 @@
         acts: [ "Destruction" ]
   - type: IconSmooth
     key: brasstable
+    base: brass_table
   - type: Construction
     graph: Table
     node: TableBrass
+
+- type: entity
+  id: TableReinforcedPlasmaGlass
+  parent: TableBase
+  name: reinforced plasma glass table
+  description: A reinforced table made from translucent plasma glass.
+  components:
+  - type: Sprite
+    sprite: _Classic/Structures/Furniture/Tables/rplasmaglass_table.rsi
+  - type: Icon
+    sprite: _Classic/Structures/Furniture/Tables/rplasmaglass_table.rsi
+  - type: GlassTable
+    climberDamage:
+      types:
+        Slash: 35
+    tableDamage:
+      types:
+        Blunt: 140
+    tableMassLimit: 320
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 350
+      behaviors:
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
+      - !type:PlaySoundBehavior
+        sound:
+          collection: GlassBreak
+    - trigger:
+        !type:DamageTrigger
+        damage: 75
+      behaviors:
+      - !type:PlaySoundBehavior
+        sound:
+          collection: GlassBreak
+      - !type:ChangeConstructionNodeBehavior
+        node: TableFrame
+      - !type:SpawnEntitiesBehavior
+        spawn:
+          ShardGlassPlasma:
+            min: 1
+            max: 1
+          PartRodMetal1:
+            min: 1
+            max: 1
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
+  - type: IconSmooth
+    key: reinforcedplasmaglasstable
+    base: rplasmaglass_table
+  - type: Construction
+    graph: Table
+    node: TableReinforcedPlasmaGlass
+  - type: FootstepModifier
+    footstepSoundCollection:
+      collection: FootstepTile
+
+# These two materials do not exist as construction materials in this fork.
+# Keep the map/spawn-only tables available without adding a fake recipe.
+- type: entity
+  id: TableTitaniumGlass
+  parent: TableBase
+  name: titanium glass table
+  description: An exceptionally sturdy titanium glass table.
+  components:
+  - type: Sprite
+    sprite: _Classic/Structures/Furniture/Tables/titaniumglass_table.rsi
+  - type: Icon
+    sprite: _Classic/Structures/Furniture/Tables/titaniumglass_table.rsi
+  - type: GlassTable
+    climberDamage:
+      types:
+        Slash: 45
+    tableDamage:
+      types:
+        Blunt: 180
+    tableMassLimit: 400
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 500
+      behaviors:
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
+      - !type:PlaySoundBehavior
+        sound:
+          collection: GlassBreak
+    - trigger:
+        !type:DamageTrigger
+        damage: 100
+      behaviors:
+      - !type:PlaySoundBehavior
+        sound:
+          collection: GlassBreak
+      - !type:SpawnEntitiesBehavior
+        spawn:
+          ShardGlass:
+            min: 1
+            max: 1
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
+  - type: IconSmooth
+    key: titaniumglasstable
+    base: titaniumglass_table
+  - type: FootstepModifier
+    footstepSoundCollection:
+      collection: FootstepTile
+
+- type: entity
+  id: TablePlastitaniumGlass
+  parent: TableBase
+  name: plastitanium glass table
+  description: An almost indestructible plastitanium glass table.
+  components:
+  - type: Sprite
+    sprite: _Classic/Structures/Furniture/Tables/plastitaniumglass_table.rsi
+  - type: Icon
+    sprite: _Classic/Structures/Furniture/Tables/plastitaniumglass_table.rsi
+  - type: GlassTable
+    climberDamage:
+      types:
+        Slash: 60
+    tableDamage:
+      types:
+        Blunt: 250
+    tableMassLimit: 600
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 1000
+      behaviors:
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
+      - !type:PlaySoundBehavior
+        sound:
+          collection: GlassBreak
+    - trigger:
+        !type:DamageTrigger
+        damage: 200
+      behaviors:
+      - !type:PlaySoundBehavior
+        sound:
+          collection: GlassBreak
+      - !type:SpawnEntitiesBehavior
+        spawn:
+          ShardGlass:
+            min: 1
+            max: 1
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
+  - type: IconSmooth
+    key: plastitaniumglasstable
+    base: plastitaniumglass_table
+  - type: FootstepModifier
+    footstepSoundCollection:
+      collection: FootstepTile
 
 - type: entity
   id: TableWood
@@ -519,9 +687,9 @@
   description: Do not apply fire to this. Rumour says it burns easily.
   components:
   - type: Sprite
-    sprite: Structures/Furniture/Tables/wood.rsi
+    sprite: _Classic/Structures/Furniture/Tables/wood_table.rsi
   - type: Icon
-    sprite: Structures/Furniture/Tables/wood.rsi
+    sprite: _Classic/Structures/Furniture/Tables/wood_table.rsi
   - type: Damageable
     damageModifierSet: Wood
   - type: Destructible
@@ -551,6 +719,7 @@
         acts: [ "Destruction" ]
   - type: IconSmooth
     key: woodtable
+    base: wood_table
   - type: Construction
     graph: Table
     node: TableWood
@@ -568,9 +737,9 @@
   description: Play em' cowboy.
   components:
   - type: Sprite
-    sprite: Structures/Furniture/Tables/carpet.rsi
+    sprite: _Classic/Structures/Furniture/Tables/poker_table.rsi
   - type: Icon
-    sprite: Structures/Furniture/Tables/carpet.rsi
+    sprite: _Classic/Structures/Furniture/Tables/poker_table.rsi
   - type: Damageable
     damageModifierSet: Wood
   - type: Destructible
@@ -603,6 +772,7 @@
         acts: [ "Destruction" ]
   - type: IconSmooth
     key: woodgambletable
+    base: poker_table
   - type: Construction
     graph: Table
     node: TableCarpet
@@ -681,9 +851,9 @@
   description: I wouldn't put the silverware on it.
   components:
   - type: Sprite
-    sprite: Structures/Furniture/Tables/xeno.rsi
+    sprite: _Classic/Structures/Furniture/Tables/alien_table.rsi
   - type: Icon
-    sprite: Structures/Furniture/Tables/xeno.rsi
+    sprite: _Classic/Structures/Furniture/Tables/alien_table.rsi
   - type: Destructible
     thresholds:
     - trigger:
@@ -753,14 +923,15 @@
   suffix: Blue
   components:
   - type: Sprite
-    sprite: Structures/Furniture/Tables/Fancy/blue.rsi
+    sprite: _Classic/Structures/Furniture/Tables/fancy_table_blue.rsi
   - type: Icon
-    sprite: Structures/Furniture/Tables/Fancy/blue.rsi
+    sprite: _Classic/Structures/Furniture/Tables/fancy_table_blue.rsi
   - type: Construction
     graph: Table
     node: TableFancyBlue
   - type: IconSmooth
     key: fancytableblue
+    base: fancy_table_blue
 
 - type: entity
   id: TableFancySkyBlue
@@ -783,14 +954,15 @@
   suffix: Cyan
   components:
   - type: Sprite
-    sprite: Structures/Furniture/Tables/Fancy/cyan.rsi
+    sprite: _Classic/Structures/Furniture/Tables/fancy_table_cyan.rsi
   - type: Icon
-    sprite: Structures/Furniture/Tables/Fancy/cyan.rsi
+    sprite: _Classic/Structures/Furniture/Tables/fancy_table_cyan.rsi
   - type: Construction
     graph: Table
     node: TableFancyCyan
   - type: IconSmooth
     key: fancytablecyan
+    base: fancy_table_cyan
 
 - type: entity
   id: TableFancyBlack
@@ -798,14 +970,15 @@
   suffix: Black
   components:
   - type: Sprite
-    sprite: Structures/Furniture/Tables/Fancy/black.rsi
+    sprite: _Classic/Structures/Furniture/Tables/fancy_table_black.rsi
   - type: Icon
-    sprite: Structures/Furniture/Tables/Fancy/black.rsi
+    sprite: _Classic/Structures/Furniture/Tables/fancy_table_black.rsi
   - type: Construction
     graph: Table
     node: TableFancyBlack
   - type: IconSmooth
     key: fancytableblack
+    base: fancy_table_black
 
 - type: entity
   id: TableFancyRed
@@ -813,14 +986,15 @@
   suffix: Red
   components:
   - type: Sprite
-    sprite: Structures/Furniture/Tables/Fancy/red.rsi
+    sprite: _Classic/Structures/Furniture/Tables/fancy_table_red.rsi
   - type: Icon
-    sprite: Structures/Furniture/Tables/Fancy/red.rsi
+    sprite: _Classic/Structures/Furniture/Tables/fancy_table_red.rsi
   - type: Construction
     graph: Table
     node: TableFancyRed
   - type: IconSmooth
     key: fancytablered
+    base: fancy_table_red
 
 - type: entity
   id: TableFancyPurple
@@ -828,14 +1002,15 @@
   suffix: Purple
   components:
   - type: Sprite
-    sprite: Structures/Furniture/Tables/Fancy/purple.rsi
+    sprite: _Classic/Structures/Furniture/Tables/fancy_table_purple.rsi
   - type: Icon
-    sprite: Structures/Furniture/Tables/Fancy/purple.rsi
+    sprite: _Classic/Structures/Furniture/Tables/fancy_table_purple.rsi
   - type: Construction
     graph: Table
     node: TableFancyPurple
   - type: IconSmooth
     key: fancytablepurple
+    base: fancy_table_purple
 
 - type: entity
   id: TableFancyPink
@@ -858,14 +1033,15 @@
   suffix: Green
   components:
   - type: Sprite
-    sprite: Structures/Furniture/Tables/Fancy/green.rsi
+    sprite: _Classic/Structures/Furniture/Tables/fancy_table_green.rsi
   - type: Icon
-    sprite: Structures/Furniture/Tables/Fancy/green.rsi
+    sprite: _Classic/Structures/Furniture/Tables/fancy_table_green.rsi
   - type: Construction
     graph: Table
     node: TableFancyGreen
   - type: IconSmooth
     key: fancytablegreen
+    base: fancy_table_green
 
 - type: entity
   id: TableFancyOrange
@@ -873,14 +1049,15 @@
   suffix: Orange
   components:
   - type: Sprite
-    sprite: Structures/Furniture/Tables/Fancy/orange.rsi
+    sprite: _Classic/Structures/Furniture/Tables/fancy_table_orange.rsi
   - type: Icon
-    sprite: Structures/Furniture/Tables/Fancy/orange.rsi
+    sprite: _Classic/Structures/Furniture/Tables/fancy_table_orange.rsi
   - type: Construction
     graph: Table
     node: TableFancyOrange
   - type: IconSmooth
     key: fancytableorange
+    base: fancy_table_orange
 
 - type: entity
   id: TableFancyWhite
@@ -896,6 +1073,38 @@
     node: TableFancyWhite
   - type: IconSmooth
     key: fancytablewhite
+
+- type: entity
+  id: TableFancyRoyalBlack
+  parent: TableFancyBase
+  suffix: Royal Black
+  components:
+  - type: Sprite
+    sprite: _Classic/Structures/Furniture/Tables/fancy_table_royalblack.rsi
+  - type: Icon
+    sprite: _Classic/Structures/Furniture/Tables/fancy_table_royalblack.rsi
+  - type: Construction
+    graph: Table
+    node: TableFancyRoyalBlack
+  - type: IconSmooth
+    key: fancytableroyalblack
+    base: fancy_table_royalblack
+
+- type: entity
+  id: TableFancyRoyalBlue
+  parent: TableFancyBase
+  suffix: Royal Blue
+  components:
+  - type: Sprite
+    sprite: _Classic/Structures/Furniture/Tables/fancy_table_royalblue.rsi
+  - type: Icon
+    sprite: _Classic/Structures/Furniture/Tables/fancy_table_royalblue.rsi
+  - type: Construction
+    graph: Table
+    node: TableFancyRoyalBlue
+  - type: IconSmooth
+    key: fancytableroyalblue
+    base: fancy_table_royalblue
 
 #Debug
 

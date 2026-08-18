@@ -1,0 +1,44 @@
+{
+  "version": 1,
+  "size": {
+    "x": 82,
+    "y": 82
+  },
+  "license": "CC-BY-SA-3.0",
+  "copyright": "Taken from https://github.com/wall-nerds/wallening (machines\\wallmounts.dmi)",
+  "states": [
+    {
+      "name": "base",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (machines\\wallmounts.dmi)"
+    },
+    {
+      "name": "broadcasting",
+      "copyright": "TGstation at https://github.com/tgstation/tgstation/commit/6bfe3b2e4fcbcdac9159dc4f0327a82ddf05ba7bi, resprite by FancyPlanks (Github), edited by Conflee for Starlight",
+      "directions": 4
+    },
+    {
+      "name": "build",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (machines\\wallmounts.dmi)"
+    },
+    {
+      "name": "speaker",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (machines\\wallmounts.dmi)"
+    },
+    {
+      "name": "unshaded",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (machines\\wallmounts.dmi)",
+      "delays": [
+        [
+          0.1,
+          0.3,
+          0.1,
+          0.1
+        ]
+      ]
+    },
+    {
+      "name": "panel",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (machines\\wallmounts.dmi)"
+    }
+  ]
+}

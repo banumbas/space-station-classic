@@ -60,6 +60,12 @@ public sealed partial class NukeopsRuleComponent : Component
     public TimeSpan? WarDeclaredTime;
 
     /// <summary>
+    ///     Whether or not NukeOps MUST declare war before leaving the outpost.
+    /// </summary>
+    [DataField]
+    public bool RequireWar = true;
+
+    /// <summary>
     ///     This amount of TC will be given to each nukie
     /// </summary>
     [DataField]
@@ -69,7 +75,7 @@ public sealed partial class NukeopsRuleComponent : Component
     ///     Delay between war declaration and nuke ops arrival on station map. Gives crew time to prepare
     /// </summary>
     [DataField]
-    public TimeSpan WarNukieArriveDelay = TimeSpan.FromMinutes(15);
+    public TimeSpan WarNukieArriveDelay = TimeSpan.FromMinutes(10);
 
     /// <summary>
     ///     Time crew can't call emergency shuttle after war declaration.
@@ -87,7 +93,7 @@ public sealed partial class NukeopsRuleComponent : Component
     public WinType WinType = WinType.Neutral;
 
     [DataField]
-    public List<WinCondition> WinConditions = new ();
+    public List<WinCondition> WinConditions = new();
 
     [DataField]
     public EntityUid? TargetStation;
@@ -99,7 +105,7 @@ public sealed partial class NukeopsRuleComponent : Component
     ///     Path to antagonist alert sound.
     /// </summary>
     [DataField]
-    public SoundSpecifier GreetSoundNotification = new SoundPathSpecifier("/Audio/Ambience/Antag/nukeops_start.ogg");
+    public SoundSpecifier GreetSoundNotification = new SoundPathSpecifier("/Audio/_Classic/Ambience/Antag/pmc_start.ogg");
 }
 
 public enum WinType : byte

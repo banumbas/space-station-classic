@@ -1,0 +1,38 @@
+# PMC Game Rule
+
+- type: entity
+  parent: BaseGameRule
+  id: PMCOutpostSpawn
+  components:
+  - type: LoadMapRule
+    mapPath: /Maps/_Classic/Nonstations/pmc_outpost.yml
+
+- type: entity
+  parent: BaseNukeopsRule
+  id: PMC
+  components:
+  - type: GameRule
+    minPlayers: 20
+    denyGameRules:
+    - AbductorsSpawn
+  - type: SubRule
+    table: !type:GroupSelector
+      children:
+      - id: PMCOutpostSpawn
+  - type: AntagSelection
+    selectionTime: PrePlayerSpawn
+    antags:
+    - !type:FixedAntagCount
+      proto: PMCCommander
+    - !type:FixedAntagCount
+      proto: PMCMedic
+    - !type:FixedAntagCount
+      proto: PMCSpecialist
+    - !type:LinearAntagCount
+      proto: PMCAssault
+      range:
+        min: 1
+        max: 10
+      playerRatio: 20
+  - type: DynamicRuleCost
+    cost: 200

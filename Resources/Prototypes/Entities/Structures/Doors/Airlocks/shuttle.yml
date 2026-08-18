@@ -29,8 +29,9 @@
           position: "0,-0.5"
         hard: false
   - type: Sprite
-    sprite: Structures/Doors/Airlocks/Standard/shuttle.rsi
+    sprite: _Classic/Structures/Doors/Airlocks/Standard/shuttle.rsi
     snapCardinals: false
+    drawdepth: Overdoors
     layers:
     - state: closed
       map: ["enum.DoorVisualLayers.Base"]
@@ -53,14 +54,16 @@
       shader: unshaded
       visible: false
       map: ["enum.ElectrifiedLayers.HUD"]
-    - state: electrified
-      sprite: Effects/electricity.rsi
+    - state: sparks
+      sprite: _Classic/Effects/airlock_electrified.rsi
       shader: unshaded
       visible: false
       map: ["enum.ElectrifiedLayers.Sparks"]
   - type: Wires
     layoutId: Docking
   - type: Door
+    openDrawDepth: Overdoors
+    closedDrawDepth: Overdoors
     closeTimeTwo: 0.4
     openTimeTwo: 0.4
     crushDamage:
@@ -93,7 +96,7 @@
   suffix: Glass, Docking
   components:
   - type: Sprite
-    sprite: Structures/Doors/Airlocks/Glass/shuttle.rsi
+    sprite: _Classic/Structures/Doors/Airlocks/Glass/shuttle.rsi
   - type: Occluder
     enabled: false
   - type: Door
@@ -116,9 +119,10 @@
     noRot: false
   - type: Rotatable
   - type: Sprite
-    sprite: Structures/Doors/Airlocks/Glass/shuttle.rsi
+    sprite: _Classic/Structures/Doors/Airlocks/Glass/shuttle.rsi
     state: closed
     snapCardinals: false
+    drawdepth: Overdoors
   - type: Construction
     graph: AirlockShuttle
     node: assembly

@@ -1,0 +1,46 @@
+{
+  "version": 1,
+  "size": {
+    "x": 32,
+    "y": 64
+  },
+  "license": "CC-BY-SA-3.0",
+  "copyright": "take in https://github.com/wall-nerds/wallening/tree/stable/icons/turf/walls",
+  "states": [
+    {
+      "name": "hotel0",
+      "directions": 4
+    },
+    {
+      "name": "hotel1",
+      "directions": 4
+    },
+    {
+      "name": "hotel2",
+      "directions": 4
+    },
+    {
+      "name": "hotel3",
+      "directions": 4
+    },
+    {
+      "name": "hotel4",
+      "directions": 4
+    },
+    {
+      "name": "hotel5",
+      "directions": 4
+    },
+    {
+      "name": "hotel6",
+      "directions": 4
+    },
+    {
+      "name": "hotel7",
+      "directions": 4
+    },
+    {
+      "name": "full"
+    }
+  ]
+}

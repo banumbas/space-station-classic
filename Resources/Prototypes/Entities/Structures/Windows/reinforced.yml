@@ -44,7 +44,7 @@
       - !type:DoActsBehavior
         acts: [ "Destruction" ]
   - type: IconSmooth
-    base: rwindow
+    base: reinforced_window # Classic-Edit
   - type: Construction
     graph: Window
     node: reinforcedWindow
@@ -54,7 +54,7 @@
     damageDivisor: 3
     trackAllDamage: true
     damageOverlay:
-      sprite: Structures/Windows/cracks.rsi
+      sprite: _Classic/Structures/Windows/window_damage.rsi # Classic-Edit
 
 - type: entity
   id: WindowReinforcedDirectional
@@ -67,10 +67,10 @@
     - Window
   components:
   - type: Sprite
-    sprite: Structures/Windows/directional.rsi
+    sprite: _Classic/Structures/Windows/Directional/reinforced.rsi
     state: reinforced_window
   - type: Icon
-    sprite: Structures/Windows/directional.rsi
+    sprite: _Classic/Structures/Windows/Directional/reinforced.rsi
     state: reinforced_window
   - type: Construction
     graph: WindowDirectional

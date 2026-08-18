@@ -19,15 +19,5 @@ public sealed partial class ClassicStationBiomeComponent : Component
     public Color MapLightColor = Color.FromHex("#D8B059");
 
     [DataField]
-    public bool RoofStationTiles = true;
-
-    [DataField]
-    public HashSet<string> StationRoofTiles = new()
-    {
-        "Plating",
-        "Lattice",
-    };
-
-    [DataField]
     public bool DisableGridSplitting = true;
 }

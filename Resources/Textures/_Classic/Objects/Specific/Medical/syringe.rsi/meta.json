@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "license": "CC-BY-SA-3.0",
+  "copyright": "Taken from https://github.com/wall-nerds/wallening (icons/obj/syringe.dmi)",
+  "size": {
+    "x": 32,
+    "y": 32
+  },
+  "states": [
+    {
+      "name": "borghypo"
+    },
+    {
+      "name": "hypo"
+    },
+    {
+      "name": "combat_hypo"
+    }
+  ]
+}

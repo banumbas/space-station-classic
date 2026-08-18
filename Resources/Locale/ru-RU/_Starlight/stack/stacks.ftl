@@ -45,99 +45,93 @@ stack-ornate-floor = богато украшенный пол
 stack-rough-metal-floor = грубый металлический пол
 stack-rusty-metal-floor = ржавый металлический пол
 stack-steel-grate-floor = пол из стальной решетки
-stack-tech-greeb-floor = tech maints Greeb Floor
+stack-tech-greeb-floor = технический пол Гриб
 
-stack-bluespacecrystal = {$сумма ->
+stack-bluespacecrystal = {$amount ->
     [1] синее пространство
-    *[другие] синие пробелы
+    *[other] синие пробелы
 }
 
-stack-adamantine = {$сумма ->
+stack-adamantine = {$amount ->
     [1] адамантиновый слиток
-    *[другие] адамантиновые слитки
+    *[other] адамантиновые слитки
 }
 
 stack-bluespace-tile = плитка синего пространства
 stack-sepia-xenobiology-tile = сепия плитка
 
-stack-brutepack = {$сумма ->
-    [1] брутпак
-    *[другие] брутпаки
-}
-stack-blueointment = {$сумма ->
+
+stack-blueointment = {$amount ->
     [1] синяя мазь
-    *[другие] синие мази
+    *[other] синие мази
 }
-stack-redointment = {$сумма ->
+stack-redointment = {$amount ->
     [1] переделка
-    *[другие] переделки
+    *[other] переделки
 }
-stack-redbrutepack = {$сумма ->
+stack-redbrutepack = {$amount ->
     [1] редбрутпак
-    *[другие] редбрутпаки
+    *[other] редбрутпаки
 }
-stack-interdyneointment = {$сумма ->
+stack-interdyneointment = {$amount ->
     [1] междинная мазь
-    *[другие] интердинемази
+    *[other] интердинемази
 }
-stack-interdynebrutepack = {$сумма ->
+stack-interdynebrutepack = {$amount ->
     [1] междинбрутпак
-    *[другие] пакеты interdynebrutepacks
+    *[other] пакеты interdynebrutepacks
 }
-stack-deforestointment = {$сумма ->
+stack-deforestointment = {$amount ->
     [1] вырубка лесов
-    *[другие] вырубки лесов
+    *[other] вырубки лесов
 }
-stack-deforestbrutepack = {$сумма ->
+stack-deforestbrutepack = {$amount ->
     [1] дефорестбрутпак
-    *[другие] пакеты deforestbrutepack
+    *[other] пакеты deforestbrutepack
 }
-stack-goldointment = {$сумма ->
+stack-goldointment = {$amount ->
     [1] золотое помазание
-    *[другие] золотые масти
+    *[other] золотые масти
 }
-stack-goldbrutepack = {$сумма ->
+stack-goldbrutepack = {$amount ->
     [1] золотой грубый пакет
-    *[другие] пакеты goldbrutepacks
+    *[other] пакеты goldbrutepacks
 }
-stack-redpunctpack = {$сумма ->
+stack-redpunctpack = {$amount ->
     [1] редпунктпак
-    *[другие] редпунктпаки
+    *[other] редпунктпаки
 }
-stack-redlacepack = {$сумма ->
+stack-redlacepack = {$amount ->
     [1] красный пакет
-    *[другие] пакеты RedlacePacks
+    *[other] пакеты RedlacePacks
 }
-stack-redbruizpack = {$сумма ->
+stack-redbruizpack = {$amount ->
     [1] красный брюизпак
-    *[другие] пакеты redbruizpacks
+    *[other] пакеты redbruizpacks
 }
 
-stack-empty-oilpack = {$сумма ->
+stack-empty-oilpack = {$amount ->
     [1] пустой масляный пакет
-    *[другие] пустые пакеты с маслом
+    *[other] пустые пакеты с маслом
 }
 
-stack-credit = {$сумма ->
-    [1] кредит
-    *[другие] кредиты
-}
-stack-ticket = {$сумма ->
+
+stack-ticket = {$amount ->
     [1] билет
-    *[другие] билеты
+    *[other] билеты
 }
 
 
-stack-wizcoin = {$сумма ->
+stack-wizcoin = {$amount ->
     [1] визкойн
-    *[другие] визкойны
+    *[other] визкойны
 }
 
-stack-abyssium-ore = {$сумма ->
+stack-abyssium-ore = {$amount ->
     [1] абиссиевая руда
-    *[другие] абиссиевые руды
+    *[other] абиссиевые руды
 }
-stack-abyssium-bar = {$сумма ->
+stack-abyssium-bar = {$amount ->
     [1] абиссиум-бар
-    *[другие] абиссиумные бруски
+    *[other] абиссиумные бруски
 }

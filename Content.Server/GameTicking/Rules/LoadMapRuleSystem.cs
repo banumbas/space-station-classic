@@ -14,7 +14,8 @@ using Robust.Shared.Prototypes;
 using Robust.Shared.Utility;
 using Robust.Shared.Configuration;
 using Content.Shared._Starlight.CCVar;
-using Content.Shared._Starlight.GameTicking.Rules;
+using Content.Shared._Starlight.GameTicking.Rules; // Starlight
+using Content.Shared._Classic.CCVar; // Classic
 
 namespace Content.Server.GameTicking.Rules;
 
@@ -27,7 +28,7 @@ public sealed partial class LoadMapRuleSystem : StationEventSystem<LoadMapRuleCo
     [Dependency] private GridPreloaderSystem _gridPreloader = default!;
     #region Starlight
     [Dependency] private IConfigurationManager _cfg = default!;
-    [Dependency] private IMapManager _maps = default!;
+    [Dependency] private SharedMapSystem _maps = default!;
     [Dependency] private TagSystem _tag = default!;
     [Dependency] private EntityManager _entMan = default!;
     [Dependency] private DynamicRuleSystem _dynamicRule = default!;
@@ -43,9 +44,14 @@ public sealed partial class LoadMapRuleSystem : StationEventSystem<LoadMapRuleCo
             return;
         }
 
-        // Starlight start
-        if (_cfg.GetCVar(StarlightCCVars.DisableLoadMapRule))
+        if (_cfg.GetCVar(StarlightCCVars.DisableLoadMapRule) || _cfg.GetCVar(ClassicCCVars.DisableShuttleEvents)) // Classic
+        {
+            // If map loading is explicitly disabled, end the rule rather than leaving it partially initialized.
+            // This avoids dependent systems (e.g. antag spawn location selection via RuleGrids) running with no map data.
+            Log.Debug($"Immediately ending {ToPrettyString(uid):rule} as map loading is disabled by cvar.");
+            ForceEndSelf(uid, rule);
             return;
+        }
 
         if (comp.MapTag.HasValue && LoadMapTag(uid, comp, rule, args, comp.MapTag.Value))
             return;
@@ -132,11 +138,13 @@ public sealed partial class LoadMapRuleSystem : StationEventSystem<LoadMapRuleCo
     /// <summary>
     /// Recursively propagate the load event up the rule tree.
     /// </summary>
-    private void PropagateLoadEvent(EntityUid child, MapId mapId, IReadOnlyList<EntityUid> grids) {
+    private void PropagateLoadEvent(EntityUid child, MapId mapId, IReadOnlyList<EntityUid> grids)
+    {
         var dynamicRules = _entMan.AllEntityQueryEnumerator<DynamicRuleComponent>();
         while (dynamicRules.MoveNext(out var uid, out var comp))
         {
-            if (_dynamicRule.Rules((uid, (DynamicRuleComponent?)comp)).Contains(child)) {
+            if (_dynamicRule.Rules((uid, (DynamicRuleComponent?)comp)).Contains(child))
+            {
                 var ev = new RuleLoadedGridsEvent(mapId, grids);
                 RaiseLocalEvent(uid, ref ev);
                 PropagateLoadEvent(uid, mapId, grids);
@@ -146,7 +154,8 @@ public sealed partial class LoadMapRuleSystem : StationEventSystem<LoadMapRuleCo
         var parentRules = _entMan.AllEntityQueryEnumerator<SubRuleComponent>();
         while (parentRules.MoveNext(out var uid, out var comp))
         {
-            if (comp.Rules.Contains(child)) {
+            if (comp.Rules.Contains(child))
+            {
                 var ev = new RuleLoadedGridsEvent(mapId, grids);
                 RaiseLocalEvent(uid, ref ev);
                 PropagateLoadEvent(uid, mapId, grids);
@@ -188,6 +197,4 @@ public sealed partial class LoadMapRuleSystem : StationEventSystem<LoadMapRuleCo
         }
         return false;
     }
-
-    // Starlight end
 }

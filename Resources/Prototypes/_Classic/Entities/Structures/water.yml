@@ -1,4 +1,4 @@
-﻿- type: entity
+- type: entity
   id: ClassicWater
   name: water
   description: You're definitely going to get your feet wet
@@ -61,6 +61,19 @@
     snapCardinals: false
   - type: Conveyor
     speed: 0.25
+
+- type: entity
+  parent: ClassicWater
+  id: ClassicWaterDeep
+  suffix: Deep
+  categories: [ ForkFiltered ]
+  components:
+  - type: RandomSpawner
+    prototypes:
+    - ClassicCrystalIceSpawner
+    chance: 0.15
+    offset: 0.0
+    deleteSpawnerAfterSpawn: false
 
 - type: entity
   id: ClassicIce

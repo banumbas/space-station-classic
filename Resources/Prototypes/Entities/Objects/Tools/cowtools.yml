@@ -122,6 +122,12 @@
   components:
   - type: Sprite
     sprite: Objects/Tools/Cowtools/cowelder.rsi
+    layers:
+    - state: icon
+    - state: welder_flame
+      visible: false
+      shader: unshaded
+      map: ["enum.ToggleableVisuals.Layer"]
   - type: Item
     size: Small
     sprite: Objects/Tools/Cowtools/cowelder.rsi

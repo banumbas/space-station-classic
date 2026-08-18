@@ -139,7 +139,51 @@ public abstract partial class SharedBiomeSystem : EntitySystem
             if (layer is not BiomeTileLayer tileLayer)
                 continue;
 
-            if (TryGetTile(indices, noiseCopy, tileLayer.Invert, tileLayer.Threshold, ProtoManager.Index(tileLayer.Tile), tileLayer.Variants, out tile))
+            // Classic-Start
+            var threshold = tileLayer.Threshold;
+            if (tileLayer.MinDistance > 0f)
+            {
+                var dist = MathF.Sqrt(indices.X * indices.X + indices.Y * indices.Y);
+                var fadeStart = tileLayer.MinDistance;
+                var fadeEnd = MathF.Max(0f, tileLayer.MinDistance - 100f);
+
+                if (dist < fadeEnd)
+                    continue;
+
+                if (dist < fadeStart)
+                {
+                    // Smoothly raise the threshold as we get closer to the center,
+                    // causing the cave to organically shrink and disappear instead of a hard cut.
+                    var t = 1f - ((dist - fadeEnd) / (fadeStart - fadeEnd));
+                    threshold += t * 2.5f;
+                }
+            }
+            // Classic-End
+
+            // Classic-Start: AllowedTiles check
+            if (tileLayer.AllowedTiles != null && tileLayer.AllowedTiles.Count > 0)
+            {
+                var subLayers = layers.GetRange(0, i);
+                if (!TryGetBiomeTile(indices, subLayers, seed, grid, out var underlyingTile))
+                    continue;
+
+                var tileDefId = TileDefManager[underlyingTile.Value.TypeId].ID;
+                bool allowed = false;
+                foreach (var allowedTile in tileLayer.AllowedTiles)
+                {
+                    if (allowedTile.Id == tileDefId)
+                    {
+                        allowed = true;
+                        break;
+                    }
+                }
+
+                if (!allowed)
+                    continue;
+            }
+            // Classic-End
+
+            if (TryGetTile(indices, noiseCopy, tileLayer.Invert, threshold, ProtoManager.Index(tileLayer.Tile), tileLayer.Variants, out tile))
             {
                 return true;
             }

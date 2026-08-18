@@ -1,0 +1,71 @@
+{
+  "version": 1,
+  "license": "CC-BY-SA-3.0",
+  "copyright": "Taken from https://github.com/wall-nerds/wallening (machines\\turret_control.dmi)",
+  "size": {
+    "x": 82,
+    "y": 90
+  },
+  "states": [
+    {
+      "name": "base",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (machines\\turret_control.dmi)",
+      "directions": 4
+    },
+    {
+      "name": "safe",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (machines\\turret_control.dmi)",
+      "directions": 4
+    },
+    {
+      "name": "stun",
+      "delays": [
+        [
+          0.5,
+          0.5
+        ],
+        [
+          0.5,
+          0.5
+        ],
+        [
+          0.5,
+          0.5
+        ],
+        [
+          0.5,
+          0.5
+        ]
+      ],
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (machines\\turret_control.dmi)",
+      "directions": 4
+    },
+    {
+      "name": "lethal",
+      "delays": [
+        [
+          0.2,
+          0.2
+        ],
+        [
+          0.2,
+          0.2
+        ],
+        [
+          0.2,
+          0.2
+        ],
+        [
+          0.2,
+          0.2
+        ]
+      ],
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (machines\\turret_control.dmi)",
+      "directions": 4
+    },
+    {
+      "name": "wires",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (machines\\turret_control.dmi)"
+    }
+  ]
+}

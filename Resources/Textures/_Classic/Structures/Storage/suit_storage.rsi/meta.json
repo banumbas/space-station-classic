@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "license": "CC-BY-SA-3.0",
+  "copyright": "Taken from https://github.com/wall-nerds/wallening (machines\\suit_storage.dmi)",
+  "size": {
+    "x": 32,
+    "y": 32
+  },
+  "states": [
+    {
+      "name": "base",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (machines\\suit_storage.dmi)"
+    },
+    {
+      "name": "door",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (machines\\suit_storage.dmi)"
+    },
+    {
+      "name": "unlocked",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (machines\\suit_storage.dmi)"
+    },
+    {
+      "name": "locked",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (machines\\suit_storage.dmi)"
+    },
+    {
+      "name": "panel",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (machines\\suit_storage.dmi)"
+    },
+    {
+      "name": "welded"
+    }
+  ]
+}

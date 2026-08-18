@@ -6,6 +6,12 @@
   components:
   - type: Sprite
     sprite: _Starlight/Objects/Tools/welder_abductor.rsi
+    layers:
+    - state: icon
+    - state: welder_flame
+      visible: false
+      shader: unshaded
+      map: ["enum.ToggleableVisuals.Layer"]
   - type: Item
     sprite: _Starlight/Objects/Tools/welder_abductor.rsi
   - type: SolutionContainerManager

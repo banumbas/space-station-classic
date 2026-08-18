@@ -1,0 +1,46 @@
+{
+  "version": 1,
+  "size": {
+    "x": 32,
+    "y": 64
+  },
+  "license": "CC-BY-SA-3.0",
+  "copyright": "take in https://github.com/wall-nerds/wallening/tree/stable/icons/turf/walls",
+  "states": [
+    {
+      "name": "bathroom0",
+      "directions": 4
+    },
+    {
+      "name": "bathroom1",
+      "directions": 4
+    },
+    {
+      "name": "bathroom2",
+      "directions": 4
+    },
+    {
+      "name": "bathroom3",
+      "directions": 4
+    },
+    {
+      "name": "bathroom4",
+      "directions": 4
+    },
+    {
+      "name": "bathroom5",
+      "directions": 4
+    },
+    {
+      "name": "bathroom6",
+      "directions": 4
+    },
+    {
+      "name": "bathroom7",
+      "directions": 4
+    },
+    {
+      "name": "full"
+    }
+  ]
+}

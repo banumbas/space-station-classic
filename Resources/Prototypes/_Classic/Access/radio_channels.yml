@@ -1,0 +1,18 @@
+- type: radioChannel
+  id: PMC
+  name: chat-radio-pmc
+  keycode: "ь"
+  frequency: 1640
+  color: "#5b768e"
+  longRange: true
+
+- type: entity
+  parent: EncryptionKey
+  id: EncryptionKeyPMC
+  name: encryption-key-pmc
+  description: encryption-key-pmc-desc
+  components:
+  - type: EncryptionKey
+    channels:
+    - PMC
+    defaultChannel: PMC

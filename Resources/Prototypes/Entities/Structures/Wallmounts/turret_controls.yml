@@ -5,9 +5,10 @@
   categories: [ HideSpawnMenu ]
   components:
   - type: Sprite
-    noRot: false
-    drawdepth: SmallObjects
-    sprite: Structures/Wallmounts/turret_controls.rsi
+    noRot: true
+    snapCardinals: false
+    drawdepth: Effects
+    sprite: _Classic/Structures/Wallmounts/turret_controls.rsi
     layers:
     - state: base
   - type: Damageable
@@ -55,9 +56,10 @@
   components:
   - type: Appearance
   - type: Sprite
-    noRot: false
-    drawdepth: SmallObjects
-    sprite: Structures/Wallmounts/turret_controls.rsi
+    noRot: true
+    snapCardinals: false
+    drawdepth: Effects
+    sprite: _Classic/Structures/Wallmounts/turret_controls.rsi
     layers:
     - state: base
     - state: safe

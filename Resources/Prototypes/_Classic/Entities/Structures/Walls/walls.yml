@@ -6,6 +6,7 @@
   categories: [ ForkFiltered ]
   components:
   - type: SpriteFade
+    fadeTopOnly: true
   - type: Sprite
     sprite: _Classic/Structures/Walls/rock.rsi
     drawdepth: Overdoors # Classic-Edit
@@ -33,3 +34,87 @@
     key: walls
     base: rock
   - type: MiningScannerViewable
+
+- type: entity
+  parent: ClassicWallRock
+  id: ClassicWallRock2
+  name: rock wall variant
+  components:
+  - type: Sprite
+    sprite: _Classic/Structures/Walls/rock_wall2.rsi
+    drawdepth: Overdoors
+  - type: Icon
+    sprite: _Classic/Structures/Walls/rock_wall2.rsi
+  - type: IconSmooth
+    key: walls
+    base: rock_wall2
+
+- type: entity
+  id: ClassicWallSnow
+  parent: ClassicWallRock
+  name: snow wall
+  components:
+  - type: Sprite
+    sprite: _Classic/Structures/Walls/snow.rsi
+    drawdepth: Overdoors
+  - type: Icon
+    sprite: _Classic/Structures/Walls/snow.rsi
+  - type: IconSmooth
+    key: walls
+    base: snow
+
+- type: entity
+  parent: ClassicWallRock
+  id: ClassicWallIcerock
+  name: ice rock wall
+  components:
+  - type: Sprite
+    sprite: _Classic/Structures/Walls/icerock.rsi
+    drawdepth: Overdoors
+  - type: Icon
+    sprite: _Classic/Structures/Walls/icerock.rsi
+  - type: IconSmooth
+    key: walls
+    base: icerock
+
+- type: entity
+  parent: ClassicWallRock
+  id: ClassicWallRedRock
+  name: red rock wall
+  components:
+  - type: Sprite
+    sprite: _Classic/Structures/Walls/red_rock.rsi
+    drawdepth: Overdoors
+  - type: Icon
+    sprite: _Classic/Structures/Walls/red_rock.rsi
+  - type: IconSmooth
+    key: walls
+    base: red_rock
+
+- type: entity
+  parent: ClassicWallRock
+  id: ClassicWallReinforcedRedRock
+  name: reinforced red rock wall
+  components:
+  - type: Sprite
+    sprite: _Classic/Structures/Walls/reinforced_red_rock.rsi
+    drawdepth: Overdoors
+  - type: Icon
+    sprite: _Classic/Structures/Walls/reinforced_red_rock.rsi
+  - type: IconSmooth
+    key: walls
+    base: reinforced_red_rock
+
+- type: entity
+  id: ClassicWallMountain
+  parent: ClassicWallRock
+  name: mountain wall
+  components:
+  - type: Sprite
+    sprite: _Classic/Structures/Walls/mountain.rsi
+    drawdepth: Overdoors
+  - type: Icon
+    sprite: _Classic/Structures/Walls/mountain.rsi
+  - type: IconSmooth
+    key: walls
+    base: mountain

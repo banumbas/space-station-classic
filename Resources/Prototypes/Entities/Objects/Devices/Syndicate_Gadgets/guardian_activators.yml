@@ -46,6 +46,7 @@
         - id: HoloparasiteInfo
         - id: ClothingHeadHatBizarreSoft
   - type: Sprite
+    sprite: Objects/Storage/boxes.rsi
     layers:
       - state: box
       - state: holo
@@ -64,6 +65,7 @@
         - id: ToyFigurineHoloClown
         - id: ToyHammer
   - type: Sprite
+    sprite: Objects/Storage/boxes.rsi
     layers:
       - state: box_hug
       - state: holo

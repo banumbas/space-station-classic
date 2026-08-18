@@ -30,7 +30,6 @@ public sealed partial class AutoRestockVendingMachineSystem : EntitySystem
                 continue;
 
             autoRestock.NextRestock += GetRestockDelay(autoRestock);
-            Dirty(uid, autoRestock);
 
             Restock(uid, autoRestock, vending);
         }

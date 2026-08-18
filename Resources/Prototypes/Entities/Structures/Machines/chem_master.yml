@@ -13,25 +13,28 @@
     rotateWhileAnchored: true
   # Starlight-end
   - type: Sprite
-    sprite: Structures/Machines/mixer.rsi
+    sprite: _Classic/Objects/Specific/Medical/chemical.rsi
     snapCardinals: false # Starlight-edit: allow non-cardinal rotation for ChemMaster to avoid conflict with 4 direction plumbing connector sprites
     layers:
-    - state: mixer_empty
-    - state: mixer_screens
+    - state: chemmaster
+    - state: chemmaster_overlay_screen
       shader: unshaded
       map: ["enum.PowerDeviceVisualLayers.Powered"]
+    - state: chemmaster_overlay_container
+      visible: false
+      map: [chemmaster_overlay_container]
   # Starlight-start: Plumbing connector visuals
   - type: PlumbingConnectorAppearance
     offset: 0.09375
   - type: AtmosPipeColor
   # Starlight-end
   - type: Icon
-    sprite: Structures/Machines/mixer.rsi
-    state: mixer_empty
+    sprite: _Classic/Objects/Specific/Medical/chemical.rsi
+    state: chemmaster
   - type: ItemMapper
     containerWhitelist: [beakerSlot]
     mapLayers:
-      mixer_loaded:
+      chemmaster_overlay_container:
         whitelist:
           components:
           - FitsInDispenser

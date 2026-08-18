@@ -1,0 +1,46 @@
+{
+  "version": 1,
+  "size": {
+    "x": 32,
+    "y": 32
+  },
+  "license": "CC-BY-SA-3.0",
+  "copyright": "take in https://github.com/wall-nerds/wallening/tree/stable/icons/obj/smooth_structures/window_frames",
+  "states": [
+    {
+      "name": "window_frame_plastitanium0",
+      "directions": 4
+    },
+    {
+      "name": "window_frame_plastitanium1",
+      "directions": 4
+    },
+    {
+      "name": "window_frame_plastitanium2",
+      "directions": 4
+    },
+    {
+      "name": "window_frame_plastitanium3",
+      "directions": 4
+    },
+    {
+      "name": "window_frame_plastitanium4",
+      "directions": 4
+    },
+    {
+      "name": "window_frame_plastitanium5",
+      "directions": 4
+    },
+    {
+      "name": "window_frame_plastitanium6",
+      "directions": 4
+    },
+    {
+      "name": "window_frame_plastitanium7",
+      "directions": 4
+    },
+    {
+      "name": "full"
+    }
+  ]
+}

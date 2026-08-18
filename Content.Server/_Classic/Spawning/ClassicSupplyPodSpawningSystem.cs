@@ -4,6 +4,7 @@ using Content.Server.Spawners.Components;
 using Content.Server.Spawners.EntitySystems;
 using Content.Server.Station.Systems;
 using Content.Shared._Classic.SupplyPods;
+using Content.Shared.Spawners.Components;
 using Robust.Shared.Map;
 using Robust.Shared.Random;
 

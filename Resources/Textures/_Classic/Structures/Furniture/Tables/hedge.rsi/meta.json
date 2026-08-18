@@ -1,0 +1,46 @@
+{
+  "version": 1,
+  "size": {
+    "x": 32,
+    "y": 40
+  },
+  "license": "CC-BY-SA-3.0",
+  "copyright": "take in https://github.com/wall-nerds/wallening/tree/stable/icons/obj/smooth_structures/tables",
+  "states": [
+    {
+      "name": "hedge0",
+      "directions": 4
+    },
+    {
+      "name": "hedge1",
+      "directions": 4
+    },
+    {
+      "name": "hedge2",
+      "directions": 4
+    },
+    {
+      "name": "hedge3",
+      "directions": 4
+    },
+    {
+      "name": "hedge4",
+      "directions": 4
+    },
+    {
+      "name": "hedge5",
+      "directions": 4
+    },
+    {
+      "name": "hedge6",
+      "directions": 4
+    },
+    {
+      "name": "hedge7",
+      "directions": 4
+    },
+    {
+      "name": "full"
+    }
+  ]
+}

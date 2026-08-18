@@ -1,4 +1,5 @@
 using Content.Client.Graphics;
+using Content.Client._Classic.ZLevels.Core; // Classic-Edit
 using Robust.Client.Graphics;
 using Robust.Shared.Enums;
 
@@ -32,6 +33,20 @@ public sealed partial class BeforeLightTargetOverlay : Overlay
 
     protected override void Draw(in OverlayDrawArgs args)
     {
+        // Classic-Edit start - PlanetLightSystem makes the engine clear this target to transparent.
+        // The regular enlarged-target path restores the map ambient color below, so the direct path
+        // must do the same or lower Z-levels would become black outside explicit lights.
+        if (args.Viewport.Eye is IClassicZLevelRenderQuality { UseDirectContentLightTarget: true })
+        {
+            EnlargedBounds = args.WorldBounds;
+            args.WorldHandle.RenderInRenderTarget(
+                args.Viewport.LightRenderTarget,
+                static () => { },
+                _clyde.GetClearColor(args.MapUid));
+            return;
+        }
+        // Classic-Edit end
+
         // Code is weird but I don't think engine should be enlarging the lighting render target arbitrarily either, maybe via cvar?
         // The problem is the blur has no knowledge of pixels outside the viewport so with a large enough blur radius you get sampling issues.
         var size = args.Viewport.LightRenderTarget.Size + (int) (_skirting * EyeManager.PixelsPerMeter);

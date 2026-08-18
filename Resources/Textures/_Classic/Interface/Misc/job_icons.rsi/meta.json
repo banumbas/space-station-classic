@@ -1,0 +1,23 @@
+{
+    "version": 1,
+    "license": "CC-BY-SA-4.0",
+    "copyright": "sprite by @banumbas (discord)",
+    "size": {
+        "x": 8,
+        "y": 8
+    },
+    "states": [
+        {
+            "name": "eridani"
+        },
+        {
+            "name": "eridani-medic"
+        },
+        {
+            "name": "eridani-spec"
+        },
+        {
+            "name": "eridani-commander"
+        }
+    ]
+}

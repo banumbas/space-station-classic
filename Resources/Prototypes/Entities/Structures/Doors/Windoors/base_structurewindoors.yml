@@ -29,7 +29,8 @@
         layer:
         - GlassAirlockLayer
   - type: Sprite
-    sprite: Structures/Doors/Windoors/windoor.rsi
+    sprite: _Classic/Structures/Doors/Windoors/windoor.rsi
+    drawdepth: Overdoors
     layers:
     - state: closed
       map: ["enum.DoorVisualLayers.Base"]
@@ -122,6 +123,8 @@
     containers:
       board: !type:Container
   - type: Door
+    openDrawDepth: Overdoors
+    closedDrawDepth: Overdoors
     canCrush: false
     openingAnimationTime: 0.9
     closingAnimationTime: 0.9
@@ -178,6 +181,11 @@
   - type: Tag #Starlight -- minimum arming distance
     tags:
       - BulletUnarmedCollide #Starlight -- Make bullet pre-arming not phase through windoors
+  # ES Start
+  - type: ESSparkOnHit
+    prob: 0.25
+    count: 2
+  # ES End
 
 - type: entity
   id: BaseSecureWindoor
@@ -185,7 +193,7 @@
   abstract: true
   components:
   - type: Sprite
-    sprite: Structures/Doors/Windoors/windoor.rsi
+    sprite: _Classic/Structures/Doors/Windoors/windoor_secure.rsi
     layers:
     - state: secure_underlay
     - state: closed
@@ -225,13 +233,13 @@
     thresholds:
     - trigger:
         !type:DamageTrigger
-        damage: 600
+        damage: 500 #SL
       behaviors: #excess damage (nuke?). avoid computational cost of spawning entities.
       - !type:DoActsBehavior
         acts: [ "Destruction" ]
     - trigger:
         !type:DamageTrigger
-        damage: 400
+        damage: 300 #SL
       behaviors:
       - !type:SpawnEntitiesBehavior
         spawn:

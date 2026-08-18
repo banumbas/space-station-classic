@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "license": "CC0-1.0",
+  "copyright": "Taken from https://github.com/wall-nerds/wallening (machines\\defib_mount.dmi)",
+  "size": {
+    "x": 82,
+    "y": 82
+  },
+  "states": [
+    {
+      "name": "closed",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (machines\\defib_mount.dmi)",
+      "directions": 4
+    },
+    {
+      "name": "fill",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (machines\\defib_mount.dmi)",
+      "directions": 4
+    },
+    {
+      "name": "frame",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (machines\\defib_mount.dmi)",
+      "directions": 4
+    },
+    {
+      "name": "open"
+    }
+  ]
+}

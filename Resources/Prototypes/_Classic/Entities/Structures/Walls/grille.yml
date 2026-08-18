@@ -5,6 +5,8 @@
   description: A flimsy framework of iron rods.
   categories: [ ForkFiltered ]
   components:
+    - type: SpriteFade
+      fadeTopOnly: true
     - type: Sprite
       drawdepth: Overdoors
       sprite: _Classic/Structures/Walls/window_grille.rsi
@@ -32,6 +34,8 @@
   description: A flimsy framework of iron rods.
   categories: [ ForkFiltered ]
   components:
+    - type: SpriteFade
+      fadeTopOnly: true
     - type: Sprite
       drawdepth: Overdoors
       sprite: _Classic/Structures/Walls/grille.rsi

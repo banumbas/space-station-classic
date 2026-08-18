@@ -55,7 +55,7 @@
 - type: cargoProduct
   id: ScienceAnomalousContainmentSupplies
   icon:
-    sprite: Structures/Storage/Crates/science.rsi
+    sprite: _Classic/Structures/Storage/Crates/science.rsi
     state: icon
   product: CrateScienceAnomalousContainment
   cost: 8000

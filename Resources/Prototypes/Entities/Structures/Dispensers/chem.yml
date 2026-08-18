@@ -6,17 +6,22 @@
   description: An industrial grade chemical dispenser.
   components:
   - type: Sprite
-    sprite: Structures/dispensers.rsi
-    # Starlight-start: Chem Dispenser unpowered/wiring panel states
+    sprite: _Classic/Objects/Specific/Medical/chemical.rsi
+    drawdepth: SmallObjects
+    snapCardinals: false # Starlight-edit: allow non-cardinal rotation for chem dispenser to avoid conflict with 4 direction plumbing connector sprites
+    # SS13 uses `dispenser` as the normal frame. The two other frames are
+    # overlays: an unpowered frame and the opened maintenance panel.
     layers:
-      - state: industrial-off
-      - state: industrial-working
+      - state: dispenser
+      - state: dispenser_nopower
         visible: false
         map: [ "enum.PowerDeviceVisualLayers.Powered" ]
-      - state: industrial-panel
+      - state: dispenser_panel-o
         map: ["enum.WiresVisualLayers.MaintenancePanel"]
         visible: false
-    snapCardinals: false # Starlight-edit: allow non-cardinal rotation for chem dispenser to avoid conflict with 4 direction plumbing connector sprites
+  - type: Icon
+    sprite: _Classic/Objects/Specific/Medical/chemical.rsi
+    state: dispenser
     # Starlight-end
   - type: Storage
     openOnActivate: false
@@ -71,6 +76,16 @@
   - type: WiresVisuals
   - type: Appearance
   - type: BatteryVisuals
+  - type: GenericVisualizer
+    visuals:
+      enum.PowerDeviceVisuals.Powered:
+        enum.PowerDeviceVisualLayers.Powered:
+          True: { visible: false }
+          False: { visible: true }
+      enum.WiresVisuals.MaintenancePanelState:
+        enum.WiresVisualLayers.MaintenancePanel:
+          True: { visible: true }
+          False: { visible: false }
   # Starlight-end
 
 - type: entity

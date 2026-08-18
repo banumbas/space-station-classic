@@ -13,36 +13,43 @@
   - type: StationAiWhitelist
   - type: InteractionOutline
   - type: Sprite
-    snapCardinals: true
-    sprite: Structures/Doors/Airlocks/highsec/highsec.rsi
+    snapCardinals: false
+    sprite: _Classic/Structures/Doors/Airlocks/highsec/vault.rsi
+    drawdepth: Overdoors
     layers:
     - state: closed
       map: ["enum.DoorVisualLayers.Base"]
     - state: closed_unlit
+      sprite: _Classic/Structures/Doors/Airlocks/highsec/highsec.rsi
       shader: unshaded
       map: ["enum.DoorVisualLayers.BaseUnlit"]
       visible: false
     - state: welded
+      sprite: _Classic/Structures/Doors/Airlocks/highsec/highsec.rsi
       map: ["enum.WeldableLayers.BaseWelded"]
     - state: bolted_unlit
+      sprite: _Classic/Structures/Doors/Airlocks/highsec/highsec.rsi
       shader: unshaded
       map: ["enum.DoorVisualLayers.BaseBolted"]
     - state: emergency_unlit
+      sprite: _Classic/Structures/Doors/Airlocks/highsec/highsec.rsi
       map: ["enum.DoorVisualLayers.BaseEmergencyAccess"]
       shader: unshaded
     - state: panel_open
+      sprite: _Classic/Structures/Doors/Airlocks/highsec/highsec.rsi
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
     - state: electrified_ai
       sprite: Interface/Misc/ai_hud.rsi
       shader: unshaded
       visible: false
       map: ["enum.ElectrifiedLayers.HUD"]
-    - state: electrified
-      sprite: Effects/electricity.rsi
+    - state: sparks
+      sprite: _Classic/Effects/airlock_electrified.rsi
       shader: unshaded
       visible: false
       map: ["enum.ElectrifiedLayers.Sparks"]
     - state: sparks
+      sprite: _Classic/Structures/Doors/Airlocks/highsec/highsec.rsi
       map: ["enum.DoorVisualLayers.BaseEmagging"]
       shader: unshaded
       visible: false
@@ -66,6 +73,8 @@
     containers:
       board: !type:Container
   - type: Door
+    openDrawDepth: Overdoors
+    closedDrawDepth: Overdoors
     crushDamage:
       types:
         Blunt: 50

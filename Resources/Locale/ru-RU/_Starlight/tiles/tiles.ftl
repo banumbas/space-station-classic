@@ -50,7 +50,7 @@ tiles-ornate-floor = богато украшенный пол
 tiles-rough-metal-floor = грубый металлический пол
 tiles-rusty-metal-floor = ржавый металлический пол
 tiles-steel-grate-floor = пол из стальной решетки
-tiles-tech-greeb-floor = tech maints Greeb Floor
+tiles-tech-greeb-floor = технический пол Гриб
 
 # Developer tiles for mapping
 tiles-floor-dev-floor = [разработчик] этаж

@@ -8,8 +8,10 @@
   - type: WallMount
     arc: 360
   - type: Sprite
-    drawdepth: SmallObjects
-    sprite: Structures/Wallmounts/switch.rsi
+    drawdepth: Effects
+    sprite: _Classic/Structures/Wallmounts/switch.rsi
+    noRot: true
+    snapCardinals: false
     state: on
   - type: Appearance
   - type: Destructible
@@ -70,7 +72,7 @@
     # textLength: 5 This field does not exist. Bug?
     rows: 1
   - type: Sprite
-    drawdepth: WallMountedItems
+    drawdepth: Effects
     sprite: Structures/Wallmounts/signalscreen.rsi
     state: signalscreen
     noRot: true
@@ -108,7 +110,7 @@
   description: A construction frame for a timer.
   components:
   - type: Sprite
-    drawdepth: WallMountedItems
+    drawdepth: Effects
     sprite: Structures/Wallmounts/signalscreen.rsi
     state: signalscreen
   - type: Construction

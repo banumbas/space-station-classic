@@ -16,8 +16,9 @@
       - !type:DoActsBehavior
         acts: ["Destruction"]
   - type: Sprite
-    sprite: Structures/Wallmounts/signs.rsi
-    snapCardinals: true
+    sprite: _Classic/Structures/Wallmounts/signs.rsi
+    noRot: true
+    snapCardinals: false
   - type: StaticPrice
     price: 20
   - type: Transform

@@ -10,6 +10,7 @@
         id: CleanerGrenade
         amount: 4
   - type: Sprite
+    sprite: Objects/Storage/boxes.rsi
     layers:
       - state: box
       - state: flashbang
@@ -34,6 +35,7 @@
         - id: RadiumChemistryVial
         - id: ChlorineChemistryVial
   - type: Sprite
+    sprite: Objects/Storage/boxes.rsi
     layers:
       - state: boxwide
       - state: agrichemkit

@@ -37,9 +37,10 @@
       board: !type:Container
       key_slots: !type:Container
   - type: Sprite
-    noRot: false
-    drawdepth: SmallObjects
-    sprite: _Starlight/Structures/Wallmounts/intercom.rsi # Starlight
+    noRot: true
+    snapCardinals: false
+    drawdepth: Effects
+    sprite: _Classic/_Starlight/Structures/Wallmounts/intercom.rsi # Starlight
     layers:
     - state: base
     - state: unshaded
@@ -116,17 +117,33 @@
 
 - type: entity
   id: IntercomAssembly
+  parent: BaseWallmountMetallic
   name: intercom assembly
   description: An intercom. It doesn't seem very helpful right now.
   components:
   - type: Sprite
-    drawdepth: SmallObjects
-    sprite: _Starlight/Structures/Wallmounts/intercom.rsi # Starlight
+    drawdepth: Effects
+    sprite: _Classic/_Starlight/Structures/Wallmounts/intercom.rsi # Starlight
+    noRot: true
+    snapCardinals: false
     layers:
     - state: build
     - state: panel
       visible: false
       map: [ "wires" ]
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 100
+      behaviors:
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
+      - !type:PlaySoundBehavior
+        sound:
+          collection: MetalGlassBreak
+          params:
+            volume: -4
   - type: Appearance
   - type: GenericVisualizer
     visuals:

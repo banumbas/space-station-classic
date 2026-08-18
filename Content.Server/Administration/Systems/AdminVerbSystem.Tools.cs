@@ -790,6 +790,7 @@ public sealed partial class AdminVerbSystem
                 overlaysPresent |= TryComp<ShowJobIconsComponent>(args.Target, out _);
                 overlaysPresent |= TryComp<ShowMindShieldIconsComponent>(args.Target, out _);
                 overlaysPresent |= TryComp<ShowSyndicateIconsComponent>(args.Target, out _);
+                overlaysPresent |= TryComp<ShowPMCIconsComponent>(args.Target, out _); // Classic
                 overlaysPresent |= TryComp<ShowCriminalRecordIconsComponent>(args.Target, out _);
                 overlaysPresent |= TryComp<ShowContrabandDetailsComponent>(args.Target, out _);
 
@@ -800,6 +801,7 @@ public sealed partial class AdminVerbSystem
                     RemComp<ShowJobIconsComponent>(args.Target);
                     RemComp<ShowMindShieldIconsComponent>(args.Target);
                     RemComp<ShowSyndicateIconsComponent>(args.Target);
+                    RemComp<ShowPMCIconsComponent>(args.Target); // Classic
                     RemComp<ShowCriminalRecordIconsComponent>(args.Target);
                     RemComp<ShowContrabandDetailsComponent>(args.Target);
                 }
@@ -815,6 +817,7 @@ public sealed partial class AdminVerbSystem
                     EnsureComp<ShowJobIconsComponent>(args.Target);
                     EnsureComp<ShowMindShieldIconsComponent>(args.Target);
                     EnsureComp<ShowSyndicateIconsComponent>(args.Target);
+                    EnsureComp<ShowPMCIconsComponent>(args.Target); // Classic
                     EnsureComp<ShowCriminalRecordIconsComponent>(args.Target);
                     EnsureComp<ShowContrabandDetailsComponent>(args.Target);
                 }

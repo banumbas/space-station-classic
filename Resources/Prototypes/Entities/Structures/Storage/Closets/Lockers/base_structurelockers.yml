@@ -8,7 +8,7 @@
     powerNeeded: true # Starlight-edit
   - type: LockVisuals
   - type: Sprite
-    sprite: Structures/Storage/closet.rsi
+    sprite: _Classic/Structures/Storage/closet.rsi
     noRot: true
     layers:
     - state: generic
@@ -96,6 +96,11 @@
           True: { visible: True }
           False: { visible: False }
   # Starlight-end
+  # ES START
+  - type: ESSparkOnHit
+    prob: 0.25
+    count: 2
+  # ES END
 
 - type: entity
   id: LockerBaseSecure

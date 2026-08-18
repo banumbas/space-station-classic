@@ -37,7 +37,7 @@
       damageContainer: Box
     - type: Sprite
       noRot: true
-      sprite: Structures/Storage/closet.rsi
+      sprite: _Classic/Structures/Storage/closet.rsi
       layers:
       - state: cardboard
         map: ["enum.StorageVisualLayers.Base"]
@@ -69,8 +69,9 @@
       quiet: true
     - type: Stealth
       hadOutline: true
+      shimmerFrequency: 0.05
     - type: StealthOnMove
-      passiveVisibilityRate: -0.37
+      passiveVisibilityRate: -1 # very useful for going around the station concealed, if you start jitterstrafing you get seen
       movementVisibilityRate: 0.20
 
 - type: entity

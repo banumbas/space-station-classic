@@ -9,6 +9,7 @@
     - Window
   components:
   - type: SpriteFade # Classic-Edit
+    fadeTopOnly: true # Classic-Edit
   - type: Anchorable
     flags:
     - Anchorable
@@ -27,9 +28,9 @@
       - Window
   - type: Sprite
     drawdepth: Overdoors # Classic-Edit
-    sprite: _Classic/Structures/Windows/window.rsi
+    sprite: _Classic/Structures/Windows/normal_window.rsi # Classic-Edit
   - type: Icon
-    sprite: _Classic/Structures/Windows/window.rsi
+    sprite: _Classic/Structures/Windows/normal_window.rsi # Classic-Edit
     state: full
   - type: Physics
     bodyType: Static
@@ -80,7 +81,7 @@
   - type: Airtight
   - type: IconSmooth
     key: windows
-    base: window
+    base: normal_window # Classic-Edit
   - type: InteractionPopup
     interactSuccessString: comp-window-knock
     messagePerceivedByOthers: comp-window-knock
@@ -95,7 +96,7 @@
     damageDivisor: 2
     trackAllDamage: true
     damageOverlay:
-      sprite: Structures/Windows/cracks.rsi
+      sprite: _Classic/Structures/Windows/window_damage.rsi # Classic-Edit
   - type: StaticPrice
     price: 100
   - type: BlockWeather
@@ -107,12 +108,13 @@
   description: Smart tinted window with state switching option. # Starlight
   components:
   - type: Sprite
-    drawdepth: WallTops
-    sprite: Structures/Windows/tinted_window.rsi
+    drawdepth: Overdoors # Classic-Edit
+    sprite: _Classic/Structures/Windows/tinted_window.rsi # Classic-Edit
   - type: Icon
-    sprite: Structures/Windows/tinted_window.rsi
+    sprite: _Classic/Structures/Windows/tinted_window.rsi # Classic-Edit
+    state: full # Classic-Edit
   - type: IconSmooth
-    base: twindow
+    base: tinted_window # Classic-Edit
   - type: Construction
     graph: Window
     node: tintedWindow
@@ -156,11 +158,11 @@
       Brute:
         collection: GlassSmack
   - type: Sprite
-    drawdepth: Mobs
-    sprite: Structures/Windows/directional.rsi
+    drawdepth: Overdoors
+    sprite: _Classic/Structures/Windows/Directional/normal.rsi
     state: window
   - type: Icon
-    sprite: Structures/Windows/directional.rsi
+    sprite: _Classic/Structures/Windows/Directional/normal.rsi
     state: window
   - type: InteractionPopup
     interactSuccessString: comp-window-knock
@@ -249,10 +251,10 @@
     - Window
   components:
   - type: Sprite
-    sprite: Structures/Windows/directional.rsi
+    sprite: _Classic/Structures/Windows/Directional/frosted.rsi
     state: frosted_window
   - type: Icon
-    sprite: Structures/Windows/directional.rsi
+    sprite: _Classic/Structures/Windows/Directional/frosted.rsi
     state: frosted_window
   - type: StaticPrice
     price: 35

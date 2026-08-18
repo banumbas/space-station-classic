@@ -8,6 +8,8 @@
     mode: SnapgridCenter
   components:
   - type: StationAiWhitelist
+  - type: SpriteFade
+    fadeTopOnly: true
   - type: AmbientOnPowered
   - type: AmbientSound
     volume: -9
@@ -23,8 +25,10 @@
   - type: AccessReader
     access: [["Engineering"]]
   - type: Sprite
-    drawdepth: WallMountedItems
-    sprite: Structures/Power/apc.rsi
+    drawdepth: Effects
+    sprite: _Classic/Structures/Power/apc.rsi
+    noRot: true
+    snapCardinals: false
     layers:
     - state: base
     - state: panel
@@ -41,15 +45,15 @@
       shader: unshaded
       map: ["enum.ApcVisualLayers.PanelLock"]
       visible: false
-    - state: lock1-locked #when these are implemented get actual sprites.
+    - state: channel0-auto_on
       shader: unshaded
       map: ["enum.ApcVisualLayers.Equipment"]
       visible: false
-    - state: lock1-locked
+    - state: channel1-auto_on
       shader: unshaded
       map: ["enum.ApcVisualLayers.Lighting"]
       visible: false
-    - state: lock1-locked
+    - state: channel2-auto_on
       shader: unshaded
       map: ["enum.ApcVisualLayers.Environment"]
       visible: false
@@ -78,7 +82,7 @@
     sourceNode: input
     loadNode: output
     collectionName: apc
-    sprite: Structures/Power/apc.rsi
+    sprite: _Classic/Structures/Power/apc.rsi
     state: static
   - type: BatteryCharger
     voltage: Medium
@@ -167,8 +171,10 @@
     mode: SnapgridCenter
   components:
   - type: Sprite
-    sprite: Structures/Power/apc.rsi
+    sprite: _Classic/Structures/Power/apc.rsi
     state: frame
+    noRot: true
+    snapCardinals: false
   - type: Construction
     graph: APC
     node: apcFrame

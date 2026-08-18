@@ -178,7 +178,7 @@
   - type: Sprite
     layers:
     - state: pink
-    - sprite: Objects/Materials/materials.rsi
+    - sprite: _Classic/Objects/Materials/materials.rsi
       state: diamond
   - type: EntityTableSpawner
     offset: 0.4
@@ -247,7 +247,7 @@
   - type: Sprite
     layers:
     - state: pink
-    - sprite: Objects/Materials/materials.rsi
+    - sprite: _Classic/Objects/Materials/materials.rsi
       state: diamond
   - type: EntityTableSpawner
     offset: 0.4
@@ -404,7 +404,11 @@
       #Starlight Start
       - id: BZCanister
         weight: 0.3
+      - id: ZXACanister
+        weight: 0.2
       - id: PluoxiumCanister
+        weight: 0.35
+      - id: UlnitraniumCanister
         weight: 0.35
       - id: HalonCanister
         weight: 0.4

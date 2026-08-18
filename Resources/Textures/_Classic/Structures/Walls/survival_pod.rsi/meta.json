@@ -1,0 +1,46 @@
+{
+  "version": 1,
+  "size": {
+    "x": 32,
+    "y": 64
+  },
+  "license": "CC-BY-SA-3.0",
+  "copyright": "take in https://github.com/wall-nerds/wallening/tree/stable/icons/turf/walls",
+  "states": [
+    {
+      "name": "survival_pod0",
+      "directions": 4
+    },
+    {
+      "name": "survival_pod1",
+      "directions": 4
+    },
+    {
+      "name": "survival_pod2",
+      "directions": 4
+    },
+    {
+      "name": "survival_pod3",
+      "directions": 4
+    },
+    {
+      "name": "survival_pod4",
+      "directions": 4
+    },
+    {
+      "name": "survival_pod5",
+      "directions": 4
+    },
+    {
+      "name": "survival_pod6",
+      "directions": 4
+    },
+    {
+      "name": "survival_pod7",
+      "directions": 4
+    },
+    {
+      "name": "full"
+    }
+  ]
+}

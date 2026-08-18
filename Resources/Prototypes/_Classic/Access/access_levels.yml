@@ -1,0 +1,15 @@
+- type: accessLevel
+  id: PMCAssault
+  name: id-card-access-level-pmc-assault
+
+- type: accessLevel
+  id: PMCMedic
+  name: id-card-access-level-pmc-medic
+
+- type: accessLevel
+  id: PMCCommander
+  name: id-card-access-level-pmc-commander
+
+- type: accessLevel
+  id: PMCSpecialist
+  name: id-card-access-level-pmc-specialist

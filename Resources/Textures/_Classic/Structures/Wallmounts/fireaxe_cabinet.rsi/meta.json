@@ -1,0 +1,73 @@
+{
+  "version": 1,
+  "license": "CC-BY-SA-3.0",
+  "copyright": "Taken from https://github.com/wall-nerds/wallening (extinguisher.dmi)",
+  "size": {
+    "x": 82,
+    "y": 82
+  },
+  "states": [
+    {
+      "name": "cabinet-empty-closed"
+    },
+    {
+      "name": "cabinet-empty-open"
+    },
+    {
+      "name": "cabinet-filled-open"
+    },
+    {
+      "name": "cabinet-filled-closed"
+    },
+    {
+      "name": "cabinet",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (extinguisher.dmi)",
+      "directions": 4
+    },
+    {
+      "name": "fireaxe",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (extinguisher.dmi)",
+      "directions": 4
+    },
+    {
+      "name": "glass",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (extinguisher.dmi)",
+      "directions": 4
+    },
+    {
+      "name": "glass-1",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (extinguisher.dmi)",
+      "directions": 4
+    },
+    {
+      "name": "glass-2",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (extinguisher.dmi)",
+      "directions": 4
+    },
+    {
+      "name": "glass-3",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (extinguisher.dmi)",
+      "directions": 4
+    },
+    {
+      "name": "glass-4",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (extinguisher.dmi)",
+      "directions": 4
+    },
+    {
+      "name": "glass-up",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (extinguisher.dmi)",
+      "directions": 4
+    },
+    {
+      "name": "unlocked",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (extinguisher.dmi)",
+      "directions": 4
+    },
+    {
+      "name": "locked",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (extinguisher.dmi)",
+      "directions": 4
+    }
+  ]
+}

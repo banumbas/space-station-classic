@@ -1,4 +1,4 @@
-- type: entity
+﻿- type: entity
   abstract: true
   parent: BaseItem
   id: BaseHypospray
@@ -28,11 +28,12 @@
   description: A sterile injector for rapid administration of drugs to patients.
   components:
   - type: Sprite
-    sprite: Objects/Specific/Medical/hypospray.rsi
+    sprite: _Classic/Objects/Specific/Medical/syringe.rsi
     layers:
     - state: hypo
       map: ["enum.SolutionContainerLayers.Base"]
-    - state: hypo_fill1
+    - sprite: Objects/Specific/Medical/hypospray.rsi
+      state: hypo_fill1
       map: ["enum.SolutionContainerLayers.Fill"]
       visible: false
   - type: Item
@@ -64,11 +65,12 @@
   description: A sterile injector for rapid administration of drugs. Reverse-engineered from NanoTrasen designs, Cybersun produces these in limited quantities for Gorlex Marauders' corpsmen. # SL
   components:
   - type: Sprite
-    sprite: Objects/Specific/Medical/syndihypo.rsi
+    sprite: _Classic/Objects/Specific/Medical/syringe.rsi
     layers:
-      - state: hypo
+      - state: combat_hypo
         map: ["enum.SolutionContainerLayers.Base"]
-      - state: hypo_fill1
+      - sprite: Objects/Specific/Medical/syndihypo.rsi
+        state: hypo_fill1
         map: ["enum.SolutionContainerLayers.Fill"]
         visible: false
   - type: Item
@@ -89,11 +91,12 @@
   description: A sterile injector for rapid administration of drugs to patients. This integrated model is specialized for use by medical borgs.
   components:
   - type: Sprite
-    sprite: Objects/Specific/Medical/hypospray.rsi
+    sprite: _Classic/Objects/Specific/Medical/syringe.rsi
     layers:
     - state: borghypo
       map: [ "enum.SolutionContainerLayers.Base" ]
-    - state: borghypo_fill1
+    - sprite: Objects/Specific/Medical/hypospray.rsi
+      state: borghypo_fill1
       map: [ "enum.SolutionContainerLayers.Fill" ]
       visible: false
   - type: Item
@@ -632,6 +635,8 @@
     layers:
     - state: microstimpen
       map: ["enum.SolutionContainerLayers.Fill"]
+  - type: Injector # Starlight start
+    showInteractionParticles: false # Starlight end
   - type: SolutionContainerManager
     solutions:
       pen:
@@ -708,6 +713,7 @@
     allowedModes:
     - HyposprayInjectMode
     - HypopenDynamicMode
+    showInteractionParticles : false # Starlight
   - type: UseDelay
     delay: 0.5
   - type: StaticPrice # A new shitcurity meta

@@ -599,7 +599,7 @@
   components:
   - type: Appearance
   - type: AccessReader
-    access: [["Theatre"]]
+    access: [["Clown"]] # Starlight
   - type: EntityStorageVisuals
     stateBaseClosed: clown
     stateDoorOpen: clown_open
@@ -614,7 +614,7 @@
   components:
   - type: Appearance
   - type: AccessReader
-    access: [["Theatre"]]
+    access: [["Mime"]] # Starlight
   - type: EntityStorageVisuals
     stateBaseClosed: mime
     stateDoorOpen: mime_open
@@ -630,7 +630,7 @@
   - type: AccessReader
     access: [["Ntrep"]] # Starlight start
   - type: Sprite
-    sprite: _Starlight/Structures/Storage/closet.rsi
+    sprite: _Classic/_Starlight/Structures/Storage/closet.rsi
   - type: EntityStorageVisuals
     stateBaseClosed: ntr
     stateDoorOpen: nanotrasen-black_open

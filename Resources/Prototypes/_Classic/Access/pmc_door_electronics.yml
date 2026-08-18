@@ -1,0 +1,31 @@
+- type: entity
+  parent: DoorElectronics
+  id: DoorElectronicsPMCCommander
+  suffix: PMC Commander, Locked
+  components:
+  - type: AccessReader
+    access: [["PMCCommander"]]
+
+- type: entity
+  parent: DoorElectronics
+  id: DoorElectronicsPMCMedic
+  suffix: PMC Medic, Locked
+  components:
+  - type: AccessReader
+    access: [["PMCMedic"], ["PMCCommander"]]
+
+- type: entity
+  parent: DoorElectronics
+  id: DoorElectronicsPMCSpecialist
+  suffix: PMC Specialist, Locked
+  components:
+  - type: AccessReader
+    access: [["PMCSpecialist"], ["PMCCommander"]]
+
+- type: entity
+  parent: DoorElectronics
+  id: DoorElectronicsPMCAssault
+  suffix: PMC Assault, Locked
+  components:
+  - type: AccessReader
+    access: [["PMCAssault"], ["PMCCommander"]]

@@ -4,18 +4,18 @@ nuno-card-desc-reverse = Вы даже не представляете, что �
 nuno-card-name = {$suit} {$card}
 nuno-card-desc = Такая простая, но веселая игра!
 
-nuno-card-suit-name = { $костюм ->
+nuno-card-suit-name = { $suit ->
     [unored] Красный
     [nunoyellow] Желтый
-    [нунозеленый] Зеленый
+    [nunogreen] Зеленый
     [nunoblue] Синий
    *[invalid] !!{$suit}!!
 }
 
-nuno-card-value-name = { $карта ->
-    [плюс2] Плюс 2
-    [реверс] Реверс
-    [пропустить] Пропустить
+nuno-card-value-name = { $card ->
+    [plus2] Плюс 2
+    [reverse] Реверс
+    [skip] Пропустить
    *[other] {$card}
 }
 

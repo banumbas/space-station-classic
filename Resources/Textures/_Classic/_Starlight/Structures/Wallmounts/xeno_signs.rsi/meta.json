@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "license": "CC-BY-SA-3.0",
+  "copyright": "Taken from https://github.com/wall-nerds/wallening (signs.dmi)",
+  "size": {
+    "x": 32,
+    "y": 32
+  },
+  "states": [
+    {
+      "name": "core",
+      "copyright": "Conflee"
+    },
+    {
+      "name": "doors",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (signs.dmi)"
+    },
+    {
+      "name": "power",
+      "copyright": "Conflee"
+    },
+    {
+      "name": "space",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (signs.dmi)"
+    }
+  ]
+}

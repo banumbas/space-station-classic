@@ -24,6 +24,7 @@
         - TableLayer
   - type: SpriteFade
   - type: Sprite
+    drawdepth: WallTops
   - type: Icon
     state: full
   - type: IconSmooth

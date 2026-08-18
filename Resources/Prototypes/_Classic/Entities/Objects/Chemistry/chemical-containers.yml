@@ -1,0 +1,15 @@
+- type: entity
+  parent: Jug
+  suffix: DesoxyephedrineDylovene
+  id: JugDesoxyephedrineDylovene
+  components:
+  - type: Label
+    currentLabel: reagent-name-desoxyephedrine-dylovene
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        reagents:
+        - ReagentId: Desoxyephedrine
+          Quantity: 100
+        - ReagentId: Dylovene
+          Quantity: 100

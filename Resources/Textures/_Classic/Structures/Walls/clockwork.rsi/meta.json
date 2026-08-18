@@ -1,0 +1,46 @@
+{
+  "version": 1,
+  "size": {
+    "x": 32,
+    "y": 64
+  },
+  "license": "CC-BY-SA-3.0",
+  "copyright": "take in https://github.com/wall-nerds/wallening/tree/stable/icons/turf/walls",
+  "states": [
+    {
+      "name": "clockwork0",
+      "directions": 4
+    },
+    {
+      "name": "clockwork1",
+      "directions": 4
+    },
+    {
+      "name": "clockwork2",
+      "directions": 4
+    },
+    {
+      "name": "clockwork3",
+      "directions": 4
+    },
+    {
+      "name": "clockwork4",
+      "directions": 4
+    },
+    {
+      "name": "clockwork5",
+      "directions": 4
+    },
+    {
+      "name": "clockwork6",
+      "directions": 4
+    },
+    {
+      "name": "clockwork7",
+      "directions": 4
+    },
+    {
+      "name": "full"
+    }
+  ]
+}

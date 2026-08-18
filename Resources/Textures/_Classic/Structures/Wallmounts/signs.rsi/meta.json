@@ -1,0 +1,555 @@
+{
+  "version": 1,
+  "size": {
+    "x": 82,
+    "y": 82
+  },
+  "license": "CC-BY-SA-3.0",
+  "copyright": "Taken from https://github.com/wall-nerds/wallening (signs.dmi)",
+  "states": [
+    {
+      "name": "ai"
+    },
+    {
+      "name": "ai_upload"
+    },
+    {
+      "name": "vault",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (departmental_signs.dmi)"
+    },
+    {
+      "name": "xenoarch"
+    },
+    {
+      "name": "anomaly"
+    },
+    {
+      "name": "arcade"
+    },
+    {
+      "name": "armory"
+    },
+    {
+      "name": "arrivals"
+    },
+    {
+      "name": "barbershop"
+    },
+    {
+      "name": "ass"
+    },
+    {
+      "name": "atmos"
+    },
+    {
+      "name": "atmos_air"
+    },
+    {
+      "name": "atmos_co2"
+    },
+    {
+      "name": "atmos_n2"
+    },
+    {
+      "name": "atmos_n2o"
+    },
+    {
+      "name": "atmos_o2"
+    },
+    {
+      "name": "atmos_plasma"
+    },
+    {
+      "name": "atmos_tritium"
+    },
+    {
+      "name": "atmos_waste"
+    },
+    {
+      "name": "atmosplaque"
+    },
+    {
+      "name": "zumosplaque"
+    },
+    {
+      "name": "bar"
+    },
+    {
+      "name": "bath"
+    },
+    {
+      "name": "biblio"
+    },
+    {
+      "name": "bio",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (signs.dmi)"
+    },
+    {
+      "name": "biohazard"
+    },
+    {
+      "name": "bridge"
+    },
+    {
+      "name": "canisters"
+    },
+    {
+      "name": "cargo",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (signs.dmi)"
+    },
+    {
+      "name": "cargo_dock"
+    },
+    {
+      "name": "chapel",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (departmental_signs.dmi)"
+    },
+    {
+      "name": "chem"
+    },
+    {
+      "name": "commander"
+    },
+    {
+      "name": "conference_room"
+    },
+    {
+      "name": "corrosives"
+    },
+    {
+      "name": "cryogenics"
+    },
+    {
+      "name": "danger"
+    },
+    {
+      "name": "deathsposal",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (signs.dmi)"
+    },
+    {
+      "name": "detective"
+    },
+    {
+      "name": "direction_atmos",
+      "directions": 4
+    },
+    {
+      "name": "direction_bar",
+      "directions": 4
+    },
+    {
+      "name": "direction_exam",
+      "directions": 4
+    },
+    {
+      "name": "direction_icu",
+      "directions": 4
+    },
+    {
+      "name": "direction_janitor",
+      "directions": 4
+    },
+    {
+      "name": "direction_food",
+      "directions": 4
+    },
+    {
+      "name": "direction_hop",
+      "directions": 4
+    },
+    {
+      "name": "direction_library",
+      "directions": 4
+    },
+    {
+      "name": "direction_chemistry",
+      "directions": 4
+    },
+    {
+      "name": "direction_eng",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (directional_signs.dmi)"
+    },
+    {
+      "name": "direction_evac",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (directional_signs.dmi)"
+    },
+    {
+      "name": "direction_evac_glow",
+      "directions": 4
+    },
+    {
+      "name": "direction_supply",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (directional_signs.dmi)"
+    },
+    {
+      "name": "direction_bridge",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (directional_signs.dmi)"
+    },
+    {
+      "name": "direction_med",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (directional_signs.dmi)"
+    },
+    {
+      "name": "direction_sci",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (directional_signs.dmi)"
+    },
+    {
+      "name": "direction_sec",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (directional_signs.dmi)"
+    },
+    {
+      "name": "direction_brig",
+      "directions": 4
+    },
+    {
+      "name": "direction_chapel",
+      "directions": 4
+    },
+    {
+      "name": "direction_hydro",
+      "directions": 4
+    },
+    {
+      "name": "direction_dorms",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (directional_signs.dmi)"
+    },
+    {
+      "name": "direction_cryo",
+      "directions": 4
+    },
+    {
+      "name": "direction_gravity",
+      "directions": 4
+    },
+    {
+      "name": "direction_salvage",
+      "directions": 4
+    },
+    {
+      "name": "direction_solar",
+      "directions": 4
+    },
+    {
+      "name": "direction_wash",
+      "directions": 4
+    },
+    {
+      "name": "direction_pods",
+      "directions": 4
+    },
+    {
+      "name": "dock"
+    },
+    {
+      "name": "doors",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (signs.dmi)"
+    },
+    {
+      "name": "mats"
+    },
+    {
+      "name": "electrical"
+    },
+    {
+      "name": "eng"
+    },
+    {
+      "name": "engine",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (signs.dmi)"
+    },
+    {
+      "name": "eva"
+    },
+    {
+      "name": "examroom",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (signs.dmi)"
+    },
+    {
+      "name": "explosives",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (signs.dmi)"
+    },
+    {
+      "name": "fire",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (signs.dmi)"
+    },
+    {
+      "name": "flammable"
+    },
+    {
+      "name": "cloning"
+    },
+    {
+      "name": "genpop"
+    },
+    {
+      "name": "gravi"
+    },
+    {
+      "name": "hydro"
+    },
+    {
+      "name": "interrogation"
+    },
+    {
+      "name": "janitor"
+    },
+    {
+      "name": "laser"
+    },
+    {
+      "name": "laundromat"
+    },
+    {
+      "name": "law"
+    },
+    {
+      "name": "magnetics"
+    },
+    {
+      "name": "mail"
+    },
+    {
+      "name": "medbay",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (departmental_signs.dmi)"
+    },
+    {
+      "name": "memetic"
+    },
+    {
+      "name": "monkey_painting"
+    },
+    {
+      "name": "morgue",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (departmental_signs.dmi)"
+    },
+    {
+      "name": "news"
+    },
+    {
+      "name": "kitchen"
+    },
+    {
+      "name": "drama1"
+    },
+    {
+      "name": "drama2"
+    },
+    {
+      "name": "drama3"
+    },
+    {
+      "name": "restroom",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (signs.dmi)"
+    },
+    {
+      "name": "nosmoking",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (signs.dmi)"
+    },
+    {
+      "name": "nosmoking2",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (signs.dmi)"
+    },
+    {
+      "name": "surgery"
+    },
+    {
+      "name": "optical"
+    },
+    {
+      "name": "oxidants"
+    },
+    {
+      "name": "pods",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (signs.dmi)"
+    },
+    {
+      "name": "prison"
+    },
+    {
+      "name": "psychology",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (signs.dmi)"
+    },
+    {
+      "name": "radiation",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (signs.dmi)"
+    },
+    {
+      "name": "reception"
+    },
+    {
+      "name": "rnd"
+    },
+    {
+      "name": "robo"
+    },
+    {
+      "name": "salvage"
+    },
+    {
+      "name": "sci"
+    },
+    {
+      "name": "secure"
+    },
+    {
+      "name": "securearea",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (signs.dmi)"
+    },
+    {
+      "name": "cans"
+    },
+    {
+      "name": "cans_sci"
+    },
+    {
+      "name": "shock",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (signs.dmi)"
+    },
+    {
+      "name": "something-old1"
+    },
+    {
+      "name": "something-old2"
+    },
+    {
+      "name": "space",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (signs.dmi)"
+    },
+    {
+      "name": "telecoms"
+    },
+    {
+      "name": "toxins"
+    },
+    {
+      "name": "virology"
+    },
+    {
+      "name": "xenobio"
+    },
+    {
+      "name": "zomlab"
+    },
+    {
+      "name": "vox"
+    },
+    {
+      "name": "small_secure_red"
+    },
+    {
+      "name": "small_secure"
+    },
+    {
+      "name": "medium_secure_red"
+    },
+    {
+      "name": "medium_blank"
+    },
+    {
+      "name": "medium_magnetics"
+    },
+    {
+      "name": "medium_danger"
+    },
+    {
+      "name": "medium_explosives"
+    },
+    {
+      "name": "medium_cryogenics"
+    },
+    {
+      "name": "medium_electrical"
+    },
+    {
+      "name": "medium_biohazard"
+    },
+    {
+      "name": "medium_radiation"
+    },
+    {
+      "name": "medium_flammable"
+    },
+    {
+      "name": "medium_laser"
+    },
+    {
+      "name": "medium_secure"
+    },
+    {
+      "name": "goldenplaque",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (signs.dmi)",
+      "directions": 4
+    },
+    {
+      "name": "kiddieplaque",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (signs.dmi)",
+      "directions": 4
+    },
+    {
+      "name": "security",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (signs.dmi)"
+    },
+    {
+      "name": "data"
+    },
+    {
+      "name": "cryo"
+    },
+    {
+      "name": "nanotrasen_sign1",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (signs.dmi)"
+    },
+    {
+      "name": "nanotrasen_sign2",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (signs.dmi)"
+    },
+    {
+      "name": "nanotrasen_sign3",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (signs.dmi)"
+    },
+    {
+      "name": "nanotrasen_sign4",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (signs.dmi)"
+    },
+    {
+      "name": "nanotrasen_sign5",
+      "copyright": "Taken from https://github.com/wall-nerds/wallening (signs.dmi)"
+    },
+    {
+      "name": "one"
+    },
+    {
+      "name": "two"
+    },
+    {
+      "name": "three"
+    },
+    {
+      "name": "four"
+    },
+    {
+      "name": "five"
+    },
+    {
+      "name": "six"
+    },
+    {
+      "name": "seven"
+    },
+    {
+      "name": "eight"
+    },
+    {
+      "name": "nine"
+    },
+    {
+      "name": "zero"
+    },
+    {
+      "name": "survival"
+    },
+    {
+      "name": "ntmining"
+    }
+  ]
+}
