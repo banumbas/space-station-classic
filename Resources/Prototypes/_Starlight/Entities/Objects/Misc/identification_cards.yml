@@ -37,7 +37,7 @@
     - sprite: *id-rsi
       state: stripe_bottom
       color: "#6b6b6b"
-    - sprite: *icon-rsi
+    - sprite: &icon-rsi _Classic/Objects/Misc/id_cards.rsi
       state: trim_centcom
   - type: Item
     sprite: Objects/Misc/id_cards.rsi
@@ -59,7 +59,7 @@
       color: &color-science-top "#a53aaa"
     - state: stripe_bottom
       color: &color-science-bottom "#652368"
-    - sprite: &icon-rsi _Classic/Objects/Misc/id_cards.rsi
+    - sprite: *icon-rsi
       state: trim_roboticist
   - type: PresetIdCard
     job: Roboticist
