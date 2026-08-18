@@ -12,6 +12,8 @@
     layers:
       - map: [ enum.LightBulbVisualLayers.Base ]
         state: normal
+  - type: SpriteFade
+    fadeTopOnly: true
   - type: LightBulb
   - type: Damageable
     damageContainer: Inorganic
@@ -123,8 +125,8 @@
   - type: LightBulb
     bulb: Bulb
     color: "#FFD1A3" # 4000K color temp
-    lightEnergy: 1.5 # classic
-    lightRadius: 8 # classic
+    lightEnergy: 1.0
+    lightRadius: 6
     lightSoftness: 1.1
   - type: Tag
     tags:
@@ -140,8 +142,8 @@
   - type: LightBulb
     bulb: Bulb
     color: "#EEEEFF"
-    lightEnergy: 1.6 # classic
-    lightRadius: 10 # classic
+    lightEnergy: 1
+    lightRadius: 8
     lightSoftness: 1
     BurningTemperature: 350 #LEDs are colder than incandescent bulbs
     PowerUse: 6 #LEDs are more power efficient than incandescent bulbs
@@ -178,8 +180,8 @@
   - type: LightBulb
     bulb: Bulb
     color: "#ff9833" # 2200k color temp
-    lightEnergy: 1.5 # classic
-    lightRadius: 8 # classic
+    lightEnergy: 1
+    lightRadius: 6
     lightSoftness: 3
   - type: Tag
     tags:
@@ -235,8 +237,8 @@
   components:
   - type: LightBulb
     color: "#FFE4CE" # 5000K color temp
-    lightEnergy: 1.5 # classic
-    lightRadius: 12 # classic
+    lightEnergy: 0.8
+    lightRadius: 10
     lightSoftness: 1
     PowerUse: 25
 
@@ -272,8 +274,8 @@
   components:
   - type: LightBulb
     color: "#EEEEFF"
-    lightEnergy: 1.6 # classic
-    lightRadius: 16 # classic
+    lightEnergy: 1
+    lightRadius: 13 #SL Edit
     lightSoftness: 0.9
     BurningTemperature: 350
     PowerUse: 12

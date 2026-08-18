@@ -8,11 +8,11 @@ requirements-playtime =
     }
 
 roles-req-discord-starlight = 🌙 MOONLIGHT 🌙
-roles-req-discord-wizden = Визден
+roles-req-discord-wizden = Wizden
 
-roles-req-mentor-roles = наставник
-roles-req-all-roles = персонал или наставник
-roles-req-ext-roles = персонал, наставник или внешние роли
+roles-req-mentor-roles = ментор
+roles-req-all-roles = команда проекта или ментор
+roles-req-ext-roles = команда проекта, ментор или внешние роли
 roles-req-tester-roles = альфа или бета-тестер (получить уже невозможно)
 roles-req-gold-event-winner = золотой победитель турнира
 roles-req-staff-roles = персонал

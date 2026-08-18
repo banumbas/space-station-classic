@@ -18,6 +18,10 @@
         Heat: 0.45
         Radiation: 0.45
         Caustic: 0.45
+  - type: ExplosionResistance
+    damageCoefficient: 0.50
+  - type: StaminaResistance
+    damageCoefficient: 0.60
   - type: ClothingSpeedModifier
     walkModifier: 0.90 # 10% slow
     sprintModifier: 0.90
@@ -42,6 +46,10 @@
         Heat: 0.55
         Radiation: 0.55
         Caustic: 0.55
+  - type: ExplosionResistance
+    damageCoefficient: 0.50
+  - type: StaminaResistance
+    damageCoefficient: 0.60
 
 - type: entity
   parent: ClothingOuterBase
@@ -63,10 +71,13 @@
         Heat: 0.40
         Radiation: 0.40
         Caustic: 0.40
+  - type: ExplosionResistance
+    damageCoefficient: 0.40
+  - type: StaminaResistance
+    damageCoefficient: 0.50
   - type: ClothingSpeedModifier
     walkModifier: 0.90
     sprintModifier: 0.90
-
 
 - type: entity
   parent: PowerCellSmall
@@ -110,6 +121,10 @@
         Heat: 0.55
         Radiation: 0.55
         Caustic: 0.55
+  - type: ExplosionResistance
+    damageCoefficient: 0.55
+  - type: StaminaResistance
+    damageCoefficient: 0.60
   - type: ItemToggle
   - type: ToggleClothing
     action: ActionTogglePMCSpecialist

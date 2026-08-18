@@ -10,7 +10,7 @@
     - type: Sprite
       sprite: _Paradise/Structures/Lighting/floorlights.rsi
       snapCardinals: false
-      drawdepth: FloorObjects
+      drawdepth: Overlays
       noRot: true
       layers:
         - map: ["enum.PoweredLightLayers.Base"]

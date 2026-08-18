@@ -16,16 +16,14 @@
         collection: GlassSmash
   - type: Transform
     anchored: true
-  - type: Rotatable
-  - type: WallMount
   - type: Clickable
   - type: InteractionOutline
   - type: Construction
     graph: LightFixture
     node: tubeLight
   - type: Sprite
-    sprite: _Classic/Structures/Wallmounts/Lighting/light_tube.rsi
-    drawdepth: WallMountedItems
+    sprite: _Classic/Structures/Wallmounts/Lighting/light_tube.rsi #SL Edit
+    drawdepth: Overlays
     layers:
     - map: ["enum.PoweredLightLayers.Base"]
       state: base
@@ -35,8 +33,8 @@
     state: base
   - type: PointLight
     color: "#FFE4CE" # 5000K color temp
-    energy: 1.6 # classic
-    radius: 12 # classic
+    energy: 0.8
+    radius: 10
     softness: 1
     offset: "0, -0.495" # Starlight - reverts Upstream #44843, which made wall mounted lights look extremely sharp
   - type: Damageable
@@ -103,7 +101,7 @@
   parent: AlwaysPoweredWallLight
   components:
   - type: Sprite
-    sprite: _Classic/Structures/Wallmounts/Lighting/light_tube.rsi
+    sprite: _Classic/Structures/Wallmounts/Lighting/light_tube.rsi #SL Edit
     state: empty
   - type: PointLight
     enabled: false
@@ -266,11 +264,12 @@
       sound:
         path: /Audio/Ambience/Objects/light_hum.ogg
     - type: Sprite
-      sprite: _Classic/Structures/Wallmounts/Lighting/light_small.rsi
+      sprite: _Classic/Structures/Wallmounts/Lighting/light_small.rsi #SL Edit
+      drawdepth: Overlays
       state: base
     - type: PointLight
-      energy: 1.6 # classic
-      radius: 8 # classic
+      energy: 1.0
+      radius: 6
       softness: 1.1
       enabled: true
     - type: Physics
@@ -320,7 +319,7 @@
   parent: SmallLight
   components:
   - type: Sprite
-    sprite: _Classic/Structures/Wallmounts/Lighting/light_small.rsi
+    sprite: _Classic/Structures/Wallmounts/Lighting/light_small.rsi #SL Edit
     state: empty
   - type: AmbientSound
     enabled: false
