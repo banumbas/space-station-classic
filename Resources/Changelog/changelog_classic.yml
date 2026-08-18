@@ -6,3 +6,15 @@ Entries:
   id: 1
   time: 2026-07-16T03:24:56.000000+00:00
   url: https://github.com/banumbas/space-station-classic/pull/3
+- author: banumbas
+  changes:
+  - message: 'Добавлен новый играбельный режим: ЧВК(аналог ядерных оперативников).'
+    type: Add
+  - message: Добавлены Z-уровни.
+    type: Add
+  - message: Полная замена большинства спрайтов в игре, переход на 2.5d.
+    type: Tweak
+  id: 401
+  time: 2026-08-18T14:33:49.000000+00:00
+  url: https://github.com/banumbas/space-station-classic/pull/4
+
