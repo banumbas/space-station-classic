@@ -1,4 +1,4 @@
-guide-entry-sl-rules = Правила сервера: STARLIGHT
+guide-entry-sl-rules = Правила сервера: MOONLIGHT
 guide-entry-sl-rule-0 = Правило 0
 guide-entry-sl-rule-1 = Правило 1
 guide-entry-sl-rule-2 = Правило 2

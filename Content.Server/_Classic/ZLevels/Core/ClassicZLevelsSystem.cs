@@ -33,6 +33,29 @@ public sealed partial class ClassicZLevelsSystem : ClassicSharedZLevelsSystem
         InitView();
 
         SubscribeLocalEvent<ClassicStationZLevelsComponent, StationPostInitEvent>(OnStationPostInit);
+        SubscribeLocalEvent<ClassicStationZLevelsComponent, EntityTerminatingEvent>(OnStationTerminating);
+        SubscribeLocalEvent<ClassicZMapComponent, EntityTerminatingEvent>(OnZMapTerminating);
+    }
+
+    private void OnStationTerminating(Entity<ClassicStationZLevelsComponent> ent, ref EntityTerminatingEvent args)
+    {
+        if (ent.Comp.ZNetworkEntity is { } netUid && Exists(netUid))
+        {
+            QueueDel(netUid);
+        }
+    }
+
+    private void OnZMapTerminating(Entity<ClassicZMapComponent> ent, ref EntityTerminatingEvent args)
+    {
+        var netUid = ent.Comp.NetworkUid;
+        ent.Comp.MapAbove = null;
+        ent.Comp.MapBelow = null;
+        ent.Comp.NetworkUid = EntityUid.Invalid;
+
+        if (netUid != EntityUid.Invalid && TryComp<ClassicZMapNetworkComponent>(netUid, out var netComp))
+        {
+            RemoveMapFromNetwork((netUid, netComp), ent.Owner);
+        }
     }
 
     private void OnStationPostInit(Entity<ClassicStationZLevelsComponent> ent, ref StationPostInitEvent args)

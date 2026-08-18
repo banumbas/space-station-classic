@@ -6,7 +6,6 @@ namespace Content.Server._Classic.ZLevels.Gravity;
 
 public sealed partial class ClassicAutoGridGravitySystem : EntitySystem
 {
-    [Dependency] private IMapManager _mapManager = default!;
     [Dependency] private SharedMapSystem _map = default!;
     [Dependency] private SharedTransformSystem _transform = default!;
 
@@ -42,7 +41,7 @@ public sealed partial class ClassicAutoGridGravitySystem : EntitySystem
         if (!TryComp(mapUid, out mapComp))
             return;
 
-        foreach (var grid in _mapManager.GetAllGrids(mapComp.MapId))
+        foreach (var grid in _map.GetAllGrids(mapComp.MapId))
             EnableGravity(grid.Owner);
 
         EnableGravity(mapUid);

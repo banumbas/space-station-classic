@@ -17,7 +17,6 @@ public sealed partial class ClassicZLevelMappingSystem : EntitySystem
 
     [Dependency] private ClassicZLevelsSystem _zLevels = default!;
     [Dependency] private SharedMapSystem _map = default!;
-    [Dependency] private IMapManager _mapManager = default!;
     public override void Initialize()
     {
         base.Initialize();
@@ -97,7 +96,7 @@ public sealed partial class ClassicZLevelMappingSystem : EntitySystem
         if (!TryComp<MapComponent>(mapUid, out var mapComponent))
             return;
 
-        foreach (var grid in _mapManager.GetAllGrids(mapComponent.MapId))
+        foreach (var grid in _map.GetAllGrids(mapComponent.MapId))
         {
             EnsureComp<RoofComponent>(grid.Owner);
             // The loaded map prototypes commonly contain ImplicitRoof. It

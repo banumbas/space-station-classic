@@ -7,7 +7,7 @@ requirements-playtime =
     *[other] Вам все еще нужно {$time} игрового времени для {$tracker} на сервере {$server}.
     }
 
-roles-req-discord-starlight = 🌟 ЗВЕЗДНЫЙ СВЕТ 🌟
+roles-req-discord-starlight = 🌙 MOONLIGHT 🌙
 roles-req-discord-wizden = Визден
 
 roles-req-mentor-roles = наставник

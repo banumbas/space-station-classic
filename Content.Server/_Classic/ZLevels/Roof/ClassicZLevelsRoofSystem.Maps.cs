@@ -39,7 +39,7 @@ public sealed partial class ClassicZLevelsRoofSystem
             if (!TryComp<MapComponent>(map, out var mapComponent))
                 continue;
 
-            foreach (var grid in _mapManager.GetAllGrids(mapComponent.MapId))
+            foreach (var grid in Map.GetAllGrids(mapComponent.MapId))
             {
                 var gridUid = grid.Owner;
                 var roofComp = EnsureComp<RoofComponent>(gridUid);

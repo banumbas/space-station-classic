@@ -84,7 +84,7 @@
     openSound:
       path: /Audio/Machines/airlock_open.ogg
     closeSound:
-      path: /Audio/Machines/airlock_close.ogg
+      path: /Audio/_ES/Machines/airlock_close.ogg # Ephemeral Space - better door timings
     denySound:
       path: /Audio/Machines/airlock_deny.ogg
   - type: ContainerContainer
@@ -158,7 +158,7 @@
     thresholds:
     - trigger:
         !type:DamageTrigger
-        damage: 500
+        damage: 300 #SL
       behaviors:
       - !type:DoActsBehavior
         acts: ["Destruction"]
@@ -190,6 +190,11 @@
     - Airlocks
     - WirePanels
     - Networking
+  # ES START
+  - type: ESSparkOnHit
+    prob: 0.25
+    count: 2
+  # ES END
   placement:
     mode: SnapgridCenter
 

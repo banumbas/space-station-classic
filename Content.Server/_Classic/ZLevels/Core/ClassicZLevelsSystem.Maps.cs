@@ -142,6 +142,48 @@ public sealed partial class ClassicZLevelsSystem
         QueueDel(networkUid);
     }
 
+    /// <summary>
+    /// Removes a map entity from the z-network and updates/deletes the network entity.
+    /// </summary>
+    [PublicAPI]
+    public void RemoveMapFromNetwork(Entity<ClassicZMapNetworkComponent> network, EntityUid mapUid)
+    {
+        if (!network.Comp.ZLevelByEntity.Remove(mapUid, out var depth))
+            return;
+
+        network.Comp.ZLevels.Remove(depth);
+
+        if (network.Comp.ZLevels.TryGetValue(depth + 1, out var aboveMapUid) && aboveMapUid is { } above && TryComp<ClassicZMapComponent>(above, out var aboveComp))
+        {
+            aboveComp.MapBelow = network.Comp.ZLevels.GetValueOrDefault(depth - 1);
+            Dirty(above, aboveComp);
+        }
+
+        if (network.Comp.ZLevels.TryGetValue(depth - 1, out var belowMapUid) && belowMapUid is { } below && TryComp<ClassicZMapComponent>(below, out var belowComp))
+        {
+            belowComp.MapAbove = network.Comp.ZLevels.GetValueOrDefault(depth + 1);
+            Dirty(below, belowComp);
+        }
+
+        // If the network is now empty or invalid, delete it
+        if (network.Comp.ZLevelByEntity.Count == 0 || network.Comp.ZLevels.Count == 0)
+        {
+            QueueDel(network.Owner);
+            return;
+        }
+
+        // Rebuild SortedZLevels, SortedMin, SortedMax
+        network.Comp.SortedZLevels.Clear();
+        network.Comp.SortedMin = network.Comp.ZLevels.Keys.Min();
+        network.Comp.SortedMax = network.Comp.ZLevels.Keys.Max();
+        for (var d = network.Comp.SortedMin; d <= network.Comp.SortedMax; d++)
+        {
+            network.Comp.SortedZLevels.Add(network.Comp.ZLevels.GetValueOrDefault(d, EntityUid.Invalid) ?? EntityUid.Invalid);
+        }
+
+        Dirty(network);
+    }
+
     private void QuickApiCache(Entity<ClassicZMapNetworkComponent> network, EntityUid value, int depth)
     {
         var comp = network.Comp;

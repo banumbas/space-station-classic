@@ -4,10 +4,9 @@
   parent: MarkerBase
   name: PMC Commander Spawn Point
   components:
-  - type: GridSpawnPointWhitelist
+  - type: AntagGridSpawnPoint
     whitelist:
-      components:
-      - PMCCommander
+    - PMCCommander
   - type: SpawnPoint
   - type: Sprite
     sprite: Markers/jobs.rsi
@@ -18,10 +17,9 @@
   parent: MarkerBase
   name: PMC Medic Spawn Point
   components:
-  - type: GridSpawnPointWhitelist
+  - type: AntagGridSpawnPoint
     whitelist:
-      components:
-      - PMCMedic
+    - PMCMedic
   - type: SpawnPoint
   - type: Sprite
     sprite: Markers/jobs.rsi
@@ -32,10 +30,9 @@
   parent: MarkerBase
   name: PMC Specialist Spawn Point
   components:
-  - type: GridSpawnPointWhitelist
+  - type: AntagGridSpawnPoint
     whitelist:
-      components:
-      - PMCSpecialist
+    - PMCSpecialist
   - type: SpawnPoint
   - type: Sprite
     sprite: Markers/jobs.rsi
@@ -46,10 +43,9 @@
   parent: MarkerBase
   name: PMC Assault Spawn Point
   components:
-  - type: GridSpawnPointWhitelist
+  - type: AntagGridSpawnPoint
     whitelist:
-      components:
-      - PMCAssault
+    - PMCAssault
   - type: SpawnPoint
   - type: Sprite
     sprite: Markers/jobs.rsi

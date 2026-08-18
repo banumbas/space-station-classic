@@ -635,6 +635,8 @@
     layers:
     - state: microstimpen
       map: ["enum.SolutionContainerLayers.Fill"]
+  - type: Injector # Starlight start
+    showInteractionParticles: false # Starlight end
   - type: SolutionContainerManager
     solutions:
       pen:
@@ -711,6 +713,7 @@
     allowedModes:
     - HyposprayInjectMode
     - HypopenDynamicMode
+    showInteractionParticles : false # Starlight
   - type: UseDelay
     delay: 0.5
   - type: StaticPrice # A new shitcurity meta

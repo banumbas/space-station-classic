@@ -79,3 +79,86 @@
     time: 1800
   guides: [ NuclearOperatives ]
   playTimeTracker: AntagNukeopsCommander
+
+- type: antagSpecifier
+  abstract: true
+  parent: RestrictedAntag
+  id: BasePMC
+  prefRoles:
+  - GenericTeamAntagonist
+  allowNonHumans: true
+  tags:
+  - CantBecomeRevolutionary
+  components:
+  - type: NukeOperative
+  - type: NpcFactionMember
+    factions:
+    - Syndicate
+
+- type: antagSpecifier
+  parent: BasePMC
+  id: PMCCommander
+  prefRoles:
+  - PMCCommander
+  spawnerPrototype: SpawnPointPMCCommander
+  components:
+  - type: PMCCommander
+  - type: ClassicVendorUser
+    points: 100
+  - type: RandomMetadata
+    nameSegments:
+    - NamesSyndicateNormal
+    nameFormat: name-format-pmc-commander
+  mindRoles:
+  - MindRoleNukeopsCommander
+
+- type: antagSpecifier
+  parent: BasePMC
+  id: PMCMedic
+  prefRoles:
+  - PMCMedic
+  spawnerPrototype: SpawnPointPMCMedic
+  components:
+  - type: PMCMedic
+  - type: ClassicVendorUser
+    points: 50
+  - type: RandomMetadata
+    nameSegments:
+    - NamesSyndicateNormal
+    nameFormat: name-format-pmc-medic
+  mindRoles:
+  - MindRoleNukeopsMedic
+
+- type: antagSpecifier
+  parent: BasePMC
+  id: PMCSpecialist
+  prefRoles:
+  - PMCSpecialist
+  spawnerPrototype: SpawnPointPMCSpecialist
+  components:
+  - type: PMCSpecialist
+  - type: ClassicVendorUser
+    points: 50
+  - type: RandomMetadata
+    nameSegments:
+    - NamesSyndicateNormal
+    nameFormat: name-format-pmc-specialist
+  mindRoles:
+  - MindRoleNukeops
+
+- type: antagSpecifier
+  parent: BasePMC
+  id: PMCAssault
+  prefRoles:
+  - PMCAssault
+  spawnerPrototype: SpawnPointPMCAssault
+  components:
+  - type: PMCAssault
+  - type: ClassicVendorUser
+    points: 50
+  - type: RandomMetadata
+    nameSegments:
+    - NamesSyndicateNormal
+    nameFormat: name-format-pmc-assault
+  mindRoles:
+  - MindRoleNukeops

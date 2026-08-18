@@ -24,7 +24,6 @@ public abstract partial class ClassicSharedZLevelsRoofSystem : EntitySystem
     [Dependency] protected ClassicSharedZLevelsSystem ZLevel = null!;
     [Dependency] protected SharedRoofSystem Roof = null!;
     [Dependency] protected SharedMapSystem Map = null!;
-    [Dependency] protected IMapManager MapManager = null!;
     [Dependency] protected ITileDefinitionManager TilDefMan = null!;
 
     [Dependency] protected EntityQuery<MapGridComponent> GridQuery = default!;
@@ -86,7 +85,7 @@ public abstract partial class ClassicSharedZLevelsRoofSystem : EntitySystem
 
             if (TryComp<MapComponent>(mapUid, out var mapComponent))
             {
-                foreach (var grid in MapManager.GetAllGrids(mapComponent.MapId))
+                foreach (var grid in Map.GetAllGrids(mapComponent.MapId))
                 {
                     if (!TryWorldTileToLocalTile(grid.Owner, grid.Comp, worldTile, out var localTile))
                         continue;
@@ -119,7 +118,7 @@ public abstract partial class ClassicSharedZLevelsRoofSystem : EntitySystem
 
             foreach (var (worldTile, rooved) in roofMap)
             {
-                foreach (var gridBelow in MapManager.GetAllGrids(mapComponentBelow.MapId))
+                foreach (var gridBelow in Map.GetAllGrids(mapComponentBelow.MapId))
                 {
                     if (!TryWorldTileToLocalTile(gridBelow.Owner, gridBelow.Comp, worldTile, out var localTile))
                         continue;

@@ -10,8 +10,6 @@ namespace Content.Server._Classic.ZLevels.Roof;
 
 public sealed partial class ClassicZLevelsRoofSystem : ClassicSharedZLevelsRoofSystem
 {
-    [Dependency] private IMapManager _mapManager = default!;
-
     private readonly HashSet<Vector2i> _roofMap = new();
 
     public override void Initialize()
