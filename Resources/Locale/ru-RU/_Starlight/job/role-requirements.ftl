@@ -1,27 +1,26 @@
-job-no-requirements = Эта работа не имеет требований.
-ghost-role-no-requirements = Эта роль не имеет никаких требований.
+job-no-requirements = У этой профессии нет требований.
+ghost-role-no-requirements = У этой роли нет требований.
 
 # Coloring rule of thumb: limegreen for met requirement, yellow for unmet requirement that can still be met, red for unmeetable
 
-role-timer-department-sufficient = У вас есть [color=limegreen]{TOSTRING($current, "0")}[/color] игрового времени [color=lightblue]{TOSTRING($required, "0")}[/color], необходимое в отделе [color={$departmentColor}]{$department}[/color].
-role-timer-department-not-too-high = У вас есть [color=limegreen]{TOSTRING($current, "0")}[/color] не более [color=lightblue]{TOSTRING($required, "0")}[/color] игрового времени в отделе [color={$departmentColor}]{$department}[/color].
-role-timer-overall-sufficient = У вас есть [color=limegreen]{TOSTRING($current, "0")}[/color] из [color=lightblue]{TOSTRING($required, "0")}[/color] общего времени игры.
-role-timer-overall-not-too-high = У вас есть [color=limegreen]{TOSTRING($current, "0")}[/color] не более [color=lightblue]{TOSTRING($required, "0")}[/color] общего времени игры.
-role-timer-role-sufficient = У вас есть [color=limegreen]{TOSTRING($current, "0")}[/color] игрового времени [color=lightblue]{TOSTRING($required, "0")}[/color], необходимое как [color={$departmentColor}]{$job}[/color].
-role-timer-role-not-too-high = У вас есть [color=limegreen]{TOSTRING($current, "0")}[/color] не более [color=lightblue]{TOSTRING($required, "0")}[/color] времени игры как [color={$departmentColor}]{$job}[/color].
-role-whitelisted = Вы [color=limegreen][/color] внесены в белый список на эту роль.
-role-timer-age-old-enough = Возраст вашего персонажа должен быть не ниже [color=limegreen]{$age}[/color], чтобы играть эту роль.
-role-timer-age-not-old-enough = Чтобы играть эту роль, возраст вашего персонажа должен быть не ниже [color=yellow]{$age}[/color].
-role-timer-age-young-enough = Возраст вашего персонажа должен быть не более [color=limegreen]{$age}[/color], чтобы играть эту роль.
-role-timer-age-not-young-enough = Возраст вашего персонажа должен быть не более [color=yellow]{$age}[/color], чтобы играть эту роль.
+role-timer-department-sufficient = У вас наиграно [color=limegreen]{TOSTRING($current, "0")}[/color] из требуемых [color=lightblue]{TOSTRING($required, "0")}[/color] минут в отделе [color={$departmentColor}]{$department}[/color].
+role-timer-department-not-too-high = У вас наиграно [color=limegreen]{TOSTRING($current, "0")}[/color] (не более [color=lightblue]{TOSTRING($required, "0")}[/color]) минут в отделе [color={$departmentColor}]{$department}[/color].
+role-timer-overall-sufficient = У вас наиграно [color=limegreen]{TOSTRING($current, "0")}[/color] из требуемых [color=lightblue]{TOSTRING($required, "0")}[/color] минут общего игрового времени.
+role-timer-overall-not-too-high = У вас наиграно [color=limegreen]{TOSTRING($current, "0")}[/color] (не более [color=lightblue]{TOSTRING($required, "0")}[/color]) минут общего игрового времени.
+role-timer-role-sufficient = У вас наиграно [color=limegreen]{TOSTRING($current, "0")}[/color] из требуемых [color=lightblue]{TOSTRING($required, "0")}[/color] минут в роли [color={$departmentColor}]{$job}[/color].
+role-timer-role-not-too-high = У вас наиграно [color=limegreen]{TOSTRING($current, "0")}[/color] (не более [color=lightblue]{TOSTRING($required, "0")}[/color]) минут в роли [color={$departmentColor}]{$job}[/color].
+role-whitelisted = Вы [color=limegreen]внесены в белый список[/color] на эту роль.
+role-timer-age-old-enough = Возраст вашего персонажа должен быть не менее [color=limegreen]{$age}[/color] для этой роли.
+role-timer-age-not-old-enough = Возраст вашего персонажа должен быть не менее [color=yellow]{$age}[/color] для этой роли.
+role-timer-age-young-enough = Возраст вашего персонажа должен быть не более [color=limegreen]{$age}[/color] для этой роли.
+role-timer-age-not-young-enough = Возраст вашего персонажа должен быть не более [color=yellow]{$age}[/color] для этой роли.
 
-role-timer-whitelisted-species-pass = Чтобы играть эту роль, ваш персонаж [color=limegreen]должен[/color] принадлежать к одному из следующих видов: [color=limegreen]{$species}[/color]
-role-timer-whitelisted-species-fail = Чтобы играть эту роль, ваш персонаж [color=yellow]должен[/color] принадлежать к одному из следующих видов: [color=yellow]{$species}[/color]
-role-timer-blacklisted-species-pass = Чтобы играть эту роль, ваш персонаж [color=limegreen]не должен[/color] принадлежать к одному из следующих видов: [color=limegreen]{$species}[/color]
-role-timer-blacklisted-species-fail = Чтобы играть эту роль, ваш персонаж [color=yellow]не должен[/color] принадлежать к одному из следующих видов: [color=yellow]{$species}[/color]
+role-timer-whitelisted-species-pass = Персонаж [color=limegreen]должен[/color] принадлежать к одной из рас: [color=limegreen]{$species}[/color]
+role-timer-whitelisted-species-fail = Персонаж [color=yellow]должен[/color] принадлежать к одной из рас: [color=yellow]{$species}[/color]
+role-timer-blacklisted-species-pass = Персонаж [color=limegreen]не должен[/color] принадлежать к расам: [color=limegreen]{$species}[/color]
+role-timer-blacklisted-species-fail = Персонаж [color=yellow]не должен[/color] принадлежать к расам: [color=yellow]{$species}[/color]
 
-role-timer-whitelisted-traits-pass = Ваш персонаж [color=limegreen]должен[/color] иметь одну из следующих черт: [color=limegreen]{$traits}[/color]
-role-timer-whitelisted-traits-fail = Ваш персонаж [color=yellow]должен[/color] иметь одну из следующих черт: [color=yellow]{$traits}[/color]
-role-timer-blacklisted-traits-pass = Ваш персонаж [color=limegreen]не должен[/color] иметь одну из следующих черт: [color=limegreen]{$traits}[/color]
-role-timer-blacklisted-traits-fail = Ваш персонаж [color=yellow]не должен[/color] иметь одну из следующих черт: [color=yellow]{$traits}[/color]
-
+role-timer-whitelisted-traits-pass = Персонаж [color=limegreen]должен[/color] иметь одну из черт: [color=limegreen]{$traits}[/color]
+role-timer-whitelisted-traits-fail = Персонаж [color=yellow]должен[/color] иметь одну из черт: [color=yellow]{$traits}[/color]
+role-timer-blacklisted-traits-pass = Персонаж [color=limegreen]не должен[/color] иметь черты: [color=limegreen]{$traits}[/color]
+role-timer-blacklisted-traits-fail = Персонаж [color=yellow]не должен[/color] иметь черты: [color=yellow]{$traits}[/color]
