@@ -9,11 +9,13 @@ using Robust.Shared.Timing;
 
 namespace Content.Server._Classic.Administration.Punishment;
 
-public sealed class PunishmentSystem : EntitySystem
+public sealed partial class PunishmentSystem : SharedPunishmentSystem
 {
-    [Dependency] private readonly IBanManager _banManager = default!;
-    [Dependency] private readonly IPlayerManager _playerManager = default!;
+    [Dependency] private readonly IBanManager _ban = default!;
+    [Dependency] private readonly IPlayerManager _player = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
+
+    private static readonly TimeSpan UpdateInterval = TimeSpan.FromSeconds(1);
 
     private TimeSpan _nextUpdateTime = TimeSpan.Zero;
 
@@ -25,22 +27,6 @@ public sealed class PunishmentSystem : EntitySystem
         SubscribeLocalEvent<RoleBansUpdatedEvent>(OnRoleBansUpdated);
     }
 
-    public override void Update(float frameTime)
-    {
-        base.Update(frameTime);
-
-        if (_timing.CurTime < _nextUpdateTime)
-            return;
-
-        _nextUpdateTime = _timing.CurTime + TimeSpan.FromSeconds(1);
-
-        foreach (var session in _playerManager.Sessions)
-        {
-            if (session.AttachedEntity is { } entity)
-                UpdatePunishments(entity, session.UserId);
-        }
-    }
-
     private void OnPlayerAttached(PlayerAttachedEvent args)
     {
         UpdatePunishments(args.Entity, args.Player.UserId);
@@ -48,15 +34,15 @@ public sealed class PunishmentSystem : EntitySystem
 
     private void OnRoleBansUpdated(RoleBansUpdatedEvent args)
     {
-        if (_playerManager.TryGetSessionById(args.UserId, out var session) && session.AttachedEntity is { } entity)
+        if (_player.TryGetSessionById(args.UserId, out var session) && session.AttachedEntity is { } entity)
         {
             UpdatePunishments(entity, args.UserId);
         }
     }
 
-    private void UpdatePunishments(EntityUid uid, NetUserId userId)
+    public void UpdatePunishments(EntityUid uid, NetUserId userId)
     {
-        var punishments = _banManager.GetPunishments(userId);
+        var punishments = _ban.GetPunishments(userId);
 
         var mutedChannels = ChatChannel.None;
         var paperMuted = false;
@@ -87,12 +73,7 @@ public sealed class PunishmentSystem : EntitySystem
         {
             RemComp<PunishmentComponent>(uid);
 
-            // Only remove pacifism if they don't have it from somewhere else?
-            // Actually, if we just remove PacifiedComponent, it's fine, but let's check if they still need it.
-            // For now, removing it directly is okay, as pacifism is usually applied via component.
-            // However, other things might apply pacifism. A safe way is to track ForcedPacifism.
-            // If they had ForcedPacifism, we can remove PacifiedComponent.
-            if (TryComp<PacifiedComponent>(uid, out var _))
+            if (HasComp<PacifiedComponent>(uid))
                 RemComp<PacifiedComponent>(uid);
             return;
         }
@@ -116,5 +97,21 @@ public sealed class PunishmentSystem : EntitySystem
 
         comp.ForcedPacifism = pacifism;
         Dirty(uid, comp);
+    }
+
+    public override void Update(float frameTime)
+    {
+        base.Update(frameTime);
+
+        if (_timing.CurTime < _nextUpdateTime)
+            return;
+
+        _nextUpdateTime = _timing.CurTime + UpdateInterval;
+
+        foreach (var session in _player.Sessions)
+        {
+            if (session.AttachedEntity is { } entity)
+                UpdatePunishments(entity, session.UserId);
+        }
     }
 }

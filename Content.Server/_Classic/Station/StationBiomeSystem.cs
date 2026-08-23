@@ -19,17 +19,24 @@ namespace Content.Server._Classic.Station;
 /// </summary>
 public sealed partial class ClassicStationBiomeSystem : EntitySystem
 {
+    [Dependency] private readonly AtmosphereSystem _atmosphere = default!;
+    [Dependency] private readonly BiomeSystem _biome = default!;
+    [Dependency] private readonly IPrototypeManager _proto = default!;
+    [Dependency] private readonly StationSystem _station = default!;
+    [Dependency] private readonly SharedMapSystem _map = default!;
+    [Dependency] private readonly SharedTransformSystem _transform = default!;
+
     private static readonly GasMixture PlanetAtmosphere = CreatePlanetAtmosphere();
 
-    [Dependency] private AtmosphereSystem _atmosphere = default!;
-    [Dependency] private BiomeSystem _biome = default!;
-    [Dependency] private IPrototypeManager _proto = default!;
-    [Dependency] private StationSystem _station = default!;
-    [Dependency] private SharedMapSystem _map = default!;
+    private EntityQuery<TransformComponent> _xformQuery;
+    private EntityQuery<MapGridComponent> _gridQuery;
 
     public override void Initialize()
     {
         base.Initialize();
+
+        _xformQuery = GetEntityQuery<TransformComponent>();
+        _gridQuery = GetEntityQuery<MapGridComponent>();
 
         SubscribeLocalEvent<ClassicStationBiomeComponent, StationPostInitEvent>(OnStationPostInit);
     }
@@ -42,12 +49,14 @@ public sealed partial class ClassicStationBiomeSystem : EntitySystem
             return;
 
         var stationGridUid = stationGrid.Value;
-        var stationGridXform = Transform(stationGridUid);
+        if (!_xformQuery.TryComp(stationGridUid, out var stationGridXform))
+            return;
+
         var mapUid = _map.GetMapOrInvalid(stationGridXform.MapID);
         if (mapUid == EntityUid.Invalid)
             return;
 
-        if (!TryComp<MapGridComponent>(stationGridUid, out var stationMapGrid))
+        if (!_gridQuery.TryComp(stationGridUid, out var stationMapGrid))
             return;
 
         SetupBiome(stationGridUid, ent.Comp);

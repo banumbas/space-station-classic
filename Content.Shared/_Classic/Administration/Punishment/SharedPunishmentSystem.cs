@@ -1,11 +1,10 @@
 using Content.Shared.Chat;
 using Content.Shared.Examine;
 using Content.Shared.Paper;
-using Robust.Shared.Network;
 
 namespace Content.Shared._Classic.Administration.Punishment;
 
-public sealed class PunishmentSystem : EntitySystem
+public abstract partial class SharedPunishmentSystem : EntitySystem
 {
     public override void Initialize()
     {
