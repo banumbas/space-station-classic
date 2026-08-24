@@ -136,3 +136,28 @@ loadout-group-NanotrasenCareerTrainer-eyewear = Очки Карьерного и
 
 # Security
 loadout-group-warden-neck = Аксессуар (шея) смотрителя
+
+
+# Additional Missing Groups
+loadout-group-assistant-jumpsuit = Комбинезон ассистента
+loadout-group-assistant-mask = Маска ассистента
+loadout-group-assistant-gloves = Перчатки ассистента
+loadout-group-assistant-neck = Аксессуар (шея) ассистента
+loadout-group-assistant-outerclothing = Верхняя одежда ассистента
+loadout-group-assistant-shoes = Обувь ассистента
+loadout-group-radiohost-jumpsuit = Комбинезон ведущего радио
+loadout-group-radiohost-glasses = Очки ведущего радио
+loadout-group-radiohost-jackets = Верхняя одежда ведущего радио
+loadout-group-assistantmanager-head = Головной убор управляющего ассистентами
+loadout-group-assistantmanager-jumpsuit = Комбинезон управляющего ассистентами
+loadout-group-assistantmanager-backpack = Рюкзак управляющего ассистентами
+loadout-group-assistantmanager-gloves = Перчатки управляющего ассистентами
+loadout-group-assistantmanager-outerclothing = Верхняя одежда управляющего ассистентами
+loadout-group-assistantmanager-shoes = Обувь управляющего ассистентами
+loadout-group-captain-eyewear = Очки Капитана
+loadout-group-security-eyewear = Очки СБ
+loadout-group-detective-lethal = Летальное оружие детектива
+loadout-group-brigmedic-outerclothing = Верхняя одежда бригмедика
+loadout-group-brigmedic-eyewear = Очки бригмедика
+loadout-group-brigmedic-belt = Пояс бригмедика
+loadout-group-neocyte-cybernetics = Кибернетика неоцитов
