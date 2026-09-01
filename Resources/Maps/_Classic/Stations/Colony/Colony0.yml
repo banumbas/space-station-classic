@@ -15,22 +15,22 @@ nullspace: []
 tilemap:
   1: Space
   8: ClassicCobblestone
-  14: ClassicDarkHerringbone
-  15: ClassicDarkLarge
-  13: ClassicDarkSmall
-  9: ClassicDarkfull
+  14: FloorDarkHerringbone
+  15: FloorDarkMono
+  13: FloorDarkMini
+  9: FloorDark
   6: ClassicDirt
-  10: ClassicFloor
+  10: FloorSteel
   4: ClassicGrass
   7: ClassicGrassLight
   5: ClassicGrassTall
   18: ClassicSand
-  11: ClassicTexturedDark
-  12: ClassicTexturedDarkLarge
-  19: ClassicTexturedWhite
-  20: ClassicTexturedWhiteLarge
-  16: ClassicWhite
-  17: ClassicWhiteDiagonal
+  11: FloorDark
+  12: FloorDarkMono
+  19: FloorWhite
+  20: FloorWhiteMono
+  16: FloorWhite
+  17: FloorWhiteDiagonal
   3: FloorGrass
   2: Lattice
   0: Plating

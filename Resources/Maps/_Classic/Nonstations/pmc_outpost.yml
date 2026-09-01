@@ -14,14 +14,14 @@ orphans: []
 nullspace: []
 tilemap:
   1: Space
-  7: ClassicDarkLarge
-  5: ClassicDarkfull
-  6: ClassicSmoothLarge
-  12: ClassicTexturedDark
-  13: ClassicTexturedDarkLarge
-  10: ClassicWood
-  9: ClassicWoodParquet
-  11: ClassicWoodTile
+  7: FloorDarkMono
+  5: FloorDark
+  6: FloorGrayConcreteSmooth
+  12: FloorDark
+  13: FloorDarkMono
+  10: FloorWood
+  9: FloorWoodParquet
+  11: FloorWoodTile
   2: FloorDarkBitile
   0: FloorMiningLight
   8: FloorReinforced
