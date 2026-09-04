@@ -43,25 +43,78 @@ public sealed partial class ClassicStationBiomeSystem : EntitySystem
 
     private void OnStationPostInit(Entity<ClassicStationBiomeComponent> ent, ref StationPostInitEvent args)
     {
-        var stationUid = args.Station.Owner;
-        var stationGrid = _station.GetLargestGrid(stationUid);
-        if (stationGrid == null)
-            return;
+        TrySetupPlanet(ent, out _, out _, out _);
+    }
 
-        var stationGridUid = stationGrid.Value;
+    private bool TrySetupPlanet(
+        Entity<ClassicStationBiomeComponent> station,
+        out EntityUid stationGridUid,
+        out MapGridComponent stationGrid,
+        out EntityUid mapUid)
+    {
+        stationGridUid = EntityUid.Invalid;
+        stationGrid = default!;
+        mapUid = EntityUid.Invalid;
+
+        var stationGridEntity = _station.GetLargestGrid(station.Owner);
+        if (stationGridEntity == null)
+            return false;
+
+        stationGridUid = stationGridEntity.Value;
         if (!_xformQuery.TryComp(stationGridUid, out var stationGridXform))
-            return;
+            return false;
 
-        var mapUid = _map.GetMapOrInvalid(stationGridXform.MapID);
+        mapUid = _map.GetMapOrInvalid(stationGridXform.MapID);
         if (mapUid == EntityUid.Invalid)
-            return;
+            return false;
 
-        if (!_gridQuery.TryComp(stationGridUid, out var stationMapGrid))
-            return;
+        if (!_gridQuery.TryComp(stationGridUid, out var foundStationGrid))
+            return false;
 
-        SetupBiome(stationGridUid, ent.Comp);
-        SetupPlanetGrid(stationGridUid, stationMapGrid, ent.Comp);
-        SetupPlanetMap(mapUid, ent.Comp);
+        stationGrid = foundStationGrid;
+        SetupBiome(stationGridUid, station.Comp);
+        SetupPlanetGrid(stationGridUid, stationGrid, station.Comp);
+        SetupPlanetMap(mapUid, station.Comp);
+        return true;
+    }
+
+    /// <summary>
+    /// Generates persistent planetary terrain underneath the world-space bounds of the supplied grids.
+    /// </summary>
+    public bool TryGenerateBiomeGround(
+        Entity<ClassicStationBiomeComponent?> station,
+        MapId groundMapId,
+        IReadOnlyList<EntityUid> sourceGrids)
+    {
+        if (!Resolve(station, ref station.Comp, false) ||
+            !TrySetupPlanet((station.Owner, station.Comp), out var stationGridUid, out var stationGrid, out _) ||
+            !_xformQuery.TryComp(stationGridUid, out var stationGridXform) ||
+            stationGridXform.MapID != groundMapId ||
+            !TryComp<BiomeComponent>(stationGridUid, out var biome))
+        {
+            return false;
+        }
+
+        var groundInvWorld = _transform.GetInvWorldMatrix(stationGridXform);
+        var tiles = new List<(Vector2i Index, Tile Tile)>();
+
+        foreach (var sourceGridUid in sourceGrids)
+        {
+            if (sourceGridUid == EntityUid.Invalid ||
+                !_gridQuery.TryComp(sourceGridUid, out var sourceGrid) ||
+                !_xformQuery.TryComp(sourceGridUid, out var sourceXform))
+            {
+                continue;
+            }
+
+            var worldBounds = _transform.GetWorldMatrix(sourceXform).TransformBox(sourceGrid.LocalAABB);
+            var groundLocalBounds = groundInvWorld.TransformBox(worldBounds);
+
+            tiles.Clear();
+            _biome.ReserveTiles(stationGridUid, groundLocalBounds, tiles, biome, stationGrid);
+        }
+
+        return true;
     }
 
     private void SetupBiome(EntityUid gridUid, ClassicStationBiomeComponent component)

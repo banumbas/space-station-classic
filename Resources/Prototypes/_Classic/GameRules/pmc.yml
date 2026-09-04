@@ -11,6 +11,7 @@
   - type: ClassicMergeMapRule
     mapPath: /Maps/_Classic/Nonstations/pmc_outpost.yml
     targetDepth: 1
+    biomeGroundDepth: 0
   - type: AntagSelection
     selectionTime: PrePlayerSpawn
     antags:

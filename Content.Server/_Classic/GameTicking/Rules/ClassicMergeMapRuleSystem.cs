@@ -1,5 +1,6 @@
 using System.Linq;
 using Content.Server._Classic.GameTicking.Rules.Components;
+using Content.Server._Classic.Station;
 using Content.Server._Classic.ZLevels.Core;
 using Content.Server._Classic.ZLevels.Core.Components;
 using Content.Server.GameTicking;
@@ -22,6 +23,7 @@ public sealed partial class ClassicMergeMapRuleSystem : EntitySystem
     [Dependency] private GameTicker _ticker = default!;
     [Dependency] private MapLoaderSystem _mapLoader = default!;
     [Dependency] private SharedMapSystem _map = default!;
+    [Dependency] private ClassicStationBiomeSystem _stationBiome = default!;
     [Dependency] private ClassicZLevelsSystem _zLevels = default!;
 
     private readonly HashSet<EntityUid> _pendingRules = [];
@@ -81,12 +83,23 @@ public sealed partial class ClassicMergeMapRuleSystem : EntitySystem
         if (rule.Owner == EntityUid.Invalid || !Exists(rule.Owner))
             return false;
 
-        if (!TryFindTargetMap(rule.Comp.TargetDepth, requiredNetwork, out var mapId))
+        if (!TryFindTargetMap(
+                rule.Comp.TargetDepth,
+                requiredNetwork,
+                out var stationUid,
+                out var networkUid,
+                out var network,
+                out var mapId))
+        {
             return false;
+        }
 
         var key = new MergedMapKey(mapId, rule.Comp.MapPath);
         if (_loadedMaps.TryGetValue(key, out var loaded))
         {
+            if (!TryGenerateBiomeGround(rule, stationUid, (networkUid, network), loaded.Grids))
+                return false;
+
             NotifyRule(rule.Owner, loaded.MapId, loaded.Grids);
             return true;
         }
@@ -109,22 +122,60 @@ public sealed partial class ClassicMergeMapRuleSystem : EntitySystem
 
         var data = new LoadedMapData(mapId, gridUids);
         _loadedMaps.Add(key, data);
+
+        if (!TryGenerateBiomeGround(rule, stationUid, (networkUid, network), data.Grids))
+            return false;
+
         NotifyRule(rule.Owner, data.MapId, data.Grids);
         return true;
     }
 
-    private bool TryFindTargetMap(int targetDepth, EntityUid? requiredNetwork, out MapId mapId)
+    private bool TryGenerateBiomeGround(
+        Entity<ClassicMergeMapRuleComponent> rule,
+        EntityUid stationUid,
+        Entity<ClassicZMapNetworkComponent?> network,
+        IReadOnlyList<EntityUid> grids)
     {
+        if (rule.Comp.BiomeGroundDepth is not { } groundDepth)
+            return true;
+
+        if (!_zLevels.TryGetMapAtDepth(network, groundDepth, out var groundMapUid) ||
+            groundMapUid == EntityUid.Invalid ||
+            !TryComp<MapComponent>(groundMapUid, out var groundMap) ||
+            !_map.MapExists(groundMap.MapId) ||
+            !_stationBiome.TryGenerateBiomeGround(stationUid, groundMap.MapId, grids))
+        {
+            Log.Error($"Failed to generate biome ground for rule map {rule.Comp.MapPath} " +
+                      $"at Classic Z-depth {groundDepth}.");
+            _pendingRules.Remove(rule.Owner);
+            _ticker.EndGameRule(rule.Owner);
+            return false;
+        }
+
+        return true;
+    }
+
+    private bool TryFindTargetMap(
+        int targetDepth,
+        EntityUid? requiredNetwork,
+        out EntityUid stationUid,
+        out EntityUid networkUid,
+        out ClassicZMapNetworkComponent network,
+        out MapId mapId)
+    {
+        stationUid = EntityUid.Invalid;
+        networkUid = EntityUid.Invalid;
+        network = default!;
         mapId = MapId.Nullspace;
 
         var stations = EntityQueryEnumerator<ClassicStationZLevelsComponent>();
-        while (stations.MoveNext(out _, out var station))
+        while (stations.MoveNext(out var candidateStationUid, out var station))
         {
-            if (station.ZNetworkEntity is not { } networkUid ||
-                networkUid == EntityUid.Invalid ||
-                requiredNetwork is { } required && networkUid != required ||
-                !TryComp<ClassicZMapNetworkComponent>(networkUid, out var network) ||
-                !_zLevels.TryGetMapAtDepth((networkUid, network), targetDepth, out var mapUid) ||
+            if (station.ZNetworkEntity is not { } candidateNetworkUid ||
+                candidateNetworkUid == EntityUid.Invalid ||
+                requiredNetwork is { } required && candidateNetworkUid != required ||
+                !TryComp<ClassicZMapNetworkComponent>(candidateNetworkUid, out var candidateNetwork) ||
+                !_zLevels.TryGetMapAtDepth((candidateNetworkUid, candidateNetwork), targetDepth, out var mapUid) ||
                 mapUid == EntityUid.Invalid ||
                 !TryComp<MapComponent>(mapUid, out var mapComponent) ||
                 !_map.MapExists(mapComponent.MapId))
@@ -132,6 +183,9 @@ public sealed partial class ClassicMergeMapRuleSystem : EntitySystem
                 continue;
             }
 
+            stationUid = candidateStationUid;
+            networkUid = candidateNetworkUid;
+            network = candidateNetwork;
             mapId = mapComponent.MapId;
             return true;
         }

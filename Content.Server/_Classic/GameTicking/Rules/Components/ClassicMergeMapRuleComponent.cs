@@ -21,4 +21,10 @@ public sealed partial class ClassicMergeMapRuleComponent : Component
     /// </summary>
     [DataField(required: true)]
     public int TargetDepth;
+
+    /// <summary>
+    /// When set, generates permanent biome terrain on this Z-depth underneath the merged grids.
+    /// </summary>
+    [DataField]
+    public int? BiomeGroundDepth;
 }
