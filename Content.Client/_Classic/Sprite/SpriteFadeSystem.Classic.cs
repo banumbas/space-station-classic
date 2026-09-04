@@ -1,6 +1,7 @@
 #pragma warning disable IDE0130 // Namespace does not match folder structure
 using Content.Client.Gameplay;
 using Content.Client.IconSmoothing;
+using Content.Shared._Classic.Sprite;
 using Content.Shared.IconSmoothing;
 using Content.Shared.Sprite;
 using Robust.Client.GameObjects;
@@ -20,10 +21,12 @@ public sealed partial class SpriteFadeSystem
     private readonly HashSet<ClassicFadingSpriteComponent> _classicFading = [];
 
     private EntityQuery<ClassicFadingSpriteComponent> _classicFadingQuery;
+    private EntityQuery<ClassicPerspectiveDepthComponent> _perspectiveDepthQuery;
 
     private void InitializeClassic()
     {
         _classicFadingQuery = GetEntityQuery<ClassicFadingSpriteComponent>();
+        _perspectiveDepthQuery = GetEntityQuery<ClassicPerspectiveDepthComponent>();
 
         SubscribeLocalEvent<ClassicFadingSpriteComponent, ComponentShutdown>(OnClassicFadingShutdown);
     }
@@ -90,7 +93,7 @@ public sealed partial class SpriteFadeSystem
         foreach (var entity in _classicNearby)
         {
             if (!_spriteQuery.TryComp(entity, out var sprite) ||
-                sprite.DrawDepth < playerSprite.DrawDepth)
+                GetHighestDrawDepth(entity, sprite) < playerSprite.DrawDepth)
             {
                 continue;
             }
@@ -130,7 +133,7 @@ public sealed partial class SpriteFadeSystem
                     !_fadeQuery.TryComp(entity, out var fade) ||
                     !IsClassicTopFade(entity, fade) ||
                     !_spriteQuery.TryComp(entity, out var sprite) ||
-                    sprite.DrawDepth < playerSprite.DrawDepth)
+                    GetHighestDrawDepth(entity, sprite) < playerSprite.DrawDepth)
                 {
                     continue;
                 }
@@ -239,6 +242,13 @@ public sealed partial class SpriteFadeSystem
 
         return !HasComp<IconSmoothComponent>(entity) &&
                _transform.GetWorldRotation(entity).GetCardinalDir() == Direction.North;
+    }
+
+    private int GetHighestDrawDepth(EntityUid entity, SpriteComponent sprite)
+    {
+        return _perspectiveDepthQuery.HasComp(entity)
+            ? Math.Max(sprite.DrawDepth, ClassicPerspectiveDepthComponent.OverlayDrawDepth)
+            : sprite.DrawDepth;
     }
 
     private void FadeOutClassic(float change)

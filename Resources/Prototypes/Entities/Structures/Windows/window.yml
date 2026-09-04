@@ -29,6 +29,8 @@
   - type: Sprite
     drawdepth: Overdoors # Classic-Edit
     sprite: _Classic/Structures/Windows/normal_window.rsi # Classic-Edit
+  - type: ClassicPerspectiveDepth # Classic-Edit
+    baseDrawDepth: WallTops
   - type: Icon
     sprite: _Classic/Structures/Windows/normal_window.rsi # Classic-Edit
     state: full
@@ -161,6 +163,8 @@
     drawdepth: Overdoors
     sprite: _Classic/Structures/Windows/Directional/normal.rsi
     state: window
+  - type: ClassicPerspectiveDepth # Classic-Edit
+    baseDrawDepth: WallTops
   - type: Icon
     sprite: _Classic/Structures/Windows/Directional/normal.rsi
     state: window

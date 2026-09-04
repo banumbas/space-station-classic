@@ -28,6 +28,7 @@
   - type: IsRoof
   - type: Sprite
     drawdepth: Walls
+  - type: ClassicPerspectiveDepth # Classic-Edit
   - type: Icon
     state: full
   - type: PlacementReplacement

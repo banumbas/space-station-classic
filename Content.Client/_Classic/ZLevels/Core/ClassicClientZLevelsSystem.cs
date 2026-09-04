@@ -6,6 +6,7 @@
 using System.Collections.Generic;
 using System.Numerics;
 using Content.Client._Classic.ZLevels.Core.Overlays;
+using Content.Shared._Classic.Sprite;
 using Content.Shared._Classic.ZLevels.Core.Components;
 using Content.Shared._Classic.ZLevels.Core.EntitySystems;
 using Content.Shared.Camera;
@@ -76,7 +77,9 @@ public sealed partial class ClassicClientZLevelsSystem : ClassicSharedZLevelsSys
         if (sprite.SnapCardinals)
             return;
 
-        ent.Comp.DrawDepthDefault = sprite.DrawDepth;
+        ent.Comp.DrawDepthDefault = TryComp<ClassicPerspectiveDepthComponent>(ent, out var perspective)
+            ? perspective.BaseDrawDepth
+            : sprite.DrawDepth;
         ent.Comp.SpriteOffsetDefault = sprite.Offset;
     }
 
