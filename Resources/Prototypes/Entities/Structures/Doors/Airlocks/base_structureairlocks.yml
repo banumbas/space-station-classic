@@ -22,7 +22,7 @@
   - type: Sprite
     sprite: _Classic/Structures/Doors/Airlocks/Standard/basic.rsi
     snapCardinals: false
-    drawdepth: Overdoors
+    drawdepth: Doors # Classic-Edit - below perspective wall overhangs
     layers:
     - state: closed
       map: ["enum.DoorVisualLayers.Base"]
@@ -76,8 +76,8 @@
   - type: AccessReader
     containerAccessProvider: board
   - type: Door
-    openDrawDepth: Overdoors
-    closedDrawDepth: Overdoors
+    openDrawDepth: Doors # Classic-Edit - below perspective wall overhangs
+    closedDrawDepth: Doors # Classic-Edit - below perspective wall overhangs
     crushDamage:
       types:
         Blunt: 15
