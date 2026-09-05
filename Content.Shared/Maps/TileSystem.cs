@@ -3,7 +3,6 @@ using System.Numerics;
 using Content.Shared.CCVar;
 using Content.Shared.Coordinates.Helpers;
 using Content.Shared.Decals;
-using Content.Shared.Parallax.Biomes; // Classic-Edit
 using Content.Shared.Tiles;
 using Robust.Shared.Configuration;
 using Robust.Shared.GameStates;
@@ -27,7 +26,6 @@ public sealed partial class TileSystem : EntitySystem
     [Dependency] private SharedDecalSystem _decal = default!;
     [Dependency] private SharedMapSystem _maps = default!;
     [Dependency] private TurfSystem _turf = default!;
-    [Dependency] private SharedBiomeSystem _biome = default!; // Classic-Edit
     [Dependency] private IGameTiming _timing = default!;
 
     public const int ChunkSize = 16;
@@ -320,17 +318,6 @@ public sealed partial class TileSystem : EntitySystem
         }
 
         var previousDef = (ContentTileDefinition)_tileDefinitionManager[previousTileId];
-
-        // Classic-Start
-        if (previousDef.TileId == 0 && TryComp<BiomeComponent>(gridUid, out var biome))
-        {
-            if (_biome.TryGetTile(indices, biome.Layers, biome.Seed, (gridUid, mapGrid), out var biomeTile))
-            {
-                _maps.SetTile(gridUid, mapGrid, tileRef.GridIndices, biomeTile.Value);
-                return true;
-            }
-        }
-        // Classic-End
 
         //Replace tile with the one it was placed on
         _maps.SetTile(gridUid, mapGrid, indices, new Tile(previousDef.TileId));
