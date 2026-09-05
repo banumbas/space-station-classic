@@ -1,6 +1,8 @@
 - type: tile
   id: ClassicGrass
   name: classic-tiles-grass
+  naturalTerrain: true
+  deconstructTools: [ Digging ]
   sprite: /Textures/_Classic/Tiles/Grass/grass.png
   variants: 6
   placementVariants:
@@ -30,6 +32,8 @@
 - type: tile
   id: ClassicGrassLight
   name: classic-tiles-grass-light
+  naturalTerrain: true
+  deconstructTools: [ Digging ]
   sprite: /Textures/_Classic/Tiles/GrassLight/grass.png
   variants: 6
   placementVariants:
@@ -59,6 +63,8 @@
 - type: tile
   id: ClassicGrassTall
   name: classic-tiles-grass-tall
+  naturalTerrain: true
+  deconstructTools: [ Digging ]
   sprite: /Textures/_Classic/Tiles/GrassTall/grass.png
   variants: 6
   placementVariants:
@@ -88,6 +94,8 @@
 - type: tile
   id: ClassicGrassBlood
   name: classic-tiles-bloodgrass
+  naturalTerrain: true
+  deconstructTools: [ Digging ]
   sprite: /Textures/_Classic/Tiles/GrassBlood/grass.png
   variants: 6
   placementVariants:
@@ -117,6 +125,8 @@
 - type: tile
   id: ClassicGrassLightBlood
   name: classic-tiles-bloodgrass-light
+  naturalTerrain: true
+  deconstructTools: [ Digging ]
   sprite: /Textures/_Classic/Tiles/GrassBloodLight/grass.png
   variants: 6
   placementVariants:
@@ -146,6 +156,8 @@
 - type: tile
   id: ClassicGrassTallBlood
   name: classic-tiles-bloodgrass-tall
+  naturalTerrain: true
+  deconstructTools: [ Digging ]
   sprite: /Textures/_Classic/Tiles/GrassBloodTall/grass.png
   variants: 6
   placementVariants:
