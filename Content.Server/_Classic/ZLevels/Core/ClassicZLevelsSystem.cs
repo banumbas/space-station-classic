@@ -39,6 +39,12 @@ public sealed partial class ClassicZLevelsSystem : ClassicSharedZLevelsSystem
         SubscribeLocalEvent<ClassicZMapComponent, EntityTerminatingEvent>(OnZMapTerminating);
     }
 
+    public override void Shutdown()
+    {
+        base.Shutdown();
+        ShutdownView();
+    }
+
     private void OnStationTerminating(Entity<ClassicStationZLevelsComponent> ent, ref EntityTerminatingEvent args)
     {
         if (ent.Comp.ZNetworkEntity is { } netUid && Exists(netUid))

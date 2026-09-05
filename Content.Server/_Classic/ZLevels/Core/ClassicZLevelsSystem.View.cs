@@ -6,9 +6,11 @@
 using Content.Shared._Classic.ZLevels.Core.Components;
 using Content.Shared._Classic.ZLevels.Core.EntitySystems;
 using Content.Shared.Actions;
+using Content.Shared.CCVar;
 using Content.Shared.IdentityManagement;
 using Content.Shared.Popups;
 using Robust.Server.GameObjects;
+using Robust.Shared.Configuration;
 using Robust.Shared.Map;
 using Robust.Shared.Player;
 using Robust.Shared.Prototypes;
@@ -19,6 +21,7 @@ namespace Content.Server._Classic.ZLevels.Core;
 public sealed partial class ClassicZLevelsSystem
 {
     [Dependency] private IGameTiming _timing = default!;
+    [Dependency] private IConfigurationManager _configuration = default!;
     [Dependency] private SharedActionsSystem _actions = default!;
     [Dependency] private ViewSubscriberSystem _viewSubscriber = default!;
     [Dependency] private SharedPopupSystem _popup = default!;
@@ -30,6 +33,10 @@ public sealed partial class ClassicZLevelsSystem
 
     private void InitView()
     {
+        _configuration.OnValueChanged(
+            CCVars.ClassicZLevelsRenderingMaxZLevelsBelowRendering,
+            OnMaxLevelsBelowChanged);
+
         SubscribeLocalEvent<PlayerAttachedEvent>(OnPlayerAttached);
         SubscribeLocalEvent<PlayerDetachedEvent>(OnPlayerDetached);
 
@@ -37,6 +44,20 @@ public sealed partial class ClassicZLevelsSystem
         SubscribeLocalEvent<ClassicZLevelViewerComponent, ComponentRemove>(OnCompRemove);
 
         SubscribeLocalEvent<ClassicZLevelViewerComponent, MapUidChangedEvent>(OnViewerMapUidChanged);
+    }
+
+    private void ShutdownView()
+    {
+        _configuration.UnsubValueChanged(
+            CCVars.ClassicZLevelsRenderingMaxZLevelsBelowRendering,
+            OnMaxLevelsBelowChanged);
+    }
+
+    private void OnMaxLevelsBelowChanged(int value)
+    {
+        var query = EntityQueryEnumerator<ClassicZLevelViewerComponent>();
+        while (query.MoveNext(out var uid, out var viewer))
+            UpdateViewer((uid, viewer));
     }
 
     private void UpdateView(float frameTime)
@@ -108,7 +129,15 @@ public sealed partial class ClassicZLevelsSystem
 
         var globalPos = _transform.GetWorldPosition(xform);
 
-        for (var i = 1; i <= MaxZLevelsBelowRendering; i++)
+        // Match the replicated render limit, while always preloading one physical landing level.
+        // A render limit of zero must not leave procedural stone absent until after a player falls
+        // into that map. With the default value, only the one adjacent lower level is subscribed.
+        var maxLevelsBelow = Math.Clamp(
+            Math.Max(1, _configuration.GetCVar(CCVars.ClassicZLevelsRenderingMaxZLevelsBelowRendering)),
+            1,
+            MaxZLevelsBelowRendering);
+
+        for (var i = 1; i <= maxLevelsBelow; i++)
         {
             if (!TryMapOffset(map.Value, -i, out var mapUidBelow))
                 break;
@@ -120,8 +149,11 @@ public sealed partial class ClassicZLevelsSystem
             eyes.Add(newEye);
         }
 
-        // We constantly load the upper z-levels for the client so that you can quickly look up and climb stairs without PVS lag.
-        for (var i = 1; i <= MaxZLevelsAboveRendering; i++)
+        // Keep only the adjacent upper level warm. On -Z3, subscribing all three possible upper
+        // maps would stream -Z2, -Z1 and the surface even though normal rendering/climbing only
+        // needs the next map. This bounds biome, PVS and network work independently of depth.
+        const int upperPreloadLevels = 1;
+        for (var i = 1; i <= Math.Min(upperPreloadLevels, MaxZLevelsAboveRendering); i++)
         {
             if (!TryMapOffset(map.Value, i, out var mapUidAbove))
                 break;

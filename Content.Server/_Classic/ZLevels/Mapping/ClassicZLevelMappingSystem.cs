@@ -98,12 +98,14 @@ public sealed partial class ClassicZLevelMappingSystem : EntitySystem
 
         foreach (var grid in _map.GetAllGrids(mapComponent.MapId))
         {
+            if (!HasComp<Content.Shared._Classic.ZLevels.Roof.ClassicZLevelRoofComponent>(grid.Owner))
+                continue;
+
             EnsureComp<RoofComponent>(grid.Owner);
             // The loaded map prototypes commonly contain ImplicitRoof. It
             // overrides the per-tile roof mask and makes the whole z-level
             // dark, including the top level where there is no roof above it.
             RemCompDeferred<ImplicitRoofComponent>(grid.Owner);
-            EnsureComp<Content.Shared._Classic.ZLevels.Roof.ClassicZLevelRoofComponent>(grid.Owner);
             EnsureComp<SunShadowComponent>(grid.Owner);
             var shadowCycle = EnsureComp<SunShadowCycleComponent>(grid.Owner);
             if (baseCycle is { } sharedGridCycle)

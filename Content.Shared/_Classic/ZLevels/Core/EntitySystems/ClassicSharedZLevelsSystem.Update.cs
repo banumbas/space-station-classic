@@ -18,6 +18,7 @@ public abstract partial class ClassicSharedZLevelsSystem
         base.Update(frameTime);
 
         UpdateCalls = 0;
+        FlushMovementBodyRefreshes();
 
         if (_net.IsClient && !_clientSimulation)
             return;
