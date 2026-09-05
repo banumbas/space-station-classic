@@ -50,6 +50,11 @@ public abstract partial class SharedToolSystem
         if (comp.RequiresUnobstructed && _turfs.IsTileBlocked(gridUid, tileRef.GridIndices, CollisionGroup.MobMask))
             return;
 
+        // Classic-Start
+        if (!CanDigClassicTile(tileRef, tool.Qualities))
+            return;
+        // Classic-End
+
         if (!TryDeconstructWithToolQualities(tileRef, tool.Qualities))
             return;
 
@@ -79,6 +84,11 @@ public abstract partial class SharedToolSystem
 
         if (string.IsNullOrWhiteSpace(tileDef.BaseTurf))
             return false;
+
+        // Classic-Start
+        if (!CanDigClassicTile(tileRef, tool.Qualities))
+            return false;
+        // Classic-End
 
         if (comp.RequiresUnobstructed && _turfs.IsTileBlocked(gridUid, tileRef.GridIndices, CollisionGroup.MobMask))
             return false;

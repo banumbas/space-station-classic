@@ -305,10 +305,10 @@ public sealed partial class TileSystem : EntitySystem
             previousTileId = tileDef.BaseTurf.Value;
         }
 
-        if (spawnItem)
+        if (spawnItem && tileDef.ItemDropPrototypeName is { } itemDrop) // classic-edit
         {
             //Actually spawn the relevant tile item at the right position and give it some random offset.
-            var tileItem = Spawn(tileDef.ItemDropPrototypeName, coordinates);
+            var tileItem = Spawn(itemDrop, coordinates); // classic-edit
             Transform(tileItem).LocalRotation = _robustRandom.NextDouble() * Math.Tau;
         }
 
