@@ -124,7 +124,15 @@ public abstract partial class SharedRoofSystem : EntitySystem
             chunkData &= ~bitFlag;
         }
 
-        roof.Data[chunkOrigin] = chunkData;
+        // Classic-Start
+        // A zero mask carries no information. Keeping it would make the networked dictionary grow
+        // forever as streamed biome chunks are visited and unloaded.
+        if (chunkData == 0)
+            roof.Data.Remove(chunkOrigin);
+        else
+            roof.Data[chunkOrigin] = chunkData;
+        // Classic-End
+
         Dirty(grid.Owner, roof);
     }
 }

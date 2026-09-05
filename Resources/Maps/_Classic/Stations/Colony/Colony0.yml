@@ -55,7 +55,7 @@ entities:
       name: grid
     - type: Transform
       parent: 1
-      pos: -0.5,-0.5
+      pos: 0,0
     - type: MapGrid
       chunks:
         -2,-1:

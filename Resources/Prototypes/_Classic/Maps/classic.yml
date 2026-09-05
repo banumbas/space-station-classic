@@ -12,13 +12,30 @@
       components:
         - type: ClassicStationBiome
           biome: GrasslandsClassic
+          undergroundLevels:
+          - depth: -1
+            biome: ClassicUndergroundDirtStone
+            loadEntities: true
+          - depth: -2
+            biome: ClassicUndergroundCaves
+            loadEntities: true
+          - depth: -3
+            biome: ClassicUndergroundMagma
+            loadEntities: true
+            parallax: ClassicMagma
+            mapLightColor: "#48160c"
+            temperature: 343.15
         - type: StationNameSetup
           mapNameTemplate: '{0} Planet {1}'
           nameGenerator:
             !type:NanotrasenNameGenerator
             prefixCreator: '14'
         - type: ClassicStationZLevels
-          mapsBelow: []
+          # MapsBelow is loaded from the deepest level toward -Z1.
+          mapsBelow:
+          - /Maps/_Classic/Stations/Colony/ColonyUnderground.yml # -Z3
+          - /Maps/_Classic/Stations/Colony/ColonyUnderground.yml # -Z2
+          - /Maps/_Classic/Stations/Colony/ColonyUnderground.yml # -Z1
           mapsAbove:
           - /Maps/_Classic/Stations/Colony/Colony1.yml
           zLevelsComponentOverrides:
@@ -35,7 +52,6 @@
               parallax: Dirt
             - type: ClassicZLevelRoof
             - type: ClassicAutoGridGravity
-            - type: ClassicGridStability
         - type: StationJobs
           availableJobs:
             #command

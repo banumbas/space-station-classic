@@ -1,81 +1,91 @@
+using Content.Server._Classic.ZCollapse;
+using Content.Server._Classic.ZLevels.Core;
 using Content.Server.Atmos.EntitySystems;
 using Content.Server.Parallax;
 using Content.Server.Station.Events;
 using Content.Server.Station.Systems;
+using Content.Shared._Classic.ZLevels.Core.Components;
+using Content.Shared._Classic.ZLevels.Core.EntitySystems;
 using Content.Shared.Atmos;
 using Content.Shared.Gravity;
 using Content.Shared.Light.Components;
 using Content.Shared.Parallax;
 using Content.Shared.Parallax.Biomes;
+using Content.Shared.Station.Components;
+using Content.Shared._Classic.Station.Components;
+using Content.Shared._Classic.ZLevels.Roof;
 using Robust.Shared.Map;
 using Robust.Shared.Map.Components;
 using Robust.Shared.Prototypes;
+using Robust.Shared.Random;
 
 namespace Content.Server._Classic.Station;
 
 /// <summary>
-/// Creates a planet biome on the station grid itself so tile/node/power systems
-/// keep seeing one connected grid.
+/// Configures the surface and data-driven underground terrain grids for Classic stations.
 /// </summary>
 public sealed partial class ClassicStationBiomeSystem : EntitySystem
 {
-    [Dependency] private readonly AtmosphereSystem _atmosphere = default!;
-    [Dependency] private readonly BiomeSystem _biome = default!;
-    [Dependency] private readonly IPrototypeManager _proto = default!;
-    [Dependency] private readonly StationSystem _station = default!;
-    [Dependency] private readonly SharedMapSystem _map = default!;
+    [Dependency] private AtmosphereSystem _atmosphere = default!;
+    [Dependency] private BiomeSystem _biome = default!;
+    [Dependency] private IPrototypeManager _proto = default!;
+    [Dependency] private StationSystem _station = default!;
+    [Dependency] private SharedMapSystem _map = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
-
-    private static readonly GasMixture PlanetAtmosphere = CreatePlanetAtmosphere();
-
-    private EntityQuery<TransformComponent> _xformQuery;
-    private EntityQuery<MapGridComponent> _gridQuery;
+    [Dependency] private IRobustRandom _random = default!;
+    [Dependency] private ClassicZLevelsSystem _zLevels = default!;
 
     public override void Initialize()
     {
         base.Initialize();
 
-        _xformQuery = GetEntityQuery<TransformComponent>();
-        _gridQuery = GetEntityQuery<MapGridComponent>();
-
-        SubscribeLocalEvent<ClassicStationBiomeComponent, StationPostInitEvent>(OnStationPostInit);
+        // The Z network is loaded synchronously. Running afterwards lets terrain be attached once,
+        // without a retrying Update loop or map-wide scans every tick.
+        SubscribeLocalEvent<ClassicStationBiomeComponent, StationPostInitEvent>(OnStationPostInit,
+            after: [typeof(ClassicZLevelsSystem)]);
     }
 
     private void OnStationPostInit(Entity<ClassicStationBiomeComponent> ent, ref StationPostInitEvent args)
     {
-        TrySetupPlanet(ent, out _, out _, out _);
-    }
+        var surfaceGridUid = _station.GetLargestGrid(args.Station.Owner);
+        if (surfaceGridUid == null ||
+            !TryComp<MapGridComponent>(surfaceGridUid.Value, out var surfaceGrid) ||
+            Transform(surfaceGridUid.Value).MapUid is not { } surfaceMapUid)
+        {
+            return;
+        }
 
-    private bool TrySetupPlanet(
-        Entity<ClassicStationBiomeComponent> station,
-        out EntityUid stationGridUid,
-        out MapGridComponent stationGrid,
-        out EntityUid mapUid)
-    {
-        stationGridUid = EntityUid.Invalid;
-        stationGrid = default!;
-        mapUid = EntityUid.Invalid;
+        var seed = ent.Comp.Seed ?? _random.Next();
 
-        var stationGridEntity = _station.GetLargestGrid(station.Owner);
-        if (stationGridEntity == null)
-            return false;
+        SetupBiome(surfaceGridUid.Value, ent.Comp.Biome, seed);
+        SetupTerrainGrid(surfaceGridUid.Value, surfaceGrid, ent.Comp.DisableGridSplitting, sunlight: true);
+        SetupSurfaceMap(surfaceMapUid, ent.Comp);
+        EnsureComp<ClassicGridStabilityComponent>(surfaceGridUid.Value);
 
-        stationGridUid = stationGridEntity.Value;
-        if (!_xformQuery.TryComp(stationGridUid, out var stationGridXform))
-            return false;
+        if (!_zLevels.TryGetMapNetwork(surfaceMapUid, out var network))
+            return;
 
-        mapUid = _map.GetMapOrInvalid(stationGridXform.MapID);
-        if (mapUid == EntityUid.Invalid)
-            return false;
+        SetupUpperConstructionLevel(surfaceMapUid, ent.Comp);
 
-        if (!_gridQuery.TryComp(stationGridUid, out var foundStationGrid))
-            return false;
+        ClassicZMapNetworkComponent? networkComponent = network.Comp;
+        var configuredDepths = new HashSet<int>();
+        foreach (var level in ent.Comp.UndergroundLevels)
+        {
+            if (level.Depth >= 0 || !configuredDepths.Add(level.Depth))
+            {
+                Log.Error($"Invalid or duplicate Classic underground depth {level.Depth} on {ToPrettyString(ent)}.");
+                continue;
+            }
 
-        stationGrid = foundStationGrid;
-        SetupBiome(stationGridUid, station.Comp);
-        SetupPlanetGrid(stationGridUid, stationGrid, station.Comp);
-        SetupPlanetMap(mapUid, station.Comp);
-        return true;
+            if (!_zLevels.TryGetMapAtDepth((network.Owner, networkComponent), level.Depth, out var mapUid) ||
+                !TryGetTerrainGrid(mapUid, out var grid))
+            {
+                Log.Error($"Classic underground map/grid at depth {level.Depth} was not loaded.");
+                continue;
+            }
+
+            SetupUndergroundLevel(mapUid, grid, level, seed, ent.Comp.DisableGridSplitting);
+        }
     }
 
     /// <summary>
@@ -86,11 +96,15 @@ public sealed partial class ClassicStationBiomeSystem : EntitySystem
         MapId groundMapId,
         IReadOnlyList<EntityUid> sourceGrids)
     {
-        if (!Resolve(station, ref station.Comp, false) ||
-            !TrySetupPlanet((station.Owner, station.Comp), out var stationGridUid, out var stationGrid, out _) ||
-            !_xformQuery.TryComp(stationGridUid, out var stationGridXform) ||
+        if (!Resolve(station, ref station.Comp, false))
+            return false;
+
+        var stationGridUid = _station.GetLargestGrid(station.Owner);
+        if (stationGridUid == null ||
+            !TryComp<MapGridComponent>(stationGridUid.Value, out var stationGrid) ||
+            !TryComp<TransformComponent>(stationGridUid.Value, out var stationGridXform) ||
             stationGridXform.MapID != groundMapId ||
-            !TryComp<BiomeComponent>(stationGridUid, out var biome))
+            !TryComp<BiomeComponent>(stationGridUid.Value, out var biome))
         {
             return false;
         }
@@ -101,8 +115,8 @@ public sealed partial class ClassicStationBiomeSystem : EntitySystem
         foreach (var sourceGridUid in sourceGrids)
         {
             if (sourceGridUid == EntityUid.Invalid ||
-                !_gridQuery.TryComp(sourceGridUid, out var sourceGrid) ||
-                !_xformQuery.TryComp(sourceGridUid, out var sourceXform))
+                !TryComp<MapGridComponent>(sourceGridUid, out var sourceGrid) ||
+                !TryComp<TransformComponent>(sourceGridUid, out var sourceXform))
             {
                 continue;
             }
@@ -111,25 +125,81 @@ public sealed partial class ClassicStationBiomeSystem : EntitySystem
             var groundLocalBounds = groundInvWorld.TransformBox(worldBounds);
 
             tiles.Clear();
-            _biome.ReserveTiles(stationGridUid, groundLocalBounds, tiles, biome, stationGrid);
+            _biome.ReserveTiles(stationGridUid.Value, groundLocalBounds, tiles, biome, stationGrid);
         }
 
         return true;
     }
 
-    private void SetupBiome(EntityUid gridUid, ClassicStationBiomeComponent component)
+    private void SetupUpperConstructionLevel(EntityUid surfaceMapUid, ClassicStationBiomeComponent component)
     {
-        var biome = EnsureComp<BiomeComponent>(gridUid);
+        if (!_zLevels.TryMapUp(surfaceMapUid, out var upperMap) ||
+            !TryGetTerrainGrid(upperMap.Owner, out var upperGrid))
+        {
+            return;
+        }
 
-        if (component.Seed is { } seed)
-            _biome.SetSeed(gridUid, biome, seed);
-
-        _biome.SetTemplate(gridUid, biome, _proto.Index(component.Biome));
+        SetupTerrainGrid(upperGrid.Owner, upperGrid.Comp, component.DisableGridSplitting, sunlight: true);
+        SetupSurfaceMap(upperMap.Owner, component);
+        EnsureComp<ClassicGridStabilityComponent>(upperGrid.Owner);
     }
 
-    private void SetupPlanetGrid(EntityUid gridUid, MapGridComponent grid, ClassicStationBiomeComponent component)
+    private void SetupUndergroundLevel(
+        EntityUid mapUid,
+        Entity<MapGridComponent> grid,
+        ClassicUndergroundLevelData level,
+        int seed,
+        bool disableGridSplitting)
     {
-        if (component.DisableGridSplitting)
+        var marker = EnsureComp<ClassicUndergroundBiomeComponent>(grid.Owner);
+        EnsureComp<StationAuxiliaryGridComponent>(grid.Owner);
+        marker.Depth = level.Depth;
+        marker.LoadEntities = level.LoadEntities;
+        marker.LoadDecals = level.LoadDecals;
+
+        // Natural terrain is deliberately outside the construction-collapse network.
+        RemComp<ClassicGridStabilityComponent>(grid.Owner);
+
+        SetupBiome(grid.Owner, level.Biome, seed);
+        SetupTerrainGrid(grid.Owner, grid.Comp, disableGridSplitting, sunlight: false);
+        SetupUndergroundMap(mapUid, level);
+    }
+
+    private bool TryGetTerrainGrid(EntityUid mapUid, out Entity<MapGridComponent> grid)
+    {
+        if (TryComp<MapGridComponent>(mapUid, out var mapGrid))
+        {
+            grid = (mapUid, mapGrid);
+            return true;
+        }
+
+        grid = default;
+        if (!TryComp<MapComponent>(mapUid, out var map))
+            return false;
+
+        var largestChunkCount = -1;
+        foreach (var candidate in _map.GetAllGrids(map.MapId))
+        {
+            if (candidate.Comp.ChunkCount <= largestChunkCount)
+                continue;
+
+            largestChunkCount = candidate.Comp.ChunkCount;
+            grid = candidate;
+        }
+
+        return grid.Owner != EntityUid.Invalid;
+    }
+
+    private void SetupBiome(EntityUid gridUid, ProtoId<BiomeTemplatePrototype> template, int seed)
+    {
+        var biome = EnsureComp<BiomeComponent>(gridUid);
+        _biome.SetSeed(gridUid, biome, seed, false);
+        _biome.SetTemplate(gridUid, biome, _proto.Index(template));
+    }
+
+    private void SetupTerrainGrid(EntityUid gridUid, MapGridComponent grid, bool disableGridSplitting, bool sunlight)
+    {
+        if (disableGridSplitting && grid.CanSplit)
         {
             grid.CanSplit = false;
             Dirty(gridUid, grid);
@@ -141,37 +211,62 @@ public sealed partial class ClassicStationBiomeSystem : EntitySystem
         Dirty(gridUid, gravity);
 
         EnsureComp<RoofComponent>(gridUid);
+        EnsureComp<ClassicZLevelRoofComponent>(gridUid);
         RemCompDeferred<ImplicitRoofComponent>(gridUid);
 
-        EnsureComp<SunShadowComponent>(gridUid);
-        EnsureComp<SunShadowCycleComponent>(gridUid);
+        if (sunlight)
+        {
+            EnsureComp<SunShadowComponent>(gridUid);
+            EnsureComp<SunShadowCycleComponent>(gridUid);
+        }
+        else
+        {
+            RemComp<SunShadowComponent>(gridUid);
+            RemComp<SunShadowCycleComponent>(gridUid);
+        }
     }
 
-    private void SetupPlanetMap(EntityUid mapUid, ClassicStationBiomeComponent component)
+    private void SetupSurfaceMap(EntityUid mapUid, ClassicStationBiomeComponent component)
     {
-        var light = EnsureComp<MapLightComponent>(mapUid);
-        light.AmbientLightColor = component.MapLightColor;
-        Dirty(mapUid, light);
+        SetMapLight(mapUid, component.MapLightColor);
 
         var cycle = EnsureComp<LightCycleComponent>(mapUid);
         if (cycle.OriginalColor == Color.Transparent)
-            cycle.OriginalColor = light.AmbientLightColor;
+            cycle.OriginalColor = component.MapLightColor;
         cycle.InitialOffset = false;
         Dirty(mapUid, cycle);
 
-        var parallax = EnsureComp<ParallaxComponent>(mapUid);
-        parallax.Parallax = "Dirt";
-        Dirty(mapUid, parallax);
-
-        _atmosphere.SetMapAtmosphere(mapUid, false, PlanetAtmosphere);
+        SetupMapEnvironment(mapUid, Atmospherics.T20C);
     }
 
-    private static GasMixture CreatePlanetAtmosphere()
+    private void SetupUndergroundMap(EntityUid mapUid, ClassicUndergroundLevelData level)
+    {
+        RemComp<LightCycleComponent>(mapUid);
+        SetMapLight(mapUid, level.MapLightColor);
+        SetupMapEnvironment(mapUid, level.Temperature, level.Parallax);
+    }
+
+    private void SetMapLight(EntityUid mapUid, Color color)
+    {
+        var light = EnsureComp<MapLightComponent>(mapUid);
+        light.AmbientLightColor = color;
+        Dirty(mapUid, light);
+    }
+
+    private void SetupMapEnvironment(EntityUid mapUid, float temperature, string parallaxName = "Dirt")
+    {
+        var parallax = EnsureComp<ParallaxComponent>(mapUid);
+        parallax.Parallax = parallaxName;
+        Dirty(mapUid, parallax);
+
+        _atmosphere.SetMapAtmosphere(mapUid, false, CreatePlanetAtmosphere(temperature));
+    }
+
+    private static GasMixture CreatePlanetAtmosphere(float temperature)
     {
         var moles = new float[Atmospherics.AdjustedNumberOfGases];
-        moles[(int)Gas.Oxygen] = 21.824779f;
-        moles[(int)Gas.Nitrogen] = 82.10312f;
-
-        return new GasMixture(moles, Atmospherics.T20C);
+        moles[(int) Gas.Oxygen] = 21.824779f;
+        moles[(int) Gas.Nitrogen] = 82.10312f;
+        return new GasMixture(moles, temperature);
     }
 }
