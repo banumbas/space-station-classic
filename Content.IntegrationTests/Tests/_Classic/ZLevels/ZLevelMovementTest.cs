@@ -132,6 +132,53 @@ public sealed class ZLevelMovementTest : GameTest
 
     [Test]
     [PairConfig(nameof(ConnectedClient))]
+    public async Task ClientOpeningBoundsIncludeAllHolesAndShrinkAfterClosingOne()
+    {
+        var em = Client.EntMan;
+        var map = em.System<SharedMapSystem>();
+        var cache = em.System<ClassicClientZLevelsSystem>().OpeningCache;
+        var tiles = Client.ResolveDependency<ITileDefinitionManager>();
+        EntityUid mapUid = default;
+        try
+        {
+            await Client.WaitAssertion(() =>
+            {
+                mapUid = map.CreateMap();
+                var grid = map.CreateGridEntity(mapUid);
+                grid.Comp.CanSplit = false;
+                var plating = new Tile(tiles["Plating"].TileId);
+                var batch = new List<(Vector2i, Tile)>();
+                for (var x = -16; x < 16; x++)
+                for (var y = -16; y < 16; y++)
+                    batch.Add((new Vector2i(x, y), plating));
+                map.SetTiles(grid, grid.Comp, batch);
+                var start = new Vector2i(-16, -16);
+                var end = new Vector2i(15, 15);
+                Assert.That(cache.TryGetOpeningBounds(grid, start, end, map, tiles, out _), Is.False);
+
+                var first = new Vector2i(-10, 4);
+                var second = new Vector2i(12, -8);
+                map.SetTile(grid, first, Tile.Empty);
+                map.SetTile(grid, second, Tile.Empty);
+                Assert.That(cache.TryGetOpeningBounds(grid, start, end, map, tiles, out var bounds), Is.True);
+                Assert.That(bounds, Is.EqualTo(new Box2(-10, -8, 13, 5)));
+
+                map.SetTile(grid, first, plating);
+                Assert.That(cache.TryGetOpeningBounds(grid, end, start, map, tiles, out bounds), Is.True);
+                Assert.That(bounds, Is.EqualTo(new Box2(12, -8, 13, -7)));
+                map.SetTile(grid, second, plating);
+                Assert.That(cache.TryGetOpeningBounds(grid, start, end, map, tiles, out _), Is.False);
+            });
+        }
+        finally
+        {
+            if (mapUid != EntityUid.Invalid)
+                await Client.WaitPost(() => em.DeleteEntity(mapUid));
+        }
+    }
+
+    [Test]
+    [PairConfig(nameof(ConnectedClient))]
     public async Task ClientOpeningCacheTracksMultipleTileChangesInOneTick()
     {
         var em = Client.EntMan;

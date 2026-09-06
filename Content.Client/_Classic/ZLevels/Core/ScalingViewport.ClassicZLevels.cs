@@ -27,6 +27,11 @@ public sealed partial class ScalingViewport
 
     private ClassicClientZLevelsSystem? _zLevels;
     private SharedMapSystem? _mapSystem;
+    private SharedTransformSystem? _zTransform;
+    private IClydeViewport? _lowerViewport;
+    private UIBox2 _lowerVisiblePixels;
+
+    [ViewVariables] public Vector2i LowerLevelRenderSize { get; private set; }
 
     private EntityQuery<TransformComponent>? _xformQuery;
     private EntityQuery<MapComponent>? _mapQuery;
@@ -37,7 +42,7 @@ public sealed partial class ScalingViewport
     /// We are looking for at least one empty tile on the screen.
     /// This is used to ensure that it makes sense to draw the z-planes and that they are visible.
     /// </summary>
-    public bool TryFindEmptyTiles(EntityUid mapUid, IClydeViewport viewport)
+    public bool TryFindEmptyTiles(EntityUid mapUid, IClydeViewport viewport, bool captureBounds = false)
     {
         if (_xformQuery is null || !_xformQuery.Value.TryComp(mapUid, out var xform))
             return true;
@@ -55,21 +60,56 @@ public sealed partial class ScalingViewport
 
         var minX = MathF.Min(MathF.Min(corner0.X, corner1.X), MathF.Min(corner2.X, corner3.X));
         var minY = MathF.Min(MathF.Min(corner0.Y, corner1.Y), MathF.Min(corner2.Y, corner3.Y));
-        var maxX = MathF.Max(MathF.Max(corner0.X, corner1.X), MathF.Max(corner2.X, corner3.X));
-        var maxY = MathF.Max(MathF.Max(corner0.Y, corner1.Y), MathF.Max(corner2.Y, corner3.Y));
 
-        var mapCoordsBottomLeft = new MapCoordinates(new Vector2(minX, minY), mapId);
-        var mapCoordsTopRight = new MapCoordinates(new Vector2(maxX, maxY), mapId);
-
-        if (_mapSystem is null || !_mapSystem.TryFindGridAt(mapUid, mapCoordsBottomLeft.Position, out var gridUid, out var grid))
+        if (_mapSystem is null)
             return true;
 
-        var tileBottomLeft = _mapSystem.TileIndicesFor(gridUid, grid, mapCoordsBottomLeft);
-        var tileTopRight = _mapSystem.TileIndicesFor(gridUid, grid, mapCoordsTopRight);
+        if (!_mapSystem.TryFindGridAt(mapUid, new Vector2(minX, minY), out var gridUid, out var grid))
+        {
+            // A corner can itself be an empty tile. Find the grid around the hole instead
+            // of making that small opening trigger a full-screen lower-level pass.
+            var maxX = MathF.Max(MathF.Max(corner0.X, corner1.X), MathF.Max(corner2.X, corner3.X));
+            var maxY = MathF.Max(MathF.Max(corner0.Y, corner1.Y), MathF.Max(corner2.Y, corner3.Y));
+            var state = (Uid: gridUid, Grid: grid, Area: 0f);
+            _mapSystem.FindGridsIntersecting(mapUid, new Box2(minX, minY, maxX, maxY), ref state,
+                static (EntityUid uid, MapGridComponent candidate, ref (EntityUid Uid, MapGridComponent? Grid, float Area) found) =>
+                {
+                    var area = candidate.LocalAABB.Width * candidate.LocalAABB.Height;
+                    if (found.Grid == null || area > found.Area)
+                        found = (uid, candidate, area);
+                    return true;
+                }, approx: true);
+            if (state.Grid == null)
+                return true;
+
+            gridUid = state.Uid;
+            grid = state.Grid;
+        }
+
+        // All four corners are required for a rotated grid/camera.
+        var tile0 = _mapSystem.TileIndicesFor(gridUid, grid, new MapCoordinates(corner0, mapId));
+        var tile1 = _mapSystem.TileIndicesFor(gridUid, grid, new MapCoordinates(corner1, mapId));
+        var tile2 = _mapSystem.TileIndicesFor(gridUid, grid, new MapCoordinates(corner2, mapId));
+        var tile3 = _mapSystem.TileIndicesFor(gridUid, grid, new MapCoordinates(corner3, mapId));
+        var tileBottomLeft = Vector2i.ComponentMin(Vector2i.ComponentMin(tile0, tile1), Vector2i.ComponentMin(tile2, tile3));
+        var tileTopRight = Vector2i.ComponentMax(Vector2i.ComponentMax(tile0, tile1), Vector2i.ComponentMax(tile2, tile3));
 
         // Tile events invalidate only the affected chunks in the system-owned cache. A viewport
         // cache without those events discarded the entire map whenever terrain streamed in.
         _zLevels ??= _entityManager.System<ClassicClientZLevelsSystem>();
+        if (captureBounds)
+        {
+            if (!_zLevels.OpeningCache.TryGetOpeningBounds((gridUid, grid),
+                    tileBottomLeft - Vector2i.One, tileTopRight + Vector2i.One, _mapSystem, _tile, out var localBounds))
+                return false;
+
+            _zTransform ??= _entityManager.System<SharedTransformSystem>();
+            var matrix = _zTransform.GetWorldMatrix(gridUid) * viewport.GetWorldToLocalMatrix();
+            var pixels = matrix.TransformBox(localBounds);
+            _lowerVisiblePixels = new UIBox2(pixels.Left, pixels.Bottom, pixels.Right, pixels.Top);
+            return true;
+        }
+
         return _zLevels.OpeningCache.HasOpeningInTileBounds(
             (gridUid, grid),
             tileBottomLeft - Vector2i.One,
@@ -78,8 +118,9 @@ public sealed partial class ScalingViewport
             _tile);
     }
 
-    private void RenderZLevels(IClydeViewport viewport)
+    private void RenderZLevels(IClydeViewport viewport, IRenderHandle handle)
     {
+        LowerLevelRenderSize = Vector2i.Zero;
         if (_eye is null)
             return;
 
@@ -137,6 +178,8 @@ public sealed partial class ScalingViewport
             ClassicSharedZLevelsSystem.MaxZLevelsBelowRendering);
 
         var lowestDepth = 0;
+        var cropLower = _configuration.GetCVar(CCVars.ClassicZLevelsRenderingCropLowerLevels);
+        _lowerVisiblePixels = UIBox2.FromDimensions(Vector2.Zero, viewport.Size);
         for (var i = 0; i >= -maxLevelsBelow; i--)
         {
             var checkingMap = playerXform.MapUid.Value;
@@ -156,9 +199,38 @@ public sealed partial class ScalingViewport
             if (i == -maxLevelsBelow)
                 break;
 
-            if (!TryFindEmptyTiles(checkingMap, viewport))
+            if (!TryFindEmptyTiles(checkingMap, viewport, captureBounds: cropLower && i == 0))
                 break;
         }
+
+        var lowerBounds = UIBox2i.FromDimensions(Vector2i.Zero, viewport.Size);
+        var lowerViewport = viewport;
+        var lowerCameraOffset = Vector2.Zero;
+        if (lowestDepth < 0 && cropLower)
+        {
+            // Keep a guard band for edge sprites and lighting/blur kernels. Pixel density stays
+            // identical to the main view; only work hidden behind the current floor is omitted.
+            var padding = viewport.RenderScale * EyeManager.PixelsPerMeter * 3f;
+            lowerBounds = ClassicZLevelRenderRegion.Cover(_lowerVisiblePixels, viewport.Size,
+                _lowerViewport?.Size ?? Vector2i.Zero, padding);
+            if (lowerBounds.Size != viewport.Size)
+            {
+                if (_lowerViewport?.Size != lowerBounds.Size)
+                {
+                    _lowerViewport?.Dispose();
+                    _lowerViewport = _clyde.CreateViewport(lowerBounds.Size,
+                        new TextureSampleParameters { Filter = false }, name: "classic-lower-z");
+                }
+
+                lowerViewport = _lowerViewport;
+                lowerViewport.RenderScale = viewport.RenderScale;
+                lowerCameraOffset = viewport.LocalToWorld(lowerBounds.Center).Position -
+                                    viewport.LocalToWorld((Vector2) viewport.Size / 2f).Position;
+            }
+        }
+
+        if (lowestDepth < 0)
+            LowerLevelRenderSize = lowerViewport.Size;
 
         var configuredLightBlur = _configuration.GetCVar(CVars.LightBlur);
         var suppressLowerLightBlur = configuredLightBlur &&
@@ -180,8 +252,21 @@ public sealed partial class ScalingViewport
         {
             for (var depth = lowestDepth; depth <= lookUp; depth++)
             {
+                var target = depth < 0 ? lowerViewport : viewport;
                 if (depth == 0)
+                {
+                    if (!ReferenceEquals(lowerViewport, viewport))
+                    {
+                        handle.RenderInRenderTarget(viewport.RenderTarget, () =>
+                        {
+                            var screen = handle.DrawingHandleScreen;
+                            screen.SetTransform(Matrix3x2.Identity);
+                            screen.UseShader(null);
+                            screen.DrawTextureRect(lowerViewport.RenderTarget.Texture, (UIBox2) lowerBounds);
+                        }, Color.Black);
+                    }
                     viewport.Eye = _fallbackEye;
+                }
                 else
                 {
                     if (!_zLevels.TryMapOffset(playerXform.MapUid.Value, depth, out var mapUidBelow))
@@ -193,12 +278,12 @@ public sealed partial class ScalingViewport
                     Angle rotation = _fallbackEye.Rotation * -1;
                     var offset = rotation.ToWorldVec() * ClassicClientZLevelsSystem.ZLevelOffset * depth;
 
-                    viewport.Eye = new ZEye(lowestDepth, depth, lookUp)
+                    target.Eye = new ZEye(lowestDepth, depth, lookUp)
                     {
                         Position = new MapCoordinates(_fallbackEye.Position.Position, mapComp.MapId),
                         DrawFov = _fallbackEye.DrawFov && depth >= 0,
                         DrawLight = _fallbackEye.DrawLight,
-                        Offset = _fallbackEye.Offset + offset,
+                        Offset = _fallbackEye.Offset + offset + (depth < 0 ? lowerCameraOffset : Vector2.Zero),
                         Rotation = _fallbackEye.Rotation,
                         Scale = _fallbackEye.Scale,
                         DrawContentLightBlur = depth >= 0 || drawLowerContentLightBlur,
@@ -223,8 +308,8 @@ public sealed partial class ScalingViewport
                     softShadowsSuppressed = shouldSuppressSoftShadows;
                 }
 
-                viewport.ClearColor = depth == lowestDepth ? Color.Black : null;
-                viewport.Render();
+                target.ClearColor = depth == lowestDepth ? Color.Black : null;
+                target.Render();
             }
         }
         finally
@@ -238,6 +323,8 @@ public sealed partial class ScalingViewport
             Eye = _fallbackEye;
             viewport.Eye = Eye;
             viewport.ClearColor = fallbackClearColor;
+            if (_lowerViewport != null)
+                _lowerViewport.Eye = null;
         }
     }
 
