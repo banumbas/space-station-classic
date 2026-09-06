@@ -10,7 +10,7 @@ public sealed partial class ClassicCCVars
     /// atmos devices, and ambient temperature exchange are skipped.
     /// </summary>
     public static readonly CVarDef<bool> AtmosEnabled =
-        CVarDef.Create("atmos.enabled", true, CVar.SERVERONLY | CVar.ARCHIVE);
+        CVarDef.Create("atmos.enabled", false, CVar.SERVERONLY | CVar.ARCHIVE);
 
     /// <summary>
     /// When true, shuttle game rules, event shuttles, unknown shuttles, evac pods, and shuttle map loads are disabled.

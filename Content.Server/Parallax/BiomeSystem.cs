@@ -101,6 +101,7 @@ public sealed partial class BiomeSystem : SharedBiomeSystem
     private void ProtoReload(PrototypesReloadedEventArgs obj)
     {
         ClearNoiseCache(); // Classic-add
+        _classicZPhysicsDefaults.Clear(); // Classic-add
 
         if (!obj.ByType.TryGetValue(typeof(BiomeTemplatePrototype), out var reloads))
             return;
@@ -345,6 +346,8 @@ public sealed partial class BiomeSystem : SharedBiomeSystem
 
             _activeChunks.Add(biome, _tilePool.Get());
             // Classic-Start
+            if (_classicStreamingQuery.TryComp(biome.Owner, out var streaming))
+                streaming.ViewerChunks.Clear();
             if (biome.MarkerLayers.Count > 0 || biome.ForcedMarkerLayers.Count > 0)
                 _markerChunks.GetOrNew(biome);
             // Classic-End
@@ -380,7 +383,7 @@ public sealed partial class BiomeSystem : SharedBiomeSystem
                     continue;
                 }
 
-                var worldPos = _transform.GetWorldPosition(xform);
+                var worldPos = ClassicBiomeViewerPosition(pSession.AttachedEntity, viewer, xform); // Classic
                 AddChunksInRange(biome, worldPos);
 
                 foreach (var layer in biome.MarkerLayers)
@@ -421,6 +424,13 @@ public sealed partial class BiomeSystem : SharedBiomeSystem
 
     private void AddChunksInRange(BiomeComponent biome, Vector2 worldPos)
     {
+        // Classic: always generate the physical landing cell of every player and Z-eye first.
+        if (_classicStreamingQuery.TryComp(biome.Owner, out var streaming))
+        {
+            var tile = new Vector2i((int) MathF.Floor(worldPos.X), (int) MathF.Floor(worldPos.Y));
+            streaming.ViewerChunks.Add(SharedMapSystem.GetChunkIndices(tile, ChunkSize) * ChunkSize);
+        }
+
         var enumerator = new ChunkIndicesEnumerator(_loadArea.Translated(worldPos), ChunkSize);
 
         while (enumerator.MoveNext(out var chunkOrigin))
@@ -456,6 +466,13 @@ public sealed partial class BiomeSystem : SharedBiomeSystem
         int seed)
     {
         BuildMarkerChunks(component, gridUid, grid, seed);
+
+        // Classic: spread planetary terrain generation across ticks.
+        if (_classicStreamingQuery.TryComp(gridUid, out var streaming))
+        {
+            LoadClassicStreamingChunks(component, gridUid, grid, seed, streaming);
+            return;
+        }
 
         var active = _activeChunks[component];
 
@@ -911,11 +928,36 @@ public sealed partial class BiomeSystem : SharedBiomeSystem
     {
         var active = _activeChunks[component];
         List<(Vector2i, Tile)>? tiles = null;
+        _classicStreamingQuery.TryComp(gridUid, out var streaming); // Classic
+        var unloaded = 0;
 
         foreach (var chunk in component.LoadedChunks)
         {
-            if (active.Contains(chunk) || !component.LoadedChunks.Remove(chunk))
+            if (active.Contains(chunk))
+            {
+                streaming?.PendingUnloads.Remove(chunk);
                 continue;
+            }
+
+            // Classic: a brief grace period avoids regeneration while crossing a chunk boundary.
+            // The unload budget also prevents deleting a whole view range in one server tick.
+            if (streaming != null)
+            {
+                if (!streaming.PendingUnloads.TryGetValue(chunk, out var deadline))
+                {
+                    streaming.PendingUnloads[chunk] = _classicTiming.CurTime + streaming.UnloadDelay;
+                    continue;
+                }
+                if (_classicTiming.CurTime < deadline ||
+                    unloaded >= Math.Max(1, streaming.BackgroundChunksPerTick) ||
+                    ClassicStreamingBudgetExpired(streaming))
+                    continue;
+                streaming.PendingUnloads.Remove(chunk);
+            }
+
+            if (!component.LoadedChunks.Remove(chunk))
+                continue;
+            unloaded++;
 
             // Unload NOW!
             tiles ??= new List<(Vector2i, Tile)>(ChunkSize * ChunkSize);
@@ -978,7 +1020,7 @@ public sealed partial class BiomeSystem : SharedBiomeSystem
             }
             // Classic-End
 
-            if (!EntityManager.IsDefault(ent) && !ClassicCanUnloadMutatedBiomeEntity(ent)) // Classic-edit
+            if (!ClassicCanUnloadBiomeEntity(gridUid, ent)) // Classic-edit
             {
                 modified.Add(tile);
                 continue;

@@ -27,7 +27,6 @@ public sealed partial class ScalingViewport
 
     private ClassicClientZLevelsSystem? _zLevels;
     private SharedMapSystem? _mapSystem;
-    private readonly ClassicZLevelOpeningCache _openingCache = new();
 
     private EntityQuery<TransformComponent>? _xformQuery;
     private EntityQuery<MapComponent>? _mapQuery;
@@ -68,7 +67,10 @@ public sealed partial class ScalingViewport
         var tileBottomLeft = _mapSystem.TileIndicesFor(gridUid, grid, mapCoordsBottomLeft);
         var tileTopRight = _mapSystem.TileIndicesFor(gridUid, grid, mapCoordsTopRight);
 
-        return _openingCache.HasOpeningInTileBounds(
+        // Tile events invalidate only the affected chunks in the system-owned cache. A viewport
+        // cache without those events discarded the entire map whenever terrain streamed in.
+        _zLevels ??= _entityManager.System<ClassicClientZLevelsSystem>();
+        return _zLevels.OpeningCache.HasOpeningInTileBounds(
             (gridUid, grid),
             tileBottomLeft - Vector2i.One,
             tileTopRight + Vector2i.One,

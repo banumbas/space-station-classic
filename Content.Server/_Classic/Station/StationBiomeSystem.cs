@@ -192,6 +192,7 @@ public sealed partial class ClassicStationBiomeSystem : EntitySystem
 
     private void SetupBiome(EntityUid gridUid, ProtoId<BiomeTemplatePrototype> template, int seed)
     {
+        EnsureComp<ClassicBiomeStreamingComponent>(gridUid);
         var biome = EnsureComp<BiomeComponent>(gridUid);
         _biome.SetSeed(gridUid, biome, seed, false);
         _biome.SetTemplate(gridUid, biome, _proto.Index(template));

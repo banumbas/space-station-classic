@@ -26,6 +26,7 @@ public abstract partial class ClassicSharedZLevelsSystem
 {
     private TimeSpan _accumulatedTime = TimeSpan.Zero;
     private readonly List<EntityUid> _dirtyMovementBodies = new();
+    private readonly HashSet<EntityUid> _dirtyMovementBodySet = new();
     private readonly HashSet<EntityUid> _movementBodyLookup = new();
     private Dictionary<(MapId Map, Vector2i Chunk), Box2> _pendingMovementRefreshes = new();
     private Dictionary<(MapId Map, Vector2i Chunk), Box2> _processingMovementRefreshes = new();
@@ -60,7 +61,7 @@ public abstract partial class ClassicSharedZLevelsSystem
         return target.Comp.LocalPosition - target.Comp.CachedGroundHeight;
     }
 
-    private void OnTileChanged(Entity<MapGridComponent> ent, ref TileChangedEvent args)
+    protected virtual void OnTileChanged(Entity<MapGridComponent> ent, ref TileChangedEvent args)
     {
         if (_net.IsClient && !_clientSimulation)
             return;
@@ -73,31 +74,42 @@ public abstract partial class ClassicSharedZLevelsSystem
             return;
         }
 
-        Box2? changedBounds = null;
+        MapId? aboveMapId = null;
+        if (TryMapUp((mapUid, zMap), out var mapAbove) && _mapQuery.TryComp(mapAbove.Owner, out var mapAboveComp))
+            aboveMapId = mapAboveComp.MapId;
+
         var half = ent.Comp.TileSizeHalfVector;
         foreach (var change in args.Changes)
         {
+            // Ground height depends on the presence of a tile, not its material or variant.
+            // Wall/door collision changes are handled separately below.
+            if (change.OldTile.IsEmpty == change.NewTile.IsEmpty)
+                continue;
+
             var center = _map.GridTileToWorld(ent.Owner, ent.Comp, change.GridIndices).Position;
             var tileBounds = new Box2(center - half, center + half);
-            changedBounds = changedBounds?.Union(tileBounds) ?? tileBounds;
+            QueueMovementRefresh(xform.MapID, center, tileBounds);
+
+            // This level is also the landing surface for bodies one Z-level above.
+            if (aboveMapId is { } above)
+                QueueMovementRefresh(above, center, tileBounds);
         }
-
-        var bounds = changedBounds!.Value;
-        RefreshMovementBodies(xform.MapID, bounds);
-
-        // This level is also the landing surface for bodies one Z-level above.
-        if (TryMapUp((mapUid, zMap), out var mapAbove) && _mapQuery.TryComp(mapAbove.Owner, out var mapAboveComp))
-            RefreshMovementBodies(mapAboveComp.MapId, bounds);
     }
 
     private void OnBlockingAnchorChanged(Entity<FixturesComponent> ent, ref AnchorStateChangedEvent args)
     {
+        if (_net.IsClient && !_clientSimulation)
+            return;
+
         if (IsBlockingLandingLayer(ent.Owner, ent.Comp))
             QueueMovementBodiesAbove(args.Transform);
     }
 
     private void OnBlockingCollisionChanged(ref CollisionChangeEvent args)
     {
+        if (_net.IsClient && !_clientSimulation)
+            return;
+
         if (!_fixturesQuery.TryComp(args.BodyUid, out var fixtures) ||
             !IsBlockingLandingLayer(args.BodyUid, fixtures))
         {
@@ -111,6 +123,9 @@ public abstract partial class ClassicSharedZLevelsSystem
 
     private void OnBlockingCollisionLayerChanged(ref CollisionLayerChangeEvent args)
     {
+        if (_net.IsClient && !_clientSimulation)
+            return;
+
         // The old layer is not part of this event. Refreshing any anchored layer change handles
         // both adding and removing a full-height blocking layer.
         var xform = Transform(args.Body.Owner);
@@ -120,6 +135,9 @@ public abstract partial class ClassicSharedZLevelsSystem
 
     private void OnBlockingDoorStateChanged(DoorStateChangedEvent args)
     {
+        if (_net.IsClient && !_clientSimulation)
+            return;
+
         // Doors normally toggle fixture hardness without changing their collision layer. Their
         // explicit state event fills that gap so the cached landing surface follows open/closed.
         if (!args.Door.IsValid())
@@ -149,10 +167,17 @@ public abstract partial class ClassicSharedZLevelsSystem
         var center = _map.GridTileToWorld(gridUid, grid, tile).Position;
         var half = grid.TileSizeHalfVector;
         var bounds = new Box2(center - half, center + half);
+        QueueMovementRefresh(mapAboveComp.MapId, center, bounds);
+    }
+
+    private void QueueMovementRefresh(MapId mapId, Vector2 center, Box2 bounds)
+    {
+        // Keep sparse edits local, and coalesce tile/fixture events from streamed chunks before
+        // querying the broadphase. One large union would also wake bodies between distant edits.
         var chunk = new Vector2i(
             (int) MathF.Floor(center.X / MovementRefreshChunkSize),
             (int) MathF.Floor(center.Y / MovementRefreshChunkSize));
-        var key = (mapAboveComp.MapId, chunk);
+        var key = (mapId, chunk);
 
         if (_pendingMovementRefreshes.TryGetValue(key, out var existing))
             _pendingMovementRefreshes[key] = existing.Union(bounds);
@@ -166,6 +191,8 @@ public abstract partial class ClassicSharedZLevelsSystem
         {
             _pendingMovementRefreshes.Clear();
             _processingMovementRefreshes.Clear();
+            _dirtyMovementBodies.Clear();
+            _dirtyMovementBodySet.Clear();
             return;
         }
 
@@ -193,11 +220,10 @@ public abstract partial class ClassicSharedZLevelsSystem
 
         foreach (var uid in _movementBodyLookup)
         {
-            if (!ZPhysicsQuery.TryComp(uid, out var zComp))
+            if (!ZPhysicsQuery.HasComp(uid))
                 continue;
 
-            RequestCacheMovement((uid, zComp));
-            RefreshBody((uid, zComp));
+            QueueDirtyMovement(uid);
         }
 
         _movementBodyLookup.Clear();
@@ -235,10 +261,16 @@ public abstract partial class ClassicSharedZLevelsSystem
 
     private void OnMoveEvent(Entity<ClassicZPhysicsComponent> entity, ref MoveEvent args)
     {
-        if (_dirtyMovementBodies.Contains(entity))
+        if (_net.IsClient && !_clientSimulation)
             return;
 
-        _dirtyMovementBodies.Add(entity);
+        QueueDirtyMovement(entity);
+    }
+
+    private void QueueDirtyMovement(EntityUid uid)
+    {
+        if (_dirtyMovementBodySet.Add(uid))
+            _dirtyMovementBodies.Add(uid);
     }
 
     private void OnZLevelMapMove(Entity<ClassicZPhysicsComponent> ent, ref ClassicZLevelMapMoveEvent args)
@@ -582,6 +614,7 @@ public abstract partial class ClassicSharedZLevelsSystem
         }
 
         _dirtyMovementBodies.Clear();
+        _dirtyMovementBodySet.Clear();
     }
 }
 
