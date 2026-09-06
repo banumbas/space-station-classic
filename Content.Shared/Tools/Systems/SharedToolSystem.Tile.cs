@@ -104,6 +104,11 @@ public abstract partial class SharedToolSystem
 
     public bool TryDeconstructWithToolQualities(TileRef tileRef, PrototypeFlags<ToolQualityPrototype> withToolQualities)
     {
+        // Classic-Start
+        if (!CanDigClassicTile(tileRef, withToolQualities))
+            return false;
+        // Classic-End
+
         var tileDef = (ContentTileDefinition) _tileDefManager[tileRef.Tile.TypeId];
         if (withToolQualities.ContainsAny(tileDef.DeconstructTools))
         {
