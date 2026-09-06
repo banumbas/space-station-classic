@@ -19,6 +19,8 @@
     toolWhitelist:
       tags:
       - Pickaxe
+    toolQualities:
+    - Digging
   - type: Damageable
     damageContainer: StructuralInorganic
     damageModifierSet: Metallic
@@ -118,3 +120,17 @@
   - type: IconSmooth
     key: walls
     base: mountain
+
+- type: entity
+  id: ClassicWallDirt
+  parent: ClassicWallRock
+  name: dirt wall
+  components:
+  - type: Sprite
+    sprite: _Classic/Structures/Walls/dirt.rsi
+    drawdepth: Overdoors
+  - type: Icon
+    sprite: _Classic/Structures/Walls/dirt.rsi
+  - type: IconSmooth
+    key: walls
+    base: dirt

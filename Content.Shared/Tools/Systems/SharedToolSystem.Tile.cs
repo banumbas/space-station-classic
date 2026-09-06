@@ -113,7 +113,20 @@ public abstract partial class SharedToolSystem
         if (withToolQualities.ContainsAny(tileDef.DeconstructTools))
         {
             // don't do this on the client or else the tile entity spawn mispredicts and looks horrible
-            return _net.IsClient || _tiles.DeconstructTile(tileRef);
+            var deconstructed = _net.IsClient || _tiles.DeconstructTile(tileRef); // classic-edit z-levels digging
+            // classic-start z-levels digging
+            if (deconstructed &&
+                !_net.IsClient &&
+                tileDef.DeconstructTools.Contains(DiggingQuality) &&
+                withToolQualities.Contains(DiggingQuality) &&
+                TryComp<MapGridComponent>(tileRef.GridUid, out var grid) &&
+                _maps.GetTileRef(tileRef.GridUid, grid, tileRef.GridIndices).Tile.IsEmpty)
+            {
+                RaiseLocalEvent(new ClassicDiggingTileDeconstructedEvent(tileRef.GridUid, tileRef.GridIndices));
+            }
+
+            return deconstructed;
+            // classic-end
         }
         return false;
     }

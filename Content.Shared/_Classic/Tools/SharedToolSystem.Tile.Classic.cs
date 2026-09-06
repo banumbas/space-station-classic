@@ -3,6 +3,7 @@
 using Content.Shared._Classic.ZLevels.Core.Components;
 using Content.Shared.Maps;
 using Robust.Shared.Map;
+using Robust.Shared.Maths;
 using Robust.Shared.Utility;
 
 namespace Content.Shared.Tools.Systems;
@@ -26,3 +27,5 @@ public abstract partial class SharedToolSystem
                zMap.Depth > LowestDiggableZLevel;
     }
 }
+
+public readonly record struct ClassicDiggingTileDeconstructedEvent(EntityUid GridUid, Vector2i GridIndices);
