@@ -166,6 +166,8 @@ rmc-vehicle-supply-busy = занят
 rmc-vehicle-supply-idle = ожидает
 rmc-vehicle-supply-copies-v = Копии v
 rmc-vehicle-supply-copies-arrow = Копии >
+rmc-vehicle-supply-button-raise = Поднять
+rmc-vehicle-supply-button-lower = Опустить
 
 # Категории
 entity-category-name-vehicle = Транспорт

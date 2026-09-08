@@ -149,6 +149,8 @@ rmc-vehicle-supply-busy = busy
 rmc-vehicle-supply-idle = idle
 rmc-vehicle-supply-copies-v = Copies v
 rmc-vehicle-supply-copies-arrow = Copies >
+rmc-vehicle-supply-button-raise = Raise
+rmc-vehicle-supply-button-lower = Lower
 
 # Hardpoint UI Headers
 rmc-hardpoint-ui-heading = Vehicle Hardpoints

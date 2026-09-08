@@ -131,6 +131,6 @@ ent-VehicleTankArtilleryModule = артиллерийский модуль
 ent-VehicleVanWheel = колесо фургона
     .desc = Прочное автомобильное колесо фургона. Можно снять или заменить.
 
-ent-VehicleTurretVisual = ������������ ������ �������
+ent-VehicleTurretVisual = { "" }
     .desc = { "" }
 

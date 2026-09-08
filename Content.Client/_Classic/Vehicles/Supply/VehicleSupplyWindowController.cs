@@ -54,6 +54,8 @@ public sealed class VehicleSupplyWindowController : IDisposable
         _window.Title = Loc.GetString("rmc-vehicle-supply-window-title");
         _window.StoredVehiclesTitle.Text = Loc.GetString("rmc-vehicle-supply-window-stored");
         _window.PreviewTitle.Text = Loc.GetString("rmc-vehicle-supply-window-preview");
+        _window.RaiseButton.LabelText = Loc.GetString("rmc-vehicle-supply-button-raise");
+        _window.LowerButton.LabelText = Loc.GetString("rmc-vehicle-supply-button-lower");
         _window.FrameUpdated += OnFrameUpdated;
         _window.OnClose += Dispose;
     }
