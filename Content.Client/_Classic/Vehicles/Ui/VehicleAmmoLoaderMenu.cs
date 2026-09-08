@@ -38,6 +38,7 @@ public sealed partial class VehicleAmmoLoaderMenu : FancyWindow
     public VehicleAmmoLoaderMenu()
     {
         RobustXamlLoader.Load(this);
+        Title = Loc.GetString("rmc-vehicle-ammo-loader-ui-title");
         SetSize = new Vector2(MinWindowWidth, 280);
     }
 

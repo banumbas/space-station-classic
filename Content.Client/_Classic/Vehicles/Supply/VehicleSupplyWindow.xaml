@@ -30,7 +30,7 @@
                 </PanelContainer.PanelOverride>
 
                 <BoxContainer Orientation="Vertical" SeparationOverride="6" Margin="10" HorizontalExpand="True" VerticalExpand="True">
-                    <Label Text="Stored Vehicles" FontColorOverride="#C7D7EA"/>
+                    <Label Name="StoredVehiclesTitle" Access="Public" Text="Stored Vehicles" FontColorOverride="#C7D7EA"/>
                     <ScrollContainer VerticalExpand="True" HorizontalExpand="True">
                         <BoxContainer Name="AvailableRows" Access="Public" Orientation="Vertical" SeparationOverride="4" HorizontalExpand="True" />
                     </ScrollContainer>

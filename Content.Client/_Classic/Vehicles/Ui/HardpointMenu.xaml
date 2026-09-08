@@ -37,7 +37,7 @@
                 </PanelContainer>
 
                 <BoxContainer Orientation="Vertical" SeparationOverride="2" HorizontalExpand="True">
-                    <Label Text="Vehicle Hardpoints" StyleClasses="LabelHeading"/>
+                    <Label Name="HardpointsHeading" Text="Vehicle Hardpoints" StyleClasses="LabelHeading"/>
                     <Label
                         Name="ErrorLabel"
                         Access="Public"
@@ -53,7 +53,7 @@
                         Visible="False"
                         HorizontalExpand="True">
                         <BoxContainer Orientation="Horizontal" HorizontalExpand="True" SeparationOverride="4">
-                            <Label Text="Frame Integrity" StyleClasses="LabelSecondary" FontColorOverride="#C7D7EA"/>
+                            <Label Name="FrameIntegrityHeading" Text="Frame Integrity" StyleClasses="LabelSecondary" FontColorOverride="#C7D7EA"/>
                             <Label
                                 Name="FrameHealthLabel"
                                 Access="Public"

@@ -51,6 +51,9 @@ public sealed class VehicleSupplyWindowController : IDisposable
     {
         _spriteSystem = _entManager.System<SpriteSystem>();
         _window = window;
+        _window.Title = Loc.GetString("rmc-vehicle-supply-window-title");
+        _window.StoredVehiclesTitle.Text = Loc.GetString("rmc-vehicle-supply-window-stored");
+        _window.PreviewTitle.Text = Loc.GetString("rmc-vehicle-supply-window-preview");
         _window.FrameUpdated += OnFrameUpdated;
         _window.OnClose += Dispose;
     }
@@ -73,7 +76,7 @@ public sealed class VehicleSupplyWindowController : IDisposable
 
         if (preview == null || string.IsNullOrWhiteSpace(preview.VehicleId))
         {
-            _window.PreviewTitle.Text = "Vehicle Preview";
+            _window.PreviewTitle.Text = Loc.GetString("rmc-vehicle-supply-window-preview");
             _window.VehiclePreview.SetPrototype(null);
             _previewLayers.Clear();
             _previewDirty = false;

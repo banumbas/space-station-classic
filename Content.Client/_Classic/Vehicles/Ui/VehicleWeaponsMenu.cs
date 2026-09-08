@@ -40,6 +40,7 @@ public sealed partial class VehicleWeaponsMenu : FancyWindow
     public VehicleWeaponsMenu()
     {
         RobustXamlLoader.Load(this);
+        Title = Loc.GetString("rmc-vehicle-weapons-ui-title");
         ApplyWindowChromeStyle();
         ContentsContainer.Margin = new Thickness(0f);
 

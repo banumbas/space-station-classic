@@ -120,3 +120,36 @@ rmc-hardpoint-remove-blocked = That hardpoint is fixed in place.
 
 entity-category-name-vehicle = Vehicles
 entity-category-suffix-vehicle = Vehicle
+
+# Bullet Box
+rmc-bullet-box-amount = Contains [color={$color}]{$amount}/{$max}[/color] rounds.
+rmc-bullet-box-used-in = Used in: {$vehicle}
+rmc-bullet-box-transferto = Transfer rounds
+rmc-bullet-box-transfer-done = Transferred {$amount} rounds to {$used}.
+rmc-bullet-box-wrong-rounds = That magazine uses different ammunition.
+rmc-bullet-box-mag-full = The magazine is full.
+rmc-bullet-box-box-empty = The bullet box is empty.
+rmc-bullet-box-mag-empty = The magazine is empty.
+rmc-bullet-box-box-full = The bullet box is full.
+
+# Skills & Repair
+rmc-skills-cant-operate = You don't know how to operate {$target}.
+rmc-repairable-too-damaged = It is too damaged to repair this way.
+
+# Supply & Lift
+rmc-vehicle-supply-window-title = Vehicle Supply Lift
+rmc-vehicle-supply-window-stored = Stored Vehicles
+rmc-vehicle-supply-window-preview = Vehicle Preview
+rmc-vehicle-supply-status = Lift: {$mode} | Status: {$status} | Active: {$active}
+rmc-vehicle-supply-no-lift = No lift
+rmc-vehicle-supply-mode-up = Up
+rmc-vehicle-supply-mode-down = Down
+rmc-vehicle-supply-none = none
+rmc-vehicle-supply-busy = busy
+rmc-vehicle-supply-idle = idle
+rmc-vehicle-supply-copies-v = Copies v
+rmc-vehicle-supply-copies-arrow = Copies >
+
+# Hardpoint UI Headers
+rmc-hardpoint-ui-heading = Vehicle Hardpoints
+rmc-hardpoint-ui-frame-integrity = Frame Integrity

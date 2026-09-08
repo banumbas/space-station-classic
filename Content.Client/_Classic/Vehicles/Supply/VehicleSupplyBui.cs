@@ -85,11 +85,23 @@ public sealed class VehicleSupplyBui : BoundUserInterface, IRefreshableBui
         if (_window == null)
             return;
 
-        var modeText = state.LiftMode?.ToString() ?? "No lift";
-        var activeText = string.IsNullOrWhiteSpace(state.ActiveVehicleId) ? "none" : state.ActiveVehicleId;
-        var busyText = state.Busy ? "busy" : "idle";
+        var modeText = state.LiftMode switch
+        {
+            VehicleSupplyLiftMode.Raising => Loc.GetString("rmc-vehicle-supply-mode-up"),
+            VehicleSupplyLiftMode.Lowering => Loc.GetString("rmc-vehicle-supply-mode-down"),
+            _ => Loc.GetString("rmc-vehicle-supply-no-lift")
+        };
+        var activeText = string.IsNullOrWhiteSpace(state.ActiveVehicleId)
+            ? Loc.GetString("rmc-vehicle-supply-none")
+            : state.ActiveVehicleId;
+        var busyText = state.Busy
+            ? Loc.GetString("rmc-vehicle-supply-busy")
+            : Loc.GetString("rmc-vehicle-supply-idle");
 
-        _window.StatusLabel.Text = $"Lift: {modeText} | Status: {busyText} | Active: {activeText}";
+        _window.StatusLabel.Text = Loc.GetString("rmc-vehicle-supply-status",
+            ("mode", modeText),
+            ("status", busyText),
+            ("active", activeText));
 
         var raising = state.LiftMode == VehicleSupplyLiftMode.Raising;
         var lowering = state.LiftMode == VehicleSupplyLiftMode.Lowering;
@@ -171,7 +183,9 @@ public sealed class VehicleSupplyBui : BoundUserInterface, IRefreshableBui
             {
                 var copyToggle = new HardpointButton
                 {
-                    LabelText = _copyExpanded.Contains(vehicleId) ? "Copies v" : "Copies >",
+                    LabelText = _copyExpanded.Contains(vehicleId)
+                        ? Loc.GetString("rmc-vehicle-supply-copies-v")
+                        : Loc.GetString("rmc-vehicle-supply-copies-arrow"),
                     MinSize = new Vector2(110, 0)
                 };
 
@@ -306,7 +320,9 @@ public sealed class VehicleSupplyBui : BoundUserInterface, IRefreshableBui
 
         var expanded = _copyExpanded.Contains(vehicleId);
         container.Visible = expanded;
-        toggle.LabelText = expanded ? "Copies v" : "Copies >";
+        toggle.LabelText = expanded
+            ? Loc.GetString("rmc-vehicle-supply-copies-v")
+            : Loc.GetString("rmc-vehicle-supply-copies-arrow");
     }
 
     private static void ApplySelectionStyle(HardpointButton button, bool selected)

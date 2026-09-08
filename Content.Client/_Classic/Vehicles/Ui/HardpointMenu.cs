@@ -68,6 +68,9 @@ public sealed partial class HardpointMenu : FancyWindow
     public HardpointMenu()
     {
         RobustXamlLoader.Load(this);
+        Title = Loc.GetString("rmc-hardpoint-ui-title");
+        HardpointsHeading.Text = Loc.GetString("rmc-hardpoint-ui-heading");
+        FrameIntegrityHeading.Text = Loc.GetString("rmc-hardpoint-ui-frame-integrity");
         OnClose += ClearPreviewOverlays;
     }
 
