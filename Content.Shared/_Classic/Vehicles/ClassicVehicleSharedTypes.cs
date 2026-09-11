@@ -28,12 +28,6 @@ public sealed partial class SkillDefinitionComponent : Component
 {
 }
 
-public sealed partial class SkillsSystem : EntitySystem
-{
-    public bool HasSkills(EntityUid uid, SkillWhitelist? whitelist) => true;
-    public bool HasSkill(EntityUid uid, EntProtoId<SkillDefinitionComponent> skill, int level = 1) => true;
-    public float GetSkillDelayMultiplier(EntityUid uid, EntProtoId<SkillDefinitionComponent> skill) => 1f;
-}
 
 [Serializable, NetSerializable]
 public enum VehicleMobSize : byte
@@ -44,14 +38,6 @@ public enum VehicleMobSize : byte
     Immobile
 }
 
-public sealed partial class VehicleMobSizeSystem : EntitySystem
-{
-    public bool TryGetSize(EntityUid uid, out VehicleMobSize size)
-    {
-        size = VehicleMobSize.Normal;
-        return true;
-    }
-}
 
 [ByRefEvent]
 public record struct DamageModifyEvent(DamageSpecifier Damage, EntityUid? Origin = null, EntityUid? Tool = null);
@@ -140,35 +126,6 @@ public record struct GetIFFGunUserEvent(EntityUid? GunUser = null)
     public EntityUid? GunUser { get; set; } = GunUser;
 }
 
-[ByRefEvent]
-public record struct PowerLoaderInteractEvent(EntityUid User, EntityUid Target, EntityUid PowerLoader = default, bool Handled = false)
-{
-    public bool Handled { get; set; } = Handled;
-}
-
-[RegisterComponent]
-public sealed partial class PowerLoaderGrabbableComponent : Component
-{
-    [DataField] public TimeSpan Delay;
-    [DataField] public EntProtoId? VirtualRight;
-    [DataField] public EntProtoId? VirtualLeft;
-}
-
-public sealed partial class PowerLoaderSystem : EntitySystem
-{
-    public bool CanPickupWithActiveHand(EntityUid user) => true;
-    public bool TryPickupWithActiveHand(EntityUid user, EntityUid item) => true;
-    public bool TryGetActivePowerLoader(EntityUid user, out EntityUid loader)
-    {
-        loader = default;
-        return false;
-    }
-    public bool TryGetInteractionUser(EntityUid user, out EntityUid actor)
-    {
-        actor = user;
-        return false;
-    }
-}
 
 [RegisterComponent]
 public sealed partial class BarricadeComponent : Component
@@ -181,15 +138,6 @@ public static class VehicleKeyFunctions
     public static readonly BoundKeyFunction VehicleUniqueAction = "VehicleUniqueAction";
 }
 
-[RegisterComponent]
-public sealed partial class ActivePowerLoaderPilotComponent : Component
-{
-}
-
-[RegisterComponent]
-public sealed partial class PowerLoaderComponent : Component
-{
-}
 
 [RegisterComponent, NetworkedComponent, AutoGenerateComponentState]
 public sealed partial class VehicleFlamerAmmoProviderComponent : Component, IShootable

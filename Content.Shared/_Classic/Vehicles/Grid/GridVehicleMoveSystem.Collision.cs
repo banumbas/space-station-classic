@@ -560,9 +560,10 @@ public sealed partial class GridVehicleMoverSystem : EntitySystem
             return true;
         }
 
-        if (HasComp<SharedApcPowerReceiverComponent>(target))
+        SharedApcPowerReceiverComponent? receiver = null;
+        if (_power.ResolveApc(target, ref receiver))
         {
-            powered = _power.IsPowered(target);
+            powered = receiver.Powered;
             return true;
         }
 
@@ -600,10 +601,7 @@ public sealed partial class GridVehicleMoverSystem : EntitySystem
         if (mover.XenoBlockMinimumSize is not { } minSize)
             return true;
 
-        if (!_size.TryGetSize(xeno, out var size))
-            return true;
-
-        return size >= minSize;
+        return VehicleMobSize.Normal >= minSize;
     }
 
     private bool HasBlockingVehicleMob(GridVehicleMoverComponent mover, HashSet<EntityUid> blockers)

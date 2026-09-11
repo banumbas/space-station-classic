@@ -46,7 +46,6 @@ public sealed class ClassicVehicleSystem : EntitySystem
     [Dependency] private readonly MobStateSystem _mobState = default!;
     [Dependency] private readonly INetManager _net = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
-    [Dependency] private readonly SkillsSystem _skills = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
     [Dependency] private readonly TurfSystem _turf = default!;
     [Dependency] private readonly VehicleLockSystem _vehicleLock = default!;
@@ -65,7 +64,6 @@ public sealed class ClassicVehicleSystem : EntitySystem
         SubscribeLocalEvent<VehicleEnterComponent, VehicleEnterDoAfterEvent>(OnVehicleEnterDoAfter);
         SubscribeLocalEvent<VehicleExitComponent, VehicleExitDoAfterEvent>(OnVehicleExitDoAfter);
 
-        SubscribeLocalEvent<VehicleDriverSeatComponent, StrapAttemptEvent>(OnDriverSeatStrapAttempt);
         SubscribeLocalEvent<VehicleDriverSeatComponent, StrappedEvent>(OnDriverSeatStrapped);
         SubscribeLocalEvent<VehicleDriverSeatComponent, UnstrappedEvent>(OnDriverSeatUnstrapped);
 
@@ -182,15 +180,6 @@ public sealed class ClassicVehicleSystem : EntitySystem
         {
             if (popup)
                 _popup.PopupEntity(Loc.GetString("rmc-vehicle-enter-locked"), user, user, PopupType.SmallCaution);
-
-            return false;
-        }
-
-        if (HasComp<ActivePowerLoaderPilotComponent>(user) ||
-            HasComp<PowerLoaderComponent>(user))
-        {
-            if (popup)
-                _popup.PopupEntity(Loc.GetString("rmc-vehicle-enter-no-power-loader"), user, user);
 
             return false;
         }
@@ -905,19 +894,6 @@ public sealed class ClassicVehicleSystem : EntitySystem
         }
     }
 
-    private void OnDriverSeatStrapAttempt(Entity<VehicleDriverSeatComponent> ent, ref StrapAttemptEvent args)
-    {
-        if (args.Cancelled)
-            return;
-
-        if (_skills.HasSkills(args.Buckle.Owner, ent.Comp.Skills))
-            return;
-
-        if (args.Popup)
-            _popup.PopupClient(Loc.GetString("rmc-skills-cant-operate", ("target", ent)), args.Buckle, args.User);
-
-        args.Cancelled = true;
-    }
 
     private void OnDriverSeatStrapped(Entity<VehicleDriverSeatComponent> ent, ref StrappedEvent args)
     {
@@ -931,8 +907,6 @@ public sealed class ClassicVehicleSystem : EntitySystem
         }
 
         _vehicles.TrySetOperator((vehicle.Value, vehicleComp), args.Buckle.Owner);
-
-        EnsureComp<ClassicVehicleOperatorComponent>(args.Buckle.Owner);
         _vehicleLock.EnableLockAction(args.Buckle.Owner, vehicle.Value);
     }
 

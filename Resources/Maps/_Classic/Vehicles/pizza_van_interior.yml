@@ -15,7 +15,7 @@ nullspace: []
 tilemap:
   1: Space
   0: Plating
-  2: Plating
+  2: FloorVoid
 entities:
 - proto: ""
   entities:

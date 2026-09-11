@@ -26,13 +26,11 @@ public sealed class VehiclePortGunSystem : EntitySystem
     [Dependency] private readonly ItemSlotsSystem _itemSlots = default!;
     [Dependency] private readonly INetManager _net = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
-    [Dependency] private readonly SkillsSystem _skills = default!;
     [Dependency] private readonly ClassicVehicleSystem _vehicle = default!;
     [Dependency] private readonly VehicleViewToggleSystem _viewToggle = default!;
 
     public override void Initialize()
     {
-        SubscribeLocalEvent<VehiclePortGunSeatComponent, StrapAttemptEvent>(OnPortGunSeatStrapAttempt);
         SubscribeLocalEvent<VehiclePortGunSeatComponent, UnstrappedEvent>(OnPortGunSeatUnstrapped);
 
         SubscribeLocalEvent<VehiclePortGunControllerComponent, InteractHandEvent>(OnPortGunInteractHand);
@@ -45,19 +43,6 @@ public sealed class VehiclePortGunSystem : EntitySystem
         SubscribeLocalEvent<VehiclePortGunOperatorComponent, ComponentShutdown>(OnPortGunOperatorShutdown);
     }
 
-    private void OnPortGunSeatStrapAttempt(Entity<VehiclePortGunSeatComponent> ent, ref StrapAttemptEvent args)
-    {
-        if (args.Cancelled)
-            return;
-
-        if (_skills.HasSkills(args.Buckle.Owner, ent.Comp.Skills))
-            return;
-
-        if (args.Popup)
-            _popup.PopupClient(Loc.GetString("rmc-skills-cant-operate", ("target", ent)), args.Buckle, args.User);
-
-        args.Cancelled = true;
-    }
 
     private void OnPortGunSeatUnstrapped(Entity<VehiclePortGunSeatComponent> ent, ref UnstrappedEvent args)
     {

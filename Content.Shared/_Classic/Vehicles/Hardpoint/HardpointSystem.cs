@@ -34,7 +34,6 @@ namespace Content.Shared._Classic.Vehicles;
 
 public sealed partial class HardpointSystem : EntitySystem
 {
-    private static readonly EntProtoId<SkillDefinitionComponent> EngineerSkill = "SkillEngineer";
     private static readonly EntProtoId HardpointVehicleFamilyTank = "HardpointVehicleFamilyTank";
     private static readonly ProtoId<DamageModifierSetPrototype> DamageModifierSetVehicleFrameTank = "VehicleFrameTank";
 
@@ -57,7 +56,6 @@ public sealed partial class HardpointSystem : EntitySystem
     [Dependency] private readonly INetManager _net = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
     [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
-    [Dependency] private readonly SkillsSystem _skills = default!;
     [Dependency] private readonly VehicleSpotlightSystem _spotlight = default!;
     [Dependency] private readonly SharedToolSystem _tool = default!;
     [Dependency] private readonly VehicleTopologySystem _topology = default!;
@@ -1293,15 +1291,14 @@ public sealed partial class HardpointSystem : EntitySystem
             return 0f;
 
         var repairFraction = repairAmount / integrity.MaxIntegrity;
-        var skillMultiplier = _skills.GetSkillDelayMultiplier(user, EngineerSkill);
 
         float time;
         if (isFrame)
-            time = integrity.FrameRepairChunkSeconds * (repairFraction / integrity.RepairChunkFraction) * skillMultiplier;
+            time = integrity.FrameRepairChunkSeconds * (repairFraction / integrity.RepairChunkFraction);
         else
         {
             var repairRate = GetHardpointRepairRate(uid);
-            time = (repairFraction / repairRate) * skillMultiplier;
+            time = repairFraction / repairRate;
         }
 
         return MathF.Max(1f, time);

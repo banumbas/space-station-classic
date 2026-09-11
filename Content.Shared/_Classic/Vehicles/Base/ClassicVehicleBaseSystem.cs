@@ -84,8 +84,20 @@ public sealed partial class ClassicVehicleBaseSystem : EntitySystem
         if (entity.Comp.Operator == null && uid is null)
             return false;
 
-        if (TryComp<ClassicVehicleOperatorComponent>(uid, out var eOperator))
-            return eOperator.Vehicle == entity.Owner;
+        if (entity.Comp.Operator == uid)
+            return true;
+
+        if (uid != null &&
+            TryComp<ClassicVehicleOperatorComponent>(uid, out var eOperator) &&
+            eOperator.Vehicle != null &&
+            eOperator.Vehicle != entity.Owner)
+        {
+            if (!removeExisting)
+                return false;
+
+            if (TryComp<ClassicVehicleComponent>(eOperator.Vehicle, out var oldVeh))
+                TryRemoveOperator((eOperator.Vehicle.Value, oldVeh));
+        }
 
         if (!removeExisting && entity.Comp.Operator is not null)
             return false;
@@ -110,7 +122,7 @@ public sealed partial class ClassicVehicleBaseSystem : EntitySystem
 
         if (uid != null)
         {
-            var vehicleOperator = AddComp<ClassicVehicleOperatorComponent>(uid.Value);
+            var vehicleOperator = EnsureComp<ClassicVehicleOperatorComponent>(uid.Value);
             vehicleOperator.Vehicle = entity.Owner;
             Dirty(uid.Value, vehicleOperator);
 

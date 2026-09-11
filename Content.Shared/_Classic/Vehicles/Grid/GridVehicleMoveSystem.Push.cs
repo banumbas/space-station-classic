@@ -169,9 +169,6 @@ public sealed partial class GridVehicleMoverSystem : EntitySystem
         if (mover.XenoPushMinimumSize is not { } minSize)
             return true;
 
-        if (!_size.TryGetSize(xeno, out var size))
-            return false;
-
-        return size >= minSize;
+        return VehicleMobSize.Normal >= minSize;
     }
 }

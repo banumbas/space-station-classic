@@ -23,7 +23,7 @@ tilemap:
   9: FloorDark
   10: FloorDark
   4: FloorDark
-  0: Plating
+  0: FloorVoid
 entities:
 - proto: ""
   entities:
