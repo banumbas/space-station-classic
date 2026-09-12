@@ -49,6 +49,7 @@
   - type: HardpointIntegrity
     maxIntegrity: 350
   - type: VehicleTurret
+  - type: GunUseGunOrigin
   - type: Gun
     fireRate: 3.3333333
     selectedMode: FullAuto
@@ -92,6 +93,7 @@
   - type: HardpointIntegrity
     maxIntegrity: 500
   - type: VehicleTurret
+  - type: GunUseGunOrigin
   - type: Gun
     fireRate: 2
     selectedMode: FullAuto
@@ -162,6 +164,7 @@
   - type: HardpointIntegrity
     maxIntegrity: 500
   - type: VehicleTurret
+  - type: GunUseGunOrigin
   - type: Gun
     fireRate: 0.5
     projectileSpeed: 20
@@ -227,6 +230,7 @@
   - type: HardpointIntegrity
     maxIntegrity: 100
   - type: VehiclePortGun
+  - type: GunUseGunOrigin
   - type: Gun
     fireRate: 5
     selectedMode: FullAuto

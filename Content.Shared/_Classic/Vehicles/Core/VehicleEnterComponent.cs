@@ -45,9 +45,6 @@ public sealed partial class VehicleEnterComponent : Component
     public int MaxPassengers = 0;
 
     [DataField]
-    public int MaxXenos = 0;
-
-    [DataField]
     public List<VehicleReservedPassengerPool> ReservedPassengerPools = new();
 
     [DataField]
@@ -92,10 +89,8 @@ public sealed partial class VehicleEnterDoAfterEvent : SimpleDoAfterEvent
 [Serializable, NetSerializable]
 public sealed partial class VehicleExitDoAfterEvent : SimpleDoAfterEvent;
 
-[RegisterComponent, NetworkedComponent, AutoGenerateComponentState]
+[RegisterComponent, NetworkedComponent]
 [Access(typeof(ClassicVehicleSystem))]
 public sealed partial class VehicleDriverSeatComponent : Component
 {
-    [DataField, AutoNetworkedField]
-    public SkillWhitelist Skills = new();
 }

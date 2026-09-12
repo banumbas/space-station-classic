@@ -92,7 +92,6 @@ public sealed partial class GridVehicleMoverSystem : EntitySystem
     private readonly DamageSpecifier _mobCollisionDamage = new() { DamageDict = { [CollisionDamageType] = MobCollisionDamage } };
     private readonly Dictionary<EntityUid, bool> _lastMobPushAxis = new();
     private readonly Dictionary<EntityUid, float> _movementAccumulator = new();
-    private readonly Dictionary<EntityUid, EntityUid> _activeXenoPushers = new();
     private readonly HashSet<EntityUid> _directMoveBlockers = new();
     private readonly HashSet<EntityUid> _pushIgnoredEntities = new();
     private readonly HashSet<EntityUid> _vehiclePushIgnored = new();
@@ -158,7 +157,6 @@ public sealed partial class GridVehicleMoverSystem : EntitySystem
         SubscribeLocalEvent<GridVehicleMoverComponent, ComponentShutdown>(OnMoverShutdown);
         SubscribeLocalEvent<GridVehicleMoverComponent, MoveEvent>(OnMoverMove);
         SubscribeLocalEvent<GridVehicleMoverComponent, ReAnchorEvent>(OnMoverReAnchor);
-        SubscribeLocalEvent<GridVehicleMoverComponent, ClassicVehicleCanRunEvent>(OnMoverCanRun);
         SubscribeLocalEvent<GridVehicleMoverComponent, PreventCollideEvent>(OnMoverPreventCollide);
     }
 
@@ -170,7 +168,6 @@ public sealed partial class GridVehicleMoverSystem : EntitySystem
     private void OnMoverShutdown(Entity<GridVehicleMoverComponent> ent, ref ComponentShutdown args)
     {
         _movementAccumulator.Remove(ent.Owner);
-        _activeXenoPushers.Remove(ent.Owner);
     }
 
     private void OnMoverMove(Entity<GridVehicleMoverComponent> ent, ref MoveEvent args)
@@ -238,19 +235,6 @@ public sealed partial class GridVehicleMoverSystem : EntitySystem
         return true;
     }
 
-    private void OnMoverCanRun(Entity<GridVehicleMoverComponent> ent, ref ClassicVehicleCanRunEvent args)
-    {
-        if (!args.CanRun)
-            return;
-
-        if (!TryComp(ent.Owner, out ClassicVehicleComponent? vehicle) || vehicle.Operator is not { } operatorUid)
-            return;
-
-        if (!HasComp<XenoComponent>(operatorUid))
-            return;
-
-        args.CanRun = false;
-    }
 
     private void OnMoverPreventCollide(Entity<GridVehicleMoverComponent> ent, ref PreventCollideEvent args)
     {

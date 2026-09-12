@@ -1,10 +1,8 @@
 using System;
-using System.Numerics;
 using Content.Shared.Movement.Components;
-using Content.Shared._Classic.Vehicles;
+using Content.Shared.Movement.Systems;
 using Robust.Shared.GameObjects;
 using Robust.Shared.Maths;
-using Content.Shared.Movement.Systems;
 
 namespace Content.Shared._Classic.Vehicles;
 
@@ -39,136 +37,19 @@ public sealed partial class GridVehicleMoverSystem : EntitySystem
         pushing = false;
         if (vehicle.Operator is { } op && TryComp<InputMoverComponent>(op, out var inputComp))
         {
-            _activeXenoPushers.Remove(uid);
             return GetInputDirection(inputComp);
         }
 
         if (vehicle.Operator != null)
         {
-            _activeXenoPushers.Remove(uid);
             return Vector2i.Zero;
         }
 
         if (TryComp(uid, out VehicleAutopilotComponent? autopilot))
         {
-            _activeXenoPushers.Remove(uid);
             return autopilot.Direction;
         }
 
-        if (!TryGetActivePusher(uid, mover, out var pusher))
-        {
-            if (mover.IsPushMove &&
-                mover.PushDirection != Vector2i.Zero &&
-                mover.CurrentSpeed > MinVehicleSpeed)
-            {
-                pushing = true;
-                return Vector2i.Zero;
-            }
-
-            _activeXenoPushers.Remove(uid);
-            return Vector2i.Zero;
-        }
-
-        pushing = true;
-        if (!mover.IsPushMove && !CanPushNow(mover))
-        {
-            _activeXenoPushers.Remove(uid);
-            return Vector2i.Zero;
-        }
-
-        var pushDir = GetPushDirection(uid, pusher);
-        if (pushDir == Vector2i.Zero)
-        {
-            _activeXenoPushers.Remove(uid);
-            return Vector2i.Zero;
-        }
-
-        _activeXenoPushers[uid] = pusher;
-        return pushDir;
-    }
-
-    private bool TryGetActivePusher(EntityUid uid, GridVehicleMoverComponent mover, out EntityUid pusher)
-    {
-        pusher = default;
-        if (!physicsQ.TryComp(uid, out var body) || !body.CanCollide)
-            return false;
-
-        if (!fixtureQ.TryComp(uid, out var fixtures))
-            return false;
-
-        var vehiclePos = _transform.GetWorldPosition(uid);
-        var contacts = _physics.GetContacts((uid, fixtures));
-        var bestScore = 0f;
-
-        while (contacts.MoveNext(out var contact))
-        {
-            if (contact == null || !contact.IsTouching)
-                continue;
-
-            var other = contact.OtherEnt(uid);
-            if (!HasComp<XenoComponent>(other))
-                continue;
-
-            if (!contact.Hard)
-                continue;
-
-            if (!CanXenoPushVehicle(mover, other))
-                continue;
-
-            if (!TryComp<InputMoverComponent>(other, out var input))
-                continue;
-
-            var dir = GetInputDirection(input);
-            if (dir == Vector2i.Zero)
-                continue;
-
-            var otherPos = _transform.GetWorldPosition(other);
-            var toVehicle = vehiclePos - otherPos;
-            if (toVehicle.LengthSquared() <= 0.0001f)
-                continue;
-
-            var inputVec = new Vector2(dir.X, dir.Y);
-            var score = Vector2.Dot(inputVec, Vector2.Normalize(toVehicle));
-            if (score <= 0f)
-                continue;
-
-            if (score > bestScore)
-            {
-                bestScore = score;
-                pusher = other;
-            }
-        }
-
-        return bestScore > 0f;
-    }
-
-    private Vector2i GetPushDirection(EntityUid uid, EntityUid pusher)
-    {
-        var vehiclePos = _transform.GetWorldPosition(uid);
-        var pusherPos = _transform.GetWorldPosition(pusher);
-        var delta = vehiclePos - pusherPos;
-        if (delta.LengthSquared() <= 0.0001f)
-            return Vector2i.Zero;
-
-        return Angle.FromWorldVec(delta).GetCardinalDir().ToIntVec();
-    }
-
-    private bool CanPushNow(GridVehicleMoverComponent mover)
-    {
-        if (mover.PushCooldown <= 0f)
-            return true;
-
-        return _timing.CurTime >= mover.NextPushTime;
-    }
-
-    private bool CanXenoPushVehicle(GridVehicleMoverComponent mover, EntityUid xeno)
-    {
-        if (!mover.CanXenosPush)
-            return false;
-
-        if (mover.XenoPushMinimumSize is not { } minSize)
-            return true;
-
-        return VehicleMobSize.Normal >= minSize;
+        return Vector2i.Zero;
     }
 }

@@ -65,6 +65,7 @@
     pixelOffsetEast: "-10,0"
     pixelOffsetSouth: "0,10"
     pixelOffsetWest: "10,0"
+  - type: GunUseGunOrigin
   - type: Gun
     fireRate: 0.6
     projectileSpeed: 18
@@ -116,6 +117,7 @@
     pixelOffsetEast: "-10,0"
     pixelOffsetSouth: "0,10"
     pixelOffsetWest: "10,0"
+  - type: GunUseGunOrigin
   - type: Gun
     fireRate: 0.5
     projectileSpeed: 20

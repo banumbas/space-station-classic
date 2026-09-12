@@ -1,4 +1,5 @@
 using Content.Shared._Classic.Vehicles;
+using Content.Shared.Weapons.Ranged.Systems;
 using Robust.Shared.Containers;
 
 namespace Content.Shared._Classic.Vehicles.Turret;

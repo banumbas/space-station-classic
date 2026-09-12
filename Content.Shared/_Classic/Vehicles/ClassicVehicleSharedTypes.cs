@@ -1,11 +1,6 @@
-global using XenoComponent = Content.Shared._Starlight.Antags.Xeno.Components.XenoComponent;
-
 using System;
-using System.Collections.Generic;
-using Content.Shared.Damage;
 using Content.Shared.FixedPoint;
 using Content.Shared.Weapons.Ranged;
-using Content.Shared.Weapons.Ranged.Components;
 using Robust.Shared.Audio;
 using Robust.Shared.GameObjects;
 using Robust.Shared.GameStates;
@@ -15,52 +10,6 @@ using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization;
 
 namespace Content.Shared._Classic.Vehicles;
-
-[Serializable, NetSerializable, DataDefinition]
-public sealed partial class SkillWhitelist
-{
-    [DataField]
-    public Dictionary<EntProtoId<SkillDefinitionComponent>, int> All = new();
-}
-
-[RegisterComponent]
-public sealed partial class SkillDefinitionComponent : Component
-{
-}
-
-
-[Serializable, NetSerializable]
-public enum VehicleMobSize : byte
-{
-    Small,
-    Normal,
-    Big,
-    Immobile
-}
-
-
-[ByRefEvent]
-public record struct DamageModifyEvent(DamageSpecifier Damage, EntityUid? Origin = null, EntityUid? Tool = null);
-
-[ByRefEvent]
-public record struct ExplosionReceivedEvent(DamageSpecifier Damage);
-
-[ByRefEvent]
-public record struct AttemptShootEvent(
-    EntityUid User,
-    Entity<GunComponent> Gun = default,
-    string? Message = null,
-    EntityCoordinates FromCoordinates = default,
-    EntityCoordinates? ToCoordinates = null,
-    bool Cancelled = false,
-    bool ThrowItems = false,
-    bool ResetCooldown = false)
-{
-    public bool Cancelled { get; set; } = Cancelled;
-    public bool ResetCooldown { get; set; } = ResetCooldown;
-    public EntityCoordinates FromCoordinates { get; set; } = FromCoordinates;
-    public EntityCoordinates? ToCoordinates { get; set; } = ToCoordinates;
-}
 
 [RegisterComponent, NetworkedComponent, AutoGenerateComponentState]
 public sealed partial class GunSpinupComponent : Component
@@ -114,30 +63,11 @@ public sealed partial class GunSpinupComponent : Component
     public float InitialWindupResetGap = 0.2f;
 }
 
-[ByRefEvent]
-public record struct GetWeaponAccuracyEvent(
-    FixedPoint2 AccuracyMultiplier,
-    float Range
-);
-
-[ByRefEvent]
-public record struct GetIFFGunUserEvent(EntityUid? GunUser = null)
-{
-    public EntityUid? GunUser { get; set; } = GunUser;
-}
-
-
-[RegisterComponent]
-public sealed partial class BarricadeComponent : Component
-{
-}
-
 [KeyFunctions]
 public static class VehicleKeyFunctions
 {
     public static readonly BoundKeyFunction VehicleUniqueAction = "VehicleUniqueAction";
 }
-
 
 [RegisterComponent, NetworkedComponent, AutoGenerateComponentState]
 public sealed partial class VehicleFlamerAmmoProviderComponent : Component, IShootable
@@ -170,12 +100,6 @@ public sealed partial class VehicleFlamerTankComponent : Component
     [DataField, AutoNetworkedField]
     public int MaxRange = 5;
 }
-
-[ByRefEvent]
-public record struct BeforeAttemptShootEvent(
-    EntityCoordinates Origin,
-    System.Numerics.Vector2 Offset = default,
-    bool Handled = false);
 
 [RegisterComponent, NetworkedComponent]
 public sealed partial class RemoveComponentsComponent : Component

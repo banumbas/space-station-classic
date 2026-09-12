@@ -18,7 +18,6 @@ public sealed class VehicleTurretMuzzleOffsetSystem : EntitySystem
 
     public override void Initialize()
     {
-        SubscribeLocalEvent<VehicleWeaponsOperatorComponent, BeforeAttemptShootEvent>(OnBeforeAttemptShoot);
     }
 
     public override void FrameUpdate(float frameTime)
@@ -86,15 +85,5 @@ public sealed class VehicleTurretMuzzleOffsetSystem : EntitySystem
         return true;
     }
 
-    private void OnBeforeAttemptShoot(Entity<VehicleWeaponsOperatorComponent> ent, ref BeforeAttemptShootEvent args)
-    {
-        if (ent.Comp.SelectedWeapon is not { } selectedWeapon)
-            return;
 
-        if (!TryGetGunOrigin(selectedWeapon, null, out var origin))
-            return;
-
-        args.Origin = origin;
-        args.Handled = true;
-    }
 }

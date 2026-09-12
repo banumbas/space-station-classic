@@ -43,9 +43,6 @@ public sealed partial class VehicleWeaponsOperatorComponent : Component
 [Access(typeof(VehicleWeaponsSystem))]
 public sealed partial class VehicleWeaponsSeatComponent : Component
 {
-    [DataField, AutoNetworkedField]
-    public SkillWhitelist Skills = new();
-
     [DataField]
     public bool IsPrimaryOperatorSeat = true;
 

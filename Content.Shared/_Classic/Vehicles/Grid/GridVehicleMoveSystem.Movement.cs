@@ -1064,21 +1064,7 @@ public sealed partial class GridVehicleMoverSystem : EntitySystem
 
     private HashSet<EntityUid>? GetPushIgnoredEntities(EntityUid uid, GridVehicleMoverComponent mover)
     {
-        if (!mover.IsPushMove)
-            return null;
-
-        if (!_activeXenoPushers.TryGetValue(uid, out var pusher))
-            return null;
-
-        if (!pusher.IsValid() || TerminatingOrDeleted(pusher))
-        {
-            _activeXenoPushers.Remove(uid);
-            return null;
-        }
-
-        _pushIgnoredEntities.Clear();
-        _pushIgnoredEntities.Add(pusher);
-        return _pushIgnoredEntities;
+        return null;
     }
 
     private bool CanApplyTurn(GridVehicleMoverComponent mover)

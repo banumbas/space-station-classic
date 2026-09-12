@@ -28,6 +28,7 @@
     overlayRsi: _Classic/Structures/Vehicles/tank.rsi
     overlayState: ltb_cannon_0
     overlayDamagedState: ltb_cannon_1
+  - type: GunUseGunOrigin
   - type: Gun
     fireRate: 0.05
     selectedMode: SemiAuto
@@ -90,6 +91,7 @@
     overlayRsi: _Classic/Structures/Vehicles/tank.rsi
     overlayState: ltaaap_minigun_0
     overlayDamagedState: ltaaap_minigun_1
+  - type: GunUseGunOrigin
   - type: Gun
     fireRate: 1.5
     selectedMode: FullAuto
@@ -169,6 +171,7 @@
     overlayRsi: _Classic/Structures/Vehicles/tank.rsi
     overlayState: ace_autocannon_0
     overlayDamagedState: ace_autocannon_1
+  - type: GunUseGunOrigin
   - type: Gun
     fireRate: 1.4286
     projectileSpeed: 50
@@ -232,6 +235,7 @@
     pixelOffsetEast: "30,0"
     pixelOffsetSouth: "0,-40"
     pixelOffsetWest: "-30,0"
+  - type: GunUseGunOrigin
   - type: Gun
     fireRate: 0.5
     projectileSpeed: 20

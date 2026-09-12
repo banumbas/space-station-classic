@@ -98,7 +98,7 @@ public sealed class ClassicVehicleSystem : EntitySystem
         }
 
         if (!HasComp<GhostComponent>(args.User) &&
-            !TryPrepareEnter(ent, args.User, entryIndex, popup: true, out _, out _, out _, out _, out _))
+            !TryPrepareEnter(ent, args.User, entryIndex, popup: true, out _, out _, out _, out _))
         {
             return;
         }
@@ -145,14 +145,14 @@ public sealed class ClassicVehicleSystem : EntitySystem
 
     private bool TryEnter(Entity<VehicleEnterComponent> ent, EntityUid user, int entryIndex = -1)
     {
-        if (!TryPrepareEnter(ent, user, entryIndex, popup: true, out var interior, out var coords, out var isGhost, out var isXeno, out var pulled))
+        if (!TryPrepareEnter(ent, user, entryIndex, popup: true, out var interior, out var coords, out var isGhost, out var pulled))
             return false;
 
         if (!isGhost)
-            TrackOccupant(user, ent.Owner, isXeno);
+            TrackOccupant(user, ent.Owner);
 
         if (pulled is { } pulledUid)
-            TrackOccupant(pulledUid, ent.Owner, HasComp<XenoComponent>(pulledUid));
+            TrackOccupant(pulledUid, ent.Owner);
 
         var targetMapCoords = _transform.ToMapCoordinates(coords);
         _transform.SetMapCoordinates(user, targetMapCoords);
@@ -167,13 +167,11 @@ public sealed class ClassicVehicleSystem : EntitySystem
         [NotNullWhen(true)] out VehicleInteriorComponent? interior,
         out EntityCoordinates coords,
         out bool isGhost,
-        out bool isXeno,
         out EntityUid? pulled)
     {
         interior = null;
         coords = default;
         isGhost = HasComp<GhostComponent>(user);
-        isXeno = HasComp<XenoComponent>(user);
         pulled = null;
 
         if (IsEntryBlockedByLock(ent.Owner, user))
@@ -190,17 +188,7 @@ public sealed class ClassicVehicleSystem : EntitySystem
         if (!isGhost)
             PruneTrackedOccupants(ent.Owner, interior);
 
-        if (!isGhost && isXeno)
-        {
-            if (!CanEnterAsXeno(ent, interior.Xenos, user))
-            {
-                if (popup)
-                    _popup.PopupEntity(Loc.GetString("rmc-vehicle-enter-xeno-full"), user, user);
-
-                return false;
-            }
-        }
-        else if (!isGhost)
+        if (!isGhost)
         {
             if (!CanEnterAsPassenger(ent, interior.Passengers, user))
             {
@@ -227,16 +215,8 @@ public sealed class ClassicVehicleSystem : EntitySystem
             return true;
 
         var passengers = interior.Passengers;
-        var xenos = interior.Xenos;
 
-        if (isXeno && !xenos.Contains(user))
-        {
-            xenos = new HashSet<EntityUid>(xenos)
-            {
-                user,
-            };
-        }
-        else if (!isXeno && !passengers.Contains(user))
+        if (!passengers.Contains(user))
         {
             passengers = new HashSet<EntityUid>(passengers)
             {
@@ -244,11 +224,7 @@ public sealed class ClassicVehicleSystem : EntitySystem
             };
         }
 
-        var pulledAllowed = HasComp<XenoComponent>(pulledUid)
-            ? CanEnterAsXeno(ent, xenos, pulledUid)
-            : CanEnterAsPassenger(ent, passengers, pulledUid);
-
-        if (pulledAllowed)
+        if (CanEnterAsPassenger(ent, passengers, pulledUid))
             return true;
 
         if (popup)
@@ -326,7 +302,6 @@ public sealed class ClassicVehicleSystem : EntitySystem
         interior.EntryParent = entryParent;
         interior.Grid = interiorGrid;
         interior.Passengers.Clear();
-        interior.Xenos.Clear();
 
         var link = EnsureComp<VehicleInteriorLinkComponent>(mapUid);
         link.Vehicle = ent.Owner;
@@ -377,15 +352,6 @@ public sealed class ClassicVehicleSystem : EntitySystem
                 occupant.Vehicle == vehicle)
             {
                 RemComp<VehicleInteriorOccupantComponent>(passenger);
-            }
-        }
-
-        foreach (var xeno in new List<EntityUid>(interior.Xenos))
-        {
-            if (TryComp(xeno, out VehicleInteriorOccupantComponent? occupant) &&
-                occupant.Vehicle == vehicle)
-            {
-                RemComp<VehicleInteriorOccupantComponent>(xeno);
             }
         }
 
@@ -687,7 +653,7 @@ public sealed class ClassicVehicleSystem : EntitySystem
         _meta.RemoveFlag(ent, MetaDataFlags.ExtraTransformEvents);
 
         if (ent.Comp.Vehicle.IsValid())
-            UnregisterTrackedOccupant(ent.Comp.Vehicle, ent.Owner, ent.Comp.IsXeno);
+            UnregisterTrackedOccupant(ent.Comp.Vehicle, ent.Owner);
     }
 
     private void OnOccupantMapChanged(Entity<VehicleInteriorOccupantComponent> ent, ref MapUidChangedEvent args)
@@ -698,7 +664,7 @@ public sealed class ClassicVehicleSystem : EntitySystem
         if (TryComp(ent.Comp.Vehicle, out VehicleInteriorComponent? interior) &&
             args.NewMapId == interior.MapId)
         {
-            RegisterTrackedOccupant(ent.Comp.Vehicle, ent.Owner, ent.Comp.IsXeno, interior);
+            RegisterTrackedOccupant(ent.Comp.Vehicle, ent.Owner, interior);
             return;
         }
 
@@ -714,19 +680,18 @@ public sealed class ClassicVehicleSystem : EntitySystem
         }
     }
 
-    private void TrackOccupant(EntityUid user, EntityUid vehicle, bool isXeno)
+    private void TrackOccupant(EntityUid user, EntityUid vehicle)
     {
         var occupant = EnsureComp<VehicleInteriorOccupantComponent>(user);
         if (occupant.Vehicle.IsValid() &&
             occupant.Vehicle != vehicle)
         {
-            UnregisterTrackedOccupant(occupant.Vehicle, user, occupant.IsXeno);
+            UnregisterTrackedOccupant(occupant.Vehicle, user);
         }
 
         occupant.Vehicle = vehicle;
-        occupant.IsXeno = isXeno;
         Dirty(user, occupant);
-        RegisterTrackedOccupant(vehicle, user, isXeno);
+        RegisterTrackedOccupant(vehicle, user);
     }
 
     private void UntrackOccupant(EntityUid user, EntityUid vehicle)
@@ -734,7 +699,7 @@ public sealed class ClassicVehicleSystem : EntitySystem
         if (!TryComp(user, out VehicleInteriorOccupantComponent? occupant) ||
             occupant.Vehicle != vehicle)
         {
-            UnregisterTrackedOccupant(vehicle, user, HasComp<XenoComponent>(user));
+            UnregisterTrackedOccupant(vehicle, user);
             return;
         }
 
@@ -744,33 +709,20 @@ public sealed class ClassicVehicleSystem : EntitySystem
     private void RegisterTrackedOccupant(
         EntityUid vehicle,
         EntityUid user,
-        bool isXeno,
         VehicleInteriorComponent? interior = null)
     {
         if (!Resolve(vehicle, ref interior, logMissing: false))
             return;
 
-        if (isXeno)
-        {
-            interior.Passengers.Remove(user);
-            interior.Xenos.Add(user);
-        }
-        else
-        {
-            interior.Xenos.Remove(user);
-            interior.Passengers.Add(user);
-        }
+        interior.Passengers.Add(user);
     }
 
-    private void UnregisterTrackedOccupant(EntityUid vehicle, EntityUid user, bool isXeno)
+    private void UnregisterTrackedOccupant(EntityUid vehicle, EntityUid user)
     {
         if (!TryComp(vehicle, out VehicleInteriorComponent? interior))
             return;
 
-        if (isXeno)
-            interior.Xenos.Remove(user);
-        else
-            interior.Passengers.Remove(user);
+        interior.Passengers.Remove(user);
     }
 
     private void PruneTrackedOccupants(EntityUid vehicle, VehicleInteriorComponent interior)
@@ -779,26 +731,12 @@ public sealed class ClassicVehicleSystem : EntitySystem
         {
             if (TryComp(passenger, out VehicleInteriorOccupantComponent? occupant) &&
                 occupant.Vehicle == vehicle &&
-                !occupant.IsXeno &&
                 _transform.GetMapId(passenger) == interior.MapId)
             {
                 continue;
             }
 
             interior.Passengers.Remove(passenger);
-        }
-
-        foreach (var xeno in new List<EntityUid>(interior.Xenos))
-        {
-            if (TryComp(xeno, out VehicleInteriorOccupantComponent? occupant) &&
-                occupant.Vehicle == vehicle &&
-                occupant.IsXeno &&
-                _transform.GetMapId(xeno) == interior.MapId)
-            {
-                continue;
-            }
-
-            interior.Xenos.Remove(xeno);
         }
     }
 
@@ -812,13 +750,6 @@ public sealed class ClassicVehicleSystem : EntitySystem
         }
 
         return count;
-    }
-
-    private bool CanEnterAsXeno(Entity<VehicleEnterComponent> ent, HashSet<EntityUid> xenos, EntityUid user)
-    {
-        return ent.Comp.MaxXenos <= 0 ||
-               xenos.Contains(user) ||
-               CountLivingOccupants(xenos) < ent.Comp.MaxXenos;
     }
 
     private bool CanEnterAsPassenger(Entity<VehicleEnterComponent> ent, HashSet<EntityUid> passengers, EntityUid user)
@@ -994,9 +925,6 @@ public sealed class ClassicVehicleSystem : EntitySystem
 
     private bool CanBypassLockWithDestroyedFrame(EntityUid vehicle, EntityUid user)
     {
-        if (!HasComp<XenoComponent>(user))
-            return false;
-
         if (!TryComp(vehicle, out HardpointIntegrityComponent? frameIntegrity))
             return false;
 

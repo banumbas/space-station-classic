@@ -8,6 +8,7 @@ using Content.Shared._Classic.Vehicles;
 using Content.Shared.Tools;
 using Content.Shared.Tools.Systems;
 using Content.Shared.Damage;
+using Content.Shared.Damage.Systems;
 using Content.Shared.Tools.Components;
 using Robust.Shared.GameObjects;
 using Content.Shared.Hands.Components;
@@ -74,7 +75,6 @@ public sealed partial class HardpointSystem : EntitySystem
         SubscribeLocalEvent<HardpointSlotsComponent, EntRemovedFromContainerMessage>(OnRemoved);
         SubscribeLocalEvent<HardpointSlotsComponent, ClassicVehicleCanRunEvent>(OnVehicleCanRun);
         SubscribeLocalEvent<HardpointSlotsComponent, DamageModifyEvent>(OnVehicleDamageModify);
-        SubscribeLocalEvent<HardpointSlotsComponent, ExplosionReceivedEvent>(OnVehicleExplosionReceived);
         SubscribeLocalEvent<HardpointIntegrityComponent, ComponentInit>(OnHardpointIntegrityInit);
         SubscribeLocalEvent<HardpointIntegrityComponent, InteractUsingEvent>(
             OnHardpointRepair,
@@ -555,11 +555,7 @@ public sealed partial class HardpointSystem : EntitySystem
         if (_net.IsClient)
             return;
 
-        // All xeno damage (brute) gets converted to slash damage
-        if (args.Origin != null && HasComp<VehicleDamageMultiplierComponent>(args.Origin.Value))
-            args.Damage = NormalizeBruteToSlash(args.Damage);
-
-        var incomingMultiplier = GetVehicleIncomingDamageMultiplier(args.Origin, args.Tool);
+        var incomingMultiplier = GetVehicleIncomingDamageMultiplier(args.Origin);
         if (incomingMultiplier > 1f)
             args.Damage = ScaleDamage(args.Damage, incomingMultiplier);
 
@@ -596,51 +592,12 @@ public sealed partial class HardpointSystem : EntitySystem
         args.Damage = ScaleDamage(args.Damage, hullFraction);
     }
 
-    private void OnVehicleExplosionReceived(Entity<HardpointSlotsComponent> ent, ref ExplosionReceivedEvent args)
-    {
-        if (_net.IsClient)
-            return;
-
-        var totalDamage = args.Damage.GetTotal().Float();
-        if (totalDamage <= 0f)
-            return;
-
-        if (!TryComp(ent.Owner, out ItemSlotsComponent? itemSlots))
-            return;
-
-        _topLevelHardpoints.Clear();
-        CollectTopLevelHardpoints(ent.Owner, ent.Comp, itemSlots, _topLevelHardpoints);
-
-        var anyTopLevelIntact = false;
-        _visitedHardpoints.Clear();
-        foreach (var (item, integrity) in _topLevelHardpoints)
-        {
-            if (integrity.Integrity > 0f)
-                anyTopLevelIntact = true;
-
-            ApplyDamageToHardpointTree(ent.Owner, item, integrity, args.Damage, _visitedHardpoints);
-        }
-
-        var hullFraction = anyTopLevelIntact ? ent.Comp.FrameDamageFractionWhileIntact : 1f;
-        if (TryComp(ent.Owner, out HardpointIntegrityComponent? frameIntegrity))
-        {
-            var frameDamage = ScaleDamage(args.Damage, hullFraction);
-            var frameAmount = GetVehicleFrameDamageAmount(ent.Owner, frameDamage);
-
-            if (frameAmount > 0f)
-                DamageHardpoint(ent.Owner, ent.Owner, frameAmount, frameIntegrity);
-        }
-    }
-
-    private float GetVehicleIncomingDamageMultiplier(EntityUid? origin, EntityUid? tool)
+    private float GetVehicleIncomingDamageMultiplier(EntityUid? origin)
     {
         var multiplier = 1f;
 
         if (TryGetVehicleDamageMultiplier(origin, out var originMultiplier))
             multiplier = MathF.Max(multiplier, originMultiplier);
-
-        if (TryGetVehicleDamageMultiplier(tool, out var toolMultiplier))
-            multiplier = MathF.Max(multiplier, toolMultiplier);
 
         return multiplier;
     }
@@ -715,29 +672,6 @@ public sealed partial class HardpointSystem : EntitySystem
 
             ApplyDamageToHardpointTree(vehicle, childHardpoint, childIntegrity, damage, visited);
         }
-    }
-
-    private static DamageSpecifier NormalizeBruteToSlash(DamageSpecifier source)
-    {
-        var slash = source.DamageDict.GetValueOrDefault("Slash");
-        var pierce = source.DamageDict.GetValueOrDefault("Piercing");
-        var blunt = source.DamageDict.GetValueOrDefault("Blunt");
-        var brute = slash + pierce + blunt;
-
-        if (brute <= FixedPoint2.Zero)
-            return source;
-
-        var normalized = new DamageSpecifier();
-        foreach (var (type, value) in source.DamageDict)
-        {
-            if (type is "Slash" or "Piercing" or "Blunt")
-                continue;
-
-            normalized.DamageDict[type] = value;
-        }
-
-        normalized.DamageDict["Slash"] = brute;
-        return normalized;
     }
 
     private DamageSpecifier ScaleDamage(DamageSpecifier source, float fraction)

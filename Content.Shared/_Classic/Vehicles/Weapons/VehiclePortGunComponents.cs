@@ -33,10 +33,8 @@ public sealed partial class VehiclePortGunOperatorComponent : Component
     public EntityUid? Controller;
 }
 
-[RegisterComponent, NetworkedComponent, AutoGenerateComponentState]
+[RegisterComponent, NetworkedComponent]
 [Access(typeof(VehiclePortGunSystem))]
 public sealed partial class VehiclePortGunSeatComponent : Component
 {
-    [DataField, AutoNetworkedField]
-    public SkillWhitelist Skills = new();
 }

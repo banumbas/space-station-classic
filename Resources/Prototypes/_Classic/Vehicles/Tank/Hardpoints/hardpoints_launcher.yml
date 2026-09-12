@@ -28,6 +28,7 @@
     overlayRsi: _Classic/Structures/Vehicles/tank.rsi
     overlayState: flamer_0
     overlayDamagedState: flamer_1
+  - type: GunUseGunOrigin
   - type: Gun
     fireRate: 0.3333
     projectileSpeed: 20
@@ -83,6 +84,7 @@
     overlayRsi: _Classic/Structures/Vehicles/tank.rsi
     overlayState: glauncher_0
     overlayDamagedState: glauncher_1
+  - type: GunUseGunOrigin
   - type: Gun
     fireRate: 0.3333
     projectileSpeed: 18
@@ -145,6 +147,7 @@
     overlayRsi: _Classic/Structures/Vehicles/tank.rsi
     overlayState: towlauncher_0
     overlayDamagedState: towlauncher_1
+  - type: GunUseGunOrigin
   - type: Gun
     fireRate: 0.0667 # 15 seconds between shots
     projectileSpeed: 18
@@ -210,6 +213,7 @@
     overlayRsi: _Classic/Structures/Vehicles/tank.rsi
     overlayState: m56cupola_0
     overlayDamagedState: m56cupola_1
+  - type: GunUseGunOrigin
   - type: Gun
     fireRate: 3.3333
     minAngle: 3

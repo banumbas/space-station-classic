@@ -222,24 +222,6 @@ public sealed partial class GridVehicleMoverComponent : Component
     public bool IsMoving;
 
     /// <summary>
-    /// minimum xeno size that blocks this vehicle
-    /// </summary>
-    [DataField, AutoNetworkedField]
-    public VehicleMobSize? XenoBlockMinimumSize;
-
-    /// <summary>
-    /// whether xenos are allowed to push this vehicle
-    /// </summary>
-    [DataField, AutoNetworkedField]
-    public bool CanXenosPush = true;
-
-    /// <summary>
-    /// minimum xeno size needed to push this vehicle
-    /// </summary>
-    [DataField, AutoNetworkedField]
-    public VehicleMobSize? XenoPushMinimumSize;
-
-    /// <summary>
     /// whether this vehicle can push other grid vehicles
     /// </summary>
     [DataField, AutoNetworkedField]

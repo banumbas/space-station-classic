@@ -152,6 +152,7 @@
     fireWhileRotatingGraceDegrees: 180
     useBarrelDirectionForShots: true
     maxShotCurvatureDegrees: 10
+  - type: GunUseGunOrigin
   - type: Gun
     fireRate: 5 # 0.2 seconds between shots
     selectedMode: FullAuto
@@ -220,6 +221,7 @@
   - type: HardpointVisual
     vehicleState: humveelauncher_0
     damagedVehicleState: humveelauncher_1
+  - type: GunUseGunOrigin
   - type: Gun
     fireRate: 0.7
     projectileSpeed: 18

@@ -11,7 +11,6 @@ public sealed class VehicleWeaponSupportSystem : EntitySystem
     public override void Initialize()
     {
         SubscribeLocalEvent<GunComponent, GunRefreshModifiersEvent>(OnGunRefresh);
-        SubscribeLocalEvent<GunComponent, GetWeaponAccuracyEvent>(OnGetAccuracy);
     }
 
     private void OnGunRefresh(Entity<GunComponent> ent, ref GunRefreshModifiersEvent args)
@@ -23,16 +22,5 @@ public sealed class VehicleWeaponSupportSystem : EntitySystem
             return;
 
         args.FireRate *= mods.FireRateMultiplier;
-    }
-
-    private void OnGetAccuracy(Entity<GunComponent> ent, ref GetWeaponAccuracyEvent args)
-    {
-        if (!_topology.TryGetVehicle(ent.Owner, out var vehicle))
-            return;
-
-        if (!TryComp(vehicle, out VehicleWeaponSupportModifierComponent? mods))
-            return;
-
-        args.AccuracyMultiplier *= mods.AccuracyMultiplier;
     }
 }

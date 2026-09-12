@@ -61,7 +61,6 @@ public sealed partial class VehicleWeaponsSystem : EntitySystem
         SubscribeLocalEvent<VehicleWeaponsComponent, HardpointSlotsChangedEvent>(OnHardpointSlotsChanged);
 
         SubscribeLocalEvent<VehicleTurretComponent, GunShotEvent>(OnTurretGunShot);
-        SubscribeLocalEvent<VehicleTurretComponent, GetIFFGunUserEvent>(OnTurretGetIFFGunUser);
 
         SubscribeLocalEvent<VehicleWeaponsComponent, AfterAutoHandleStateEvent>(OnWeaponsAfterState);
     }
@@ -449,16 +448,6 @@ public sealed partial class VehicleWeaponsSystem : EntitySystem
             return;
 
         UpdateWeaponsUiForAllOperators(vehicle, weapons);
-    }
-
-    private void OnTurretGetIFFGunUser(Entity<VehicleTurretComponent> ent, ref GetIFFGunUserEvent args)
-    {
-        if (!TryGetContainingVehicle(ent.Owner, out var vehicle) ||
-            !TryComp(vehicle, out VehicleWeaponsComponent? weapons) ||
-            !weapons.HardpointOperators.TryGetValue(ent.Owner, out var operatorUid))
-            return;
-
-        args.GunUser = operatorUid;
     }
 
     private void OnWeaponsAfterState(Entity<VehicleWeaponsComponent> vehicleEnt, ref AfterAutoHandleStateEvent args)

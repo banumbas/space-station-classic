@@ -17,7 +17,6 @@ public sealed partial class VehicleInteriorComponent : Component
     public EntityUid Grid = EntityUid.Invalid;
     public HashSet<int> EntryLocks = new();
     public HashSet<EntityUid> Passengers = new();
-    public HashSet<EntityUid> Xenos = new();
 }
 
 [RegisterComponent, NetworkedComponent, AutoGenerateComponentState]
@@ -34,7 +33,4 @@ public sealed partial class VehicleInteriorOccupantComponent : Component
 {
     [AutoNetworkedField]
     public EntityUid Vehicle = EntityUid.Invalid;
-
-    [AutoNetworkedField]
-    public bool IsXeno;
 }

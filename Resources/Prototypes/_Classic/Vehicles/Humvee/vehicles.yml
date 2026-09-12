@@ -14,8 +14,6 @@
     deceleration: 12
     turnDelay: 0.25
     pushCooldown: 2
-    xenoBlockMinimumSize: Immobile
-    xenoPushMinimumSize: Immobile
   - type: VehicleOvercharge
     speedMultiplier: 1.5
     duration: 3
@@ -127,7 +125,6 @@
     enterDoAfter: 1.0
     exitDoAfter: 1.0
     maxPassengers: 4
-    maxXenos: 2
     entryPoints:
     - offset: -1,0.8
       radius: 0.45
@@ -202,7 +199,6 @@
     enterDoAfter: 1.0
     exitDoAfter: 1.0
     maxPassengers: 4
-    maxXenos: 2
     entryPoints:
     - offset: 0.45,1.6
       radius: 0.5
@@ -264,7 +260,6 @@
     enterDoAfter: 1.0
     exitDoAfter: 1.0
     maxPassengers: 6
-    maxXenos: 2
     entryPoints:
     - offset: 0.45,1.6
       radius: 0.5
@@ -315,7 +310,6 @@
     enterDoAfter: 1.0
     exitDoAfter: 1.0
     maxPassengers: 5
-    maxXenos: 2
 
     entryPoints:
     - offset: -1,-0.1
