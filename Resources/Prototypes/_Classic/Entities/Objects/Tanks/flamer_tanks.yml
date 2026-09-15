@@ -139,6 +139,17 @@
           Quantity: 100
 
 - type: entity
+  id: FlamerFuelTankSmallEmpty
+  parent: FlamerFuelTankSmall
+  name: flamer fuel cartridge (empty)
+  description: An empty pressurized chemical cartridge for portable flamethrowers. Can be refilled with chemical fuels.
+  components:
+  - type: SolutionContainerManager
+    solutions:
+      tank:
+        maxVol: 100
+
+- type: entity
   id: FlamerBackpackTankFLCS
   parent: ClothingBackpackSatchel
   name: FLCS combat backpack
@@ -175,6 +186,7 @@
       flamer_slot:
         name: flamer-slot-flamer
         priority: 10
+        startingItem: WeaponFlamethrowerFLC
         insertSound: /Audio/_Classic/Weapons/Guns/Flamer/wy_flamer_reload.ogg
         ejectSound: /Audio/_Classic/Weapons/Guns/Flamer/wy_flamer_unload.ogg
         whitelist:
