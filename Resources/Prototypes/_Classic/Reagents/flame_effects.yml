@@ -19,6 +19,8 @@
   tileFireStacks: 0.8
   maxTileFireStacks: 4.0
   tileFireDuration: 10.0
+  walkSpeedModifier: 0.65
+  sprintSpeedModifier: 0.65
   linearDamping: 1.6
   projectileLifetime: 0.55
   minScale: 0.55
@@ -35,6 +37,8 @@
   tileFireStacks: 0.5
   maxTileFireStacks: 2.5
   tileFireDuration: 5.0
+  walkSpeedModifier: 0.70
+  sprintSpeedModifier: 0.70
   linearDamping: 1.75
   projectileLifetime: 0.52
   maxScale: 1.25
@@ -51,6 +55,8 @@
   tileFireStacks: 0.25
   maxTileFireStacks: 1.0
   tileFireDuration: 2.5
+  walkSpeedModifier: 0.80
+  sprintSpeedModifier: 0.80
   linearDamping: 1.4
   projectileLifetime: 0.62
   minScale: 0.65
@@ -67,6 +73,8 @@
   tileFireStacks: 1.0
   maxTileFireStacks: 6.0
   tileFireDuration: 25.0
+  walkSpeedModifier: 0.45
+  sprintSpeedModifier: 0.45
   linearDamping: 2.4
   projectileLifetime: 0.50
   minScale: 0.6
@@ -81,6 +89,8 @@
     types:
       Heat: 16
   tileFireDuration: 7.0
+  walkSpeedModifier: 0.65
+  sprintSpeedModifier: 0.65
   linearDamping: 1.8
   projectileLifetime: 0.48
   minScale: 0.7
@@ -98,6 +108,8 @@
   tileFireStacks: 1.2
   maxTileFireStacks: 5.5
   tileFireDuration: 14.0
+  walkSpeedModifier: 0.55
+  sprintSpeedModifier: 0.55
   linearDamping: 1.6
   projectileLifetime: 0.55
   minScale: 0.6
@@ -113,6 +125,8 @@
   tileFireStacks: 1.5
   maxTileFireStacks: 8.0
   tileFireDuration: 16.0
+  walkSpeedModifier: 0.50
+  sprintSpeedModifier: 0.50
   linearDamping: 1.3
   projectileLifetime: 0.58
   minScale: 0.65

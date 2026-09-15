@@ -74,6 +74,9 @@
     requiredTriggeredSpeed: 0
   - type: FlameTileFire
     effect: Napalm
+  - type: SpeedModifierContacts
+    walkSpeedModifier: 0.65
+    sprintSpeedModifier: 0.65
   - type: PointLight
     radius: 3.5
     energy: 2.0

@@ -55,6 +55,18 @@ public sealed partial class ReagentFlameEffectPrototype : IPrototype, IInheritin
     [DataField]
     public float TileFireDuration = 10f;
 
+    /// <summary>
+    /// Movement speed modifier applied to entities walking on the resulting tile fire (1.0 = normal, 0.5 = 50% speed).
+    /// </summary>
+    [DataField]
+    public float WalkSpeedModifier = 0.65f;
+
+    /// <summary>
+    /// Sprint speed modifier applied to entities walking on the resulting tile fire (1.0 = normal, 0.5 = 50% speed).
+    /// </summary>
+    [DataField]
+    public float SprintSpeedModifier = 0.65f;
+
 
     /// <summary>
     /// Aerodynamic deceleration factor affecting stream range and bunching (applied to Box2D linear damping).
