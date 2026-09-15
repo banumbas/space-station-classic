@@ -7,7 +7,7 @@
         - ClassicDirt
       threshold: -1.0
       entities:
-        - ClassicWallRock2
+        - ClassicWallDirt
     - !type:BiomeEntityLayer
       allowedTiles:
         - ClassicStone

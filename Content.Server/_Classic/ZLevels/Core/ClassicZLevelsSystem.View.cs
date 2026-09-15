@@ -82,6 +82,12 @@ public sealed partial class ClassicZLevelsSystem
         _meta.AddFlag(ent, MetaDataFlags.ExtraTransformEvents);
     }
 
+    /// <summary>Whether an entity is an auxiliary Z-eye belonging to this viewer.</summary>
+    public bool IsViewerEye(EntityUid? viewer, EntityUid eye)
+    {
+        return TryComp<ClassicZLevelViewerComponent>(viewer, out var component) && component.Eyes.Contains(eye);
+    }
+
     private void OnCompRemove(Entity<ClassicZLevelViewerComponent> ent, ref ComponentRemove args)
     {
         _actions.RemoveAction(ent.Comp.ActionEntity);

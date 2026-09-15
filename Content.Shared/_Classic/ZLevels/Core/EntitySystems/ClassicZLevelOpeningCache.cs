@@ -96,6 +96,54 @@ public sealed class ClassicZLevelOpeningCache(int chunkSize = ClassicZLevelOpeni
         return false;
     }
 
+    /// <summary>Bounds of all opening tiles in an inclusive tile range, in grid-local metres.</summary>
+    public bool TryGetOpeningBounds(
+        Entity<MapGridComponent> grid,
+        Vector2i start,
+        Vector2i end,
+        SharedMapSystem map,
+        ITileDefinitionManager tile,
+        out Box2 bounds)
+    {
+        var min = Vector2i.ComponentMin(start, end);
+        var max = Vector2i.ComponentMax(start, end);
+        var firstChunk = SharedMapSystem.GetChunkIndices(min, chunkSize);
+        var lastChunk = SharedMapSystem.GetChunkIndices(max, chunkSize);
+        var first = new Vector2i(int.MaxValue, int.MaxValue);
+        var last = new Vector2i(int.MinValue, int.MinValue);
+        for (var cx = firstChunk.X; cx <= lastChunk.X; cx++)
+        for (var cy = firstChunk.Y; cy <= lastChunk.Y; cy++)
+        {
+            var chunk = new Vector2i(cx, cy);
+            var cached = GetChunkOpenings(grid, chunk, map, tile);
+            if (!cached.HasOpening)
+                continue;
+
+            var chunkStart = chunk * chunkSize;
+            var from = Vector2i.ComponentMax(min, chunkStart);
+            var to = Vector2i.ComponentMin(max, chunkStart + new Vector2i(chunkSize - 1, chunkSize - 1));
+            for (var y = from.Y; y <= to.Y; y++)
+            for (var x = from.X; x <= to.X; x++)
+            {
+                var index = new Vector2i(x, y);
+                if (chunkSize == DefaultChunkSize
+                        ? (cached.OpeningMask & OpeningMaskBit(chunkStart, x, y)) == 0
+                        : !IsOpeningTile(grid, index, map, tile))
+                    continue;
+
+                first = Vector2i.ComponentMin(first, index);
+                last = Vector2i.ComponentMax(last, index);
+            }
+        }
+
+        bounds = default;
+        if (first.X == int.MaxValue)
+            return false;
+
+        bounds = new Box2((Vector2) first * grid.Comp.TileSize, (Vector2) (last + Vector2i.One) * grid.Comp.TileSize);
+        return true;
+    }
+
     public bool TryFindOpeningBounds(
         MapId mapId,
         Box2 worldAabb,

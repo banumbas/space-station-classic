@@ -39,21 +39,27 @@ public abstract partial class ClassicSharedZLevelsSystem
     {
         UpdateDirtyMovement();
 
-        for (var i = _activeBodies.Count - 1; i >= 0; i--)
+        // Landing, damage and map transitions may wake/sleep other bodies during this loop.
+        // A reused snapshot keeps iteration stable while membership changes remain O(1).
+        _activeBodySnapshot.Clear();
+        _activeBodySnapshot.AddRange(_activeBodies);
+        for (var i = _activeBodySnapshot.Count - 1; i >= 0; i--)
         {
-            var uid = _activeBodies[i];
+            var uid = _activeBodySnapshot[i];
+            if (!_activeBodies.Contains(uid))
+                continue;
 
             if (!ZPhysicsQuery.TryComp(uid, out var zPhysicsComponent) ||
                 !_transformQuery.TryComp(uid, out var xform) ||
                 !_physicsQuery.TryComp(uid, out var physics))
             {
-                _activeBodies.RemoveAt(i);
+                _activeBodies.Remove(uid);
                 continue;
             }
 
             if (!_zMapQuery.HasComp(xform.MapUid))
             {
-                _activeBodies.RemoveAt(i);
+                _activeBodies.Remove(uid);
                 continue;
             }
 

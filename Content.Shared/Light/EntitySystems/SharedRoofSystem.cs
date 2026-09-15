@@ -52,7 +52,7 @@ public abstract partial class SharedRoofSystem : EntitySystem
     }
 
     [Pure]
-    public Color? GetColor(Entity<MapGridComponent, RoofComponent> grid, Vector2i index)
+    public Color? GetColor(Entity<MapGridComponent, RoofComponent> grid, Vector2i index, bool checkEntities = true) // classic-edit
     {
         var roof = grid.Comp2;
         var chunkOrigin = SharedMapSystem.GetChunkIndices(index, RoofComponent.ChunkSize);
@@ -70,6 +70,11 @@ public abstract partial class SharedRoofSystem : EntitySystem
                 return roof.Color;
             }
         }
+
+        // classic-start
+        if (!checkEntities)
+            return null;
+        // classic-end
 
         _roofSet.Clear();
         _lookup.GetLocalEntitiesIntersecting(grid.Owner, index, _roofSet);

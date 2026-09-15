@@ -9,6 +9,22 @@ namespace Content.Shared.Light.EntitySystems;
 public abstract partial class SharedRoofSystem
 {
     /// <summary>
+    /// Checks a conservative local area once before drawing a batch of tiles. If it contains no
+    /// enabled roof entities, GetColor can use only the tile masks throughout that area.
+    /// </summary>
+    public bool HasRoofEntities(EntityUid gridUid, Box2 localBounds)
+    {
+        _roofSet.Clear();
+        _lookup.GetLocalEntitiesIntersecting(gridUid, localBounds, _roofSet);
+        foreach (var entity in _roofSet)
+        {
+            if (entity.Comp.Enabled)
+                return true;
+        }
+        return false;
+    }
+
+    /// <summary>
     /// Applies multiple roof-bit changes while dirtying the networked component at most once.
     /// This is intended for streamed/generated tile batches.
     /// </summary>
