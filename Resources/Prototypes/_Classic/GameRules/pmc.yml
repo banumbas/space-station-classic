@@ -29,3 +29,6 @@
       playerRatio: 20
   - type: DynamicRuleCost
     cost: 200
+  - type: PMCAutoAnnouncement
+    delay: 5m
+    color: "#FFFFFF"
