@@ -41,6 +41,7 @@ using Starlight.NullLink;
 using Content.Shared._NullLink;
 using Content.Shared.NullLink.CCVar;
 using Content.Shared.Administration;
+using Content.Server._NullLink.PlayerData;
 #endregion Starlight
 
 namespace Content.Server.Administration.Managers;
@@ -64,6 +65,7 @@ public sealed partial class BanManager : IBanManager, IPostInjectInit
     [Dependency] private UserDbDataManager _userDbData = default!;
     // Classic-Start
     [Dependency] private IEntityManager _entityManager = default!;
+    [Dependency] private readonly INullLinkPlayerManager _nullLinkPlayerManager = default!;
     // Classic-End
 
     private ISawmill _sawmill = default!;
@@ -840,6 +842,13 @@ public sealed partial class BanManager : IBanManager, IPostInjectInit
         {
         }
         // nulllink end
+        // Classic start
+        if (adminDiscordId == null && banDef.BanningAdmin != null && _nullLinkPlayerManager.TryGetPlayerData(banDef.BanningAdmin.Value.UserId, out var adminData) && adminData.DiscordId != 0)
+            adminDiscordId = adminData.DiscordId.ToString();
+
+        if (targetDiscordId == null && banDef.UserId != null && _nullLinkPlayerManager.TryGetPlayerData(banDef.UserId.Value.UserId, out var targetData) && targetData.DiscordId != 0)
+            targetDiscordId = targetData.DiscordId.ToString();
+        // Classic end
 
         var adminLink = "";
         var targetLink = "";
@@ -958,6 +967,13 @@ public sealed partial class BanManager : IBanManager, IPostInjectInit
         }
 
         // nulllink end
+        // Classic start
+        if (adminDiscordId == null && banDef.BanningAdmin != null && _nullLinkPlayerManager.TryGetPlayerData(banDef.BanningAdmin.Value.UserId, out var adminData) && adminData.DiscordId != 0)
+            adminDiscordId = adminData.DiscordId.ToString();
+
+        if (targetDiscordId == null && banDef.UserId != null && _nullLinkPlayerManager.TryGetPlayerData(banDef.UserId.Value.UserId, out var targetData) && targetData.DiscordId != 0)
+            targetDiscordId = targetData.DiscordId.ToString();
+        // Classic end
 
         var adminLink = "";
         var targetLink = "";
