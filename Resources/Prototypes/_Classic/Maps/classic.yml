@@ -1,7 +1,7 @@
 - type: gameMap
   id: ClassicClassic
   mapName: 'Classic'
-  mapPath: /Maps/_Classic/Stations/Colony/Colony0.yml
+  mapPath: /Maps/_Classic/Stations/Calony/silly.yml
   maxRandomOffset: 0
   randomRotation: false
   minPlayers: 5
