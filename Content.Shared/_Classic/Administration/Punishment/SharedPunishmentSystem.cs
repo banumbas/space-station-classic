@@ -1,4 +1,5 @@
 using Content.Shared.Chat;
+using Content.Shared.Emoting;
 using Content.Shared.Examine;
 using Content.Shared.Paper;
 
@@ -12,6 +13,7 @@ public abstract partial class SharedPunishmentSystem : EntitySystem
 
         SubscribeLocalEvent<PunishmentComponent, ExaminedEvent>(OnExamined);
         SubscribeLocalEvent<PunishmentComponent, PaperWriteAttemptEvent>(OnPaperWriteAttempt);
+        SubscribeLocalEvent<PunishmentComponent, EmoteAttemptEvent>(OnEmoteAttempt);
     }
 
     private void OnExamined(Entity<PunishmentComponent> ent, ref ExaminedEvent args)
@@ -40,5 +42,11 @@ public abstract partial class SharedPunishmentSystem : EntitySystem
 
         args.Cancelled = true;
         args.FailReason = Loc.GetString("punishment-paper-write-blocked");
+    }
+
+    private void OnEmoteAttempt(Entity<PunishmentComponent> ent, ref EmoteAttemptEvent args)
+    {
+        if ((ent.Comp.MutedChannels & ChatChannel.Emotes) != 0)
+            args.Cancel();
     }
 }
