@@ -1397,7 +1397,7 @@
   - type: Icon
     sprite: _Classic/Structures/Walls/wood.rsi
   - type: Construction
-    graph: Barricade
+    graph: BarricadeDirectional
     node: woodWall
   - type: Destructible
     thresholds:
@@ -1418,7 +1418,7 @@
         sound:
           collection: WoodDestroyHeavy
       - !type:ChangeConstructionNodeBehavior
-        node: Barricade
+        node: barricadefull
       - !type:DoActsBehavior
         acts: ["Destruction"]
   - type: IconSmooth

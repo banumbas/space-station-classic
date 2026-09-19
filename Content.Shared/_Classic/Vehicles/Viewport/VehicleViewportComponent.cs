@@ -1,0 +1,22 @@
+using Content.Shared._Classic.Vehicles;
+using Robust.Shared.GameStates;
+
+namespace Content.Shared._Classic.Vehicles.Viewport;
+
+
+[RegisterComponent, NetworkedComponent]
+public sealed partial class VehicleViewportComponent : Component;
+
+
+[RegisterComponent, NetworkedComponent, AutoGenerateComponentState]
+public sealed partial class VehicleViewportUserComponent : Component
+{
+    [DataField, AutoNetworkedField]
+    public EntityUid? PreviousTarget;
+
+    [DataField, AutoNetworkedField]
+    public EntityUid? Source;
+
+    [DataField, AutoNetworkedField]
+    public EntityUid? PeekTarget;
+}

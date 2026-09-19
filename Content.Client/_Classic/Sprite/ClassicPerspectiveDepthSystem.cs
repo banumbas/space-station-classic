@@ -1,4 +1,5 @@
 using System.Numerics;
+using Content.Client.IconSmoothing;
 using Content.Shared._Classic.Sprite;
 using Robust.Client.GameObjects;
 using Robust.Client.Graphics;
@@ -61,8 +62,10 @@ internal sealed partial class ClassicPerspectiveDepthOverlay : Overlay
     [Dependency] private IEntityManager _entity = default!;
 
     private readonly EntityLookupSystem _lookup;
+    private readonly IconSmoothSystem _iconSmooth;
     private readonly SharedTransformSystem _transform;
     private readonly EntityQuery<SpriteComponent> _spriteQuery;
+    private readonly EntityQuery<IconSmoothComponent> _smoothQuery;
     private readonly EntityQuery<TransformComponent> _xformQuery;
     private readonly HashSet<Entity<ClassicPerspectiveDepthComponent>> _intersecting = [];
     private readonly List<RenderEntry> _renderEntries = [];
@@ -74,8 +77,10 @@ internal sealed partial class ClassicPerspectiveDepthOverlay : Overlay
         IoCManager.InjectDependencies(this);
 
         _lookup = _entity.System<EntityLookupSystem>();
+        _iconSmooth = _entity.System<IconSmoothSystem>();
         _transform = _entity.System<SharedTransformSystem>();
         _spriteQuery = _entity.GetEntityQuery<SpriteComponent>();
+        _smoothQuery = _entity.GetEntityQuery<IconSmoothComponent>();
         _xformQuery = _entity.GetEntityQuery<TransformComponent>();
         ZIndex = ClassicPerspectiveDepthComponent.OverlayDrawDepth;
     }
@@ -120,12 +125,25 @@ internal sealed partial class ClassicPerspectiveDepthOverlay : Overlay
 
         foreach (var entry in _renderEntries)
         {
+            if (_smoothQuery.TryComp(entry.Uid, out var smooth) &&
+                _iconSmooth.HasClassicNorthNeighbour((entry.Uid, smooth)))
+            {
+                continue;
+            }
+
+            var hasUpperLayers = _iconSmooth.TryGetClassicUpperLayers(
+                (entry.Uid, entry.Sprite),
+                out var upperLayer1,
+                out var upperLayer2);
+
             DrawTopOverlay(
                 entry.Sprite,
                 args.WorldHandle,
                 eye.Rotation,
                 entry.WorldRotation,
-                entry.WorldPosition);
+                entry.WorldPosition,
+                hasUpperLayers ? upperLayer1 : -1,
+                hasUpperLayers ? upperLayer2 : -1);
         }
     }
 
@@ -147,7 +165,9 @@ internal sealed partial class ClassicPerspectiveDepthOverlay : Overlay
         DrawingHandleWorld drawingHandle,
         Angle eyeRotation,
         Angle worldRotation,
-        Vector2 worldPosition)
+        Vector2 worldPosition,
+        int upperLayer1,
+        int upperLayer2)
     {
         var angle = (worldRotation + eyeRotation).Reduced().FlipPositive();
         var cardinal = Angle.Zero;
@@ -162,10 +182,14 @@ internal sealed partial class ClassicPerspectiveDepthOverlay : Overlay
 
         if (!sprite.GranularLayersRendering)
         {
+            var layerIndex = 0;
             foreach (var layer in sprite.AllLayers)
             {
-                if (layer is SpriteComponent.Layer spriteLayer)
+                if (layer is SpriteComponent.Layer spriteLayer &&
+                    IsOverlayLayer(layerIndex, upperLayer1, upperLayer2))
                     DrawLayerTop(spriteLayer, drawingHandle, spriteMatrix, angle, sprite);
+
+                layerIndex++;
             }
 
             return;
@@ -180,10 +204,15 @@ internal sealed partial class ClassicPerspectiveDepthOverlay : Overlay
         entityMatrix = Matrix3Helpers.CreateTransform(worldPosition, -eyeRotation);
         var transformNoRotation = Matrix3x2.Multiply(sprite.LocalMatrix, entityMatrix);
 
+        var granularLayerIndex = 0;
         foreach (var layer in sprite.AllLayers)
         {
-            if (layer is not SpriteComponent.Layer spriteLayer)
+            if (layer is not SpriteComponent.Layer spriteLayer ||
+                !IsOverlayLayer(granularLayerIndex, upperLayer1, upperLayer2))
+            {
+                granularLayerIndex++;
                 continue;
+            }
 
             var transform = spriteLayer.RenderingStrategy switch
             {
@@ -195,7 +224,13 @@ internal sealed partial class ClassicPerspectiveDepthOverlay : Overlay
             };
 
             DrawLayerTop(spriteLayer, drawingHandle, transform, angle, sprite);
+            granularLayerIndex++;
         }
+    }
+
+    private static bool IsOverlayLayer(int layerIndex, int upperLayer1, int upperLayer2)
+    {
+        return upperLayer1 < 0 || layerIndex == upperLayer1 || layerIndex == upperLayer2;
     }
 
     private static void DrawLayerTop(

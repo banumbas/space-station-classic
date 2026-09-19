@@ -53,6 +53,8 @@
       map: ["enum.DoorVisualLayers.BaseEmagging"]
       shader: unshaded
       visible: false
+  - type: ClassicPerspectiveDepth # Classic-Edit
+    baseDrawDepth: Doors
   - type: AnimationPlayer
   - type: Physics
   - type: Fixtures
