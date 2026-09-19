@@ -353,7 +353,7 @@ async def link_user_on_server(user_id_or_name: str, discord_id: int, roles: Opti
     """Sends a link request to the SS14 server REST API."""
     url = f"{SS14_API_URL}/admin/actions/discord/link"
     headers = {
-        "Authorization": f"Bearer {SS14_API_TOKEN}",
+        "Authorization": f"SS14Token {SS14_API_TOKEN}",
         "Content-Type": "application/json"
     }
     payload: Dict[str, Any] = {
