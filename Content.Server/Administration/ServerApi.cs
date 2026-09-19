@@ -548,7 +548,7 @@ public sealed partial class ServerApi : IPostInjectInit
         var authScheme = authHeaderValue[..spaceIndex];
         var authValue = authHeaderValue[spaceIndex..].Trim();
 
-        if (authScheme != SS14TokenScheme)
+        if (authScheme != SS14TokenScheme && !string.Equals(authScheme, "Bearer", StringComparison.OrdinalIgnoreCase))
         {
             await RespondBadRequest(context, "Invalid Authorization scheme");
             return false;
