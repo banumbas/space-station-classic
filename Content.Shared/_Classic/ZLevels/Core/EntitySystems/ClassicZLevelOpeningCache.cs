@@ -16,6 +16,7 @@ public sealed class ClassicZLevelOpeningCache(int chunkSize = ClassicZLevelOpeni
     private const int DefaultChunkSize = 8;
 
     private readonly Dictionary<EntityUid, GridOpeningCache> _gridCaches = new();
+    private ulong _nextRevision;
 
     public int ChunkSize => chunkSize;
 
@@ -35,6 +36,7 @@ public sealed class ClassicZLevelOpeningCache(int chunkSize = ClassicZLevelOpeni
             return;
 
         cache.LastTileModifiedTick = grid.Comp.LastTileModifiedTick;
+        cache.Revision = NextRevision();
 
         if (changes.Length == 0)
         {
@@ -47,6 +49,20 @@ public sealed class ClassicZLevelOpeningCache(int chunkSize = ClassicZLevelOpeni
             var chunk = SharedMapSystem.GetChunkIndices(changes[i].GridIndices, chunkSize);
             cache.Chunks.Remove(chunk);
         }
+    }
+
+    /// <summary>
+    /// Monotonic identity of the grid's cached tile snapshot. Unlike
+    /// <see cref="MapGridComponent.LastTileModifiedTick"/>, this changes for every forwarded tile
+    /// event, so a resumable reader detects an opening that is created and closed in one tick.
+    /// Calling this also starts tracking the grid; callers must continue forwarding tile changes
+    /// through <see cref="InvalidateTiles"/>.
+    /// </summary>
+    public ulong GetRevision(Entity<MapGridComponent> grid)
+    {
+        var cache = GetGridCache(grid);
+        SynchronizeGridCache(grid, cache);
+        return cache.Revision;
     }
 
     public bool ChunkHasOpening(
@@ -96,6 +112,54 @@ public sealed class ClassicZLevelOpeningCache(int chunkSize = ClassicZLevelOpeni
         return false;
     }
 
+    /// <summary>Bounds of all opening tiles in an inclusive tile range, in grid-local metres.</summary>
+    public bool TryGetOpeningBounds(
+        Entity<MapGridComponent> grid,
+        Vector2i start,
+        Vector2i end,
+        SharedMapSystem map,
+        ITileDefinitionManager tile,
+        out Box2 bounds)
+    {
+        var min = Vector2i.ComponentMin(start, end);
+        var max = Vector2i.ComponentMax(start, end);
+        var firstChunk = SharedMapSystem.GetChunkIndices(min, chunkSize);
+        var lastChunk = SharedMapSystem.GetChunkIndices(max, chunkSize);
+        var first = new Vector2i(int.MaxValue, int.MaxValue);
+        var last = new Vector2i(int.MinValue, int.MinValue);
+        for (var cx = firstChunk.X; cx <= lastChunk.X; cx++)
+        for (var cy = firstChunk.Y; cy <= lastChunk.Y; cy++)
+        {
+            var chunk = new Vector2i(cx, cy);
+            var cached = GetChunkOpenings(grid, chunk, map, tile);
+            if (!cached.HasOpening)
+                continue;
+
+            var chunkStart = chunk * chunkSize;
+            var from = Vector2i.ComponentMax(min, chunkStart);
+            var to = Vector2i.ComponentMin(max, chunkStart + new Vector2i(chunkSize - 1, chunkSize - 1));
+            for (var y = from.Y; y <= to.Y; y++)
+            for (var x = from.X; x <= to.X; x++)
+            {
+                var index = new Vector2i(x, y);
+                if (chunkSize == DefaultChunkSize
+                        ? (cached.OpeningMask & OpeningMaskBit(chunkStart, x, y)) == 0
+                        : !IsOpeningTile(grid, index, map, tile))
+                    continue;
+
+                first = Vector2i.ComponentMin(first, index);
+                last = Vector2i.ComponentMax(last, index);
+            }
+        }
+
+        bounds = default;
+        if (first.X == int.MaxValue)
+            return false;
+
+        bounds = new Box2((Vector2) first * grid.Comp.TileSize, (Vector2) (last + Vector2i.One) * grid.Comp.TileSize);
+        return true;
+    }
+
     public bool TryFindOpeningBounds(
         MapId mapId,
         Box2 worldAabb,
@@ -137,13 +201,36 @@ public sealed class ClassicZLevelOpeningCache(int chunkSize = ClassicZLevelOpeni
                         continue;
 
                     if (openingBounds == null)
-                        return true;
+                    {
+                        // A cached chunk may contain an opening outside the requested world
+                        // bounds. The boolean fast path must still clip to the exact tile range,
+                        // otherwise a nearby hole (or an empty cache edge) exposes a whole lower
+                        // Z viewport that the renderer itself would keep occluded.
+                        if (ForEachOpeningTileInBounds(
+                                grid,
+                                chunk,
+                                Math.Max(startX, chunkX * chunkSize),
+                                Math.Min(endX, (chunkX + 1) * chunkSize - 1),
+                                Math.Max(startY, chunkY * chunkSize),
+                                Math.Min(endY, (chunkY + 1) * chunkSize - 1),
+                                map,
+                                tileDefinition,
+                                _ => true))
+                        {
+                            return true;
+                        }
+
+                        continue;
+                    }
 
                     if (!exactOpeningBounds)
                     {
                         var chunkStart = chunk * chunkSize;
                         var chunkEnd = chunkStart + new Vector2i(chunkSize, chunkSize);
-                        var localBounds = new Box2(chunkStart.X, chunkStart.Y, chunkEnd.X, chunkEnd.Y);
+                        var tileSize = MathF.Max(grid.Comp.TileSize, float.Epsilon);
+                        var localBounds = new Box2(
+                            (Vector2) chunkStart * tileSize,
+                            (Vector2) chunkEnd * tileSize);
                         var worldBounds = gridWorldMatrix.TransformBox(localBounds);
 
                         AddOpeningBounds(openingBounds, worldBounds, ref combinedBounds, ref foundOpening);
@@ -174,11 +261,10 @@ public sealed class ClassicZLevelOpeningCache(int chunkSize = ClassicZLevelOpeni
                             tileDefinition,
                             openingTile =>
                             {
+                                var tileSize = MathF.Max(grid.Comp.TileSize, float.Epsilon);
                                 var localTileBounds = new Box2(
-                                    openingTile.X,
-                                    openingTile.Y,
-                                    openingTile.X + 1,
-                                    openingTile.Y + 1);
+                                    (Vector2) openingTile * tileSize,
+                                    (Vector2) (openingTile + Vector2i.One) * tileSize);
                                 var worldTileBounds = gridWorldMatrix.TransformBox(localTileBounds);
                                 AddOpeningBounds(openingBounds, worldTileBounds, ref combinedBounds, ref foundOpening);
 
@@ -228,7 +314,8 @@ public sealed class ClassicZLevelOpeningCache(int chunkSize = ClassicZLevelOpeni
             if (!Matrix3x2.Invert(gridWorldMatrix, out var gridInvWorldMatrix))
                 continue;
 
-            var localSourcePosition = Vector2.Transform(sourcePosition, gridInvWorldMatrix);
+            var tileSize = MathF.Max(grid.Comp.TileSize, float.Epsilon);
+            var localSourcePosition = Vector2.Transform(sourcePosition, gridInvWorldMatrix) / tileSize;
             var sourceInsideOpening = IsExistingOpeningTile(
                 grid,
                 new Vector2i((int) MathF.Floor(localSourcePosition.X), (int) MathF.Floor(localSourcePosition.Y)),
@@ -268,7 +355,7 @@ public sealed class ClassicZLevelOpeningCache(int chunkSize = ClassicZLevelOpeni
                             }
 
                             var center = Vector2.Transform(
-                                new Vector2(openingTile.X + 0.5f, openingTile.Y + 0.5f),
+                                new Vector2(openingTile.X + 0.5f, openingTile.Y + 0.5f) * tileSize,
                                 gridWorldMatrix);
                             var distanceSquared = Vector2.DistanceSquared(sourcePosition, center);
                             if (distanceSquared > searchRadiusSquared)
@@ -318,7 +405,8 @@ public sealed class ClassicZLevelOpeningCache(int chunkSize = ClassicZLevelOpeni
             if (!Matrix3x2.Invert(gridWorldMatrix, out var gridInvWorldMatrix))
                 continue;
 
-            var localSourcePosition = Vector2.Transform(sourcePosition, gridInvWorldMatrix);
+            var tileSize = MathF.Max(grid.Comp.TileSize, float.Epsilon);
+            var localSourcePosition = Vector2.Transform(sourcePosition, gridInvWorldMatrix) / tileSize;
             var sourceInsideOpening = IsExistingOpeningTile(
                 grid,
                 new Vector2i((int) MathF.Floor(localSourcePosition.X), (int) MathF.Floor(localSourcePosition.Y)),
@@ -457,17 +545,8 @@ public sealed class ClassicZLevelOpeningCache(int chunkSize = ClassicZLevelOpeni
         SharedMapSystem map,
         ITileDefinitionManager tile)
     {
-        if (!_gridCaches.TryGetValue(grid.Owner, out var cache))
-        {
-            cache = new GridOpeningCache();
-            _gridCaches[grid.Owner] = cache;
-        }
-
-        if (cache.LastTileModifiedTick != grid.Comp.LastTileModifiedTick)
-        {
-            cache.LastTileModifiedTick = grid.Comp.LastTileModifiedTick;
-            cache.Chunks.Clear();
-        }
+        var cache = GetGridCache(grid);
+        SynchronizeGridCache(grid, cache);
 
         if (cache.Chunks.TryGetValue(chunk, out var cached))
             return cached;
@@ -475,6 +554,45 @@ public sealed class ClassicZLevelOpeningCache(int chunkSize = ClassicZLevelOpeni
         cached = CalculateChunkOpenings(grid, chunk, map, tile);
         cache.Chunks[chunk] = cached;
         return cached;
+    }
+
+    private GridOpeningCache GetGridCache(Entity<MapGridComponent> grid)
+    {
+        if (_gridCaches.TryGetValue(grid.Owner, out var cache))
+            return cache;
+
+        cache = new GridOpeningCache
+        {
+            LastTileModifiedTick = grid.Comp.LastTileModifiedTick,
+            Revision = NextRevision(),
+        };
+        _gridCaches[grid.Owner] = cache;
+        return cache;
+    }
+
+    private void SynchronizeGridCache(Entity<MapGridComponent> grid, GridOpeningCache cache)
+    {
+        if (cache.LastTileModifiedTick == grid.Comp.LastTileModifiedTick)
+            return;
+
+        // This fallback protects users that miss a tile event. Event-driven invalidation remains
+        // necessary because multiple writes can share LastTileModifiedTick.
+        cache.LastTileModifiedTick = grid.Comp.LastTileModifiedTick;
+        cache.Revision = NextRevision();
+        cache.Chunks.Clear();
+    }
+
+    private ulong NextRevision()
+    {
+        // Zero is kept as a convenient "not observed" value for resumable consumers. Wrapping is
+        // practically unreachable, but skipping it also keeps that invariant mechanically true.
+        unchecked
+        {
+            _nextRevision++;
+            if (_nextRevision == 0)
+                _nextRevision++;
+            return _nextRevision;
+        }
     }
 
     private bool ForEachOpeningTileInBounds(
@@ -651,7 +769,8 @@ public sealed class ClassicZLevelOpeningCache(int chunkSize = ClassicZLevelOpeni
         }
 
         var center = Vector2.Transform(
-            new Vector2(openingTile.X + 0.5f, openingTile.Y + 0.5f),
+            new Vector2(openingTile.X + 0.5f, openingTile.Y + 0.5f) *
+            MathF.Max(grid.Comp.TileSize, float.Epsilon),
             gridWorldMatrix);
         var distanceSquared = Vector2.DistanceSquared(sourcePosition, center);
         if (distanceSquared > searchRadiusSquared ||
@@ -716,11 +835,23 @@ public sealed class ClassicZLevelOpeningCache(int chunkSize = ClassicZLevelOpeni
     {
         var tileBottomLeft = map.TileIndicesFor(grid.Owner, grid.Comp, bottomLeft);
         var tileTopRight = map.TileIndicesFor(grid.Owner, grid.Comp, topRight);
+        // The two world-AABB diagonal corners stop being local extrema as soon as a grid has an
+        // arbitrary rotation. Include the other diagonal too; otherwise opening searches can
+        // silently miss the two local wedges between those points (45-degree grids are the worst
+        // case) and incorrectly hide a lower Z level or choose the wrong fall opening.
+        var tileTopLeft = map.TileIndicesFor(
+            grid.Owner,
+            grid.Comp,
+            new MapCoordinates(bottomLeft.X, topRight.Y, bottomLeft.MapId));
+        var tileBottomRight = map.TileIndicesFor(
+            grid.Owner,
+            grid.Comp,
+            new MapCoordinates(topRight.X, bottomLeft.Y, bottomLeft.MapId));
 
-        startX = Math.Min(tileBottomLeft.X, tileTopRight.X) - 1;
-        endX = Math.Max(tileBottomLeft.X, tileTopRight.X) + 1;
-        startY = Math.Min(tileBottomLeft.Y, tileTopRight.Y) - 1;
-        endY = Math.Max(tileBottomLeft.Y, tileTopRight.Y) + 1;
+        startX = Math.Min(Math.Min(tileBottomLeft.X, tileTopRight.X), Math.Min(tileTopLeft.X, tileBottomRight.X)) - 1;
+        endX = Math.Max(Math.Max(tileBottomLeft.X, tileTopRight.X), Math.Max(tileTopLeft.X, tileBottomRight.X)) + 1;
+        startY = Math.Min(Math.Min(tileBottomLeft.Y, tileTopRight.Y), Math.Min(tileTopLeft.Y, tileBottomRight.Y)) - 1;
+        endY = Math.Max(Math.Max(tileBottomLeft.Y, tileTopRight.Y), Math.Max(tileTopLeft.Y, tileBottomRight.Y)) + 1;
     }
 
     private static void AddOpeningBounds(
@@ -739,6 +870,7 @@ public sealed class ClassicZLevelOpeningCache(int chunkSize = ClassicZLevelOpeni
     private sealed class GridOpeningCache
     {
         public GameTick LastTileModifiedTick;
+        public ulong Revision;
         public readonly Dictionary<Vector2i, CachedChunk> Chunks = new();
     }
 

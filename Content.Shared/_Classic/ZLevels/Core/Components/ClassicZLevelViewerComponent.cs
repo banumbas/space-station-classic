@@ -19,6 +19,9 @@ public sealed partial class ClassicZLevelViewerComponent : Component
 {
     public HashSet<EntityUid> Eyes = new();
 
+    /// <summary>Server-owned subset of <see cref="Eyes"/> used only while looking upward.</summary>
+    public HashSet<EntityUid> UpperEyes = new();
+
     /// <summary>
     /// We can look at 1 z-level up.
     /// </summary>

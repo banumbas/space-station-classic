@@ -1,4 +1,4 @@
-﻿using System.Numerics;
+using System.Numerics;
 using Content.Client.Animations;
 using Content.Client.Gameplay;
 using Content.Client.Items;
@@ -39,6 +39,7 @@ using Robust.Shared.Timing;
 using Robust.Shared.Configuration;
 using Content.Shared._Starlight.Weapons.Hitscan.Events;
 #endregion Starlight
+using Content.Shared._Classic.Vehicles; // Classic-edit
 
 namespace Content.Client.Weapons.Ranged.Systems;
 
@@ -407,7 +408,10 @@ public sealed partial class GunSystem : SharedGunSystem
         }
 
         // Define target coordinates relative to gun entity, so that network latency on moving grids doesn't fuck up the target location.
-        var coordinates = TransformSystem.ToCoordinates(entity, mousePos);
+        // Classic-edit: begin
+        var coordinateEntity = HasComp<GunUseGunOriginComponent>(gun) ? (EntityUid)gun : entity;
+        var coordinates = TransformSystem.ToCoordinates(coordinateEntity, mousePos);
+        // Classic-edit: end
 
         NetEntity? target = null;
         if (_state.CurrentState is GameplayStateBase screen)

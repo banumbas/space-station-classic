@@ -42,8 +42,9 @@ public sealed partial class ClassicZLevelsRoofSystem
             foreach (var grid in Map.GetAllGrids(mapComponent.MapId))
             {
                 var gridUid = grid.Owner;
-                var roofComp = EnsureComp<RoofComponent>(gridUid);
                 EnsureComp<ClassicZLevelRoofComponent>(gridUid);
+
+                var roofComp = EnsureComp<RoofComponent>(gridUid);
                 RemCompDeferred<ImplicitRoofComponent>(gridUid);
 
                 var enumerator = Map.GetAllTilesEnumerator(gridUid, grid.Comp);

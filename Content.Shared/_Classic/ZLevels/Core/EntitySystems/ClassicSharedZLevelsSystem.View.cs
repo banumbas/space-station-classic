@@ -35,6 +35,12 @@ public abstract partial class ClassicSharedZLevelsSystem
         DirtyField(entity, entity.Comp, nameof(ClassicZLevelViewerComponent.LookUp));
 
         _actions.SetToggled(entity.Comp.ActionEntity, entity.Comp.LookUp);
+        LookUpChanged(entity);
+    }
+
+    /// <summary>Server hook for updating PVS subscriptions when upward rendering is toggled.</summary>
+    protected virtual void LookUpChanged(Entity<ClassicZLevelViewerComponent> entity)
+    {
     }
 
     /// <summary>
