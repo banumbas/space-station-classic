@@ -58,9 +58,20 @@ public sealed partial class ClassicStationBiomeSystem : EntitySystem
         var seed = ent.Comp.Seed ?? _random.Next();
 
         SetupBiome(surfaceGridUid.Value, ent.Comp.Biome, seed);
-        SetupTerrainGrid(surfaceGridUid.Value, surfaceGrid, ent.Comp.DisableGridSplitting, sunlight: true);
+
+        if (TryComp<MapComponent>(surfaceMapUid, out var surfaceMapComp))
+        {
+            foreach (var grid in _map.GetAllGrids(surfaceMapComp.MapId))
+            {
+                SetupTerrainGrid(grid.Owner, grid.Comp, ent.Comp.DisableGridSplitting, sunlight: true);
+            }
+        }
+        else
+        {
+            SetupTerrainGrid(surfaceGridUid.Value, surfaceGrid, ent.Comp.DisableGridSplitting, sunlight: true);
+        }
+
         SetupSurfaceMap(surfaceMapUid, ent.Comp);
-        EnsureComp<ClassicGridStabilityComponent>(surfaceGridUid.Value);
 
         if (!_zLevels.TryGetMapNetwork(surfaceMapUid, out var network))
             return;
@@ -133,15 +144,18 @@ public sealed partial class ClassicStationBiomeSystem : EntitySystem
 
     private void SetupUpperConstructionLevel(EntityUid surfaceMapUid, ClassicStationBiomeComponent component)
     {
-        if (!_zLevels.TryMapUp(surfaceMapUid, out var upperMap) ||
-            !TryGetTerrainGrid(upperMap.Owner, out var upperGrid))
-        {
+        if (!_zLevels.TryMapUp(surfaceMapUid, out var upperMap))
             return;
+
+        if (TryComp<MapComponent>(upperMap.Owner, out var map))
+        {
+            foreach (var upperGrid in _map.GetAllGrids(map.MapId))
+            {
+                SetupTerrainGrid(upperGrid.Owner, upperGrid.Comp, component.DisableGridSplitting, sunlight: true);
+            }
         }
 
-        SetupTerrainGrid(upperGrid.Owner, upperGrid.Comp, component.DisableGridSplitting, sunlight: true);
         SetupSurfaceMap(upperMap.Owner, component);
-        EnsureComp<ClassicGridStabilityComponent>(upperGrid.Owner);
     }
 
     private void SetupUndergroundLevel(
@@ -237,7 +251,13 @@ public sealed partial class ClassicStationBiomeSystem : EntitySystem
         cycle.InitialOffset = false;
         Dirty(mapUid, cycle);
 
-        SetupMapEnvironment(mapUid, Atmospherics.T20C);
+        var parallax = component.Parallax;
+        if (string.IsNullOrEmpty(parallax) && TryComp<ParallaxComponent>(mapUid, out var existingParallax) && !string.IsNullOrEmpty(existingParallax.Parallax))
+            parallax = existingParallax.Parallax;
+        if (string.IsNullOrEmpty(parallax))
+            parallax = "Dirt";
+
+        SetupMapEnvironment(mapUid, Atmospherics.T20C, parallax);
     }
 
     private void SetupUndergroundMap(EntityUid mapUid, ClassicUndergroundLevelData level)

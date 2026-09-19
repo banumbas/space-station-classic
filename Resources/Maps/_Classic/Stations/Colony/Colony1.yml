@@ -72,6 +72,7 @@ entities:
     - type: Shuttle
       dampingModifier: 0.25
     - type: ImplicitRoof
+    - type: ClassicZLevelRoof
     - type: NavMap
     - type: GridPathfinding
     - type: Gravity
@@ -125,6 +126,7 @@ entities:
     - type: Shuttle
       dampingModifier: 0.25
     - type: ImplicitRoof
+    - type: ClassicZLevelRoof
     - type: NavMap
     - type: GridPathfinding
     - type: Gravity
@@ -246,6 +248,7 @@ entities:
     - type: Shuttle
       dampingModifier: 0.25
     - type: ImplicitRoof
+    - type: ClassicZLevelRoof
     - type: NavMap
     - type: GridPathfinding
     - type: Gravity
@@ -528,6 +531,7 @@ entities:
     - type: Shuttle
       dampingModifier: 0.25
     - type: ImplicitRoof
+    - type: ClassicZLevelRoof
     - type: NavMap
     - type: GridPathfinding
     - type: Gravity

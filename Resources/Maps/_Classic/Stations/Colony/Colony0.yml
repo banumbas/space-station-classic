@@ -144,7 +144,7 @@ entities:
       name: NTAB Silly Island PR-148
     - type: Transform
       parent: 1
-      pos: -0.59324175,-0.7483667
+      pos: 0,0
     - type: MapGrid
       chunks:
         0,0:
@@ -4070,7 +4070,7 @@ entities:
     - type: GasTileOverlay
     - type: RadiationGridResistance
     - type: BecomesStation
-      id: Silly
+      id: ClassicClassic
     - type: NavMap
     - type: Joint
       joints: {}
@@ -4085,6 +4085,7 @@ entities:
       chunkEntities: []
     - type: GridSplitNode
     - type: ClassicZLevelsLaddersCache
+    - type: ClassicZLevelRoof
   - uid: 8200
     components:
     - type: MetaData
@@ -4434,6 +4435,8 @@ entities:
       - 3607
     - type: Fixtures
       fixtures: {}
+    - type: BecomesStation
+      id: ClassicClassic
   - uid: 27
     components:
     - type: Transform
