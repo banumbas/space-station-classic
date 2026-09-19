@@ -4092,7 +4092,7 @@ entities:
       name: Островок
     - type: Transform
       parent: 1
-      pos: 27.68751,-34.02352
+      pos: 28,-34
     - type: MapGrid
       chunks:
         0,0:

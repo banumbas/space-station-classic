@@ -44,7 +44,7 @@ entities:
       name: маленький потолок
     - type: Transform
       parent: 3
-      pos: -39.625397,11.554779
+      pos: -39,13
     - type: MapGrid
       chunks:
         0,-1:
@@ -90,7 +90,7 @@ entities:
       name: маленький потолок
     - type: Transform
       parent: 3
-      pos: 1.3746042,-27.44522
+      pos: 2,-26
     - type: MapGrid
       chunks:
         -1,-1:
@@ -156,7 +156,7 @@ entities:
       name: потолок
     - type: Transform
       parent: 3
-      pos: -11.625396,18.55478
+      pos: -11,20
     - type: MapGrid
       chunks:
         0,0:
@@ -503,7 +503,7 @@ entities:
       name: маленький потолок
     - type: Transform
       parent: 3
-      pos: -34.625397,8.554779
+      pos: -34,10
     - type: MapGrid
       chunks:
         -1,0:
