@@ -7,13 +7,13 @@
         - ClassicDirt
       threshold: -1.0
       entities:
-        - ClassicWallDirt
+        - ClassicBiomeWallDirt
     - !type:BiomeEntityLayer
       allowedTiles:
         - ClassicStone
       threshold: -1.0
       entities:
-        - ClassicWallRock
+        - ClassicBiomeWallRock
     - !type:BiomeTileLayer
       threshold: -1.0
       tile: ClassicDirt
@@ -41,7 +41,7 @@
         noiseType: OpenSimplex2
         frequency: 0.01
       entities:
-        - ClassicWallRock2
+        - ClassicBiomeWallRock2
     - !type:BiomeEntityLayer
       allowedTiles:
         - ClassicSand
@@ -51,7 +51,7 @@
         noiseType: OpenSimplex2
         frequency: 0.01
       entities:
-        - ClassicWallRedRock
+        - ClassicBiomeWallRedRock
     - !type:BiomeEntityLayer
       allowedTiles:
         - ClassicSnowDeepDeep
@@ -61,7 +61,7 @@
         noiseType: OpenSimplex2
         frequency: 0.01
       entities:
-        - ClassicWallIcerock
+        - ClassicBiomeWallIcerock
     - !type:BiomeEntityLayer
       allowedTiles:
         - ClassicMycelium
@@ -71,7 +71,7 @@
         noiseType: OpenSimplex2
         frequency: 0.01
       entities:
-        - ClassicWallRock2
+        - ClassicBiomeWallRock2
     - !type:BiomeEntityLayer
       allowedTiles:
         - ClassicMyceliumLight
@@ -307,7 +307,7 @@
         octaves: 3
         lacunarity: 2
       entities:
-        - ClassicWallRock
+        - ClassicBiomeWallRock
 
     # Regional cave features (red caves with crystals, ice caves, mycelium)
     - !type:BiomeMetaLayer
@@ -409,7 +409,7 @@
         octaves: 3
         lacunarity: 2
       entities:
-        - ClassicWallRock
+        - ClassicBiomeWallRock
 
     # Basalt decal details
     - !type:BiomeDecalLayer

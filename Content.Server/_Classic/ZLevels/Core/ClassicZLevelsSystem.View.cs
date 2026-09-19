@@ -7,8 +7,11 @@ using Content.Shared._Classic.ZLevels.Core.Components;
 using Content.Shared._Classic.ZLevels.Core.EntitySystems;
 using Content.Shared.Actions;
 using Content.Shared.CCVar;
+using Content.Shared.Ghost;
 using Content.Shared.IdentityManagement;
 using Content.Shared.Popups;
+using Content.Shared.Tag;
+using Content.Server.Parallax;
 using Robust.Server.GameObjects;
 using Robust.Shared.Configuration;
 using Robust.Shared.Map;
@@ -25,8 +28,10 @@ public sealed partial class ClassicZLevelsSystem
     [Dependency] private SharedActionsSystem _actions = default!;
     [Dependency] private ViewSubscriberSystem _viewSubscriber = default!;
     [Dependency] private SharedPopupSystem _popup = default!;
+    [Dependency] private TagSystem _viewerTags = default!;
 
     private readonly EntProtoId _zEyeProto = "ClassicZLevelEye";
+    private static readonly ProtoId<TagPrototype> AllowBiomeLoadingTag = "AllowBiomeLoading";
 
     private readonly TimeSpan _zLevelViewerUpdateRate = TimeSpan.FromSeconds(1f);
     private TimeSpan _nextZLevelViewerUpdate = TimeSpan.Zero;
@@ -39,10 +44,12 @@ public sealed partial class ClassicZLevelsSystem
 
         SubscribeLocalEvent<PlayerAttachedEvent>(OnPlayerAttached);
         SubscribeLocalEvent<PlayerDetachedEvent>(OnPlayerDetached);
+        SubscribeLocalEvent<GhostComponent, ComponentInit>(OnGhostStateChanged);
 
         SubscribeLocalEvent<ClassicZLevelViewerComponent, MapInitEvent>(OnViewerInit);
         SubscribeLocalEvent<ClassicZLevelViewerComponent, ComponentRemove>(OnCompRemove);
 
+        SubscribeLocalEvent<ClassicZLevelViewerComponent, ClassicZLevelBeforeMapMoveEvent>(OnViewerBeforeMapMove);
         SubscribeLocalEvent<ClassicZLevelViewerComponent, MapUidChangedEvent>(OnViewerMapUidChanged);
     }
 
@@ -93,10 +100,16 @@ public sealed partial class ClassicZLevelsSystem
         _actions.RemoveAction(ent.Comp.ActionEntity);
         _meta.RemoveFlag(ent, MetaDataFlags.ExtraTransformEvents);
 
+        TryComp<ActorComponent>(ent, out var actor);
         foreach (var eye in ent.Comp.Eyes)
         {
+            CacheEyeBiome(eye);
+            if (actor != null)
+                _viewSubscriber.RemoveViewSubscriber(eye, actor.PlayerSession);
             QueueDel(eye);
         }
+        ent.Comp.Eyes.Clear();
+        ent.Comp.UpperEyes.Clear();
     }
 
     private void OnPlayerAttached(PlayerAttachedEvent ev)
@@ -110,21 +123,47 @@ public sealed partial class ClassicZLevelsSystem
         RemComp<ClassicZLevelViewerComponent>(ev.Entity);
     }
 
+    private void OnGhostStateChanged(Entity<GhostComponent> ent, ref ComponentInit args)
+    {
+        if (TryComp<ClassicZLevelViewerComponent>(ent, out var viewer))
+            UpdateViewer((ent.Owner, viewer));
+    }
+
     private void OnViewerMapUidChanged(Entity<ClassicZLevelViewerComponent> ent, ref MapUidChangedEvent args)
     {
         UpdateViewer(ent);
     }
 
+    private void OnViewerBeforeMapMove(
+        Entity<ClassicZLevelViewerComponent> ent,
+        ref ClassicZLevelBeforeMapMoveEvent args)
+    {
+        CacheEyeBiome(ent);
+    }
+
+    protected override void LookUpChanged(Entity<ClassicZLevelViewerComponent> entity)
+    {
+        UpdateUpperEyes(entity);
+    }
+
     private void UpdateViewer(Entity<ClassicZLevelViewerComponent> ent)
     {
         var eyes = ent.Comp.Eyes;
+        TryComp<ActorComponent>(ent, out var actor);
         foreach (var eye in ent.Comp.Eyes)
         {
+            CacheEyeBiome(eye);
+            if (actor != null)
+                _viewSubscriber.RemoveViewSubscriber(eye, actor.PlayerSession);
             QueueDel(eye);
         }
         eyes.Clear();
+        ent.Comp.UpperEyes.Clear();
 
-        if (!TryComp<ActorComponent>(ent, out var actor))
+        if (HasComp<GhostComponent>(ent) && !_viewerTags.HasTag(ent, AllowBiomeLoadingTag))
+            return;
+
+        if (actor == null)
             return;
 
         var xform = Transform(ent);
@@ -135,9 +174,6 @@ public sealed partial class ClassicZLevelsSystem
 
         var globalPos = _transform.GetWorldPosition(xform);
 
-        // Match the replicated render limit, while always preloading one physical landing level.
-        // A render limit of zero must not leave procedural stone absent until after a player falls
-        // into that map. With the default value, only the one adjacent lower level is subscribed.
         var maxLevelsBelow = Math.Clamp(
             Math.Max(1, _configuration.GetCVar(CCVars.ClassicZLevelsRenderingMaxZLevelsBelowRendering)),
             1,
@@ -155,20 +191,43 @@ public sealed partial class ClassicZLevelsSystem
             eyes.Add(newEye);
         }
 
-        // Keep only the adjacent upper level warm. On -Z3, subscribing all three possible upper
-        // maps would stream -Z2, -Z1 and the surface even though normal rendering/climbing only
-        // needs the next map. This bounds biome, PVS and network work independently of depth.
-        const int upperPreloadLevels = 1;
-        for (var i = 1; i <= Math.Min(upperPreloadLevels, MaxZLevelsAboveRendering); i++)
+        UpdateUpperEyes(ent);
+    }
+
+    private void UpdateUpperEyes(Entity<ClassicZLevelViewerComponent> ent)
+    {
+        if (!TryComp<ActorComponent>(ent, out var actor))
+            return;
+
+        foreach (var eye in ent.Comp.UpperEyes)
         {
-            if (!TryMapOffset(map.Value, i, out var mapUidAbove))
-                break;
-
-            var newEye = SpawnAtPosition(_zEyeProto, new EntityCoordinates(mapUidAbove, globalPos));
-
-            Transform(newEye).GridTraversal = false;
-            _viewSubscriber.AddViewSubscriber(newEye, actor.PlayerSession);
-            eyes.Add(newEye);
+            CacheEyeBiome(eye);
+            _viewSubscriber.RemoveViewSubscriber(eye, actor.PlayerSession);
+            ent.Comp.Eyes.Remove(eye);
+            QueueDel(eye);
         }
+        ent.Comp.UpperEyes.Clear();
+
+        if (!ent.Comp.LookUp ||
+            HasComp<GhostComponent>(ent) && !_viewerTags.HasTag(ent, AllowBiomeLoadingTag))
+        {
+            return;
+        }
+
+        var xform = Transform(ent);
+        if (xform.MapUid is not { } map || !TryMapOffset(map, 1, out var mapAbove))
+            return;
+
+        var globalPos = _transform.GetWorldPosition(xform);
+        var newEye = SpawnAtPosition(_zEyeProto, new EntityCoordinates(mapAbove, globalPos));
+        Transform(newEye).GridTraversal = false;
+        _viewSubscriber.AddViewSubscriber(newEye, actor.PlayerSession);
+        ent.Comp.Eyes.Add(newEye);
+        ent.Comp.UpperEyes.Add(newEye);
+    }
+
+    private void CacheEyeBiome(EntityUid eye)
+    {
+        EntityManager.System<BiomeSystem>().CacheClassicZLevel(eye);
     }
 }
