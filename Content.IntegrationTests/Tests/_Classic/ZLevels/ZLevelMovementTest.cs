@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Numerics;
 using Content.Client._Classic.ZLevels.Core;
 using Content.IntegrationTests.Fixtures;
 using Content.IntegrationTests.Fixtures.Attributes;
@@ -189,6 +190,9 @@ public sealed class ZLevelMovementTest : GameTest
         var before = true;
         var removed = false;
         var replaced = true;
+        ulong initialRevision = 0;
+        ulong openedRevision = 0;
+        ulong closedRevision = 0;
 
         try
         {
@@ -200,10 +204,13 @@ public sealed class ZLevelMovementTest : GameTest
                 var index = new Vector2i(-1, -1);
                 var plating = new Tile(tiles["Plating"].TileId);
                 map.SetTile(grid, index, plating);
+                initialRevision = cache.GetRevision(grid);
                 before = cache.HasOpeningInTileBounds(grid, index, index, map, tiles);
                 map.SetTile(grid, index, Tile.Empty);
+                openedRevision = cache.GetRevision(grid);
                 removed = cache.HasOpeningInTileBounds(grid, index, index, map, tiles);
                 map.SetTile(grid, index, plating);
+                closedRevision = cache.GetRevision(grid);
                 replaced = cache.HasOpeningInTileBounds(grid, index, index, map, tiles);
             });
             Assert.Multiple(() =>
@@ -211,6 +218,67 @@ public sealed class ZLevelMovementTest : GameTest
                 Assert.That(before, Is.False);
                 Assert.That(removed, Is.True, "Opening a floor must invalidate the cached render decision immediately.");
                 Assert.That(replaced, Is.False, "Closing the opening in the same tick must invalidate it again.");
+                Assert.That(openedRevision, Is.GreaterThan(initialRevision),
+                    "An opening snapshot must notice the first write even when the simulation tick is unchanged.");
+                Assert.That(closedRevision, Is.GreaterThan(openedRevision),
+                    "Every forwarded tile event needs a distinct revision, not one revision per tick.");
+            });
+        }
+        finally
+        {
+            if (mapUid != EntityUid.Invalid)
+                await Client.WaitPost(() => em.DeleteEntity(mapUid));
+        }
+    }
+
+    [Test]
+    [PairConfig(nameof(ConnectedClient))]
+    public async Task ClientOpeningSearchIncludesAllCornersOfRotatedWorldBounds()
+    {
+        var em = Client.EntMan;
+        var map = em.System<SharedMapSystem>();
+        var transform = em.System<SharedTransformSystem>();
+        var cache = em.System<ClassicClientZLevelsSystem>().OpeningCache;
+        var tiles = Client.ResolveDependency<ITileDefinitionManager>();
+        EntityUid mapUid = default;
+
+        try
+        {
+            await Client.WaitAssertion(() =>
+            {
+                mapUid = map.CreateMap();
+                var grid = map.CreateGridEntity(mapUid);
+                grid.Comp.CanSplit = false;
+                transform.SetWorldPositionRotation(grid, Vector2.Zero, Angle.FromDegrees(45));
+
+                // Keep the whole transformed query opaque except for a tile intersecting the
+                // bottom-right corner. Transforming only the world AABB's bottom-left and
+                // top-right points maps both onto local Y=0 and used to omit this opening.
+                var plating = new Tile(tiles["Plating"].TileId);
+                var batch = new List<(Vector2i, Tile)>();
+                for (var x = -4; x <= 4; x++)
+                for (var y = -4; y <= 4; y++)
+                    batch.Add((new Vector2i(x, y), plating));
+                map.SetTiles(grid, grid.Comp, batch);
+                map.SetTile(grid, new Vector2i(0, -2), Tile.Empty);
+
+                var individualBounds = new List<Box2>();
+                var grids = new List<Entity<MapGridComponent>>();
+                var found = cache.TryFindOpeningBounds(
+                    em.GetComponent<MapComponent>(mapUid).MapId,
+                    new Box2(-1f, -1f, 1f, 1f),
+                    individualBounds,
+                    out _,
+                    64,
+                    true,
+                    grids,
+                    map,
+                    transform,
+                    tiles);
+
+                Assert.That(found, Is.True,
+                    "A rotated grid opening intersecting either off-diagonal world corner must remain searchable.");
+                Assert.That(individualBounds, Has.Count.EqualTo(1));
             });
         }
         finally

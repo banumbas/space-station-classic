@@ -94,12 +94,12 @@ public abstract partial class SharedBiomeSystem
             if (!IsClassicTileAllowed(indices, layers, i, seed, grid, tileLayer))
                 continue;
 
-            if (TryGetTile(indices,
+            if (TryCreateClassicTile(indices,
                     noise,
-                    tileLayer.Invert,
                     threshold.Value,
                     ProtoManager.Index(tileLayer.Tile),
                     tileLayer.Variants,
+                    value,
                     out tile))
             {
                 return true;
@@ -108,6 +108,33 @@ public abstract partial class SharedBiomeSystem
 
         tile = null;
         return false;
+    }
+
+    private bool TryCreateClassicTile(
+        Vector2i indices,
+        Robust.Shared.Noise.FastNoiseLite noise,
+        float threshold,
+        Content.Shared.Maps.ContentTileDefinition tileDef,
+        List<byte>? variants,
+        float found,
+        [NotNullWhen(true)] out Tile? tile)
+    {
+        if (found < threshold)
+        {
+            tile = null;
+            return false;
+        }
+
+        byte variant = 0;
+        var variantCount = variants?.Count ?? tileDef.Variants;
+        if (variantCount > 1)
+        {
+            var variantValue = (noise.GetNoise(indices.X * 8, indices.Y * 8, variantCount) + 1f) * 100;
+            variant = _tile.PickVariant(tileDef, (int) variantValue);
+        }
+
+        tile = new Tile(tileDef.TileId, variant);
+        return true;
     }
 
     private static float? GetClassicThreshold(BiomeTileLayer layer, Vector2i sampleIndices)
