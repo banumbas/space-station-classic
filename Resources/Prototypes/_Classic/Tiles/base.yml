@@ -2,6 +2,7 @@
   id: ClassicStone
   name: classic-tiles-base
   naturalTerrain: true
+  digType: Stone
   deconstructTools: [ Digging ]
   sprite: /Textures/_Classic/Tiles/cave.png
   variants: 14

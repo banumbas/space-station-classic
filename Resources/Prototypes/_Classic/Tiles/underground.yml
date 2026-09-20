@@ -6,3 +6,4 @@
   deconstructTools: [ Digging ]
   indestructible: false
   naturalTerrain: true
+  digType: Stone
