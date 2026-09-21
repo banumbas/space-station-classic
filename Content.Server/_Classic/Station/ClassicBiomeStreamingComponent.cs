@@ -25,6 +25,9 @@ public sealed partial class ClassicBiomeStreamingComponent : Component
     [DataField]
     public int BackgroundCellsPerSlice = 4;
 
+    [DataField]
+    public int BackgroundEntitySpawnsPerTick = 4;
+
     /// <summary>
     /// Cells around the attached physical viewer that are materialized before physics. A radius of one bounds
     /// a cold foreground miss to 3x3 cells while covering ordinary movement into the next cell.
@@ -50,11 +53,20 @@ public sealed partial class ClassicBiomeStreamingComponent : Component
     /// Entity default-state comparison is substantially more expensive than clearing the tiles.
     /// </summary>
     [DataField]
-    public int UnloadEntitiesPerSlice = 8;
+    public int UnloadEntitiesPerSlice = 4;
+
+    [DataField]
+    public int UnloadCellsPerSlice = 16;
+
+    [DataField]
+    public int UnloadEntitiesPerTick = 16;
+
+    [DataField]
+    public int MaxUnloadBacklogBeforeThrottling = 8;
 
     /// <summary>Maximum precomputed marker nodes spawned by one background operation.</summary>
     [DataField]
-    public int MarkerNodesPerSlice = 8;
+    public int MarkerNodesPerSlice = 2;
 
     /// <summary>
     /// Maximum marker-area cells inspected by one background operation. The biome system also
@@ -80,7 +92,7 @@ public sealed partial class ClassicBiomeStreamingComponent : Component
 
     /// <summary>Maximum cached Z-eye chunks per biome grid.</summary>
     [DataField]
-    public int MaxZLevelCachedChunks = 128;
+    public int MaxZLevelCachedChunks = 64;
 
     /// <summary>Lifetime of completed or resumable opening snapshots between eye toggles.</summary>
     [DataField]
@@ -95,7 +107,7 @@ public sealed partial class ClassicBiomeStreamingComponent : Component
     /// configured on the active biome grids is used for the global deadline.
     /// </summary>
     [DataField]
-    public TimeSpan WorkBudget = TimeSpan.FromMilliseconds(4);
+    public TimeSpan WorkBudget = TimeSpan.FromMilliseconds(1);
 
     /// <summary>
     /// First ungenerated cell of each partially loaded chunk. This is serialized because the

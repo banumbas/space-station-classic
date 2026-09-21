@@ -28,7 +28,9 @@ public sealed partial class ClassicClientZLevelsSystem : ClassicSharedZLevelsSys
     [Dependency] private IOverlayManager _overlay = default!;
     [Dependency] private IEyeManager _eye = default!;
 
-    internal readonly ClassicZLevelOpeningCache OpeningCache = new();
+    internal readonly ClassicZLevelOpeningCache OpeningCache = new(
+        maxCachedChunksPerGrid: 1024,
+        maxCachedChunksTotal: 4096);
 
     /// <summary>
     /// Entities with a non-zero visual Z contribution found by the pre-animation pass.

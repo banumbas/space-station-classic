@@ -5,6 +5,7 @@ using Content.IntegrationTests.Fixtures;
 using Content.IntegrationTests.Fixtures.Attributes;
 using Content.Server._Classic.ZLevels.Core;
 using Content.Shared._Classic.ZLevels.Core.Components;
+using Content.Shared._Classic.ZLevels.Core.EntitySystems;
 using Robust.Shared.GameObjects;
 using Robust.Shared.Map;
 using Robust.Shared.Map.Components;
@@ -37,6 +38,116 @@ public sealed class ZLevelMovementTest : GameTest
                 mask: [SmallMobMask]
           - type: ClassicZPhysics
         """;
+
+    [Test]
+    public async Task OpeningCacheEvictsLeastRecentlyUsedChunks()
+    {
+        var em = Server.EntMan;
+        var map = em.System<SharedMapSystem>();
+        var tiles = Server.ResolveDependency<ITileDefinitionManager>();
+        var cache = new ClassicZLevelOpeningCache(maxCachedChunksPerGrid: 2, maxCachedChunksTotal: 3);
+        EntityUid mapUid = default;
+
+        try
+        {
+            await Server.WaitPost(() =>
+            {
+                mapUid = map.CreateMap();
+                var grid = map.CreateGridEntity(mapUid);
+                grid.Comp.CanSplit = false;
+                var first = Vector2i.Zero;
+                var second = new Vector2i(1, 0);
+                var third = new Vector2i(2, 0);
+                var fourth = new Vector2i(3, 0);
+                var fifth = new Vector2i(4, 0);
+                var sixth = new Vector2i(5, 0);
+                var seventh = new Vector2i(6, 0);
+
+                cache.ChunkHasOpening(grid, first, map, tiles);
+                cache.ChunkHasOpening(grid, second, map, tiles);
+                cache.ChunkHasOpening(grid, first, map, tiles);
+                cache.ChunkHasOpening(grid, third, map, tiles);
+
+                Assert.Multiple(() =>
+                {
+                    Assert.That(cache.GetCachedChunkCount(grid), Is.EqualTo(2));
+                    Assert.That(cache.IsChunkCached(grid, first), Is.True);
+                    Assert.That(cache.IsChunkCached(grid, second), Is.False);
+                    Assert.That(cache.IsChunkCached(grid, third), Is.True);
+                });
+
+                var changed = new Vector2i(1, 1);
+                var plating = new Tile(tiles["Plating"].TileId);
+                map.SetTile(grid, changed, plating);
+                cache.InvalidateTiles(grid,
+                    [new TileChangedEntry(plating, Tile.Empty, Vector2i.Zero, changed)]);
+
+                Assert.Multiple(() =>
+                {
+                    Assert.That(cache.GetCachedChunkCount(grid), Is.EqualTo(1));
+                    Assert.That(cache.GetCachedChunkCount(), Is.EqualTo(1));
+                    Assert.That(cache.IsChunkCached(grid, first), Is.False);
+                    Assert.That(cache.IsChunkCached(grid, third), Is.True);
+                });
+
+                cache.ChunkHasOpening(grid, second, map, tiles);
+                cache.ChunkHasOpening(grid, fourth, map, tiles);
+                Assert.Multiple(() =>
+                {
+                    Assert.That(cache.GetCachedChunkCount(grid), Is.EqualTo(2));
+                    Assert.That(cache.GetCachedChunkCount(), Is.EqualTo(2));
+                    Assert.That(cache.IsChunkCached(grid, third), Is.False);
+                    Assert.That(cache.IsChunkCached(grid, second), Is.True);
+                    Assert.That(cache.IsChunkCached(grid, fourth), Is.True);
+                });
+
+                cache.InvalidateTiles(grid, ReadOnlySpan<TileChangedEntry>.Empty);
+                Assert.That(cache.GetCachedChunkCount(grid), Is.Zero);
+                Assert.That(cache.GetCachedChunkCount(), Is.Zero);
+                cache.ChunkHasOpening(grid, fifth, map, tiles);
+                cache.ChunkHasOpening(grid, sixth, map, tiles);
+                cache.ChunkHasOpening(grid, seventh, map, tiles);
+                Assert.Multiple(() =>
+                {
+                    Assert.That(cache.GetCachedChunkCount(grid), Is.EqualTo(2));
+                    Assert.That(cache.GetCachedChunkCount(), Is.EqualTo(2));
+                    Assert.That(cache.IsChunkCached(grid, fifth), Is.False);
+                    Assert.That(cache.IsChunkCached(grid, sixth), Is.True);
+                    Assert.That(cache.IsChunkCached(grid, seventh), Is.True);
+                });
+
+                var otherGrid = map.CreateGridEntity(mapUid);
+                otherGrid.Comp.CanSplit = false;
+                var otherFirst = new Vector2i(10, 0);
+                var otherSecond = new Vector2i(11, 0);
+                cache.ChunkHasOpening(otherGrid, otherFirst, map, tiles);
+                cache.ChunkHasOpening(grid, sixth, map, tiles);
+                cache.ChunkHasOpening(otherGrid, otherSecond, map, tiles);
+                Assert.Multiple(() =>
+                {
+                    Assert.That(cache.GetCachedChunkCount(), Is.EqualTo(3));
+                    Assert.That(cache.GetCachedChunkCount(grid), Is.EqualTo(1));
+                    Assert.That(cache.GetCachedChunkCount(otherGrid), Is.EqualTo(2));
+                    Assert.That(cache.IsChunkCached(grid, sixth), Is.True);
+                    Assert.That(cache.IsChunkCached(grid, seventh), Is.False);
+                    Assert.That(cache.IsChunkCached(otherGrid, otherFirst), Is.True);
+                    Assert.That(cache.IsChunkCached(otherGrid, otherSecond), Is.True);
+                });
+
+                cache.RemoveGrid(grid);
+                Assert.That(cache.GetCachedChunkCount(grid), Is.Zero);
+                Assert.That(cache.GetCachedChunkCount(), Is.EqualTo(2));
+                cache.RemoveGrid(otherGrid);
+                Assert.That(cache.GetCachedChunkCount(otherGrid), Is.Zero);
+                Assert.That(cache.GetCachedChunkCount(), Is.Zero);
+            });
+        }
+        finally
+        {
+            if (mapUid != EntityUid.Invalid)
+                await Server.WaitPost(() => em.DeleteEntity(mapUid));
+        }
+    }
 
     [TestCase(false)]
     [TestCase(true)]

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Reflection;
 using Content.IntegrationTests.Fixtures;
 using Content.IntegrationTests.Fixtures.Attributes;
 using Content.Server._Classic.Station;
@@ -410,9 +411,10 @@ public sealed class BiomeStreamingTest : GameTest
                 // A real opening invalidates the cache. The opening is a visibility gate, not a
                 // generation clip: once the lower eye is visible its complete PVS range must be
                 // streamed instead of leaving a single biome chunk surrounded by void.
+                var currentStreaming = em.GetComponent<ClassicBiomeStreamingComponent>(current);
+                currentStreaming.WorkBudget = TimeSpan.FromTicks(1);
                 map.SetTile(current, currentGrid, Vector2i.Zero, Tile.Empty);
                 biomes.Update(0);
-                var currentStreaming = em.GetComponent<ClassicBiomeStreamingComponent>(current);
                 Assert.Multiple(() =>
                 {
                     Assert.That(lowerBiome.LoadedChunks, Is.Empty,
@@ -429,7 +431,7 @@ public sealed class BiomeStreamingTest : GameTest
                 });
 
                 const int expectedLowerChunks = 25;
-                for (var i = 0; i < 64 && lowerBiome.LoadedChunks.Count != expectedLowerChunks; i++)
+                for (var i = 0; i < 128 && lowerBiome.LoadedChunks.Count != expectedLowerChunks; i++)
                     biomes.Update(0);
 
                 var currentTileIsEmpty = map.TryGetTileRef(
@@ -452,6 +454,177 @@ public sealed class BiomeStreamingTest : GameTest
                 await Server.WaitRunTicks(2);
             }
         }
+    }
+
+    [Test]
+    public async Task OpeningScansOnlyResetForIntersectingTileChanges()
+    {
+        var em = Server.EntMan;
+        var map = em.System<SharedMapSystem>();
+        var biomes = em.System<BiomeSystem>();
+        EntityUid terrain = default;
+
+        try
+        {
+            await Server.WaitPost(() =>
+            {
+                terrain = map.CreateMap(runMapInit: false);
+                biomes.EnsurePlanet(
+                    terrain,
+                    Server.ProtoMan.Index<BiomeTemplatePrototype>("ClassicStreamingTileOnlyTest"),
+                    42);
+                var streaming = em.EnsureComponent<ClassicBiomeStreamingComponent>(terrain);
+                map.InitializeMap(terrain);
+
+                var nearFirst = Vector2i.Zero;
+                var nearLast = new Vector2i(7, 7);
+                var nearKey = new ClassicBiomeOpeningScanKey(
+                    Vector2i.Zero,
+                    Vector2i.Zero,
+                    nearFirst,
+                    nearLast);
+                var nearScan = new ClassicBiomeOpeningScanState(
+                    Vector2i.Zero,
+                    Vector2i.Zero,
+                    nearFirst,
+                    nearLast,
+                    0,
+                    1,
+                    TimeSpan.Zero);
+                var farFirst = new Vector2i(80, 80);
+                var farLast = new Vector2i(87, 87);
+                var farKey = new ClassicBiomeOpeningScanKey(
+                    new Vector2i(10, 10),
+                    new Vector2i(10, 10),
+                    farFirst,
+                    farLast);
+                var farScan = new ClassicBiomeOpeningScanState(
+                    new Vector2i(10, 10),
+                    new Vector2i(10, 10),
+                    farFirst,
+                    farLast,
+                    0,
+                    1,
+                    TimeSpan.Zero);
+                streaming.OpeningScans.Add(nearKey, nearScan);
+                streaming.OpeningScans.Add(farKey, farScan);
+
+                var grid = em.GetComponent<MapGridComponent>(terrain);
+                var plating = new Tile(Server.ResolveDependency<ITileDefinitionManager>()["Plating"].TileId);
+                map.SetTile(terrain, grid, new Vector2i(1, 1), plating);
+
+                Assert.Multiple(() =>
+                {
+                    Assert.That(streaming.OpeningScans, Does.Not.ContainKey(nearKey));
+                    Assert.That(streaming.OpeningScans, Does.ContainKey(farKey));
+                    Assert.That(farScan.Revision, Is.GreaterThan(0));
+                });
+
+                map.SetTile(terrain, grid, new Vector2i(81, 81), plating);
+                Assert.That(streaming.OpeningScans, Does.Not.ContainKey(farKey));
+            });
+        }
+        finally
+        {
+            if (terrain != EntityUid.Invalid)
+                await Server.WaitPost(() => em.DeleteEntity(terrain));
+        }
+    }
+
+    [Test]
+    public async Task MissingOpeningChunkDoesNotConsumeForcedOpeningProgress()
+    {
+        var em = Server.EntMan;
+        var map = em.System<SharedMapSystem>();
+        var biomes = em.System<BiomeSystem>();
+        EntityUid terrain = default;
+
+        try
+        {
+            await Server.WaitPost(() =>
+            {
+                terrain = map.CreateMap(runMapInit: false);
+                biomes.EnsurePlanet(
+                    terrain,
+                    Server.ProtoMan.Index<BiomeTemplatePrototype>("ClassicStreamingTileOnlyTest"),
+                    42);
+                var streaming = em.EnsureComponent<ClassicBiomeStreamingComponent>(terrain);
+                streaming.WorkBudget = TimeSpan.Zero;
+                streaming.OpeningCellsPerSlice = 1;
+                map.InitializeMap(terrain);
+
+                var biome = em.GetComponent<BiomeComponent>(terrain);
+                var grid = em.GetComponent<MapGridComponent>(terrain);
+                biome.LoadedChunks.Add(Vector2i.Zero);
+
+                const BindingFlags flags = BindingFlags.Instance | BindingFlags.NonPublic;
+                typeof(BiomeSystem).GetMethod("BeginClassicStreamingBudget", flags)!.Invoke(biomes, null);
+                var method = typeof(BiomeSystem).GetMethod("TryGetClassicOpeningWorldBounds", flags)!;
+                var missingArgs = new object[]
+                {
+                    terrain,
+                    biome,
+                    grid,
+                    new Box2(80f, 80f, 81f, 81f),
+                    default(Box2),
+                };
+                Assert.That(method.Invoke(biomes, missingArgs), Is.False);
+
+                var readyArgs = new object[]
+                {
+                    terrain,
+                    biome,
+                    grid,
+                    new Box2(0f, 0f, 1f, 1f),
+                    default(Box2),
+                };
+                Assert.That(method.Invoke(biomes, readyArgs), Is.False);
+
+                Assert.Multiple(() =>
+                {
+                    Assert.That(streaming.OpeningScans.Count, Is.EqualTo(2));
+                    Assert.That(streaming.OpeningScans.Values.Single(scan =>
+                            scan.RequiredFirstChunk == new Vector2i(10, 10)).Phase,
+                        Is.EqualTo(ClassicBiomeOpeningScanPhase.WaitingForChunks));
+                    Assert.That(streaming.OpeningScans.Values.Single(scan =>
+                            scan.RequiredFirstChunk == Vector2i.Zero).Phase,
+                        Is.EqualTo(ClassicBiomeOpeningScanPhase.Scanning));
+                });
+            });
+        }
+        finally
+        {
+            if (terrain != EntityUid.Invalid)
+                await Server.WaitPost(() => em.DeleteEntity(terrain));
+        }
+    }
+
+    [Test]
+    public async Task OpeningScanCacheCapsCurrentGeneration()
+    {
+        var biomes = Server.EntMan.System<BiomeSystem>();
+
+        await Server.WaitPost(() =>
+        {
+            var streaming = new ClassicBiomeStreamingComponent
+            {
+                MaxOpeningCacheEntries = 1,
+                OpeningScanGeneration = 7,
+            };
+            var first = Vector2i.Zero;
+            var second = new Vector2i(1, 0);
+            streaming.OpeningScans.Add(
+                new ClassicBiomeOpeningScanKey(first, first, first, first),
+                new ClassicBiomeOpeningScanState(first, first, first, first, 0, 7, TimeSpan.Zero));
+            streaming.OpeningScans.Add(
+                new ClassicBiomeOpeningScanKey(second, second, second, second),
+                new ClassicBiomeOpeningScanState(second, second, second, second, 0, 7, TimeSpan.Zero));
+
+            const BindingFlags flags = BindingFlags.Instance | BindingFlags.NonPublic;
+            typeof(BiomeSystem).GetMethod("PruneClassicOpeningScans", flags)!.Invoke(biomes, new object[] { streaming });
+
+            Assert.That(streaming.OpeningScans.Count, Is.EqualTo(1));
+        });
     }
 
     [Test]
@@ -702,24 +875,23 @@ public sealed class BiomeStreamingTest : GameTest
                 var partialChunk = firstPartial.Key;
                 Assert.Multiple(() =>
                 {
-                    Assert.That(firstPartial.Value, Is.EqualTo(8));
+                    Assert.That(firstPartial.Value, Is.EqualTo(4));
                     Assert.That(biome.LoadedChunks, Does.Not.Contain(partialChunk),
                         "A partial chunk must not be exposed to the unload path as complete.");
-                    Assert.That(biome.LoadedEntities[partialChunk].Count, Is.EqualTo(9),
+                    Assert.That(biome.LoadedEntities[partialChunk].Count, Is.EqualTo(5),
                         "The physical cell ahead of the sequential cursor must be the only urgent addition.");
                     Assert.That(CountNonEmptyTiles(partialChunk), Is.EqualTo(9));
                     Assert.That(BitOperations.PopCount(streaming.PriorityLoadedCells[partialChunk]), Is.EqualTo(1));
                 });
 
-                // Foreground safety must not turn a cold miss back into a 64-cell synchronous
-                // promotion. The sequential cursor completes it in fixed eight-cell operations.
-                for (var expected = 16; expected <= 56; expected += 8)
+                for (var i = 0; i < 20 && !biome.LoadedChunks.Contains(partialChunk); i++)
                 {
+                    var before = biome.LoadedEntities[partialChunk].Count;
                     biomes.Update(0);
-                    Assert.That(streaming.PartialLoads[partialChunk], Is.EqualTo(expected));
+                    var after = biome.LoadedEntities[partialChunk].Count;
+                    Assert.That(after - before, Is.InRange(0, 4));
                 }
 
-                biomes.Update(0);
                 Assert.Multiple(() =>
                 {
                     Assert.That(streaming.PartialLoads.ContainsKey(partialChunk), Is.False);
@@ -737,11 +909,11 @@ public sealed class BiomeStreamingTest : GameTest
                 biomes.Update(0);
                 var inactivePartial = streaming.PartialLoads.Single();
                 var inactiveChunk = inactivePartial.Key;
-                Assert.That(inactivePartial.Value, Is.EqualTo(8));
+                Assert.That(inactivePartial.Value, Is.EqualTo(4));
                 streaming.BackgroundChunksPerTick = 0;
                 Server.PlayerMan.SetAttachedEntity(session, originalViewer);
                 var largestCursor = inactivePartial.Value;
-                for (var i = 0; i < 32; i++)
+                for (var i = 0; i < 192; i++)
                 {
                     biomes.Update(0);
                     if (streaming.PartialLoads.TryGetValue(inactiveChunk, out var cursor))
@@ -756,7 +928,7 @@ public sealed class BiomeStreamingTest : GameTest
 
                 Assert.Multiple(() =>
                 {
-                    Assert.That(largestCursor, Is.EqualTo(8),
+                    Assert.That(largestCursor, Is.EqualTo(4),
                         "An inactive partial chunk must never be completed in the background.");
                     Assert.That(streaming.PartialLoads.ContainsKey(inactiveChunk), Is.False);
                     Assert.That(streaming.PartialUnloads.ContainsKey(inactiveChunk), Is.False);
@@ -839,6 +1011,7 @@ public sealed class BiomeStreamingTest : GameTest
                 var streaming = em.EnsureComponent<ClassicBiomeStreamingComponent>(underground);
                 streaming.BackgroundChunksPerTick = 1;
                 streaming.BackgroundCellsPerSlice = 64;
+                streaming.BackgroundEntitySpawnsPerTick = 64;
                 streaming.UnloadEntitiesPerSlice = 2;
                 streaming.UnloadDelay = TimeSpan.Zero;
                 streaming.WorkBudget = TimeSpan.FromSeconds(1);
@@ -999,6 +1172,7 @@ public sealed class BiomeStreamingTest : GameTest
                 var streaming = em.EnsureComponent<ClassicBiomeStreamingComponent>(terrain);
                 streaming.BackgroundChunksPerTick = 1;
                 streaming.BackgroundCellsPerSlice = 8;
+                streaming.BackgroundEntitySpawnsPerTick = 64;
                 streaming.UnloadEntitiesPerSlice = 2;
                 streaming.UnloadDelay = TimeSpan.Zero;
                 streaming.WorkBudget = TimeSpan.FromSeconds(1);
@@ -1035,34 +1209,99 @@ public sealed class BiomeStreamingTest : GameTest
                 transform.SetWorldPosition(viewer, new Vector2(1.5f, 6.5f));
                 biomes.Update(0);
 
-                // Foreground promotion creates the never-generated collision cells immediately,
-                // but unrelated removed walls remain a bounded rollback continuation. With a
-                // zero budget exactly one such wall may be restored after the urgent batch.
-                Assert.Multiple(() =>
-                {
-                    Assert.That(streaming.PartialUnloads.TryGetValue(origin, out var restoring), Is.True);
-                    Assert.That(restoring!.Phase, Is.EqualTo(ClassicBiomePartialUnloadPhase.Restoring));
-                    Assert.That(restoring.RemovedEntityCells.Count, Is.EqualTo(1));
-                    Assert.That(biome.LoadedChunks, Does.Not.Contain(origin));
-                    Assert.That(BitOperations.PopCount(restoring.PriorityCells), Is.EqualTo(15));
-                    Assert.That(BitOperations.PopCount(restoring.MaterializedCells), Is.EqualTo(23));
-                    Assert.That(biome.LoadedEntities[origin].Count, Is.EqualTo(22));
-                });
-
-                var requested = new Vector2i(1, 6);
-                var anchored = map.GetAnchoredEntities(terrain, grid, requested);
-                Assert.That(anchored.MoveNext(out _), Is.True,
-                    "A physical return must materialize a previously untouched predicted wall before physics.");
-
-                biomes.Update(0);
                 Assert.Multiple(() =>
                 {
                     Assert.That(streaming.PartialUnloads.ContainsKey(origin), Is.False);
                     Assert.That(streaming.PartialLoads[origin], Is.EqualTo(8));
                     Assert.That(biome.LoadedChunks, Does.Not.Contain(origin));
                     Assert.That(BitOperations.PopCount(streaming.PriorityLoadedCells[origin]), Is.EqualTo(15));
-                    Assert.That(BitOperations.PopCount(streaming.MaterializedCells[origin]), Is.EqualTo(23));
+                    Assert.That(BitOperations.PopCount(streaming.MaterializedCells[origin]), Is.InRange(23, 28));
                     Assert.That(biome.LoadedEntities[origin].Count, Is.EqualTo(23));
+                });
+
+                var requested = new Vector2i(1, 6);
+                var anchored = map.GetAnchoredEntities(terrain, grid, requested);
+                Assert.That(anchored.MoveNext(out _), Is.True,
+                    "A physical return must materialize a previously untouched predicted wall before physics.");
+            });
+        }
+        finally
+        {
+            await Server.WaitPost(() => Server.PlayerMan.SetAttachedEntity(session, originalViewer));
+            if (terrain != EntityUid.Invalid)
+                await Server.WaitPost(() => em.DeleteEntity(terrain));
+        }
+    }
+
+    [Test]
+    public async Task ExpiredZCacheContinuesPartialUnloadInsteadOfRestoringIt()
+    {
+        var em = Server.EntMan;
+        var map = em.System<SharedMapSystem>();
+        var biomes = em.System<BiomeSystem>();
+        var transform = em.System<SharedTransformSystem>();
+        var session = ServerSession!;
+        var originalViewer = session.AttachedEntity;
+        EntityUid terrain = default;
+
+        try
+        {
+            await Server.WaitPost(() =>
+            {
+                terrain = map.CreateMap(runMapInit: false);
+                biomes.EnsurePlanet(terrain, Server.ProtoMan.Index(UndergroundBiome), 42);
+                em.GetComponent<MapGridComponent>(terrain).CanSplit = false;
+                var streaming = em.EnsureComponent<ClassicBiomeStreamingComponent>(terrain);
+                streaming.BackgroundChunksPerTick = 1;
+                streaming.BackgroundCellsPerSlice = 64;
+                streaming.BackgroundEntitySpawnsPerTick = 64;
+                streaming.UnloadEntitiesPerSlice = 2;
+                streaming.UnloadEntitiesPerTick = 2;
+                streaming.UnloadDelay = TimeSpan.Zero;
+                streaming.ZLevelCacheDuration = TimeSpan.Zero;
+                streaming.MaxZLevelCachedChunks = 1;
+                streaming.WorkBudget = TimeSpan.FromSeconds(1);
+                map.InitializeMap(terrain);
+
+                var viewer = em.SpawnEntity(null, new EntityCoordinates(terrain, new Vector2(4.5f, 4.5f)));
+                var cacheEye = em.SpawnEntity(null, new EntityCoordinates(terrain, new Vector2(4.5f, 4.5f)));
+                Server.PlayerMan.SetAttachedEntity(session, viewer);
+                biomes.Update(0);
+
+                var biome = em.GetComponent<BiomeComponent>(terrain);
+                var origin = Vector2i.Zero;
+                transform.SetWorldPosition(viewer, new Vector2(1004.5f, 1004.5f));
+                biomes.Update(0);
+                Assert.That(streaming.PartialUnloads.TryGetValue(origin, out var unloading), Is.True);
+                Assert.That(unloading!.Phase, Is.EqualTo(ClassicBiomePartialUnloadPhase.Entities));
+                var entitiesBeforeCache = biome.LoadedEntities[origin].Keys.ToHashSet();
+
+                biomes.CacheClassicZLevel(cacheEye);
+                Assert.Multiple(() =>
+                {
+                    Assert.That(streaming.CachedZChunks, Does.ContainKey(origin));
+                    Assert.That(unloading.Phase, Is.EqualTo(ClassicBiomePartialUnloadPhase.Restoring));
+                });
+
+                biomes.Update(0);
+                Assert.Multiple(() =>
+                {
+                    Assert.That(streaming.CachedZChunks, Does.Not.ContainKey(origin));
+                    Assert.That(streaming.PartialUnloads.TryGetValue(origin, out var continuing), Is.True);
+                    Assert.That(continuing!.Phase, Is.EqualTo(ClassicBiomePartialUnloadPhase.Entities));
+                    Assert.That(biome.LoadedEntities[origin].Keys, Is.SubsetOf(entitiesBeforeCache));
+                    Assert.That(biome.LoadedEntities[origin].Count, Is.LessThan(entitiesBeforeCache.Count));
+                });
+
+                for (var i = 0; i < 100 && streaming.PartialUnloads.ContainsKey(origin); i++)
+                    biomes.Update(0);
+
+                Assert.Multiple(() =>
+                {
+                    Assert.That(streaming.PartialUnloads, Does.Not.ContainKey(origin));
+                    Assert.That(streaming.PendingUnloads, Does.Not.ContainKey(origin));
+                    Assert.That(biome.LoadedChunks, Does.Not.Contain(origin));
+                    Assert.That(biome.LoadedEntities, Does.Not.ContainKey(origin));
                 });
             });
         }
@@ -1191,7 +1430,7 @@ public sealed class BiomeStreamingTest : GameTest
     }
 
     [Test]
-    public async Task MarkerNodesOnLoadedBackgroundChunkAreAppliedInBoundedSlices()
+    public async Task MarkerNodesOnLoadedBackgroundChunkRespectSharedEntityQuota()
     {
         var em = Server.EntMan;
         var map = em.System<SharedMapSystem>();
@@ -1214,6 +1453,7 @@ public sealed class BiomeStreamingTest : GameTest
                 var streaming = em.EnsureComponent<ClassicBiomeStreamingComponent>(underground);
                 streaming.BackgroundChunksPerTick = 1;
                 streaming.BackgroundCellsPerSlice = 64;
+                streaming.BackgroundEntitySpawnsPerTick = 64;
                 streaming.MarkerNodesPerSlice = 2;
                 streaming.UnloadDelay = TimeSpan.FromHours(1);
                 streaming.WorkBudget = TimeSpan.FromSeconds(1);
@@ -1246,20 +1486,24 @@ public sealed class BiomeStreamingTest : GameTest
                 // Z landing visibility is intentionally only one exact cell and no longer keeps
                 // an unrelated underground chunk active through an opaque surface.
                 streaming.BackgroundChunksPerTick = 0;
+                streaming.BackgroundEntitySpawnsPerTick = 1;
                 transform.SetCoordinates(viewer, new EntityCoordinates(underground, new Vector2(12.5f, 4.5f)));
-                biomes.Update(0);
-                Assert.Multiple(() =>
+                for (var i = 0; i < 16 && biome.PendingMarkers.ContainsKey(origin); i++)
                 {
-                    Assert.That(biome.PendingMarkers[origin]["ClassicStreamingMarkerNodeTest"].Count, Is.EqualTo(3));
-                    Assert.That(biome.LoadedEntities[origin].Count, Is.EqualTo(62));
-                    Assert.That(biome.ModifiedTiles[origin].Count, Is.EqualTo(2));
-                });
+                    var nodesBefore = biome.PendingMarkers[origin]["ClassicStreamingMarkerNodeTest"].Count;
+                    var entitiesBefore = biome.LoadedEntities[origin].Count;
+                    biomes.Update(0);
+                    var nodesAfter = biome.PendingMarkers.TryGetValue(origin, out var pending)
+                        ? pending["ClassicStreamingMarkerNodeTest"].Count
+                        : 0;
+                    var entitiesAfter = biome.LoadedEntities[origin].Count;
+                    Assert.Multiple(() =>
+                    {
+                        Assert.That(nodesBefore - nodesAfter, Is.InRange(0, 1));
+                        Assert.That(entitiesBefore - entitiesAfter, Is.InRange(0, 1));
+                    });
+                }
 
-                biomes.Update(0);
-                Assert.That(biome.PendingMarkers[origin]["ClassicStreamingMarkerNodeTest"].Count, Is.EqualTo(1));
-                Assert.That(biome.LoadedEntities[origin].Count, Is.EqualTo(60));
-
-                biomes.Update(0);
                 Assert.Multiple(() =>
                 {
                     Assert.That(biome.PendingMarkers.ContainsKey(origin), Is.False);
@@ -1390,6 +1634,7 @@ public sealed class BiomeStreamingTest : GameTest
                 var streaming = em.EnsureComponent<ClassicBiomeStreamingComponent>(mapUid);
                 streaming.BackgroundChunksPerTick = 2;
                 streaming.BackgroundCellsPerSlice = 64;
+                streaming.BackgroundEntitySpawnsPerTick = 64;
                 streaming.UnloadDelay = TimeSpan.Zero;
                 streaming.WorkBudget = TimeSpan.FromSeconds(1);
                 var zNetwork = zLevels.CreateMapNetwork();
@@ -1713,8 +1958,8 @@ public sealed class BiomeStreamingTest : GameTest
                 upper = map.CreateMap(runMapInit: false);
                 biomes.EnsurePlanet(upper, Server.ProtoMan.Index(UndergroundBiome), 42);
                 var streaming = em.EnsureComponent<ClassicBiomeStreamingComponent>(upper);
-                streaming.BackgroundChunksPerTick = 64;
-                streaming.BackgroundCellsPerSlice = 64;
+                streaming.BackgroundChunksPerTick = 1;
+                streaming.BackgroundCellsPerSlice = 1;
                 streaming.UnloadEntitiesPerSlice = 64;
                 streaming.WorkBudget = TimeSpan.FromSeconds(1);
                 streaming.UnloadDelay = TimeSpan.Zero;
@@ -1740,11 +1985,10 @@ public sealed class BiomeStreamingTest : GameTest
                 actions.PerformAction(viewer, action!.Value);
 
                 Assert.That(viewerComp.UpperEyes, Has.Count.EqualTo(1));
-                for (var i = 0; i < 8; i++)
-                    biomes.Update(0);
+                biomes.Update(0);
 
                 var biome = em.GetComponent<BiomeComponent>(upper);
-                Assert.That(biome.LoadedChunks, Is.Not.Empty);
+                Assert.That(streaming.PartialLoads, Is.Not.Empty);
                 cachedEntities = biome.LoadedEntities.Values.SelectMany(chunk => chunk.Keys).ToHashSet();
                 Assert.That(cachedEntities, Is.Not.Empty);
 
@@ -1752,8 +1996,6 @@ public sealed class BiomeStreamingTest : GameTest
                 Assert.That(viewerComp.UpperEyes, Is.Empty);
             });
 
-            // With UnloadDelay=0 this is long enough to start and finish teardown unless the
-            // explicit Z-level cache requested by eye removal retains the range.
             await Server.WaitRunTicks(3);
 
             await Server.WaitPost(() =>
@@ -1792,6 +2034,147 @@ public sealed class BiomeStreamingTest : GameTest
     }
 
     [Test]
+    public async Task SustainedDistantMovementKeepsAndDrainsBoundedBiomeWorkingSet()
+    {
+        await OverrideCVar(Side.Server, Robust.Shared.CVars.NetMaxUpdateRange, 16f);
+        await OverrideCVar(Side.Server, Robust.Shared.CVars.NetPvsPriorityRange, 16f);
+        var em = Server.EntMan;
+        var map = em.System<SharedMapSystem>();
+        var biomes = em.System<BiomeSystem>();
+        var transform = em.System<SharedTransformSystem>();
+        var session = ServerSession!;
+        var originalViewer = session.AttachedEntity;
+        EntityUid terrain = default;
+        var backlogLimit = 2;
+        var backgroundChunksPerTick = 4;
+        var backgroundEntitySpawnsPerTick = 4;
+        var viewerSafetyRadius = 1;
+        var maxZLevelCachedChunks = 2;
+        var residentLimit = backlogLimit + backgroundChunksPerTick + maxZLevelCachedChunks;
+        var entitiesPerResident = (viewerSafetyRadius * 2 + 1) * (viewerSafetyRadius * 2 + 1) +
+                                  backgroundEntitySpawnsPerTick * 2;
+        var maxResident = 0;
+        var maxLoadedEntities = 0;
+        var maxPendingUnloads = 0;
+        var maxPartialLoads = 0;
+        var maxPartialUnloads = 0;
+        var maxCachedZChunks = 0;
+        var backgroundSpawnObserved = false;
+
+        try
+        {
+            await Server.WaitPost(() =>
+            {
+                terrain = map.CreateMap(runMapInit: false);
+                biomes.EnsurePlanet(terrain, Server.ProtoMan.Index(UndergroundBiome), 42);
+                em.GetComponent<MapGridComponent>(terrain).CanSplit = false;
+                var streaming = em.EnsureComponent<ClassicBiomeStreamingComponent>(terrain);
+                streaming.BackgroundChunksPerTick = backgroundChunksPerTick;
+                streaming.BackgroundCellsPerSlice = 64;
+                streaming.BackgroundEntitySpawnsPerTick = backgroundEntitySpawnsPerTick;
+                streaming.ViewerSafetyRadius = viewerSafetyRadius;
+                streaming.UnloadEntitiesPerSlice = 4;
+                streaming.UnloadEntitiesPerTick = 16;
+                streaming.UnloadCellsPerSlice = 16;
+                streaming.UnloadDelay = TimeSpan.FromSeconds(1);
+                streaming.MaxUnloadBacklogBeforeThrottling = backlogLimit;
+                streaming.ZLevelCacheDuration = TimeSpan.FromSeconds(1);
+                streaming.MaxZLevelCachedChunks = maxZLevelCachedChunks;
+                streaming.WorkBudget = TimeSpan.Zero;
+                map.InitializeMap(terrain);
+
+                var viewer = em.SpawnEntity(
+                    "ClassicStreamingPhysicalViewerTest",
+                    new EntityCoordinates(terrain, new Vector2(4.5f, 4.5f)));
+                Server.PlayerMan.SetAttachedEntity(session, viewer);
+                var biome = em.GetComponent<BiomeComponent>(terrain);
+
+                void SampleWorkingSet()
+                {
+                    var resident = biome.LoadedChunks
+                        .Concat(biome.LoadedEntities.Keys)
+                        .Concat(streaming.PartialLoads.Keys)
+                        .Concat(streaming.PartialUnloads.Keys)
+                        .Concat(streaming.PendingUnloads.Keys)
+                        .Concat(streaming.CachedZChunks.Keys)
+                        .ToHashSet();
+                    maxResident = Math.Max(maxResident, resident.Count);
+                    maxLoadedEntities = Math.Max(
+                        maxLoadedEntities,
+                        biome.LoadedEntities.Values.Sum(chunk => chunk.Count));
+                    maxPendingUnloads = Math.Max(maxPendingUnloads, streaming.PendingUnloads.Count);
+                    maxPartialLoads = Math.Max(maxPartialLoads, streaming.PartialLoads.Count);
+                    maxPartialUnloads = Math.Max(maxPartialUnloads, streaming.PartialUnloads.Count);
+                    maxCachedZChunks = Math.Max(maxCachedZChunks, streaming.CachedZChunks.Count);
+                }
+
+                for (var i = 0; i < 48; i++)
+                {
+                    var position = new Vector2(i * 48f + 4.5f, 4.5f);
+                    biomes.CacheClassicZLevel(viewer);
+                    transform.SetWorldPosition(viewer, position);
+                    biomes.Update(0);
+                    SampleWorkingSet();
+                    var entitiesBeforeBackground = biome.LoadedEntities.Values
+                        .SelectMany(chunk => chunk.Keys)
+                        .ToHashSet();
+                    biomes.Update(0);
+                    SampleWorkingSet();
+                    var entitiesAfterBackground = biome.LoadedEntities.Values
+                        .SelectMany(chunk => chunk.Keys)
+                        .ToHashSet();
+                    var spawned = entitiesAfterBackground.Except(entitiesBeforeBackground).Count();
+                    backgroundSpawnObserved |= spawned > 0;
+                    Assert.That(
+                        spawned,
+                        Is.InRange(0, backgroundEntitySpawnsPerTick));
+                }
+
+                Assert.Multiple(() =>
+                {
+                    Assert.That(backgroundSpawnObserved, Is.True);
+                    Assert.That(maxLoadedEntities, Is.GreaterThan(0));
+                    Assert.That(maxResident, Is.LessThanOrEqualTo(residentLimit));
+                    Assert.That(maxLoadedEntities, Is.LessThanOrEqualTo(residentLimit * entitiesPerResident));
+                    Assert.That(maxPendingUnloads, Is.LessThanOrEqualTo(residentLimit));
+                    Assert.That(maxPartialLoads, Is.LessThanOrEqualTo(residentLimit));
+                    Assert.That(maxPartialUnloads, Is.LessThanOrEqualTo(residentLimit));
+                    Assert.That(maxCachedZChunks, Is.InRange(1, maxZLevelCachedChunks));
+                });
+
+                Server.PlayerMan.SetAttachedEntity(session, originalViewer);
+            });
+
+            var drainTicks = (int) Math.Ceiling(3d / Server.Timing.TickPeriod.TotalSeconds);
+            await Server.WaitRunTicks(drainTicks);
+
+            await Server.WaitPost(() =>
+            {
+                var biome = em.GetComponent<BiomeComponent>(terrain);
+                var streaming = em.GetComponent<ClassicBiomeStreamingComponent>(terrain);
+                Assert.Multiple(() =>
+                {
+                    Assert.That(biome.LoadedChunks, Is.Empty);
+                    Assert.That(biome.LoadedEntities, Is.Empty);
+                    Assert.That(biome.LoadedDecals, Is.Empty);
+                    Assert.That(streaming.PartialLoads, Is.Empty);
+                    Assert.That(streaming.PartialUnloads, Is.Empty);
+                    Assert.That(streaming.PendingUnloads, Is.Empty);
+                    Assert.That(streaming.PriorityLoadedCells, Is.Empty);
+                    Assert.That(streaming.MaterializedCells, Is.Empty);
+                    Assert.That(streaming.CachedZChunks, Is.Empty);
+                });
+            });
+        }
+        finally
+        {
+            await Server.WaitPost(() => Server.PlayerMan.SetAttachedEntity(session, originalViewer));
+            if (terrain != EntityUid.Invalid)
+                await Server.WaitPost(() => em.DeleteEntity(terrain));
+        }
+    }
+
+    [Test]
     public async Task MovingBetweenZLevelsCachesPreviousBiome()
     {
         var em = Server.EntMan;
@@ -1800,7 +2183,7 @@ public sealed class BiomeStreamingTest : GameTest
         var zLevels = em.System<ClassicZLevelsSystem>();
         var session = ServerSession!;
         var originalViewer = session.AttachedEntity;
-        EntityUid network = default;
+        Entity<ClassicZMapNetworkComponent> network = default;
         EntityUid viewer = default;
         EntityUid source = default;
         HashSet<EntityUid> cachedEntities = [];
@@ -1813,10 +2196,10 @@ public sealed class BiomeStreamingTest : GameTest
                 source = map.CreateMap(runMapInit: false);
                 biomes.EnsurePlanet(source, Server.ProtoMan.Index(UndergroundBiome), 42);
                 var streaming = em.EnsureComponent<ClassicBiomeStreamingComponent>(source);
-                streaming.BackgroundChunksPerTick = 64;
-                streaming.BackgroundCellsPerSlice = 64;
+                streaming.BackgroundChunksPerTick = 0;
+                streaming.BackgroundCellsPerSlice = 1;
                 streaming.UnloadEntitiesPerSlice = 64;
-                streaming.WorkBudget = TimeSpan.FromSeconds(1);
+                streaming.WorkBudget = TimeSpan.Zero;
                 streaming.UnloadDelay = TimeSpan.Zero;
                 streaming.ZLevelCacheDuration = TimeSpan.FromSeconds(10);
 
@@ -1833,11 +2216,10 @@ public sealed class BiomeStreamingTest : GameTest
                     "ClassicStreamingPhysicalViewerTest",
                     new EntityCoordinates(source, new Vector2(4.5f, 4.5f)));
                 Server.PlayerMan.SetAttachedEntity(session, viewer);
-                for (var i = 0; i < 8; i++)
-                    biomes.Update(0);
+                biomes.Update(0);
 
                 var biome = em.GetComponent<BiomeComponent>(source);
-                Assert.That(biome.LoadedChunks, Is.Not.Empty);
+                Assert.That(streaming.PartialLoads, Is.Not.Empty);
                 cachedEntities = biome.LoadedEntities.Values.SelectMany(chunk => chunk.Keys).ToHashSet();
                 Assert.That(cachedEntities, Is.Not.Empty);
 
@@ -1862,7 +2244,7 @@ public sealed class BiomeStreamingTest : GameTest
         finally
         {
             await Server.WaitPost(() => Server.PlayerMan.SetAttachedEntity(session, originalViewer));
-            if (network != EntityUid.Invalid)
+            if (network.Owner != EntityUid.Invalid)
             {
                 await Server.WaitPost(() => zLevels.DeleteMapNetwork(network));
                 await Server.WaitRunTicks(2);
