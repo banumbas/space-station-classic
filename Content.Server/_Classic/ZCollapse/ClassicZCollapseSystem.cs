@@ -160,8 +160,7 @@ public sealed partial class ClassicZCollapseSystem : EntitySystem
             !_zNetworkQuery.TryGetComponent(zMap.NetworkUid, out var network))
             return false;
 
-        return network.Components.TryGetComponent<ClassicGridStabilityComponent>(_compFactory, out _) ||
-               network.Components.TryGetComponent<ClassicAutoGridGravityComponent>(_compFactory, out _);
+        return network.Components.TryGetComponent<ClassicGridStabilityComponent>(_compFactory, out _);
     }
 
     private bool TryGetOwningMap(EntityUid gridUid, out EntityUid mapUid)

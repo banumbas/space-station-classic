@@ -14,10 +14,10 @@ public sealed partial class ServerApi
 {
     private void RegisterDiscordApi()
     {
-        RegisterActorHandler(HttpMethod.Post, "/admin/actions/discord/link", ActionDiscordLink);
+        RegisterHandler(HttpMethod.Post, "/admin/actions/discord/link", ActionDiscordLink);
     }
 
-    private async Task ActionDiscordLink(IStatusHandlerContext context, Actor actor)
+    private async Task ActionDiscordLink(IStatusHandlerContext context)
     {
         var body = await ReadJson<DiscordLinkBody>(context);
         if (body == null)
@@ -44,11 +44,26 @@ public sealed partial class ServerApi
             return;
         }
 
+        var actorStr = "DiscordBot";
+        if (context.RequestHeaders.TryGetValue("Actor", out var actorHeader) && !string.IsNullOrEmpty(actorHeader))
+        {
+            try
+            {
+                var actor = System.Text.Json.JsonSerializer.Deserialize<Actor>(actorHeader.ToString());
+                if (actor != null)
+                    actorStr = FormatLogActor(actor);
+            }
+            catch
+            {
+                // Optional actor header
+            }
+        }
+
         await RunOnMainThread(async () =>
         {
             var nullLinkMgr = IoCManager.Resolve<INullLinkPlayerManager>();
             nullLinkMgr.LinkPlayerDiscord(userId, body.DiscordId, body.Roles);
-            _sawmill.Info($"Linked user {userId} to Discord ID {body.DiscordId} with {body.Roles?.Count ?? 0} roles via API by {FormatLogActor(actor)}.");
+            _sawmill.Info($"Linked user {userId} to Discord ID {body.DiscordId} with {body.Roles?.Count ?? 0} roles via API by {actorStr}.");
             await RespondOk(context);
         });
     }

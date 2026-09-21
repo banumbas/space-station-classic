@@ -353,8 +353,9 @@ async def link_user_on_server(user_id_or_name: str, discord_id: int, roles: Opti
     """Sends a link request to the SS14 server REST API."""
     url = f"{SS14_API_URL}/admin/actions/discord/link"
     headers = {
-        "Authorization": f"Bearer {SS14_API_TOKEN}",
-        "Content-Type": "application/json"
+        "Authorization": f"SS14Token {SS14_API_TOKEN}",
+        "Content-Type": "application/json",
+        "Actor": json.dumps({"Guid": "00000000-0000-0000-0000-000000000000", "Name": "DiscordBot"})
     }
     payload: Dict[str, Any] = {
         "user": user_id_or_name,
@@ -430,11 +431,38 @@ async def slash_link(interaction: discord.Interaction, player: str, user: Option
 @bot.tree.command(name="status", description="Проверить статус сервера Space Station 14")
 async def slash_status(interaction: discord.Interaction):
     await interaction.response.defer()
-    info_url = f"{SS14_API_URL}/admin/info"
-    headers = {"Authorization": f"Bearer {SS14_API_TOKEN}"}
+    status_url = f"{SS14_API_URL}/status"
 
     try:
         async with aiohttp.ClientSession() as session:
+            try:
+                async with session.get(status_url, timeout=aiohttp.ClientTimeout(total=4)) as resp:
+                    if resp.status == 200:
+                        data = await resp.json()
+                        server_title = data.get("name") or SERVER_NAME
+                        embed = discord.Embed(
+                            title=f"🛸 Статус сервера {server_title}",
+                            color=discord.Color.blue()
+                        )
+                        players = data.get("players", 0)
+                        soft_max = data.get("soft_max_players")
+                        players_str = f"{players} / {soft_max}" if soft_max else f"{players}"
+                        embed.add_field(name="Онлайн", value=f"{players_str} игроков", inline=True)
+                        embed.add_field(name="Раунд", value=f"#{data.get('round_id', '?')}", inline=True)
+                        embed.add_field(name="Режим", value=str(data.get("preset", "Случайный")), inline=True)
+                        if data.get("map"):
+                            embed.add_field(name="Карта", value=str(data["map"]), inline=True)
+                        await interaction.followup.send(embed=embed)
+                        return
+            except Exception as e:
+                logger.debug(f"/status request failed, trying /admin/info: {e}")
+
+            # Fallback to /admin/info
+            info_url = f"{SS14_API_URL}/admin/info"
+            headers = {
+                "Authorization": f"SS14Token {SS14_API_TOKEN}",
+                "Actor": json.dumps({"Guid": "00000000-0000-0000-0000-000000000000", "Name": "DiscordBot"})
+            }
             async with session.get(info_url, headers=headers, timeout=aiohttp.ClientTimeout(total=5)) as resp:
                 if resp.status == 200:
                     data = await resp.json()
@@ -442,9 +470,18 @@ async def slash_status(interaction: discord.Interaction):
                         title=f"🛸 Статус сервера {SERVER_NAME}",
                         color=discord.Color.blue()
                     )
-                    embed.add_field(name="Онлайн", value=f"{data.get('players', '?')} игроков", inline=True)
-                    embed.add_field(name="Раунд", value=f"#{data.get('round_id', '?')}", inline=True)
-                    embed.add_field(name="Режим", value=str(data.get("preset", "Случайный")), inline=True)
+                    players_raw = data.get("Players") or data.get("players") or []
+                    player_count = len(players_raw) if isinstance(players_raw, list) else players_raw
+                    embed.add_field(name="Онлайн", value=f"{player_count} игроков", inline=True)
+                    round_id = data.get("RoundId") or data.get("round_id") or "?"
+                    embed.add_field(name="Раунд", value=f"#{round_id}", inline=True)
+                    preset = data.get("GamePreset") or data.get("preset") or "Случайный"
+                    embed.add_field(name="Режим", value=str(preset), inline=True)
+                    map_info = data.get("Map") or {}
+                    if isinstance(map_info, dict) and map_info.get("Name"):
+                        embed.add_field(name="Карта", value=str(map_info["Name"]), inline=True)
+                    elif data.get("map"):
+                        embed.add_field(name="Карта", value=str(data["map"]), inline=True)
                     await interaction.followup.send(embed=embed)
                 else:
                     await interaction.followup.send(f"⚠️ Сервер ответил с кодом {resp.status}")

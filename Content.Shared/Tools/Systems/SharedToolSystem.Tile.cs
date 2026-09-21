@@ -51,12 +51,9 @@ public abstract partial class SharedToolSystem
             return;
 
         // Classic-Start
-        if (!CanDigClassicTile(tileRef, tool.Qualities))
+        if (!TryDeconstructWithToolQualities(tileRef, tool.Qualities, ent.Owner, args.User))
             return;
         // Classic-End
-
-        if (!TryDeconstructWithToolQualities(tileRef, tool.Qualities))
-            return;
 
         AdminLogger.Add(
             LogType.LatticeCut,
@@ -86,7 +83,7 @@ public abstract partial class SharedToolSystem
             return false;
 
         // Classic-Start
-        if (!CanDigClassicTile(tileRef, tool.Qualities))
+        if (!CanDigClassicTile(tileRef, tool.Qualities, ent.Owner, user))
             return false;
         // Classic-End
 
@@ -102,10 +99,14 @@ public abstract partial class SharedToolSystem
         return true;
     }
 
-    public bool TryDeconstructWithToolQualities(TileRef tileRef, PrototypeFlags<ToolQualityPrototype> withToolQualities)
+    public bool TryDeconstructWithToolQualities(
+        TileRef tileRef,
+        PrototypeFlags<ToolQualityPrototype> withToolQualities,
+        EntityUid? toolUid = null,
+        EntityUid? user = null)
     {
         // Classic-Start
-        if (!CanDigClassicTile(tileRef, withToolQualities))
+        if (!CanDigClassicTile(tileRef, withToolQualities, toolUid, user))
             return false;
         // Classic-End
 

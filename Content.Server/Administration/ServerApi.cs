@@ -67,7 +67,7 @@ public sealed partial class ServerApi : IPostInjectInit
         _sawmill = _logManager.GetSawmill("serverApi");
 
         // Get
-        RegisterActorHandler(HttpMethod.Get, "/admin/info", InfoHandler);
+        RegisterHandler(HttpMethod.Get, "/admin/info", InfoHandler);
         RegisterHandler(HttpMethod.Get, "/admin/game_rules", GetGameRules);
         RegisterHandler(HttpMethod.Get, "/admin/presets", GetPresets);
 
@@ -455,7 +455,7 @@ public sealed partial class ServerApi : IPostInjectInit
     /// <summary>
     ///     Handles fetching information.
     /// </summary>
-    private async Task InfoHandler(IStatusHandlerContext context, Actor actor)
+    private async Task InfoHandler(IStatusHandlerContext context)
     {
         /*
         Information to display
@@ -548,7 +548,7 @@ public sealed partial class ServerApi : IPostInjectInit
         var authScheme = authHeaderValue[..spaceIndex];
         var authValue = authHeaderValue[spaceIndex..].Trim();
 
-        if (authScheme != SS14TokenScheme)
+        if (authScheme != SS14TokenScheme && !string.Equals(authScheme, "Bearer", StringComparison.OrdinalIgnoreCase))
         {
             await RespondBadRequest(context, "Invalid Authorization scheme");
             return false;

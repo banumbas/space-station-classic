@@ -1,4 +1,4 @@
-﻿- type: entity
+- type: entity
   parent: BaseWall
   id: ClassicWallRock
   name: rock
@@ -19,8 +19,6 @@
     toolWhitelist:
       tags:
       - Pickaxe
-    toolQualities:
-    - Digging
   - type: Damageable
     damageContainer: StructuralInorganic
     damageModifierSet: Metallic
@@ -134,6 +132,18 @@
   - type: IconSmooth
     key: walls
     base: dirt
+  - type: Gatherable
+    toolWhitelist:
+      tags:
+      - Pickaxe
+    toolQualities:
+    - Digging
+  - type: SoundOnGather
+    sound:
+      collection: ShovelDig
+  - type: Damageable
+    damageContainer: StructuralInorganic
+    damageModifierSet: Dirt
 
 # Dense underground biomes create thousands of these walls inside ordinary PVS ranges. They are
 # deliberately separate from ClassicWallRock: hand-placed/surface rocks still inherit BaseWall
@@ -214,8 +224,6 @@
     toolWhitelist:
       tags:
       - Pickaxe
-    toolQualities:
-    - Digging
   - type: Destructible
     thresholds:
     - trigger:
@@ -295,3 +303,20 @@
   - type: IconSmooth
     key: walls
     base: dirt
+  - type: Gatherable
+    toolWhitelist:
+      tags:
+      - Pickaxe
+    toolQualities:
+    - Digging
+  - type: SoundOnGather
+    sound:
+      collection: ShovelDig
+  - type: RangedDamageSound
+    soundGroups:
+      Brute:
+        collection:
+          DirtBulletImpact
+  - type: Damageable
+    damageContainer: StructuralInorganic
+    damageModifierSet: Dirt

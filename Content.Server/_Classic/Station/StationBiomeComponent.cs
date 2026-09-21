@@ -21,6 +21,9 @@ public sealed partial class ClassicStationBiomeComponent : Component
     [DataField]
     public bool DisableGridSplitting = true;
 
+    [DataField]
+    public string? Parallax;
+
     /// <summary>
     /// Data-driven terrain configuration for maps below the surface.
     /// </summary>
