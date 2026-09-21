@@ -11,11 +11,17 @@ using Robust.Shared.Timing;
 
 namespace Content.Shared._Classic.ZLevels.Core.EntitySystems;
 
-public sealed class ClassicZLevelOpeningCache(int chunkSize = ClassicZLevelOpeningCache.DefaultChunkSize)
+public sealed class ClassicZLevelOpeningCache(
+    int chunkSize = ClassicZLevelOpeningCache.DefaultChunkSize,
+    int maxCachedChunksPerGrid = 256,
+    int maxCachedChunksTotal = 4096)
 {
     private const int DefaultChunkSize = 8;
 
     private readonly Dictionary<EntityUid, GridOpeningCache> _gridCaches = new();
+    private readonly LinkedList<CachedChunkKey> _globalRecency = new();
+    private readonly int _maxCachedChunksPerGrid = Math.Max(1, maxCachedChunksPerGrid);
+    private readonly int _maxCachedChunksTotal = Math.Max(1, maxCachedChunksTotal);
     private ulong _nextRevision;
 
     public int ChunkSize => chunkSize;
@@ -23,11 +29,30 @@ public sealed class ClassicZLevelOpeningCache(int chunkSize = ClassicZLevelOpeni
     public void Clear()
     {
         _gridCaches.Clear();
+        _globalRecency.Clear();
     }
 
     public void RemoveGrid(EntityUid grid)
     {
+        if (_gridCaches.TryGetValue(grid, out var cache))
+            ClearChunks(cache);
+
         _gridCaches.Remove(grid);
+    }
+
+    public int GetCachedChunkCount()
+    {
+        return _globalRecency.Count;
+    }
+
+    public int GetCachedChunkCount(EntityUid grid)
+    {
+        return _gridCaches.TryGetValue(grid, out var cache) ? cache.Chunks.Count : 0;
+    }
+
+    public bool IsChunkCached(EntityUid grid, Vector2i chunk)
+    {
+        return _gridCaches.TryGetValue(grid, out var cache) && cache.Chunks.ContainsKey(chunk);
     }
 
     public void InvalidateTiles(Entity<MapGridComponent> grid, ReadOnlySpan<TileChangedEntry> changes)
@@ -40,14 +65,14 @@ public sealed class ClassicZLevelOpeningCache(int chunkSize = ClassicZLevelOpeni
 
         if (changes.Length == 0)
         {
-            cache.Chunks.Clear();
+            ClearChunks(cache);
             return;
         }
 
         for (var i = 0; i < changes.Length; i++)
         {
             var chunk = SharedMapSystem.GetChunkIndices(changes[i].GridIndices, chunkSize);
-            cache.Chunks.Remove(chunk);
+            RemoveChunk(cache, chunk);
         }
     }
 
@@ -548,11 +573,51 @@ public sealed class ClassicZLevelOpeningCache(int chunkSize = ClassicZLevelOpeni
         var cache = GetGridCache(grid);
         SynchronizeGridCache(grid, cache);
 
-        if (cache.Chunks.TryGetValue(chunk, out var cached))
-            return cached;
+        if (cache.Chunks.TryGetValue(chunk, out var entry))
+        {
+            if (!ReferenceEquals(cache.Recency.Last, entry.Node))
+            {
+                cache.Recency.Remove(entry.Node);
+                cache.Recency.AddLast(entry.Node);
+            }
+            if (!ReferenceEquals(_globalRecency.Last, entry.GlobalNode))
+            {
+                _globalRecency.Remove(entry.GlobalNode);
+                _globalRecency.AddLast(entry.GlobalNode);
+            }
+            return entry.Value;
+        }
 
-        cached = CalculateChunkOpenings(grid, chunk, map, tile);
-        cache.Chunks[chunk] = cached;
+        var cached = CalculateChunkOpenings(grid, chunk, map, tile);
+        while (cache.Chunks.Count >= _maxCachedChunksPerGrid && cache.Recency.First is { } oldest)
+        {
+            if (!cache.Chunks.TryGetValue(oldest.Value, out var oldestEntry) ||
+                !ReferenceEquals(oldestEntry.Node, oldest))
+            {
+                cache.Recency.Remove(oldest);
+                continue;
+            }
+
+            RemoveChunk(cache, oldest.Value);
+        }
+
+        while (_globalRecency.Count >= _maxCachedChunksTotal && _globalRecency.First is { } globalOldest)
+        {
+            var key = globalOldest.Value;
+            if (!_gridCaches.TryGetValue(key.Grid, out var oldestCache) ||
+                !oldestCache.Chunks.TryGetValue(key.Chunk, out var oldestEntry) ||
+                !ReferenceEquals(oldestEntry.GlobalNode, globalOldest))
+            {
+                _globalRecency.Remove(globalOldest);
+                continue;
+            }
+
+            RemoveChunk(oldestCache, key.Chunk);
+        }
+
+        var node = cache.Recency.AddLast(chunk);
+        var globalNode = _globalRecency.AddLast(new CachedChunkKey(grid.Owner, chunk));
+        cache.Chunks.Add(chunk, new CachedChunkEntry(cached, node, globalNode));
         return cached;
     }
 
@@ -579,7 +644,25 @@ public sealed class ClassicZLevelOpeningCache(int chunkSize = ClassicZLevelOpeni
         // necessary because multiple writes can share LastTileModifiedTick.
         cache.LastTileModifiedTick = grid.Comp.LastTileModifiedTick;
         cache.Revision = NextRevision();
+        ClearChunks(cache);
+    }
+
+    private void RemoveChunk(GridOpeningCache cache, Vector2i chunk)
+    {
+        if (!cache.Chunks.Remove(chunk, out var entry))
+            return;
+
+        cache.Recency.Remove(entry.Node);
+        _globalRecency.Remove(entry.GlobalNode);
+    }
+
+    private void ClearChunks(GridOpeningCache cache)
+    {
+        foreach (var entry in cache.Chunks.Values)
+            _globalRecency.Remove(entry.GlobalNode);
+
         cache.Chunks.Clear();
+        cache.Recency.Clear();
     }
 
     private ulong NextRevision()
@@ -871,8 +954,14 @@ public sealed class ClassicZLevelOpeningCache(int chunkSize = ClassicZLevelOpeni
     {
         public GameTick LastTileModifiedTick;
         public ulong Revision;
-        public readonly Dictionary<Vector2i, CachedChunk> Chunks = new();
+        public readonly Dictionary<Vector2i, CachedChunkEntry> Chunks = new();
+        public readonly LinkedList<Vector2i> Recency = new();
     }
 
+    private readonly record struct CachedChunkKey(EntityUid Grid, Vector2i Chunk);
+    private readonly record struct CachedChunkEntry(
+        CachedChunk Value,
+        LinkedListNode<Vector2i> Node,
+        LinkedListNode<CachedChunkKey> GlobalNode);
     private readonly record struct CachedChunk(bool HasOpening, ulong OpeningMask);
 }
