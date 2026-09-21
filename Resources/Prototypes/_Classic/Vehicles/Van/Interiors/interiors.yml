@@ -8,6 +8,7 @@
   placement:
     mode: SnapgridCenter
   components:
+  - type: SpriteFade
   - type: Tag
     tags:
     - Vehicle
@@ -23,6 +24,7 @@
     layers:
     - state: roof_1
       map: [ "roof" ]
+
 - type: entity
   parent: VehicleVanRoofBase
   id: VehicleVanRoof1
