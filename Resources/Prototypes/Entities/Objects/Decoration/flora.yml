@@ -59,6 +59,11 @@
   - type: Damageable
     damageContainer: StructuralInorganic
     damageModifierSet: Wood
+  - type: VehicleSmashable # Classic-Edit
+    damageOnHit: 1000
+    deleteOnHit: true
+    slowdownMultiplier: 0.7
+    slowdownDuration: 0.4
   - type: MeleeSound
     soundGroups:
       Brute:

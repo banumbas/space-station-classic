@@ -100,6 +100,7 @@ public sealed partial class ClassicZLevelsSystem
         }
 
         RaiseLocalEvent(network, new ClassicZLevelMapNetworkUpdatedEvent());
+        RaiseLocalEvent(new ClassicZLevelMapNetworkReadyEvent(network.Owner));
 
         return success;
     }
@@ -252,6 +253,14 @@ public sealed partial class ClassicZLevelsSystem
 /// Called on ZLevel Network Entity, when maps added or removed from network
 /// </summary>
 public sealed class ClassicZLevelMapNetworkUpdatedEvent : EntityEventArgs;
+
+/// <summary>
+/// Broadcast after a Z-level network has finished updating its maps.
+/// </summary>
+public sealed class ClassicZLevelMapNetworkReadyEvent(EntityUid network) : EntityEventArgs
+{
+    public EntityUid Network { get; } = network;
+}
 
 /// <summary>
 /// Called on map, when it added to ZNetwork

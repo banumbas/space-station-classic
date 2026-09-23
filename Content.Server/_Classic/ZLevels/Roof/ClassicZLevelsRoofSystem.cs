@@ -16,6 +16,7 @@ public sealed partial class ClassicZLevelsRoofSystem : ClassicSharedZLevelsRoofS
     {
         base.Initialize();
 
+        InitializeTilePropagation();
         InitMaps();
         InitGrids();
     }
