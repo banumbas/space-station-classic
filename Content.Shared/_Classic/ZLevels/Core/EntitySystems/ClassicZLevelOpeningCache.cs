@@ -99,6 +99,23 @@ public sealed class ClassicZLevelOpeningCache(
         return GetChunkOpenings(grid, chunk, map, tile).HasOpening;
     }
 
+    public bool TryGetChunkOpeningMask(
+        Entity<MapGridComponent> grid,
+        Vector2i chunk,
+        SharedMapSystem map,
+        ITileDefinitionManager tile,
+        out ulong openingMask)
+    {
+        if (chunkSize != DefaultChunkSize)
+        {
+            openingMask = 0;
+            return false;
+        }
+
+        openingMask = GetChunkOpenings(grid, chunk, map, tile).OpeningMask;
+        return true;
+    }
+
     public bool HasOpeningInTileBounds(
         Entity<MapGridComponent> grid,
         Vector2i start,

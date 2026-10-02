@@ -15,6 +15,7 @@ using Content.Shared.Popups;
 using Content.Shared.Roles;
 using Content.Shared.Roles.Jobs;
 using Content.Shared._Classic.Vehicles;
+using Content.Shared._Classic.ZLevels.Core.EntitySystems;
 using Robust.Shared.GameObjects;
 using Robust.Shared.EntitySerialization;
 using Robust.Shared.EntitySerialization.Systems;
@@ -51,6 +52,7 @@ public sealed class ClassicVehicleSystem : EntitySystem
     [Dependency] private readonly VehicleLockSystem _vehicleLock = default!;
     [Dependency] private readonly ClassicVehicleBaseSystem _vehicles = default!;
     [Dependency] private readonly VehicleViewToggleSystem _viewToggle = default!;
+    [Dependency] private readonly ClassicSharedZLevelsSystem _zLevels = default!;
 
     private readonly HashSet<EntityUid> _intersecting = new();
 
@@ -530,13 +532,19 @@ public sealed class ClassicVehicleSystem : EntitySystem
         if (!TryGetExitCoordinates(ent, enter, vehicleUid, out var exitCoords, out var exitMapCoords))
             return false;
 
-        if (!HasComp<GhostComponent>(user) && IsExitDestinationBlocked(exitCoords, vehicleUid, user))
+        var isGhost = HasComp<GhostComponent>(user);
+        if (!isGhost)
+            RaiseLocalEvent(new ClassicVehiclePrepareExitEvent(exitMapCoords));
+
+        if (!isGhost && IsExitDestinationBlocked(exitCoords, vehicleUid, user))
         {
             _popup.PopupEntity(Loc.GetString("rmc-vehicle-exit-blocked"), user, user, PopupType.SmallCaution);
             return false;
         }
 
         _transform.SetMapCoordinates(user, exitMapCoords);
+        if (!isGhost)
+            _zLevels.RefreshGroundAfterTeleport(user);
         UntrackOccupant(user, vehicleUid);
         return true;
     }
@@ -548,27 +556,30 @@ public sealed class ClassicVehicleSystem : EntitySystem
         out EntityCoordinates exitCoords,
         out MapCoordinates exitMapCoords)
     {
+        var entryIndex = ent.Comp.EntryIndex;
+        var offset = entryIndex >= 0 && entryIndex < enter.EntryPoints.Count
+            ? enter.EntryPoints[entryIndex].Offset
+            : enter.ExitOffset;
+        return TryGetExitCoordinates(vehicleUid, offset, out exitCoords, out exitMapCoords);
+    }
+
+    private bool TryGetExitCoordinates(
+        EntityUid vehicleUid,
+        Vector2 offset,
+        out EntityCoordinates exitCoords,
+        out MapCoordinates exitMapCoords)
+    {
         exitCoords = default;
         exitMapCoords = default;
 
         var vehicleXform = Transform(vehicleUid);
-
         EntityUid? parent = vehicleXform.ParentUid;
         if (parent == null || !parent.Value.IsValid())
             parent = vehicleXform.MapUid;
         if (parent == null || !parent.Value.IsValid())
             return false;
 
-        Vector2 offset;
-        var entryIndex = ent.Comp.EntryIndex;
-        if (entryIndex >= 0 && entryIndex < enter.EntryPoints.Count)
-            offset = enter.EntryPoints[entryIndex].Offset;
-        else
-            offset = enter.ExitOffset;
-
-        var rotated = vehicleXform.LocalRotation.RotateVec(offset);
-        var position = vehicleXform.LocalPosition + rotated;
-
+        var position = vehicleXform.LocalPosition + vehicleXform.LocalRotation.RotateVec(offset);
         exitCoords = new EntityCoordinates(parent.Value, position);
         exitMapCoords = _transform.ToMapCoordinates(exitCoords);
         return exitMapCoords.MapId != MapId.Nullspace;
@@ -970,6 +981,27 @@ public sealed class ClassicVehicleSystem : EntitySystem
 
         vehicle = interiorVehicleUid;
         return true;
+    }
+
+    public void GetExteriorExitCoordinates(EntityUid vehicle, List<MapCoordinates> coordinates)
+    {
+        coordinates.Clear();
+        if (!TryComp(vehicle, out VehicleEnterComponent? enter))
+            return;
+
+        Add(enter.ExitOffset);
+
+        foreach (var entry in enter.EntryPoints)
+            Add(entry.Offset);
+
+        void Add(Vector2 offset)
+        {
+            if (TryGetExitCoordinates(vehicle, offset, out _, out var mapCoordinates) &&
+                !coordinates.Contains(mapCoordinates))
+            {
+                coordinates.Add(mapCoordinates);
+            }
+        }
     }
 
     public bool TryGetInteriorMapId(EntityUid vehicle, out MapId mapId)
