@@ -19,13 +19,26 @@ using Robust.Shared.Utility;
 using Robust.Shared.Timing;
 using Content.Server._Classic.ZLevels.Core;
 using Content.Server.Ghost.Roles.Components;
+using Content.Server.NPC.HTN;
 using Content.Shared._Classic.Vehicles;
 using Content.Shared._Classic.ZLevels.Core.Components;
 using Content.Shared._Classic.ZLevels.Core.EntitySystems;
 using Content.Shared.Tag;
 using Content.Shared.Damage.Components;
 using Content.Shared.Ghost;
+using Content.Shared.Interaction;
+using Content.Shared.Mind.Components;
+using Content.Shared.Mobs;
+using Content.Shared.Mobs.Components;
+using Content.Shared.Movement.Pulling.Events;
+using Content.Shared.NPC.Components;
+using Content.Shared.Chemistry.Components.SolutionManager;
 using Content.Shared.Sprite;
+using Content.Server.Body.Components;
+using Content.Shared.Body.Components;
+using Content.Shared.Temperature.Components;
+using Content.Shared.Atmos.Components;
+using Content.Shared.Atmos.Rotting;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Profiling;
 using Robust.Shared.Serialization.Manager;
@@ -80,6 +93,7 @@ public sealed partial class BiomeSystem
     private readonly List<(EntityUid Entity, Vector2i Tile)> _classicUnloadEntities = new(ChunkSize * ChunkSize);
     private readonly List<Vector2i> _classicRestoreCells = new(ChunkSize * ChunkSize);
     private readonly List<string> _classicMarkerLayers = new();
+    private readonly List<(string Layer, Vector2i Chunk)> _classicMarkerAreas = new();
     private float _classicLoadRange = DefaultLoadRange;
     private const int MaxClassicBackgroundChunksPerTick = 64;
     private const int ClassicChunkCells = ChunkSize * ChunkSize;
@@ -105,6 +119,11 @@ public sealed partial class BiomeSystem
     private TimeSpan _classicNextPendingOpeningCachePrune;
     private readonly Dictionary<EntityUid, int> _classicBackgroundEntitySpawnsByGrid = new();
     private readonly List<EntityUid> _classicBiomeSpawnedEntities = new();
+    private readonly List<EntityUid> _classicMarkerTraversal = new();
+    private readonly HashSet<EntityUid> _classicMarkerChildren = new();
+    private readonly HashSet<string> _classicMarkerFactions = new();
+    private readonly HashSet<string> _classicMarkerTags = new();
+    private readonly HashSet<string> _classicMarkerSolutionContainers = new();
     private bool _classicBiomeSpawnTracking;
 
     private void BeginClassicStreamingBudget()
@@ -407,6 +426,9 @@ public sealed partial class BiomeSystem
         SubscribeLocalEvent<TileChangedEvent>(OnClassicTileChanged);
         SubscribeLocalEvent<GridRemovalEvent>(OnClassicOpeningGridRemoved);
         SubscribeLocalEvent<ClassicVehiclePrepareExitEvent>(OnClassicVehiclePrepareExit);
+        SubscribeLocalEvent<ClassicBiomeAmbientMarkerComponent, PullStartedMessage>(OnClassicAmbientMarkerTouched);
+        SubscribeLocalEvent<ClassicBiomeAmbientMarkerComponent, InteractHandEvent>(OnClassicAmbientMarkerTouched);
+        SubscribeLocalEvent<ClassicBiomeAmbientMarkerComponent, InteractUsingEvent>(OnClassicAmbientMarkerTouched);
         EntityManager.EntityAdded += OnClassicBiomeEntityAdded;
     }
 
@@ -422,6 +444,86 @@ public sealed partial class BiomeSystem
             _classicBiomeSpawnedEntities.Add(entity);
     }
 
+    private void OnClassicAmbientMarkerTouched(
+        Entity<ClassicBiomeAmbientMarkerComponent> entity,
+        ref PullStartedMessage args)
+    {
+        entity.Comp.PlayerTouched = true;
+    }
+
+    private void OnClassicAmbientMarkerTouched(
+        Entity<ClassicBiomeAmbientMarkerComponent> entity,
+        ref InteractHandEvent args)
+    {
+        entity.Comp.PlayerTouched = true;
+    }
+
+    private void OnClassicAmbientMarkerTouched(
+        Entity<ClassicBiomeAmbientMarkerComponent> entity,
+        ref InteractUsingEvent args)
+    {
+        entity.Comp.PlayerTouched = true;
+    }
+
+    private static bool ClassicMarkerUncomparableComponent(string name)
+    {
+        return name is "NpcFactionMember" or "MobState" or "Tag" or "Body" or "Internals" or
+            "Actions" or "CustomLimbVisualizer" or "HealthExaminable" or "MovedByPressure" or
+            "SolutionContainerManager";
+    }
+
+    private void CollectClassicMarkerChildren(EntityUid root, HashSet<EntityUid> children)
+    {
+        children.Clear();
+        _classicMarkerTraversal.Clear();
+        _classicMarkerTraversal.Add(root);
+        for (var i = 0; i < _classicMarkerTraversal.Count; i++)
+        {
+            if (!_xformQuery.TryGetComponent(_classicMarkerTraversal[i], out var xform))
+                continue;
+
+            using var enumerator = xform.ChildEnumerator;
+            while (enumerator.MoveNext(out var child))
+            {
+                if (children.Add(child))
+                    _classicMarkerTraversal.Add(child);
+            }
+        }
+
+        _classicMarkerTraversal.Clear();
+    }
+
+    private void CaptureClassicMarkerFactions(EntityUid root, HashSet<string> factions)
+    {
+        factions.Clear();
+        if (!TryComp<NpcFactionMemberComponent>(root, out var member))
+            return;
+
+        foreach (var faction in member.Factions)
+            factions.Add("member:" + faction);
+        if (member.AddFriendlyFactions != null)
+        {
+            foreach (var faction in member.AddFriendlyFactions)
+                factions.Add("friendly:" + faction);
+        }
+
+        if (member.AddHostileFactions != null)
+        {
+            foreach (var faction in member.AddHostileFactions)
+                factions.Add("hostile:" + faction);
+        }
+    }
+
+    private void CaptureClassicMarkerTags(EntityUid root, HashSet<string> tags)
+    {
+        tags.Clear();
+        if (!TryComp<TagComponent>(root, out var component))
+            return;
+
+        foreach (var tag in component.Tags)
+            tags.Add(tag.ToString());
+    }
+
     private Dictionary<EntityUid, Vector2i>? SpawnClassicBiomeEntity(
         string prototype,
         EntityUid gridUid,
@@ -431,9 +533,10 @@ public sealed partial class BiomeSystem
     {
         _classicBiomeSpawnedEntities.Clear();
         _classicBiomeSpawnTracking = true;
+        EntityUid root;
         try
         {
-            Spawn(prototype, _mapSystem.GridTileToLocal(gridUid, grid, tile));
+            root = Spawn(prototype, _mapSystem.GridTileToLocal(gridUid, grid, tile));
         }
         catch
         {
@@ -445,6 +548,13 @@ public sealed partial class BiomeSystem
             _classicBiomeSpawnTracking = false;
         }
 
+        if (!Deleted(root) && !EntityManager.IsQueuedForDeletion(root) &&
+            _xformQuery.TryGetComponent(root, out var rootXform) &&
+            rootXform.ParentUid == gridUid && !rootXform.Anchored)
+        {
+            _transform.AnchorEntity((root, rootXform), (gridUid, grid), tile);
+        }
+
         foreach (var spawned in _classicBiomeSpawnedEntities)
         {
             if (Deleted(spawned) || EntityManager.IsQueuedForDeletion(spawned) ||
@@ -454,7 +564,94 @@ public sealed partial class BiomeSystem
             }
 
             loaded ??= new Dictionary<EntityUid, Vector2i>(ChunkSize * ChunkSize);
-            loaded.TryAdd(spawned, _mapSystem.LocalToTile(gridUid, grid, xform.Coordinates));
+            loaded.TryAdd(spawned, tile);
+        }
+
+        _classicBiomeSpawnedEntities.Clear();
+        return loaded;
+    }
+
+    private Dictionary<EntityUid, Vector2i>? SpawnClassicBiomeMarkerEntity(
+        string prototype,
+        EntityUid gridUid,
+        MapGridComponent grid,
+        Vector2i tile,
+        Dictionary<EntityUid, Vector2i>? loaded,
+        ClassicBiomeMarkerCellState marker)
+    {
+        _classicBiomeSpawnedEntities.Clear();
+        _classicBiomeSpawnTracking = true;
+        EntityUid root;
+        try
+        {
+            root = EntityManager.CreateEntityUninitialized(
+                prototype,
+                _mapSystem.GridTileToLocal(gridUid, grid, tile));
+            RemComp<GhostTakeoverAvailableComponent>(root);
+            RemComp<GhostRoleComponent>(root);
+            EntityManager.InitializeAndStartEntity(root);
+        }
+        catch
+        {
+            _classicBiomeSpawnedEntities.Clear();
+            throw;
+        }
+        finally
+        {
+            _classicBiomeSpawnTracking = false;
+        }
+
+        marker.Entities.Clear();
+        marker.Root = root;
+        foreach (var spawned in _classicBiomeSpawnedEntities)
+        {
+            if (Deleted(spawned) || EntityManager.IsQueuedForDeletion(spawned) ||
+                !_xformQuery.TryGetComponent(spawned, out var xform) || xform.ParentUid != gridUid)
+            {
+                continue;
+            }
+
+            loaded ??= new Dictionary<EntityUid, Vector2i>(ChunkSize * ChunkSize);
+            loaded.TryAdd(spawned, tile);
+            marker.Entities.Add(spawned);
+        }
+
+        if (!Deleted(root) && !EntityManager.IsQueuedForDeletion(root) &&
+            _xformQuery.TryGetComponent(root, out var markerXform) &&
+            markerXform.ParentUid == gridUid && HasComp<HTNComponent>(root))
+        {
+            EnsureComp<ClassicBiomeAmbientMarkerComponent>(root);
+            var metadata = MetaData(root);
+            marker.BaselineName = metadata.EntityName;
+            marker.BaselineDescription = metadata.EntityDescription;
+            var baseline = new Dictionary<string, IComponent>();
+            var componentNames = new HashSet<string>();
+            foreach (var component in AllComps(root))
+            {
+                if (component is MetaDataComponent or TransformComponent or ClassicBiomeAmbientMarkerComponent)
+                    continue;
+
+                var name = EntityManager.ComponentFactory.GetRegistration(component.GetType()).Name;
+                if (name == "ActiveNPC")
+                    continue;
+                componentNames.Add(name);
+                if (component is HTNComponent or PhysicsComponent || ClassicMarkerUncomparableComponent(name))
+                    continue;
+                baseline[name] = _classicSerialization.CreateCopy(component, notNullableOverride: true);
+            }
+
+            marker.BaselineComponents = baseline;
+            marker.BaselineComponentNames = componentNames;
+            var children = new HashSet<EntityUid>();
+            CollectClassicMarkerChildren(root, children);
+            marker.BaselineChildren = children;
+            CaptureClassicMarkerFactions(root, _classicMarkerFactions);
+            marker.BaselineFactions = new HashSet<string>(_classicMarkerFactions);
+            CaptureClassicMarkerTags(root, _classicMarkerTags);
+            marker.BaselineTags = new HashSet<string>(_classicMarkerTags);
+            marker.BaselineSolutionContainers = TryComp<SolutionContainerManagerComponent>(root, out var solutions)
+                ? new HashSet<string>(solutions.Containers)
+                : new HashSet<string>();
         }
 
         _classicBiomeSpawnedEntities.Clear();
@@ -1103,40 +1300,66 @@ public sealed partial class BiomeSystem
 
         biome.ModifiedTiles.TryGetValue(chunk, out var modified);
         modified ??= _tilePool.Get();
-        _classicUnloadEntities.Clear();
-        foreach (var pair in loaded)
-        {
-            _classicUnloadEntities.Add((pair.Key, pair.Value));
-            if (_classicUnloadEntities.Count >= limit)
-                break;
-        }
-
         var depth = ClassicBiomeDepth(gridUid);
         var processed = 0;
-        foreach (var (entity, tile) in _classicUnloadEntities)
+        while (loaded.Count > 0 && processed < limit)
         {
-            if (Deleted(entity) || !_xformQuery.TryGetComponent(entity, out var xform))
+            var tile = default(Vector2i);
+            foreach (var pair in loaded)
             {
-                modified.Add(tile);
+                tile = pair.Value;
+                break;
+            }
+
+            _classicUnloadEntities.Clear();
+            foreach (var pair in loaded)
+            {
+                if (pair.Value == tile)
+                    _classicUnloadEntities.Add((pair.Key, pair.Value));
+            }
+
+            ClassicBiomeMarkerCellState? marker = null;
+            if (streaming.MarkerCells.TryGetValue(chunk, out var markerCells))
+                markerCells.TryGetValue(tile, out marker);
+
+            var canUnload = true;
+            foreach (var (entity, _) in _classicUnloadEntities)
+            {
+                if (marker != null && !marker.Entities.Contains(entity) ||
+                    Deleted(entity) || !_xformQuery.TryGetComponent(entity, out var xform) ||
+                    xform.ParentUid != gridUid ||
+                    (marker == null || marker.Root != entity || marker.BaselineComponents == null) &&
+                    _mapSystem.LocalToTile(gridUid, grid, xform.Coordinates) != tile ||
+                    ClassicHasPersistentBiomeDependent(gridUid, grid, tile, entity) ||
+                    !(marker == null
+                        ? ClassicCanUnloadTrackedBiomeEntity(biome, gridUid, grid, tile, entity, depth)
+                        : ClassicCanUnloadMarkerEntity(marker, gridUid, entity, depth)))
+                {
+                    canUnload = false;
+                    break;
+                }
+            }
+            if (marker != null && marker.Entities.Count != _classicUnloadEntities.Count)
+                canUnload = false;
+
+            if (canUnload)
+            {
+                foreach (var (entity, _) in _classicUnloadEntities)
+                    Del(entity);
+                marker?.Entities.Clear();
+                state.RemovedEntityCells.Add(tile);
             }
             else
             {
-                var entityTile = _mapSystem.LocalToTile(gridUid, grid, xform.Coordinates);
-                if (entityTile != tile ||
-                    ClassicHasPersistentBiomeDependent(gridUid, grid, tile, entity) ||
-                    !ClassicCanUnloadBiomeEntity(gridUid, entity, depth))
-                {
-                    modified.Add(tile);
-                }
-                else
-                {
-                    Del(entity);
-                    state.RemovedEntityCells.Add(tile);
-                }
+                modified.Add(tile);
             }
 
-            loaded.Remove(entity);
-            processed++;
+            if (marker != null && (!canUnload || modified.Contains(tile)))
+                marker.Modified = true;
+
+            foreach (var (entity, _) in _classicUnloadEntities)
+                loaded.Remove(entity);
+            processed += _classicUnloadEntities.Count;
 
             if (stopWhenBudgetExpires && ClassicStreamingBudgetExpired())
                 break;
@@ -1165,16 +1388,23 @@ public sealed partial class BiomeSystem
         biome.ModifiedTiles.TryGetValue(chunk, out var modified);
         modified ??= _tilePool.Get();
 
-        var first = Math.Clamp(state.FinalizeCursor, 0, ClassicChunkCells);
-        var end = Math.Min(ClassicChunkCells, first + Math.Clamp(limit, 1, ClassicChunkCells));
-        for (var cell = first; cell < end; cell++)
+        var processed = 0;
+        state.FinalizeCursor = Math.Clamp(state.FinalizeCursor, 0, ClassicChunkCells);
+        while (state.FinalizeCursor < ClassicChunkCells && processed < Math.Clamp(limit, 1, ClassicChunkCells))
         {
-            if (cell > first && stopWhenBudgetExpires && ClassicStreamingBudgetExpired())
+            if (processed > 0 && stopWhenBudgetExpires && ClassicStreamingBudgetExpired())
                 break;
 
+            var remaining = state.MaterializedCells & (ulong.MaxValue << state.FinalizeCursor);
+            if (remaining == 0)
+            {
+                state.FinalizeCursor = ClassicChunkCells;
+                break;
+            }
+
+            var cell = BitOperations.TrailingZeroCount(remaining);
             state.FinalizeCursor = cell + 1;
-            if ((state.MaterializedCells & (1UL << cell)) == 0)
-                continue;
+            processed++;
 
             var x = cell / ChunkSize;
             var y = cell % ChunkSize;
@@ -1201,6 +1431,10 @@ public sealed partial class BiomeSystem
             if (stopWhenBudgetExpires && ClassicStreamingBudgetExpired())
                 break;
         }
+
+        if (state.FinalizeCursor < ClassicChunkCells &&
+            (state.MaterializedCells & (ulong.MaxValue << state.FinalizeCursor)) == 0)
+            state.FinalizeCursor = ClassicChunkCells;
 
         StoreClassicModifiedTiles(biome, chunk, modified);
         if (state.FinalizeCursor >= ClassicChunkCells)
@@ -1250,6 +1484,25 @@ public sealed partial class BiomeSystem
 
         SetClassicBiomeTiles(gridUid, grid, _unloadTiles);
         _unloadTiles.Clear();
+
+        if (streaming.MarkerCells.TryGetValue(chunk, out var markerCells))
+        {
+            foreach (var (tile, marker) in markerCells)
+            {
+                if (!Deleted(marker.Root))
+                    RemComp<ClassicBiomeAmbientMarkerComponent>(marker.Root);
+
+                if (marker.Modified || modified.Contains(tile))
+                    continue;
+
+                var nodes = biome.PendingMarkers.GetOrNew(chunk).GetOrNew(marker.Layer);
+                if (!nodes.Contains(tile))
+                    nodes.Add(tile);
+            }
+
+            streaming.MarkerCells.Remove(chunk);
+        }
+
         streaming.PartialUnloads.Remove(chunk);
         streaming.PendingUnloads.Remove(chunk);
         StoreClassicModifiedTiles(biome, chunk, modified);
@@ -1288,6 +1541,10 @@ public sealed partial class BiomeSystem
         var processed = 0;
         foreach (var tile in _classicRestoreCells)
         {
+            ClassicBiomeMarkerCellState? marker = null;
+            if (streaming.MarkerCells.TryGetValue(chunk, out var markerCells))
+                markerCells.TryGetValue(tile, out marker);
+
             if (!modified.Contains(tile))
             {
                 _classicUnloadEntities.Clear();
@@ -1304,10 +1561,15 @@ public sealed partial class BiomeSystem
                 var depth = ClassicBiomeDepth(gridUid);
                 foreach (var (entity, _) in _classicUnloadEntities)
                 {
-                    if (Deleted(entity) || !_xformQuery.TryGetComponent(entity, out var xform) ||
+                    if (marker != null && !marker.Entities.Contains(entity) ||
+                        Deleted(entity) || !_xformQuery.TryGetComponent(entity, out var xform) ||
+                        xform.ParentUid != gridUid ||
+                        (marker == null || marker.Root != entity || marker.BaselineComponents == null) &&
                         _mapSystem.LocalToTile(gridUid, grid, xform.Coordinates) != tile ||
                         ClassicHasPersistentBiomeDependent(gridUid, grid, tile, entity) ||
-                        !ClassicCanUnloadBiomeEntity(gridUid, entity, depth))
+                        !(marker == null
+                            ? ClassicCanUnloadTrackedBiomeEntity(biome, gridUid, grid, tile, entity, depth)
+                            : ClassicCanUnloadMarkerEntity(marker, gridUid, entity, depth)))
                     {
                         canRestore = false;
                         break;
@@ -1325,8 +1587,20 @@ public sealed partial class BiomeSystem
                     if (ClassicHasBlockingAnchoredEntity(gridUid, grid, tile))
                     {
                         modified.Add(tile);
+                        if (marker != null)
+                            marker.Modified = true;
                     }
-                    else if (TryGetEntity(tile, biome, (gridUid, grid), out var prototype))
+                    else if (marker is { Modified: false })
+                    {
+                        loaded = SpawnClassicBiomeMarkerEntity(
+                            marker.Prototype,
+                            gridUid,
+                            grid,
+                            tile,
+                            loaded,
+                            marker);
+                    }
+                    else if (marker == null && TryGetEntity(tile, biome, (gridUid, grid), out var prototype))
                     {
                         loaded = SpawnClassicBiomeEntity(prototype, gridUid, grid, tile, loaded);
                     }
@@ -1334,7 +1608,13 @@ public sealed partial class BiomeSystem
                 else
                 {
                     modified.Add(tile);
+                    if (marker != null)
+                        marker.Modified = true;
                 }
+            }
+            else if (marker != null)
+            {
+                marker.Modified = true;
             }
 
             state.RemovedEntityCells.Remove(tile);
@@ -1468,7 +1748,6 @@ public sealed partial class BiomeSystem
             return;
 
         var cellsPerSlice = Math.Clamp(streaming.BackgroundCellsPerSlice, 1, ClassicChunkCells);
-        var pressureChunkStarted = false;
         for (var slot = 0; slot < loadSlots; slot++)
         {
             if (ClassicBiomeLoadsEntities(gridUid) &&
@@ -1483,12 +1762,11 @@ public sealed partial class BiomeSystem
             {
                 if (_classicForcedProgressUsed ||
                     !(unloadPressure
-                        ? TrySelectClassicPressureChunk(
+                        ? TrySelectClassicActivePartialLoad(
                             biome,
                             streaming,
-                            !pressureChunkStarted,
                             out chunk,
-                            false,
+                            true,
                             false)
                         : _classicStreamingWorkBudget > TimeSpan.Zero
                             ? TrySelectClassicBackgroundChunk(biome, streaming, out chunk, false)
@@ -1502,10 +1780,9 @@ public sealed partial class BiomeSystem
             else
             {
                 if (unloadPressure
-                        ? !TrySelectClassicPressureChunk(
+                        ? !TrySelectClassicActivePartialLoad(
                             biome,
                             streaming,
-                            !pressureChunkStarted,
                             out chunk,
                             includeAdjacentPrefetch: includeAdjacentPrefetch)
                         : !TrySelectClassicBackgroundChunk(
@@ -1524,11 +1801,7 @@ public sealed partial class BiomeSystem
                 break;
 
             if (!continuation)
-            {
                 streaming.PartialLoads.Add(chunk, 0);
-                if (unloadPressure)
-                    pressureChunkStarted = true;
-            }
 
             if (biome.LoadedChunks.Contains(chunk))
             {
@@ -1880,23 +2153,6 @@ public sealed partial class BiomeSystem
         return found;
     }
 
-    private bool TrySelectClassicPressureChunk(
-        BiomeComponent biome,
-        ClassicBiomeStreamingComponent streaming,
-        bool allowFresh,
-        out Vector2i chunk,
-        bool includePriorityOnly = true,
-        bool includeAdjacentPrefetch = true)
-    {
-        return TrySelectClassicActivePartialLoad(
-                   biome,
-                   streaming,
-                   out chunk,
-                   includePriorityOnly,
-                   includeAdjacentPrefetch) ||
-               allowFresh && TrySelectClassicBackgroundChunk(biome, streaming, out chunk, includeAdjacentPrefetch);
-    }
-
     private bool ClassicStreamingBudgetExpired()
     {
         return Stopwatch.GetElapsedTime(_classicStreamingWorkStarted) >= _classicStreamingWorkBudget;
@@ -1979,6 +2235,8 @@ public sealed partial class BiomeSystem
                 if (foreground != (priority == 0))
                     continue;
 
+                _markerChunks.TryGetValue(entry.Biome, out var markerRequests);
+                PruneClassicMarkerAreas(entry.Biome, entry.Streaming, markerRequests);
                 BuildMarkerChunks(entry.Biome, entry.GridUid, entry.Grid, entry.Biome.Seed);
                 LoadClassicPendingMarkerNodes(
                     entry.Biome,
@@ -2952,52 +3210,72 @@ public sealed partial class BiomeSystem
             return false;
         }
 
-        var openingChunk = scan.NextOpeningChunk;
-        var openingTile = openingChunk * openingChunkSize;
-        var guardedChunk = SharedMapSystem.GetChunkIndices(openingTile, ChunkSize) * ChunkSize;
-        var openingMask = 0UL;
-        if (biome.LoadedChunks.Contains(guardedChunk) &&
-            !_classicOpeningCache.TryGetChunkOpeningMask(
-                (gridUid, grid),
-                openingChunk,
-                _mapSystem,
-                TileDefManager,
-                out openingMask))
+        while (scan.NextOpeningChunk.X <= lastOpeningChunk.X && processed < maxCells)
         {
-            streaming.OpeningScans.Remove(key);
-            openingWorldBounds = default;
-            return false;
+            if (processed > 0 && (forced || ClassicStreamingBudgetExpired()))
+                break;
+
+            var openingChunk = scan.NextOpeningChunk;
+            var openingTile = openingChunk * openingChunkSize;
+            var guardedChunk = SharedMapSystem.GetChunkIndices(openingTile, ChunkSize) * ChunkSize;
+            var openingMask = 0UL;
+            var cached = true;
+            if (biome.LoadedChunks.Contains(guardedChunk))
+            {
+                cached = _classicOpeningCache.TryGetCachedChunkOpeningMask(
+                    (gridUid, grid),
+                    openingChunk,
+                    out openingMask);
+                if (!cached)
+                {
+                    if (processed > 0)
+                        break;
+
+                    if (!_classicOpeningCache.TryGetChunkOpeningMask(
+                            (gridUid, grid),
+                            openingChunk,
+                            _mapSystem,
+                            TileDefManager,
+                            out openingMask))
+                    {
+                        streaming.OpeningScans.Remove(key);
+                        openingWorldBounds = default;
+                        return false;
+                    }
+                }
+            }
+
+            scan.OpeningChunkMasks[openingChunk] = openingMask;
+            var hasNextOpeningChunk = AdvanceClassicOpeningCursor(
+                ref scan.NextOpeningChunk,
+                firstOpeningChunk,
+                lastOpeningChunk);
+            processed += cached ? 1 : maxCells;
+
+            if (_classicOpeningCache.GetRevision((gridUid, grid)) != scan.Revision)
+            {
+                streaming.OpeningScans.Remove(key);
+                openingWorldBounds = default;
+                return false;
+            }
+
+            if (!hasNextOpeningChunk)
+            {
+                scan.Phase = ClassicBiomeOpeningScanPhase.Complete;
+                pending = false;
+                return TryGetClassicOpeningSnapshotBounds(
+                    gridUid,
+                    grid,
+                    scan,
+                    exactFirstTile,
+                    exactLastTile,
+                    openingChunkSize,
+                    out openingWorldBounds);
+            }
         }
 
-        scan.OpeningChunkMasks[openingChunk] = openingMask;
-        var hasNextOpeningChunk = AdvanceClassicOpeningCursor(
-            ref scan.NextOpeningChunk,
-            firstOpeningChunk,
-            lastOpeningChunk);
-
-        if (_classicOpeningCache.GetRevision((gridUid, grid)) != scan.Revision)
-        {
-            streaming.OpeningScans.Remove(key);
-            openingWorldBounds = default;
-            return false;
-        }
-
-        if (hasNextOpeningChunk)
-        {
-            openingWorldBounds = default;
-            return false;
-        }
-
-        scan.Phase = ClassicBiomeOpeningScanPhase.Complete;
-        pending = false;
-        return TryGetClassicOpeningSnapshotBounds(
-            gridUid,
-            grid,
-            scan,
-            exactFirstTile,
-            exactLastTile,
-            openingChunkSize,
-            out openingWorldBounds);
+        openingWorldBounds = default;
+        return false;
     }
 
     private bool TryGetClassicOpeningSnapshotBounds(
@@ -3320,7 +3598,155 @@ public sealed partial class BiomeSystem
         return false;
     }
 
-    private bool ClassicCanUnloadBiomeEntity(EntityUid gridUid, EntityUid uid, int depth)
+    private bool ClassicCanUnloadTrackedBiomeEntity(
+        BiomeComponent biome,
+        EntityUid gridUid,
+        MapGridComponent grid,
+        Vector2i tile,
+        EntityUid uid,
+        int depth)
+    {
+        var metadata = MetaData(uid);
+        var rootAnchor = metadata.EntityPrototype is { } prototype &&
+                         prototype.Components.TryGetValue("Transform", out var transformEntry) &&
+                         transformEntry.Component is TransformComponent prototypeTransform &&
+                         !prototypeTransform.Anchored && Transform(uid).Anchored &&
+                         TryGetEntity(tile, biome, (gridUid, grid), out var rootPrototype) &&
+                         prototype.ID == rootPrototype;
+        return ClassicCanUnloadBiomeEntity(gridUid, uid, depth, rootAnchor);
+    }
+
+    private bool ClassicCanUnloadMarkerEntity(
+        ClassicBiomeMarkerCellState marker,
+        EntityUid gridUid,
+        EntityUid uid,
+        int depth)
+    {
+        if (marker.Root != uid || marker.BaselineComponents == null)
+            return ClassicCanUnloadBiomeEntity(gridUid, uid, depth, strippedGhostRole: uid == marker.Root);
+
+        if (marker.BaselineComponentNames == null || marker.BaselineChildren == null ||
+            marker.BaselineFactions == null || marker.BaselineTags == null ||
+            marker.BaselineSolutionContainers == null)
+        {
+            return false;
+        }
+
+        if (!TryComp<ClassicBiomeAmbientMarkerComponent>(uid, out var ambient) || ambient.PlayerTouched ||
+            HasComp<ActorComponent>(uid) ||
+            TryComp<MindContainerComponent>(uid, out var mind) && (mind.HasMind || mind.Mind != null) ||
+            _classicDamageableQuery.TryComp(uid, out var damageable) && damageable.TotalDamage != 0 ||
+            TryComp<MobStateComponent>(uid, out var mobState) && mobState.CurrentState != MobState.Alive)
+        {
+            return false;
+        }
+
+        var metadata = MetaData(uid);
+        if (metadata.EntityPrototype?.ID != marker.Prototype ||
+            metadata.EntityName != marker.BaselineName ||
+            metadata.EntityDescription != marker.BaselineDescription)
+        {
+            return false;
+        }
+
+        CollectClassicMarkerChildren(uid, _classicMarkerChildren);
+        if (!_classicMarkerChildren.SetEquals(marker.BaselineChildren))
+            return false;
+        CaptureClassicMarkerFactions(uid, _classicMarkerFactions);
+        if (!_classicMarkerFactions.SetEquals(marker.BaselineFactions))
+            return false;
+        CaptureClassicMarkerTags(uid, _classicMarkerTags);
+        if (!_classicMarkerTags.SetEquals(marker.BaselineTags))
+            return false;
+        _classicMarkerSolutionContainers.Clear();
+        if (TryComp<SolutionContainerManagerComponent>(uid, out var solutions))
+        {
+            _classicMarkerSolutionContainers.UnionWith(solutions.Containers);
+            if (solutions.Solutions != null)
+                return false;
+        }
+        if (!_classicMarkerSolutionContainers.SetEquals(marker.BaselineSolutionContainers))
+            return false;
+
+        var baseline = marker.BaselineComponents;
+        var componentNames = marker.BaselineComponentNames;
+        var remaining = componentNames.Count;
+        foreach (var component in AllComps(uid))
+        {
+            if (component.Deleted)
+                return false;
+            if (component is MetaDataComponent or TransformComponent or ClassicBiomeAmbientMarkerComponent)
+                continue;
+
+            var type = component.GetType();
+            var name = EntityManager.ComponentFactory.GetRegistration(type).Name;
+            if (name == "ActiveNPC")
+                continue;
+            if (!componentNames.Contains(name))
+                return false;
+
+            remaining--;
+            if (!baseline.TryGetValue(name, out var expected))
+                continue;
+            if (component is TemperatureComponent temperature && expected is TemperatureComponent initialTemperature)
+            {
+                if (TryComp<TemperatureDamageComponent>(uid, out var temperatureDamage) &&
+                    (temperature.CurrentTemperature < temperatureDamage.ColdDamageThreshold ||
+                     temperature.CurrentTemperature > temperatureDamage.HeatDamageThreshold))
+                    return false;
+
+                initialTemperature.CurrentTemperature = temperature.CurrentTemperature;
+            }
+            else if (component is TemperatureDamageComponent temperatureDamage &&
+                     expected is TemperatureDamageComponent initialTemperatureDamage)
+            {
+                if (temperatureDamage.TakingDamage)
+                    return false;
+
+                initialTemperatureDamage.LastUpdate = temperatureDamage.LastUpdate;
+            }
+            else if (component is FlammableComponent flammable && expected is FlammableComponent initialFlammable)
+            {
+                initialFlammable.NextUpdate = flammable.NextUpdate;
+            }
+            else if (component is PerishableComponent perishable &&
+                     (perishable.RotAccumulator != TimeSpan.Zero || perishable.Stage != 0 || perishable.ForceRotProgression))
+            {
+                return false;
+            }
+
+            ClassicSynchronizeMarkerSnapshotClocks(component, expected);
+            if (!_classicSerialization.DataFieldEquals(type, component, expected))
+                return false;
+        }
+
+        return remaining == 0;
+    }
+
+#pragma warning disable RA0002
+    private static void ClassicSynchronizeMarkerSnapshotClocks(IComponent component, IComponent snapshot)
+    {
+        switch (component, snapshot)
+        {
+            case (ThermalRegulatorComponent current, ThermalRegulatorComponent baseline):
+                baseline.NextUpdate = current.NextUpdate;
+                break;
+            case (BloodstreamComponent current, BloodstreamComponent baseline):
+                baseline.NextUpdate = current.NextUpdate;
+                break;
+            case (PerishableComponent current, PerishableComponent baseline):
+                baseline.RotNextUpdate = current.RotNextUpdate;
+                break;
+        }
+    }
+#pragma warning restore RA0002
+
+    private bool ClassicCanUnloadBiomeEntity(
+        EntityUid gridUid,
+        EntityUid uid,
+        int depth,
+        bool rootAnchor = false,
+        bool strippedGhostRole = false)
     {
         if (_classicAlwaysUnloadQuery.HasComponent(uid))
             return true;
@@ -3338,7 +3764,8 @@ public sealed partial class BiomeSystem
 
         if (prototype.Components.TryGetValue("Transform", out var transformEntry) &&
             transformEntry.Component is TransformComponent prototypeTransform &&
-            Transform(uid).Anchored != prototypeTransform.Anchored)
+            Transform(uid).Anchored != prototypeTransform.Anchored &&
+            !(rootAnchor && Transform(uid).Anchored && !prototypeTransform.Anchored))
         {
             return false;
         }
@@ -3347,6 +3774,10 @@ public sealed partial class BiomeSystem
         if (prototype.Components.ContainsKey("Transform"))
             remaining--;
         if (prototype.Components.ContainsKey("MetaData"))
+            remaining--;
+        if (strippedGhostRole && prototype.Components.ContainsKey("GhostRole"))
+            remaining--;
+        if (strippedGhostRole && prototype.Components.ContainsKey("GhostTakeoverAvailable"))
             remaining--;
 
         foreach (var component in AllComps(uid))
@@ -3480,32 +3911,35 @@ public sealed partial class BiomeSystem
         if (!biome.LoadedEntities.TryGetValue(chunk, out var loaded))
             return true;
 
-        EntityUid baseline = default;
+        _classicUnloadEntities.Clear();
         foreach (var (entity, tile) in loaded)
         {
             if (tile != node)
                 continue;
-            baseline = entity;
-            break;
+            _classicUnloadEntities.Add((entity, tile));
         }
 
-        if (baseline == EntityUid.Invalid)
+        if (_classicUnloadEntities.Count == 0)
             return true;
 
-        if (!Deleted(baseline))
+        var depth = ClassicBiomeDepth(gridUid);
+        foreach (var (baseline, _) in _classicUnloadEntities)
         {
-            if (!_xformQuery.TryGetComponent(baseline, out var xform) || !xform.Anchored ||
+            if (Deleted(baseline) || !_xformQuery.TryGetComponent(baseline, out var xform) ||
                 _mapSystem.LocalToTile(gridUid, grid, xform.Coordinates) != node ||
                 ClassicHasPersistentBiomeDependent(gridUid, grid, node, baseline) ||
-                !ClassicCanUnloadBiomeEntity(gridUid, baseline, ClassicBiomeDepth(gridUid)))
+                !ClassicCanUnloadTrackedBiomeEntity(biome, gridUid, grid, node, baseline, depth))
             {
                 return false;
             }
-
-            Del(baseline);
         }
 
-        loaded.Remove(baseline);
+        foreach (var (baseline, _) in _classicUnloadEntities)
+        {
+            Del(baseline);
+            loaded.Remove(baseline);
+        }
+
         if (loaded.Count == 0)
             biome.LoadedEntities.Remove(chunk);
         return true;
@@ -3954,15 +4388,141 @@ public sealed partial class BiomeSystem
 
     private static bool ClassicMarkerRequestsComplete(
         Dictionary<string, HashSet<Vector2i>> requested,
-        Dictionary<string, HashSet<Vector2i>> loaded)
+        Dictionary<string, HashSet<Vector2i>> loaded,
+        Dictionary<string, HashSet<Vector2i>> pinned)
     {
         foreach (var (layer, chunks) in requested)
         {
-            if (!loaded.TryGetValue(layer, out var completed) || chunks.Any(chunk => !completed.Contains(chunk)))
-                return false;
+            loaded.TryGetValue(layer, out var completed);
+            pinned.TryGetValue(layer, out var retained);
+            foreach (var chunk in chunks)
+            {
+                if (completed?.Contains(chunk) != true && retained?.Contains(chunk) != true)
+                    return false;
+            }
         }
 
         return true;
+    }
+
+    private void PruneClassicMarkerAreas(
+        BiomeComponent biome,
+        ClassicBiomeStreamingComponent streaming,
+        Dictionary<string, HashSet<Vector2i>>? requested)
+    {
+        _classicMarkerAreas.Clear();
+        foreach (var (layer, markerChunks) in biome.LoadedMarkers)
+        {
+            var layerProto = ProtoManager.Index<BiomeMarkerLayerPrototype>(layer);
+            foreach (var markerChunk in markerChunks)
+            {
+                if (requested != null && requested.TryGetValue(layer, out var active) &&
+                    active.Contains(markerChunk))
+                {
+                    continue;
+                }
+
+                if (ClassicMarkerAreaHasResidentChunk(biome, streaming, markerChunk, layerProto.Size))
+                    continue;
+
+                _classicMarkerAreas.Add((layer, markerChunk));
+            }
+        }
+
+        foreach (var (layer, markerChunk) in _classicMarkerAreas)
+        {
+            if (biome.LoadedMarkers.TryGetValue(layer, out var loaded))
+            {
+                loaded.Remove(markerChunk);
+                if (loaded.Count == 0)
+                    biome.LoadedMarkers.Remove(layer);
+            }
+
+            var layerProto = ProtoManager.Index<BiomeMarkerLayerPrototype>(layer);
+            if (ClassicMarkerAreaHasModification(biome, markerChunk, layerProto.Size))
+                streaming.PinnedMarkerAreas.GetOrNew(layer).Add(markerChunk);
+            else
+                RemoveClassicPendingMarkerArea(biome, layer, markerChunk, layerProto.Size);
+        }
+    }
+
+    private static bool ClassicMarkerAreaHasModification(
+        BiomeComponent biome,
+        Vector2i markerChunk,
+        int markerSize)
+    {
+        var first = SharedMapSystem.GetChunkIndices(markerChunk, ChunkSize) * ChunkSize;
+        var lastTile = markerChunk + new Vector2i(markerSize - 1, markerSize - 1);
+        var last = SharedMapSystem.GetChunkIndices(lastTile, ChunkSize) * ChunkSize;
+        for (var x = first.X; x <= last.X; x += ChunkSize)
+        for (var y = first.Y; y <= last.Y; y += ChunkSize)
+        {
+            if (!biome.ModifiedTiles.TryGetValue(new Vector2i(x, y), out var modified))
+                continue;
+
+            foreach (var tile in modified)
+            {
+                if (tile.X >= markerChunk.X && tile.Y >= markerChunk.Y &&
+                    tile.X <= lastTile.X && tile.Y <= lastTile.Y)
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    private static bool ClassicMarkerAreaHasResidentChunk(
+        BiomeComponent biome,
+        ClassicBiomeStreamingComponent streaming,
+        Vector2i markerChunk,
+        int markerSize)
+    {
+        var first = SharedMapSystem.GetChunkIndices(markerChunk, ChunkSize) * ChunkSize;
+        var lastTile = markerChunk + new Vector2i(markerSize - 1, markerSize - 1);
+        var last = SharedMapSystem.GetChunkIndices(lastTile, ChunkSize) * ChunkSize;
+        for (var x = first.X; x <= last.X; x += ChunkSize)
+        for (var y = first.Y; y <= last.Y; y += ChunkSize)
+        {
+            var chunk = new Vector2i(x, y);
+            if (biome.LoadedChunks.Contains(chunk) ||
+                streaming.PartialLoads.ContainsKey(chunk) ||
+                streaming.PartialUnloads.ContainsKey(chunk))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static void RemoveClassicPendingMarkerArea(
+        BiomeComponent biome,
+        string layer,
+        Vector2i markerChunk,
+        int markerSize)
+    {
+        var first = SharedMapSystem.GetChunkIndices(markerChunk, ChunkSize) * ChunkSize;
+        var lastTile = markerChunk + new Vector2i(markerSize - 1, markerSize - 1);
+        var last = SharedMapSystem.GetChunkIndices(lastTile, ChunkSize) * ChunkSize;
+        for (var x = first.X; x <= last.X; x += ChunkSize)
+        for (var y = first.Y; y <= last.Y; y += ChunkSize)
+        {
+            var chunk = new Vector2i(x, y);
+            if (!biome.PendingMarkers.TryGetValue(chunk, out var layers) ||
+                !layers.TryGetValue(layer, out var nodes))
+            {
+                continue;
+            }
+
+            nodes.RemoveAll(node =>
+                SharedMapSystem.GetChunkIndices(node, markerSize) * markerSize == markerChunk);
+            if (nodes.Count == 0)
+                layers.Remove(layer);
+            if (layers.Count == 0)
+                biome.PendingMarkers.Remove(chunk);
+        }
     }
 
     /// <summary>
@@ -3978,7 +4538,7 @@ public sealed partial class BiomeSystem
         ClassicBiomeStreamingComponent streaming)
     {
         var scan = streaming.MarkerAreaScan;
-        if (scan != null && !ClassicMarkerRequestExists(component, markers, scan))
+        if (scan != null && !ClassicMarkerRequestExists(component, markers, scan, streaming))
         {
             DisposeClassicMarkerScan(scan);
             streaming.MarkerAreaScan = null;
@@ -4000,6 +4560,7 @@ public sealed partial class BiomeSystem
                 foreach (var candidate in chunks)
                 {
                     if (component.LoadedMarkers.TryGetValue(layer, out var completed) && completed.Contains(candidate) ||
+                        streaming.PinnedMarkerAreas.TryGetValue(layer, out var pinned) && pinned.Contains(candidate) ||
                         found && CompareClassicMarkerChunks(candidate, markerChunk) >= 0)
                     {
                         continue;
@@ -4085,10 +4646,13 @@ public sealed partial class BiomeSystem
     private static bool ClassicMarkerRequestExists(
         BiomeComponent component,
         Dictionary<string, HashSet<Vector2i>> markers,
-        ClassicBiomeMarkerAreaScanState scan)
+        ClassicBiomeMarkerAreaScanState scan,
+        ClassicBiomeStreamingComponent streaming)
     {
         return markers.TryGetValue(scan.Layer, out var requested) &&
                requested.Contains(scan.MarkerChunk) &&
+               (!streaming.PinnedMarkerAreas.TryGetValue(scan.Layer, out var pinned) ||
+                !pinned.Contains(scan.MarkerChunk)) &&
                (!component.LoadedMarkers.TryGetValue(scan.Layer, out var completed) ||
                 !completed.Contains(scan.MarkerChunk)) &&
                component.ForcedMarkerLayers.Contains(scan.Layer) == scan.Forced;
@@ -4110,10 +4674,27 @@ public sealed partial class BiomeSystem
         int depth)
     {
         var replaceable = GetClassicReplaceableMarkerEntity(biome, gridUid, grid, node, depth);
+        ClassicBiomeMarkerCellState? marker = null;
+        var chunk = SharedMapSystem.GetChunkIndices(node, ChunkSize) * ChunkSize;
+        if (_classicStreamingQuery.TryComp(gridUid, out var streaming) &&
+            streaming.MarkerCells.TryGetValue(chunk, out var markerCells) &&
+            markerCells.TryGetValue(node, out var candidateMarker) &&
+            candidateMarker.Layer == scan.Layer && candidateMarker.MarkerChunk == scan.MarkerChunk)
+        {
+            marker = candidateMarker;
+        }
+
         var enumerator = _mapSystem.GetAnchoredEntitiesEnumerator(gridUid, grid, node);
         EntityUid? existing = null;
         while (enumerator.MoveNext(out var anchored))
         {
+            if (marker != null && marker.Entities.Contains(anchored.Value))
+            {
+                replaceable = anchored.Value;
+                existing = anchored.Value;
+                continue;
+            }
+
             if (anchored == replaceable)
             {
                 existing = anchored;
@@ -4341,7 +4922,7 @@ public sealed partial class BiomeSystem
         }
 
         var processed = 0;
-        var classicStreaming = _classicStreamingQuery.HasComp(gridUid);
+        var classicStreaming = _classicStreamingQuery.TryComp(gridUid, out var streaming);
         _classicMarkerLayers.Clear();
         foreach (var (layer, nodes) in layers)
         {
@@ -4354,35 +4935,70 @@ public sealed partial class BiomeSystem
                 var node = nodes[consumed];
                 if (!modified.Contains(node))
                 {
-                    if (classicStreaming &&
-                        !TryRemoveClassicMarkerBaseline(component, gridUid, grid, chunk, node))
+                    var hasMarker = classicStreaming &&
+                                    streaming!.MarkerCells.TryGetValue(chunk, out var existingMarkers) &&
+                                    existingMarkers.ContainsKey(node);
+                    if (!hasMarker)
                     {
-                        modified.Add(node);
-                    }
-                    else
-                    {
-                        if (TryGetBiomeTile(node, component.Layers, seed, (gridUid, grid), out var tile))
+                        if (classicStreaming &&
+                            !TryRemoveClassicMarkerBaseline(component, gridUid, grid, chunk, node))
                         {
-                            SetClassicBiomeTile(gridUid, grid, node, tile.Value);
-                        }
-
-                        string? prototype;
-
-                        if (TryGetEntity(node, component, (gridUid, grid), out var proto) &&
-                            layerProto.EntityMask.TryGetValue(proto, out var maskedProto))
-                        {
-                            prototype = maskedProto;
+                            modified.Add(node);
                         }
                         else
                         {
-                            prototype = layerProto.Prototype;
-                        }
+                            if (TryGetBiomeTile(node, component.Layers, seed, (gridUid, grid), out var tile))
+                            {
+                                SetClassicBiomeTile(gridUid, grid, node, tile.Value);
+                            }
 
-                        var uid = EntityManager.CreateEntityUninitialized(prototype, _mapSystem.GridTileToLocal(gridUid, grid, node));
-                        RemComp<GhostTakeoverAvailableComponent>(uid);
-                        RemComp<GhostRoleComponent>(uid);
-                        EntityManager.InitializeAndStartEntity(uid);
-                        modified.Add(node);
+                            string? prototype;
+
+                            if (TryGetEntity(node, component, (gridUid, grid), out var proto) &&
+                                layerProto.EntityMask.TryGetValue(proto, out var maskedProto))
+                            {
+                                prototype = maskedProto;
+                            }
+                            else
+                            {
+                                prototype = layerProto.Prototype;
+                            }
+
+                            if (classicStreaming && prototype != null)
+                            {
+                                var marker = new ClassicBiomeMarkerCellState
+                                {
+                                    Layer = layer,
+                                    Prototype = prototype,
+                                    MarkerChunk = SharedMapSystem.GetChunkIndices(node, layerProto.Size) * layerProto.Size,
+                                };
+                                var markerCells = streaming!.MarkerCells.GetOrNew(chunk);
+                                markerCells[node] = marker;
+                                component.LoadedEntities.TryGetValue(chunk, out var loaded);
+                                try
+                                {
+                                    loaded = SpawnClassicBiomeMarkerEntity(
+                                        prototype,
+                                        gridUid,
+                                        grid,
+                                        node,
+                                        loaded,
+                                        marker);
+                                }
+                                catch
+                                {
+                                    markerCells.Remove(node);
+                                    if (markerCells.Count == 0)
+                                        streaming.MarkerCells.Remove(chunk);
+                                    throw;
+                                }
+
+                                if (loaded is { Count: > 0 })
+                                    component.LoadedEntities[chunk] = loaded;
+                                else
+                                    component.LoadedEntities.Remove(chunk);
+                            }
+                        }
                     }
                 }
 

@@ -116,6 +116,25 @@ public sealed class ClassicZLevelOpeningCache(
         return true;
     }
 
+    public bool TryGetCachedChunkOpeningMask(
+        Entity<MapGridComponent> grid,
+        Vector2i chunk,
+        out ulong openingMask)
+    {
+        openingMask = 0;
+        if (chunkSize != DefaultChunkSize ||
+            !_gridCaches.TryGetValue(grid.Owner, out var cache))
+            return false;
+
+        SynchronizeGridCache(grid, cache);
+        if (!cache.Chunks.TryGetValue(chunk, out var entry))
+            return false;
+
+        TouchChunk(cache, entry);
+        openingMask = entry.Value.OpeningMask;
+        return true;
+    }
+
     public bool HasOpeningInTileBounds(
         Entity<MapGridComponent> grid,
         Vector2i start,
@@ -592,16 +611,7 @@ public sealed class ClassicZLevelOpeningCache(
 
         if (cache.Chunks.TryGetValue(chunk, out var entry))
         {
-            if (!ReferenceEquals(cache.Recency.Last, entry.Node))
-            {
-                cache.Recency.Remove(entry.Node);
-                cache.Recency.AddLast(entry.Node);
-            }
-            if (!ReferenceEquals(_globalRecency.Last, entry.GlobalNode))
-            {
-                _globalRecency.Remove(entry.GlobalNode);
-                _globalRecency.AddLast(entry.GlobalNode);
-            }
+            TouchChunk(cache, entry);
             return entry.Value;
         }
 
@@ -636,6 +646,21 @@ public sealed class ClassicZLevelOpeningCache(
         var globalNode = _globalRecency.AddLast(new CachedChunkKey(grid.Owner, chunk));
         cache.Chunks.Add(chunk, new CachedChunkEntry(cached, node, globalNode));
         return cached;
+    }
+
+    private void TouchChunk(GridOpeningCache cache, CachedChunkEntry entry)
+    {
+        if (!ReferenceEquals(cache.Recency.Last, entry.Node))
+        {
+            cache.Recency.Remove(entry.Node);
+            cache.Recency.AddLast(entry.Node);
+        }
+
+        if (!ReferenceEquals(_globalRecency.Last, entry.GlobalNode))
+        {
+            _globalRecency.Remove(entry.GlobalNode);
+            _globalRecency.AddLast(entry.GlobalNode);
+        }
     }
 
     private GridOpeningCache GetGridCache(Entity<MapGridComponent> grid)

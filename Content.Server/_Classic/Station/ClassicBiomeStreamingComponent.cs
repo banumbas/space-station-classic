@@ -177,6 +177,12 @@ public sealed partial class ClassicBiomeStreamingComponent : Component
     /// </summary>
     public ClassicBiomeMarkerAreaScanState? MarkerAreaScan;
 
+    [DataField]
+    public Dictionary<Vector2i, Dictionary<Vector2i, ClassicBiomeMarkerCellState>> MarkerCells = new();
+
+    [DataField]
+    public Dictionary<string, HashSet<Vector2i>> PinnedMarkerAreas = new();
+
     /// <summary>
     /// Read-only opening snapshots keyed by their integer tile request. Multiple deeper Z-eyes
     /// commonly ask the same upper level about the same viewport; sharing avoids scanning it once
@@ -313,6 +319,44 @@ public enum ClassicBiomeMarkerAreaScanPhase : byte
 {
     Scanning,
     Selecting,
+}
+
+[DataDefinition]
+public sealed partial class ClassicBiomeMarkerCellState
+{
+    [DataField]
+    public string Layer = string.Empty;
+
+    [DataField]
+    public string Prototype = string.Empty;
+
+    [DataField]
+    public Vector2i MarkerChunk;
+
+    [DataField]
+    public HashSet<EntityUid> Entities = new();
+
+    [DataField]
+    public EntityUid Root;
+
+    [DataField]
+    public bool Modified;
+
+    public Dictionary<string, IComponent>? BaselineComponents;
+
+    public HashSet<string>? BaselineComponentNames;
+
+    public HashSet<EntityUid>? BaselineChildren;
+
+    public HashSet<string>? BaselineFactions;
+
+    public HashSet<string>? BaselineTags;
+
+    public HashSet<string>? BaselineSolutionContainers;
+
+    public string? BaselineName;
+
+    public string? BaselineDescription;
 }
 
 [DataDefinition]

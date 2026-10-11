@@ -90,7 +90,7 @@ public sealed partial class ClassicZLevelsSystem
             }
 
             if (viewer.LookUp)
-                UpdateUpperEyes((uid, viewer), xform, allowSameTileFastPath: true);
+                UpdateUpperEyes((uid, viewer), xform, allowSameTileFastPath: !updateLowerEyes);
         }
     }
 

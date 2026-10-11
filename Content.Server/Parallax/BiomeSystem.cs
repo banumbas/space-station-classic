@@ -522,7 +522,7 @@ public sealed partial class BiomeSystem : SharedBiomeSystem
             if (!budgetWasExpired && ClassicStreamingBudgetExpired())
                 _classicForcedProgressUsed = true;
 
-            if (ClassicMarkerRequestsComplete(classicMarkers, component.LoadedMarkers))
+            if (ClassicMarkerRequestsComplete(classicMarkers, component.LoadedMarkers, classicStreaming.PinnedMarkerAreas)) // classic-edit
                 component.ForcedMarkerLayers.Clear();
             return;
         }

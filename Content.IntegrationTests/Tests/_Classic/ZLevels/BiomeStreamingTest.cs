@@ -22,6 +22,8 @@ using Content.Shared.Sprite;
 using Content.Shared.Tag;
 using Content.Shared.Light.Components;
 using Content.Shared.Light.EntitySystems;
+using Content.Shared.Movement.Pulling.Events;
+using Content.Shared.Temperature.Components;
 using Robust.Server.GameObjects;
 using Robust.Shared.GameObjects;
 using Robust.Shared.Map;
@@ -50,6 +52,26 @@ public sealed class BiomeStreamingTest : GameTest
   size: 8
   radius: 1
   maxCount: 5
+
+- type: biomeMarkerLayer
+  id: ClassicStreamingMarkerLifecycleTest
+  prototype: ClassicStreamingMarkerLifecycleEntityTest
+  size: 8
+  radius: 4
+  maxCount: 1
+
+- type: biomeMarkerLayer
+  id: ClassicStreamingCarpLifecycleTest
+  prototype: MobCarpDungeon
+  size: 8
+  radius: 4
+  maxCount: 1
+
+- type: entity
+  id: ClassicStreamingMarkerLifecycleEntityTest
+  components:
+    - type: Transform
+      anchored: true
 
 - type: biomeTemplate
   id: ClassicStreamingTileOnlyTest
@@ -113,6 +135,25 @@ public sealed class BiomeStreamingTest : GameTest
         - ClassicDirt
       entities:
         - ClassicStreamingPersistentSpawnerSourceTest
+    - !type:BiomeTileLayer
+      threshold: -1.0
+      tile: ClassicDirt
+
+- type: entity
+  id: ClassicStreamingUnanchoredRootTest
+  components:
+    - type: Transform
+      anchored: false
+
+- type: biomeTemplate
+  id: ClassicStreamingUnanchoredRootTest
+  layers:
+    - !type:BiomeEntityLayer
+      threshold: -1.0
+      allowedTiles:
+        - ClassicDirt
+      entities:
+        - ClassicStreamingUnanchoredRootTest
     - !type:BiomeTileLayer
       threshold: -1.0
       tile: ClassicDirt
@@ -1970,6 +2011,12 @@ public sealed class BiomeStreamingTest : GameTest
                     .Where(layers => layers.ContainsKey(firstScan.Layer))
                     .SelectMany(layers => layers[firstScan.Layer])
                     .ToHashSet();
+                foreach (var markerCells in streaming.MarkerCells.Values)
+                foreach (var (node, marker) in markerCells)
+                {
+                    if (marker.Layer == firstScan.Layer)
+                        actual.Add(node);
+                }
                 foreach (var modified in biome.ModifiedTiles.Values)
                 foreach (var node in modified)
                 {
@@ -2072,8 +2119,9 @@ public sealed class BiomeStreamingTest : GameTest
                 Assert.Multiple(() =>
                 {
                     Assert.That(biome.PendingMarkers.ContainsKey(origin), Is.False);
-                    Assert.That(biome.LoadedEntities[origin].Count, Is.EqualTo(59));
-                    Assert.That(biome.ModifiedTiles[origin].Count, Is.EqualTo(5));
+                    Assert.That(biome.LoadedEntities[origin].Count, Is.EqualTo(64));
+                    Assert.That(biome.ModifiedTiles.ContainsKey(origin), Is.False);
+                    Assert.That(streaming.MarkerCells[origin].Count, Is.EqualTo(5));
                 });
             });
         }
@@ -2086,6 +2134,368 @@ public sealed class BiomeStreamingTest : GameTest
                 await Server.WaitRunTicks(2);
             }
         }
+    }
+
+    [TestCase("ClassicStreamingMarkerLifecycleTest", "ClassicStreamingMarkerLifecycleEntityTest")]
+    [TestCase("ClassicStreamingCarpLifecycleTest", "MobCarpDungeon")]
+    public async Task SustainedMarkerTravelKeepsStateBoundedAndDrains(
+        string markerLayer,
+        string markerPrototype)
+    {
+        var em = Server.EntMan;
+        var map = em.System<SharedMapSystem>();
+        var biomes = em.System<BiomeSystem>();
+        var transform = em.System<SharedTransformSystem>();
+        var session = ServerSession!;
+        var originalViewer = session.AttachedEntity;
+        EntityUid terrain = default;
+        EntityUid viewer = default;
+
+        try
+        {
+            await Server.WaitPost(() =>
+            {
+                terrain = map.CreateMap(runMapInit: false);
+                biomes.EnsurePlanet(
+                    terrain,
+                    Server.ProtoMan.Index<BiomeTemplatePrototype>("ClassicStreamingTileOnlyTest"),
+                    42);
+                var grid = em.GetComponent<MapGridComponent>(terrain);
+                grid.CanSplit = false;
+                var streaming = em.EnsureComponent<ClassicBiomeStreamingComponent>(terrain);
+                streaming.BackgroundChunksPerTick = 64;
+                streaming.BackgroundCellsPerSlice = 64;
+                streaming.BackgroundEntitySpawnsPerTick = 64;
+                streaming.MarkerAreaCellsPerSlice = 64;
+                streaming.MarkerNodesPerSlice = 64;
+                streaming.UnloadEntitiesPerSlice = 64;
+                streaming.UnloadEntitiesPerTick = 64;
+                streaming.UnloadCellsPerSlice = 64;
+                streaming.UnloadDelay = TimeSpan.Zero;
+                streaming.ZLevelCacheDuration = TimeSpan.Zero;
+                streaming.WorkBudget = TimeSpan.FromSeconds(1);
+                var biome = em.GetComponent<BiomeComponent>(terrain);
+                biome.MarkerLayers.Add(markerLayer);
+                map.InitializeMap(terrain);
+
+                viewer = em.SpawnEntity(
+                    "ClassicStreamingPhysicalViewerTest",
+                    new EntityCoordinates(terrain, new Vector2(4.5f, 4.5f)));
+                Server.PlayerMan.SetAttachedEntity(session, viewer);
+
+                for (var stop = 0; stop < 24; stop++)
+                {
+                    transform.SetCoordinates(
+                        viewer,
+                        new EntityCoordinates(terrain, new Vector2(stop * 48f + 4.5f, 4.5f)));
+                    for (var tick = 0; tick < 12; tick++)
+                    {
+                        biomes.Update(0);
+                        var loadedAreas = biome.LoadedMarkers.Values.Sum(areas => areas.Count);
+                        var pendingNodes = biome.PendingMarkers.Values
+                            .Sum(layers => layers.Values.Sum(nodes => nodes.Count));
+                        var markerCells = streaming.MarkerCells.Values.Sum(cells => cells.Count);
+                        var markerEntities = CountMarkers();
+                        Assert.Multiple(() =>
+                        {
+                            Assert.That(loadedAreas, Is.LessThanOrEqualTo(8));
+                            Assert.That(pendingNodes, Is.LessThanOrEqualTo(8));
+                            Assert.That(markerCells, Is.LessThanOrEqualTo(8));
+                            Assert.That(markerEntities, Is.LessThanOrEqualTo(8));
+                            Assert.That(biome.ModifiedTiles, Is.Empty);
+                            Assert.That(streaming.PinnedMarkerAreas, Is.Empty);
+                        });
+                    }
+
+                    Assert.Multiple(() =>
+                    {
+                        Assert.That(biome.LoadedMarkers.Values.Sum(areas => areas.Count), Is.EqualTo(4));
+                        Assert.That(biome.PendingMarkers, Is.Empty);
+                        Assert.That(streaming.MarkerCells.Values.Sum(cells => cells.Count), Is.EqualTo(4));
+                        Assert.That(CountMarkers(), Is.EqualTo(4));
+                    });
+                }
+
+                Server.PlayerMan.SetAttachedEntity(session, originalViewer);
+            });
+
+            var drainTicks = (int) Math.Ceiling(3d / Server.Timing.TickPeriod.TotalSeconds);
+            await Server.WaitRunTicks(drainTicks);
+
+            await Server.WaitPost(() =>
+            {
+                var biome = em.GetComponent<BiomeComponent>(terrain);
+                var streaming = em.GetComponent<ClassicBiomeStreamingComponent>(terrain);
+                Assert.Multiple(() =>
+                {
+                    Assert.That(biome.LoadedMarkers.Values.Sum(areas => areas.Count), Is.Zero);
+                    Assert.That(biome.PendingMarkers, Is.Empty);
+                    Assert.That(streaming.MarkerCells, Is.Empty);
+                    Assert.That(streaming.PinnedMarkerAreas, Is.Empty);
+                    Assert.That(streaming.MarkerAreaScan, Is.Null);
+                    Assert.That(CountMarkers(), Is.Zero);
+                    Assert.That(biome.ModifiedTiles, Is.Empty);
+                    Assert.That(biome.LoadedChunks, Is.Empty);
+                    Assert.That(biome.LoadedEntities, Is.Empty);
+                    Assert.That(streaming.PartialLoads, Is.Empty);
+                    Assert.That(streaming.PartialUnloads, Is.Empty);
+                    Assert.That(streaming.PendingUnloads, Is.Empty);
+                    Assert.That(em.GetComponent<MapGridComponent>(terrain).ChunkCount, Is.Zero);
+                });
+            });
+
+            int CountMarkers()
+            {
+                var count = 0;
+                var query = em.EntityQueryEnumerator<MetaDataComponent, TransformComponent>();
+                while (query.MoveNext(out _, out var metadata, out var xform))
+                {
+                    if (xform.ParentUid == terrain &&
+                        metadata.EntityPrototype?.ID == markerPrototype)
+                    {
+                        count++;
+                    }
+                }
+
+                return count;
+            }
+        }
+        finally
+        {
+            await Server.WaitPost(() =>
+            {
+                Server.PlayerMan.SetAttachedEntity(session, originalViewer);
+                if (viewer != EntityUid.Invalid && em.EntityExists(viewer))
+                    em.DeleteEntity(viewer);
+                if (terrain != EntityUid.Invalid && em.EntityExists(terrain))
+                    em.DeleteEntity(terrain);
+            });
+        }
+    }
+
+    [Test]
+    public async Task EditedMarkerSurvivesUnloadAndDoesNotRespawn()
+    {
+        var em = Server.EntMan;
+        var map = em.System<SharedMapSystem>();
+        var biomes = em.System<BiomeSystem>();
+        var metadata = em.System<MetaDataSystem>();
+        var session = ServerSession!;
+        var originalViewer = session.AttachedEntity;
+        EntityUid terrain = default;
+        EntityUid viewer = default;
+
+        try
+        {
+            await Server.WaitPost(() =>
+            {
+                terrain = map.CreateMap(runMapInit: false);
+                biomes.EnsurePlanet(
+                    terrain,
+                    Server.ProtoMan.Index<BiomeTemplatePrototype>("ClassicStreamingTileOnlyTest"),
+                    42);
+                var grid = em.GetComponent<MapGridComponent>(terrain);
+                grid.CanSplit = false;
+                var streaming = em.EnsureComponent<ClassicBiomeStreamingComponent>(terrain);
+                streaming.BackgroundChunksPerTick = 64;
+                streaming.BackgroundCellsPerSlice = 64;
+                streaming.BackgroundEntitySpawnsPerTick = 64;
+                streaming.MarkerAreaCellsPerSlice = 64;
+                streaming.MarkerNodesPerSlice = 64;
+                streaming.UnloadEntitiesPerSlice = 64;
+                streaming.UnloadEntitiesPerTick = 64;
+                streaming.UnloadCellsPerSlice = 64;
+                streaming.UnloadDelay = TimeSpan.Zero;
+                streaming.ZLevelCacheDuration = TimeSpan.Zero;
+                streaming.WorkBudget = TimeSpan.FromSeconds(1);
+                var biome = em.GetComponent<BiomeComponent>(terrain);
+                biome.MarkerLayers.Add("ClassicStreamingMarkerLifecycleTest");
+                map.InitializeMap(terrain);
+
+                viewer = em.SpawnEntity(
+                    "ClassicStreamingPhysicalViewerTest",
+                    new EntityCoordinates(terrain, new Vector2(4.5f, 4.5f)));
+                Server.PlayerMan.SetAttachedEntity(session, viewer);
+                for (var i = 0; i < 12; i++)
+                    biomes.Update(0);
+
+                var (chunk, cells) = streaming.MarkerCells.First();
+                var (node, marker) = cells.First();
+                var root = marker.Root;
+                metadata.SetEntityName(root, "edited marker");
+
+                Server.PlayerMan.SetAttachedEntity(session, originalViewer);
+                for (var i = 0; i < 16; i++)
+                    biomes.Update(0);
+
+                Assert.Multiple(() =>
+                {
+                    Assert.That(em.EntityExists(root), Is.True);
+                    Assert.That(biome.ModifiedTiles[chunk], Does.Contain(node));
+                    Assert.That(streaming.MarkerCells.TryGetValue(chunk, out var remaining) &&
+                        remaining.ContainsKey(node), Is.False);
+                    Assert.That(streaming.PinnedMarkerAreas["ClassicStreamingMarkerLifecycleTest"],
+                        Does.Contain(Vector2i.Zero));
+                    Assert.That(biome.LoadedEntities, Is.Empty);
+                });
+
+                Server.PlayerMan.SetAttachedEntity(session, viewer);
+                for (var i = 0; i < 12; i++)
+                    biomes.Update(0);
+
+                Assert.Multiple(() =>
+                {
+                    Assert.That(em.EntityExists(root), Is.True);
+                    Assert.That(em.GetComponent<MetaDataComponent>(root).EntityName, Is.EqualTo("edited marker"));
+                    Assert.That(streaming.MarkerCells.TryGetValue(chunk, out var remaining) &&
+                        remaining.ContainsKey(node), Is.False);
+                    Assert.That(biome.LoadedEntities.TryGetValue(chunk, out var loaded) && loaded.ContainsKey(root),
+                        Is.False);
+                });
+            });
+        }
+        finally
+        {
+            await Server.WaitPost(() =>
+            {
+                Server.PlayerMan.SetAttachedEntity(session, originalViewer);
+                if (viewer != EntityUid.Invalid && em.EntityExists(viewer))
+                    em.DeleteEntity(viewer);
+                if (terrain != EntityUid.Invalid && em.EntityExists(terrain))
+                    em.DeleteEntity(terrain);
+            });
+        }
+    }
+
+    [TestCase("Carps", "MobCarpDungeon")]
+    [TestCase("Xenos", "MobXeno")]
+    public async Task AmbientMarkersDiscardNaturalMovementAndKeepPlayerChanges(
+        string markerLayer,
+        string markerPrototype)
+    {
+        var em = Server.EntMan;
+        var map = em.System<SharedMapSystem>();
+        var biomes = em.System<BiomeSystem>();
+        var transform = em.System<SharedTransformSystem>();
+        var metadata = em.System<MetaDataSystem>();
+        var session = ServerSession!;
+        var originalViewer = session.AttachedEntity;
+        EntityUid terrain = default;
+        EntityUid viewer = default;
+        EntityUid mob = default;
+        EntityUid damaged = default;
+        EntityUid edited = default;
+        EntityUid touched = default;
+        EntityUid retuned = default;
+        var node = new Vector2i(4, 4);
+        var damagedNode = new Vector2i(5, 4);
+        var editedNode = new Vector2i(6, 4);
+        var touchedNode = new Vector2i(7, 4);
+        var retunedNode = new Vector2i(4, 6);
+
+        try
+        {
+            await Server.WaitPost(() =>
+            {
+                terrain = map.CreateMap(runMapInit: false);
+                biomes.EnsurePlanet(
+                    terrain,
+                    Server.ProtoMan.Index<BiomeTemplatePrototype>("ClassicStreamingTileOnlyTest"),
+                    42);
+                em.GetComponent<MapGridComponent>(terrain).CanSplit = false;
+                var streaming = em.EnsureComponent<ClassicBiomeStreamingComponent>(terrain);
+                streaming.BackgroundChunksPerTick = 64;
+                streaming.BackgroundCellsPerSlice = 64;
+                streaming.BackgroundEntitySpawnsPerTick = 64;
+                streaming.MarkerNodesPerSlice = 64;
+                streaming.UnloadEntitiesPerSlice = 64;
+                streaming.UnloadEntitiesPerTick = 64;
+                streaming.UnloadCellsPerSlice = 64;
+                streaming.UnloadDelay = TimeSpan.Zero;
+                streaming.ZLevelCacheDuration = TimeSpan.Zero;
+                streaming.WorkBudget = TimeSpan.FromSeconds(1);
+                map.InitializeMap(terrain);
+
+                viewer = em.SpawnEntity(
+                    "ClassicStreamingPhysicalViewerTest",
+                    new EntityCoordinates(terrain, new Vector2(4.5f, 4.5f)));
+                Server.PlayerMan.SetAttachedEntity(session, viewer);
+
+                var biome = em.GetComponent<BiomeComponent>(terrain);
+                for (var i = 0; i < 32 && !biome.LoadedChunks.Contains(Vector2i.Zero); i++)
+                    biomes.Update(0);
+                Assert.That(biome.LoadedChunks, Does.Contain(Vector2i.Zero));
+                biome.PendingMarkers[Vector2i.Zero] = new Dictionary<string, List<Vector2i>>
+                {
+                    [markerLayer] = [node, damagedNode, editedNode, touchedNode, retunedNode],
+                };
+                biomes.Update(0);
+
+                mob = streaming.MarkerCells[Vector2i.Zero][node].Root;
+                damaged = streaming.MarkerCells[Vector2i.Zero][damagedNode].Root;
+                edited = streaming.MarkerCells[Vector2i.Zero][editedNode].Root;
+                touched = streaming.MarkerCells[Vector2i.Zero][touchedNode].Root;
+                retuned = streaming.MarkerCells[Vector2i.Zero][retunedNode].Root;
+                Assert.Multiple(() =>
+                {
+                    Assert.That(em.EntityExists(mob), Is.True);
+                    Assert.That(em.GetComponent<MetaDataComponent>(mob).EntityPrototype?.ID,
+                        Is.EqualTo(markerPrototype));
+                    Assert.That(biome.LoadedEntities[Vector2i.Zero], Does.ContainKey(mob));
+                });
+            });
+
+            await Server.WaitRunTicks(600);
+            await Server.WaitPost(() =>
+            {
+                transform.SetCoordinates(mob,
+                    new EntityCoordinates(terrain, new Vector2(4.5f, 5.5f)));
+                em.System<DamageableSystem>().TryChangeDamage(damaged,
+                    new DamageSpecifier { DamageDict = { ["Blunt"] = 1 } }, ignoreResistances: true);
+                metadata.SetEntityName(edited, "edited marker");
+                em.EventBus.RaiseLocalEvent(touched, new PullStartedMessage(viewer, touched));
+                em.GetComponent<TemperatureComponent>(retuned).SpecificHeat *= 2f;
+                Server.PlayerMan.SetAttachedEntity(session, originalViewer);
+                var biome = em.GetComponent<BiomeComponent>(terrain);
+                var streaming = em.GetComponent<ClassicBiomeStreamingComponent>(terrain);
+                for (var i = 0; i < 128 &&
+                     (biome.LoadedChunks.Contains(Vector2i.Zero) ||
+                      streaming.PartialLoads.ContainsKey(Vector2i.Zero) ||
+                      streaming.PartialUnloads.ContainsKey(Vector2i.Zero) ||
+                      streaming.PendingUnloads.ContainsKey(Vector2i.Zero)); i++)
+                    biomes.Update(0);
+
+                Assert.Multiple(() =>
+                {
+                    Assert.That(biome.LoadedChunks, Does.Not.Contain(Vector2i.Zero));
+                    Assert.That(streaming.PartialUnloads, Does.Not.ContainKey(Vector2i.Zero));
+                    Assert.That(em.EntityExists(mob), Is.False);
+                    Assert.That(em.EntityExists(damaged), Is.True);
+                    Assert.That(em.EntityExists(edited), Is.True);
+                    Assert.That(em.EntityExists(touched), Is.True);
+                    Assert.That(em.EntityExists(retuned), Is.True);
+                    Assert.That(biome.ModifiedTiles.TryGetValue(Vector2i.Zero, out var modified) &&
+                        modified.Contains(node), Is.False);
+                    Assert.That(biome.ModifiedTiles[Vector2i.Zero], Does.Contain(damagedNode));
+                    Assert.That(biome.ModifiedTiles[Vector2i.Zero], Does.Contain(editedNode));
+                    Assert.That(biome.ModifiedTiles[Vector2i.Zero], Does.Contain(touchedNode));
+                    Assert.That(biome.ModifiedTiles[Vector2i.Zero], Does.Contain(retunedNode));
+                    Assert.That(streaming.MarkerCells.ContainsKey(Vector2i.Zero), Is.False);
+                });
+            });
+        }
+        finally
+        {
+            await Server.WaitPost(() =>
+            {
+                Server.PlayerMan.SetAttachedEntity(session, originalViewer);
+                if (viewer != EntityUid.Invalid && em.EntityExists(viewer))
+                    em.DeleteEntity(viewer);
+                if (terrain != EntityUid.Invalid && em.EntityExists(terrain))
+                    em.DeleteEntity(terrain);
+            });
+        }
+
     }
 
     [Test]
@@ -2802,7 +3212,8 @@ public sealed class BiomeStreamingTest : GameTest
             {
                 var current = map.CreateMap(runMapInit: false);
                 var upper = map.CreateMap(runMapInit: false);
-                currentGrid = map.CreateGridEntity(current);
+                var currentGridEnt = map.CreateGridEntity(current);
+                currentGrid = currentGridEnt;
                 var upperGrid = map.CreateGridEntity(upper);
 
                 var zNetwork = zLevels.CreateMapNetwork();
@@ -2815,13 +3226,13 @@ public sealed class BiomeStreamingTest : GameTest
                 map.InitializeMap(current);
                 map.InitializeMap(upper);
                 var plating = new Tile(Server.ResolveDependency<ITileDefinitionManager>()["Plating"].TileId);
-                map.SetTile(currentGrid, new Vector2i(2, 0), plating);
+                map.SetTile(currentGridEnt, new Vector2i(2, 0), plating);
                 map.SetTile(upperGrid, Vector2i.Zero, plating);
-                transform.SetWorldPosition(currentGrid, new Vector2(-2f, 0f));
+                transform.SetWorldPosition(currentGridEnt, new Vector2(-2f, 0f));
 
                 viewer = em.SpawnEntity(
                     "ClassicStreamingPhysicalViewerTest",
-                    new EntityCoordinates(currentGrid, new Vector2(2.5f, 0.5f)));
+                    new EntityCoordinates(currentGridEnt, new Vector2(2.5f, 0.5f)));
                 Server.PlayerMan.SetAttachedEntity(session, viewer);
                 var viewerComp = em.GetComponent<ClassicZLevelViewerComponent>(viewer);
                 var action = actions.GetAction(viewerComp.ActionEntity);
@@ -2831,8 +3242,9 @@ public sealed class BiomeStreamingTest : GameTest
                 {
                     Assert.That(viewerComp.VisibleZLevelsAbove, Is.Zero);
                     Assert.That(viewerComp.UpperEyes, Is.Empty);
-                    Assert.That(em.GetComponent<TransformComponent>(viewer).LocalPosition,
-                        Is.EqualTo(new Vector2(2.5f, 0.5f)));
+                    Assert.That(Vector2.Distance(
+                        em.GetComponent<TransformComponent>(viewer).LocalPosition,
+                        new Vector2(2.5f, 0.5f)), Is.LessThan(0.0001f));
                 });
 
                 transform.SetWorldPosition(currentGrid, Vector2.Zero);
@@ -2847,8 +3259,9 @@ public sealed class BiomeStreamingTest : GameTest
                 {
                     Assert.That(viewerComp.VisibleZLevelsAbove, Is.EqualTo(1));
                     Assert.That(viewerComp.UpperEyes, Has.Count.EqualTo(1));
-                    Assert.That(em.GetComponent<TransformComponent>(viewer).LocalPosition,
-                        Is.EqualTo(new Vector2(2.5f, 0.5f)));
+                    Assert.That(Vector2.Distance(
+                        em.GetComponent<TransformComponent>(viewer).LocalPosition,
+                        new Vector2(2.5f, 0.5f)), Is.LessThan(0.0001f));
                     Assert.That(transform.GetWorldPosition(viewerComp.UpperEyes.Single()),
                         Is.EqualTo(transform.GetWorldPosition(viewer)));
                 });
@@ -2866,8 +3279,9 @@ public sealed class BiomeStreamingTest : GameTest
                 {
                     Assert.That(viewerComp.VisibleZLevelsAbove, Is.EqualTo(1));
                     Assert.That(viewerComp.UpperEyes, Is.EquivalentTo(new[] { upperEye }));
-                    Assert.That(em.GetComponent<TransformComponent>(viewer).LocalPosition,
-                        Is.EqualTo(new Vector2(2.5f, 0.5f)));
+                    Assert.That(Vector2.Distance(
+                        em.GetComponent<TransformComponent>(viewer).LocalPosition,
+                        new Vector2(2.5f, 0.5f)), Is.LessThan(0.0001f));
                     Assert.That(transform.GetWorldPosition(viewer).Floored(), Is.EqualTo(new Vector2i(2, 0)));
                     Assert.That(transform.GetWorldPosition(upperEye), Is.EqualTo(transform.GetWorldPosition(viewer)));
                 });
@@ -2884,8 +3298,9 @@ public sealed class BiomeStreamingTest : GameTest
                 {
                     Assert.That(viewerComp.VisibleZLevelsAbove, Is.EqualTo(1));
                     Assert.That(viewerComp.UpperEyes, Is.EquivalentTo(new[] { upperEye }));
-                    Assert.That(em.GetComponent<TransformComponent>(viewer).LocalPosition,
-                        Is.EqualTo(new Vector2(2.5f, 0.5f)));
+                    Assert.That(Vector2.Distance(
+                        em.GetComponent<TransformComponent>(viewer).LocalPosition,
+                        new Vector2(2.5f, 0.5f)), Is.LessThan(0.0001f));
                     Assert.That(transform.GetWorldPosition(viewer).Floored(), Is.EqualTo(new Vector2i(2, 0)));
                     Assert.That(transform.GetWorldPosition(upperEye), Is.EqualTo(transform.GetWorldPosition(viewer)));
                 });
@@ -2902,8 +3317,9 @@ public sealed class BiomeStreamingTest : GameTest
                 {
                     Assert.That(viewerComp.VisibleZLevelsAbove, Is.Zero);
                     Assert.That(viewerComp.UpperEyes, Is.Empty);
-                    Assert.That(em.GetComponent<TransformComponent>(viewer).LocalPosition,
-                        Is.EqualTo(new Vector2(2.5f, 0.5f)));
+                    Assert.That(Vector2.Distance(
+                        em.GetComponent<TransformComponent>(viewer).LocalPosition,
+                        new Vector2(2.5f, 0.5f)), Is.LessThan(0.0001f));
                 });
 
                 transform.SetWorldRotation(currentGrid, Angle.FromDegrees(180));
@@ -2918,8 +3334,9 @@ public sealed class BiomeStreamingTest : GameTest
                 {
                     Assert.That(viewerComp.VisibleZLevelsAbove, Is.EqualTo(1));
                     Assert.That(viewerComp.UpperEyes, Has.Count.EqualTo(1));
-                    Assert.That(em.GetComponent<TransformComponent>(viewer).LocalPosition,
-                        Is.EqualTo(new Vector2(2.5f, 0.5f)));
+                    Assert.That(Vector2.Distance(
+                        em.GetComponent<TransformComponent>(viewer).LocalPosition,
+                        new Vector2(2.5f, 0.5f)), Is.LessThan(0.0001f));
                     Assert.That(transform.GetWorldPosition(viewerComp.UpperEyes.Single()),
                         Is.EqualTo(transform.GetWorldPosition(viewer)));
                 });
@@ -2936,8 +3353,9 @@ public sealed class BiomeStreamingTest : GameTest
                 {
                     Assert.That(viewerComp.VisibleZLevelsAbove, Is.Zero);
                     Assert.That(viewerComp.UpperEyes, Is.Empty);
-                    Assert.That(em.GetComponent<TransformComponent>(viewer).LocalPosition,
-                        Is.EqualTo(new Vector2(2.5f, 0.5f)));
+                    Assert.That(Vector2.Distance(
+                        em.GetComponent<TransformComponent>(viewer).LocalPosition,
+                        new Vector2(2.5f, 0.5f)), Is.LessThan(0.0001f));
                 });
             });
         }
@@ -3148,6 +3566,184 @@ public sealed class BiomeStreamingTest : GameTest
                 await Server.WaitPost(() => zLevels.DeleteMapNetwork(network));
                 await Server.WaitRunTicks(2);
             }
+        }
+    }
+
+    [Test]
+    public async Task DirectUnanchoredBiomeRootIsAnchored()
+    {
+        var em = Server.EntMan;
+        var map = em.System<SharedMapSystem>();
+        var biomes = em.System<BiomeSystem>();
+        var session = ServerSession!;
+        var originalViewer = session.AttachedEntity;
+        EntityUid terrain = default;
+        EntityUid viewer = default;
+
+        try
+        {
+            await Server.WaitPost(() =>
+            {
+                terrain = map.CreateMap(runMapInit: false);
+                biomes.EnsurePlanet(
+                    terrain,
+                    Server.ProtoMan.Index<BiomeTemplatePrototype>("ClassicStreamingUnanchoredRootTest"),
+                    42);
+                var streaming = em.EnsureComponent<ClassicBiomeStreamingComponent>(terrain);
+                streaming.BackgroundChunksPerTick = 0;
+                streaming.BackgroundCellsPerSlice = 64;
+                streaming.BackgroundEntitySpawnsPerTick = 64;
+                streaming.ViewerSafetyRadius = 0;
+                streaming.WorkBudget = TimeSpan.Zero;
+                map.InitializeMap(terrain);
+
+                viewer = em.SpawnEntity(
+                    "ClassicStreamingPhysicalViewerTest",
+                    new EntityCoordinates(terrain, new Vector2(0.5f, 0.5f)));
+                Server.PlayerMan.SetAttachedEntity(session, viewer);
+                biomes.Update(0);
+
+                var biome = em.GetComponent<BiomeComponent>(terrain);
+                var root = biome.LoadedEntities[Vector2i.Zero]
+                    .Single(pair => pair.Value == Vector2i.Zero).Key;
+                Assert.Multiple(() =>
+                {
+                    Assert.That(em.GetComponent<MetaDataComponent>(root).EntityPrototype?.ID,
+                        Is.EqualTo("ClassicStreamingUnanchoredRootTest"));
+                    Assert.That(em.GetComponent<TransformComponent>(root).Anchored, Is.True);
+                });
+            });
+        }
+        finally
+        {
+            await Server.WaitPost(() =>
+            {
+                Server.PlayerMan.SetAttachedEntity(session, originalViewer);
+                if (viewer != EntityUid.Invalid && em.EntityExists(viewer))
+                    em.DeleteEntity(viewer);
+                if (terrain != EntityUid.Invalid && em.EntityExists(terrain))
+                    em.DeleteEntity(terrain);
+            });
+        }
+    }
+
+    [TestCase(false)]
+    [TestCase(true)]
+    public async Task NestedSpawnerOutputMutationPreservesSourceCell(bool deleteOutput)
+    {
+        var em = Server.EntMan;
+        var map = em.System<SharedMapSystem>();
+        var biomes = em.System<BiomeSystem>();
+        var metadata = em.System<MetaDataSystem>();
+        var session = ServerSession!;
+        var originalViewer = session.AttachedEntity;
+        EntityUid terrain = default;
+        EntityUid viewer = default;
+        EntityUid root = default;
+        EntityUid output = default;
+        var cell = Vector2i.Zero;
+
+        try
+        {
+            await Server.WaitPost(() =>
+            {
+                terrain = map.CreateMap(runMapInit: false);
+                biomes.EnsurePlanet(
+                    terrain,
+                    Server.ProtoMan.Index<BiomeTemplatePrototype>("ClassicStreamingPersistentSpawnerTest"),
+                    42);
+                var streaming = em.EnsureComponent<ClassicBiomeStreamingComponent>(terrain);
+                streaming.BackgroundChunksPerTick = 0;
+                streaming.BackgroundCellsPerSlice = 64;
+                streaming.BackgroundEntitySpawnsPerTick = 64;
+                streaming.ViewerSafetyRadius = 0;
+                streaming.UnloadEntitiesPerSlice = 1;
+                streaming.UnloadEntitiesPerTick = 1;
+                streaming.UnloadCellsPerSlice = 64;
+                streaming.UnloadDelay = TimeSpan.Zero;
+                streaming.ZLevelCacheDuration = TimeSpan.Zero;
+                streaming.WorkBudget = TimeSpan.Zero;
+                map.InitializeMap(terrain);
+
+                viewer = em.SpawnEntity(
+                    "ClassicStreamingPhysicalViewerTest",
+                    new EntityCoordinates(terrain, new Vector2(0.5f, 0.5f)));
+                Server.PlayerMan.SetAttachedEntity(session, viewer);
+                biomes.Update(0);
+
+                var biome = em.GetComponent<BiomeComponent>(terrain);
+                var cellEntities = biome.LoadedEntities[Vector2i.Zero]
+                    .Where(pair => pair.Value == cell)
+                    .Select(pair => pair.Key)
+                    .ToArray();
+                root = cellEntities.Single(uid =>
+                    em.GetComponent<MetaDataComponent>(uid).EntityPrototype?.ID ==
+                    "ClassicStreamingPersistentSpawnerSourceTest");
+                output = cellEntities.Single(uid =>
+                    em.GetComponent<MetaDataComponent>(uid).EntityPrototype?.ID ==
+                    "ClassicStreamingUnanchoredOutputTest");
+
+                if (deleteOutput)
+                    em.DeleteEntity(output);
+                else
+                    metadata.SetEntityName(output, "modified biome output");
+
+                streaming.WorkBudget = TimeSpan.FromSeconds(1);
+                Server.PlayerMan.SetAttachedEntity(session, originalViewer);
+                for (var i = 0; i < 16 &&
+                     (biome.LoadedChunks.Count > 0 ||
+                      streaming.PartialLoads.Count > 0 ||
+                      streaming.PartialUnloads.Count > 0 ||
+                      streaming.PendingUnloads.Count > 0); i++)
+                {
+                    biomes.Update(0);
+                }
+
+                Assert.Multiple(() =>
+                {
+                    Assert.That(em.EntityExists(root), Is.True);
+                    Assert.That(biome.ModifiedTiles.Values.SelectMany(chunk => chunk), Does.Contain(cell));
+                    Assert.That(biome.LoadedEntities, Is.Empty);
+                    Assert.That(streaming.PartialUnloads, Is.Empty);
+                    Assert.That(streaming.PendingUnloads, Is.Empty);
+                });
+
+                streaming.WorkBudget = TimeSpan.Zero;
+                Server.PlayerMan.SetAttachedEntity(session, viewer);
+                biomes.Update(0);
+
+                var roots = 0;
+                var outputs = 0;
+                var query = em.EntityQueryEnumerator<MetaDataComponent, TransformComponent>();
+                while (query.MoveNext(out _, out var meta, out var xform))
+                {
+                    if (xform.ParentUid != terrain)
+                        continue;
+                    if (meta.EntityPrototype?.ID == "ClassicStreamingPersistentSpawnerSourceTest")
+                        roots++;
+                    else if (meta.EntityPrototype?.ID == "ClassicStreamingUnanchoredOutputTest")
+                        outputs++;
+                }
+
+                Assert.Multiple(() =>
+                {
+                    Assert.That(roots, Is.EqualTo(1));
+                    Assert.That(outputs, Is.EqualTo(deleteOutput ? 0 : 1));
+                    Assert.That(em.EntityExists(root), Is.True);
+                    Assert.That(biome.ModifiedTiles.Values.SelectMany(chunk => chunk), Does.Contain(cell));
+                });
+            });
+        }
+        finally
+        {
+            await Server.WaitPost(() =>
+            {
+                Server.PlayerMan.SetAttachedEntity(session, originalViewer);
+                if (viewer != EntityUid.Invalid && em.EntityExists(viewer))
+                    em.DeleteEntity(viewer);
+                if (terrain != EntityUid.Invalid && em.EntityExists(terrain))
+                    em.DeleteEntity(terrain);
+            });
         }
     }
 
@@ -4035,6 +4631,123 @@ public sealed class BiomeStreamingTest : GameTest
             await Server.WaitPost(() => Server.PlayerMan.SetAttachedEntity(session, originalViewer));
             if (terrain != EntityUid.Invalid)
                 await Server.WaitPost(() => em.DeleteEntity(terrain));
+        }
+    }
+
+    [Test]
+    public async Task RapidTravelWithSlowUnloadDoesNotAccumulatePartialChunks()
+    {
+        await OverrideCVar(Side.Server, Robust.Shared.CVars.NetMaxUpdateRange, 16f);
+        await OverrideCVar(Side.Server, Robust.Shared.CVars.NetPvsPriorityRange, 16f);
+        var em = Server.EntMan;
+        var map = em.System<SharedMapSystem>();
+        var biomes = em.System<BiomeSystem>();
+        var transform = em.System<SharedTransformSystem>();
+        var session = ServerSession!;
+        var originalViewer = session.AttachedEntity;
+        EntityUid terrain = default;
+        EntityUid viewer = default;
+
+        try
+        {
+            await Server.WaitPost(() =>
+            {
+                terrain = map.CreateMap(runMapInit: false);
+                biomes.EnsurePlanet(
+                    terrain,
+                    Server.ProtoMan.Index<BiomeTemplatePrototype>("ClassicStreamingTileOnlyTest"),
+                    24);
+                em.GetComponent<MapGridComponent>(terrain).CanSplit = false;
+                var streaming = em.EnsureComponent<ClassicBiomeStreamingComponent>(terrain);
+                streaming.BackgroundChunksPerTick = 0;
+                streaming.BackgroundCellsPerSlice = 1;
+                streaming.ViewerSafetyRadius = 1;
+                streaming.UnloadEntitiesPerSlice = 1;
+                streaming.UnloadEntitiesPerTick = 1;
+                streaming.UnloadCellsPerSlice = 4;
+                streaming.UnloadDelay = TimeSpan.Zero;
+                streaming.MaxUnloadBacklogBeforeThrottling = 2;
+                streaming.ZLevelCacheDuration = TimeSpan.Zero;
+                streaming.MaxZLevelCachedChunks = 0;
+                streaming.WorkBudget = TimeSpan.Zero;
+                map.InitializeMap(terrain);
+
+                viewer = em.SpawnEntity(
+                    "ClassicStreamingPhysicalViewerTest",
+                    new EntityCoordinates(terrain, new Vector2(4.5f, 4.5f)));
+                Server.PlayerMan.SetAttachedEntity(session, viewer);
+                var biome = em.GetComponent<BiomeComponent>(terrain);
+                var firstHalfResident = 0;
+                var secondHalfResident = 0;
+                var firstHalfPending = 0;
+                var secondHalfPending = 0;
+
+                for (var i = 0; i < 96; i++)
+                {
+                    transform.SetWorldPosition(viewer, new Vector2(i * 48f + 4.5f, 4.5f));
+                    biomes.Update(0);
+                    if (i != 47 && i != 95)
+                        continue;
+
+                    var resident = biome.LoadedChunks
+                        .Concat(streaming.PartialLoads.Keys)
+                        .Concat(streaming.PartialUnloads.Keys)
+                        .Concat(streaming.PendingUnloads.Keys)
+                        .ToHashSet();
+                    if (i == 47)
+                    {
+                        firstHalfResident = resident.Count;
+                        firstHalfPending = streaming.PendingUnloads.Count;
+                    }
+                    else
+                    {
+                        secondHalfResident = resident.Count;
+                        secondHalfPending = streaming.PendingUnloads.Count;
+                    }
+                }
+
+                Assert.Multiple(() =>
+                {
+                    Assert.That(firstHalfResident, Is.GreaterThan(0));
+                    Assert.That(secondHalfResident, Is.LessThanOrEqualTo(firstHalfResident + 8),
+                        $"resident chunks grew from {firstHalfResident} to {secondHalfResident}");
+                    Assert.That(secondHalfPending, Is.LessThanOrEqualTo(firstHalfPending + 8),
+                        $"pending unloads grew from {firstHalfPending} to {secondHalfPending}");
+                });
+
+                streaming.WorkBudget = TimeSpan.FromSeconds(1);
+                streaming.UnloadCellsPerSlice = 64;
+                streaming.UnloadEntitiesPerTick = 64;
+                Server.PlayerMan.SetAttachedEntity(session, originalViewer);
+                em.DeleteEntity(viewer);
+                viewer = EntityUid.Invalid;
+                for (var i = 0; i < 128 &&
+                     (streaming.PartialLoads.Count > 0 ||
+                      streaming.PartialUnloads.Count > 0 ||
+                      streaming.PendingUnloads.Count > 0); i++)
+                {
+                    biomes.Update(0);
+                }
+
+                Assert.Multiple(() =>
+                {
+                    Assert.That(biome.LoadedChunks, Is.Empty);
+                    Assert.That(streaming.PartialLoads, Is.Empty);
+                    Assert.That(streaming.PartialUnloads, Is.Empty);
+                    Assert.That(streaming.PendingUnloads, Is.Empty);
+                });
+            });
+        }
+        finally
+        {
+            await Server.WaitPost(() =>
+            {
+                Server.PlayerMan.SetAttachedEntity(session, originalViewer);
+                if (viewer != EntityUid.Invalid && em.EntityExists(viewer))
+                    em.DeleteEntity(viewer);
+                if (terrain != EntityUid.Invalid && em.EntityExists(terrain))
+                    em.DeleteEntity(terrain);
+            });
         }
     }
 
