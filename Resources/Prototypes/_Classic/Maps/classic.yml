@@ -36,9 +36,10 @@
           mapsBelow:
           - /Maps/_Classic/Stations/Colony/ColonyUnderground.yml # -Z3
           - /Maps/_Classic/Stations/Colony/ColonyUnderground.yml # -Z2
-          - /Maps/_Classic/Stations/Colony/ColonyUnderground.yml # -Z1
+          - /Maps/_Classic/Stations/Colony/Colony-1.yml # -Z1
           mapsAbove:
           - /Maps/_Classic/Stations/Colony/Colony1.yml
+          - /Maps/_Classic/Stations/Colony/Colony2.yml
           zLevelsComponentOverrides:
             - type: MapAtmosphere
               space: False
