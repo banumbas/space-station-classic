@@ -46,6 +46,10 @@ public sealed partial class ClassicUndergroundLevelData
     [DataField]
     public bool LoadDecals;
 
+    /// <summary>
+    /// Ambient color used where terrain on a higher Z-level blocks planetary light.
+    /// Open columns still receive the surface day/night cycle.
+    /// </summary>
     [DataField]
     public Color MapLightColor = Color.FromHex("#050505");
 
