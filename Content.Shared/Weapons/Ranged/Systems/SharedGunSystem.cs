@@ -713,6 +713,17 @@ public abstract partial class SharedGunSystem : EntitySystem
         Dirty(gun, gun.Comp);
     }
 
+    // classic-start
+    public void SetSelectedMode(Entity<GunComponent?> gun, SelectiveFire mode)
+    {
+        if (!Resolve(gun, ref gun.Comp) || gun.Comp.SelectedMode == mode)
+            return;
+
+        gun.Comp.SelectedMode = mode;
+        Dirty(gun, gun.Comp);
+    }
+    // classic-end
+
     public void RefreshModifiers(Entity<GunComponent?> gun)
     {
         if (!Resolve(gun, ref gun.Comp))
