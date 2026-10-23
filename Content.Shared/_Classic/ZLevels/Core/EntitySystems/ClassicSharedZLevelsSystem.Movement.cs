@@ -259,6 +259,22 @@ public abstract partial class ClassicSharedZLevelsSystem
         entity.Comp.CachedStickyGround = sticky;
     }
 
+    public void RefreshGroundAfterTeleport(Entity<ClassicZPhysicsComponent?> entity)
+    {
+        if (!Resolve(entity, ref entity.Comp, false))
+            return;
+
+        if (_zMapQuery.TryComp(Transform(entity).MapUid, out var zLevel) &&
+            entity.Comp.CurrentZLevel != zLevel.Depth)
+        {
+            entity.Comp.CurrentZLevel = zLevel.Depth;
+            DirtyField(entity, entity.Comp, nameof(ClassicZPhysicsComponent.CurrentZLevel));
+        }
+
+        RequestCacheMovement((entity.Owner, entity.Comp));
+        RefreshBody((entity.Owner, entity.Comp));
+    }
+
     private void OnMoveEvent(Entity<ClassicZPhysicsComponent> entity, ref MoveEvent args)
     {
         if (_net.IsClient && !_clientSimulation)

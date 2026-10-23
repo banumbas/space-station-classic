@@ -4,6 +4,7 @@ using System.Numerics;
 using Content.Shared.DoAfter;
 using Content.Shared.Roles;
 using Robust.Shared.GameStates;
+using Robust.Shared.Map;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization;
 using Robust.Shared.Utility;
@@ -88,6 +89,8 @@ public sealed partial class VehicleEnterDoAfterEvent : SimpleDoAfterEvent
 
 [Serializable, NetSerializable]
 public sealed partial class VehicleExitDoAfterEvent : SimpleDoAfterEvent;
+
+public readonly record struct ClassicVehiclePrepareExitEvent(MapCoordinates Coordinates);
 
 [RegisterComponent, NetworkedComponent]
 [Access(typeof(ClassicVehicleSystem))]

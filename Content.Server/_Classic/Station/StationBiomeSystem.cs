@@ -1,5 +1,7 @@
 using Content.Server._Classic.ZCollapse;
 using Content.Server._Classic.ZLevels.Core;
+using Content.Server._Classic.ZLevels.Mapping;
+using Content.Server._Classic.ZLevels.Roof;
 using Content.Server.Atmos.EntitySystems;
 using Content.Server.Parallax;
 using Content.Server.Station.Events;
@@ -34,6 +36,8 @@ public sealed partial class ClassicStationBiomeSystem : EntitySystem
     [Dependency] private readonly SharedTransformSystem _transform = default!;
     [Dependency] private IRobustRandom _random = default!;
     [Dependency] private ClassicZLevelsSystem _zLevels = default!;
+    [Dependency] private ClassicZLevelMappingSystem _zMapping = default!;
+    [Dependency] private ClassicZLevelsRoofSystem _zLevelsRoof = default!;
 
     public override void Initialize()
     {
@@ -63,12 +67,12 @@ public sealed partial class ClassicStationBiomeSystem : EntitySystem
         {
             foreach (var grid in _map.GetAllGrids(surfaceMapComp.MapId))
             {
-                SetupTerrainGrid(grid.Owner, grid.Comp, ent.Comp.DisableGridSplitting, sunlight: true);
+                SetupTerrainGrid(grid.Owner, grid.Comp, ent.Comp.DisableGridSplitting);
             }
         }
         else
         {
-            SetupTerrainGrid(surfaceGridUid.Value, surfaceGrid, ent.Comp.DisableGridSplitting, sunlight: true);
+            SetupTerrainGrid(surfaceGridUid.Value, surfaceGrid, ent.Comp.DisableGridSplitting);
         }
 
         SetupSurfaceMap(surfaceMapUid, ent.Comp);
@@ -97,6 +101,8 @@ public sealed partial class ClassicStationBiomeSystem : EntitySystem
 
             SetupUndergroundLevel(mapUid, grid, level, seed, ent.Comp.DisableGridSplitting);
         }
+
+        _zMapping.TrySynchronizePlanetaryLighting(network);
     }
 
     /// <summary>
@@ -151,7 +157,7 @@ public sealed partial class ClassicStationBiomeSystem : EntitySystem
         {
             foreach (var upperGrid in _map.GetAllGrids(map.MapId))
             {
-                SetupTerrainGrid(upperGrid.Owner, upperGrid.Comp, component.DisableGridSplitting, sunlight: true);
+                SetupTerrainGrid(upperGrid.Owner, upperGrid.Comp, component.DisableGridSplitting);
             }
         }
 
@@ -175,7 +181,7 @@ public sealed partial class ClassicStationBiomeSystem : EntitySystem
         RemComp<ClassicGridStabilityComponent>(grid.Owner);
 
         SetupBiome(grid.Owner, level.Biome, seed);
-        SetupTerrainGrid(grid.Owner, grid.Comp, disableGridSplitting, sunlight: false);
+        SetupTerrainGrid(grid.Owner, grid.Comp, disableGridSplitting);
         SetupUndergroundMap(mapUid, level);
     }
 
@@ -212,7 +218,7 @@ public sealed partial class ClassicStationBiomeSystem : EntitySystem
         _biome.SetTemplate(gridUid, biome, _proto.Index(template));
     }
 
-    private void SetupTerrainGrid(EntityUid gridUid, MapGridComponent grid, bool disableGridSplitting, bool sunlight)
+    private void SetupTerrainGrid(EntityUid gridUid, MapGridComponent grid, bool disableGridSplitting)
     {
         if (disableGridSplitting && grid.CanSplit)
         {
@@ -229,16 +235,8 @@ public sealed partial class ClassicStationBiomeSystem : EntitySystem
         EnsureComp<ClassicZLevelRoofComponent>(gridUid);
         RemCompDeferred<ImplicitRoofComponent>(gridUid);
 
-        if (sunlight)
-        {
-            EnsureComp<SunShadowComponent>(gridUid);
-            EnsureComp<SunShadowCycleComponent>(gridUid);
-        }
-        else
-        {
-            RemComp<SunShadowComponent>(gridUid);
-            RemComp<SunShadowCycleComponent>(gridUid);
-        }
+        EnsureComp<SunShadowComponent>(gridUid);
+        EnsureComp<SunShadowCycleComponent>(gridUid);
     }
 
     private void SetupSurfaceMap(EntityUid mapUid, ClassicStationBiomeComponent component)
@@ -262,8 +260,7 @@ public sealed partial class ClassicStationBiomeSystem : EntitySystem
 
     private void SetupUndergroundMap(EntityUid mapUid, ClassicUndergroundLevelData level)
     {
-        RemComp<LightCycleComponent>(mapUid);
-        SetMapLight(mapUid, level.MapLightColor);
+        _zLevelsRoof.SetMapRoofAmbient(mapUid, level.MapLightColor);
         SetupMapEnvironment(mapUid, level.Temperature, level.Parallax);
     }
 

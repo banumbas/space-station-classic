@@ -48,6 +48,15 @@ public sealed partial class ClassicBiomeStreamingComponent : Component
     [DataField]
     public float ViewerSafetyMargin = 0.05f;
 
+    [DataField]
+    public int AdjacentLevelPrefetchRadius = 4;
+
+    [DataField]
+    public TimeSpan AdjacentPrefetchCacheDuration = TimeSpan.FromSeconds(2);
+
+    [DataField]
+    public int MaxAdjacentPrefetchCachedChunks = 8;
+
     /// <summary>
     /// Hard upper bound on the number of cells inspected and removed by one unload operation.
     /// Entity default-state comparison is substantially more expensive than clearing the tiles.
@@ -75,11 +84,6 @@ public sealed partial class ClassicBiomeStreamingComponent : Component
     [DataField]
     public int MarkerAreaCellsPerSlice = 64;
 
-    /// <summary>
-    /// Maximum opening-snapshot cells inspected by one continuation. Opening discovery uses the
-    /// uncached per-tile predicate so a cold 8x8 cache fill cannot hide an atomic 64-cell scan.
-    /// The biome system also applies a global hard ceiling and the shared wall-clock deadline.
-    /// </summary>
     [DataField]
     public int OpeningCellsPerSlice = 64;
 
@@ -90,7 +94,6 @@ public sealed partial class ClassicBiomeStreamingComponent : Component
     [DataField]
     public TimeSpan ZLevelCacheDuration = TimeSpan.FromSeconds(10);
 
-    /// <summary>Maximum cached Z-eye chunks per biome grid.</summary>
     [DataField]
     public int MaxZLevelCachedChunks = 64;
 
@@ -146,11 +149,13 @@ public sealed partial class ClassicBiomeStreamingComponent : Component
     /// a complete hidden 8x8 chunk on every neighbouring Z level.
     /// </summary>
     public readonly HashSet<Vector2i> LandingChunks = new();
+    public readonly HashSet<Vector2i> AdjacentPrefetchChunks = new();
+    public readonly HashSet<Vector2i> PreviousAdjacentPrefetchChunks = new();
+    public readonly HashSet<Vector2i> CachedAdjacentPrefetchChunks = new();
     public readonly List<Vector2i> ViewerCenters = new();
     public int ViewerCursor;
     public readonly Dictionary<Vector2i, TimeSpan> PendingUnloads = new();
 
-    /// <summary>Runtime expiry for cached Z-eye chunks.</summary>
     public readonly Dictionary<Vector2i, TimeSpan> CachedZChunks = new();
 
     /// <summary>
@@ -172,6 +177,12 @@ public sealed partial class ClassicBiomeStreamingComponent : Component
     /// </summary>
     public ClassicBiomeMarkerAreaScanState? MarkerAreaScan;
 
+    [DataField]
+    public Dictionary<Vector2i, Dictionary<Vector2i, ClassicBiomeMarkerCellState>> MarkerCells = new();
+
+    [DataField]
+    public Dictionary<string, HashSet<Vector2i>> PinnedMarkerAreas = new();
+
     /// <summary>
     /// Read-only opening snapshots keyed by their integer tile request. Multiple deeper Z-eyes
     /// commonly ask the same upper level about the same viewport; sharing avoids scanning it once
@@ -192,11 +203,6 @@ public readonly record struct ClassicBiomeOpeningScanKey(
     Vector2i FirstTile,
     Vector2i LastTile);
 
-/// <summary>
-/// Resumable, read-only snapshot of the procedural opening tiles relevant to one lower Z-eye.
-/// Required chunks are verified first, then the padded tile rectangle is scanned one cell at a
-/// time. Consumers must remain conservative (hidden) until <see cref="Phase"/> is complete.
-/// </summary>
 public sealed class ClassicBiomeOpeningScanState
 {
     /// <summary>Inclusive unpadded chunk-index range that must be fully materialized.</summary>
@@ -207,9 +213,17 @@ public sealed class ClassicBiomeOpeningScanState
     public readonly Vector2i FirstTile;
     public readonly Vector2i LastTile;
 
-    /// <summary>Current row-major cursors. Their active meaning is selected by <see cref="Phase"/>.</summary>
     public Vector2i NextChunk;
-    public Vector2i NextTile;
+    public Vector2i NextOpeningChunk;
+
+    public readonly Dictionary<Vector2i, ulong> OpeningChunkMasks = new();
+
+    public bool ExactQueryCached;
+    public Vector2i ExactQueryFirstTile;
+    public Vector2i ExactQueryLastTile;
+    public bool ExactQueryHasOpening;
+    public Vector2i ExactQueryFirstOpeningTile;
+    public Vector2i ExactQueryLastOpeningTile;
 
     /// <summary>
     /// Opening-cache revision at which scanning began. Any mismatch invalidates the partial or
@@ -218,9 +232,6 @@ public sealed class ClassicBiomeOpeningScanState
     public ulong Revision;
 
     public ClassicBiomeOpeningScanPhase Phase;
-    public bool HasOpening;
-    public Vector2i FirstOpeningTile = new(int.MaxValue, int.MaxValue);
-    public Vector2i LastOpeningTile = new(int.MinValue, int.MinValue);
 
     /// <summary>Collection generation in which this request was most recently observed.</summary>
     public int LastRequestGeneration;
@@ -242,23 +253,10 @@ public sealed class ClassicBiomeOpeningScanState
         FirstTile = firstTile;
         LastTile = lastTile;
         NextChunk = requiredFirstChunk;
-        NextTile = firstTile;
+        NextOpeningChunk = requiredFirstChunk;
         Revision = revision;
         LastRequestGeneration = requestGeneration;
         LastRequestTime = requestTime;
-    }
-
-    /// <summary>True when an existing continuation describes exactly the current tile request.</summary>
-    public bool Matches(
-        Vector2i requiredFirstChunk,
-        Vector2i requiredLastChunk,
-        Vector2i firstTile,
-        Vector2i lastTile)
-    {
-        return RequiredFirstChunk == requiredFirstChunk &&
-               RequiredLastChunk == requiredLastChunk &&
-               FirstTile == firstTile &&
-               LastTile == lastTile;
     }
 }
 
@@ -321,6 +319,44 @@ public enum ClassicBiomeMarkerAreaScanPhase : byte
 {
     Scanning,
     Selecting,
+}
+
+[DataDefinition]
+public sealed partial class ClassicBiomeMarkerCellState
+{
+    [DataField]
+    public string Layer = string.Empty;
+
+    [DataField]
+    public string Prototype = string.Empty;
+
+    [DataField]
+    public Vector2i MarkerChunk;
+
+    [DataField]
+    public HashSet<EntityUid> Entities = new();
+
+    [DataField]
+    public EntityUid Root;
+
+    [DataField]
+    public bool Modified;
+
+    public Dictionary<string, IComponent>? BaselineComponents;
+
+    public HashSet<string>? BaselineComponentNames;
+
+    public HashSet<EntityUid>? BaselineChildren;
+
+    public HashSet<string>? BaselineFactions;
+
+    public HashSet<string>? BaselineTags;
+
+    public HashSet<string>? BaselineSolutionContainers;
+
+    public string? BaselineName;
+
+    public string? BaselineDescription;
 }
 
 [DataDefinition]

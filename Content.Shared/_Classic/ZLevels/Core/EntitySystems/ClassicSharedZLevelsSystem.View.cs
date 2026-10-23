@@ -49,18 +49,34 @@ public abstract partial class ClassicSharedZLevelsSystem
     /// </summary>
     public int GetVisibleZLevelsAbove(EntityUid ent, Entity<ClassicZMapComponent?>? currentMapUid = null)
     {
+        if (!TryComp<ClassicZLevelViewerComponent>(ent, out var viewer))
+            return 0;
+
         currentMapUid ??= Transform(ent).MapUid;
 
         if (currentMapUid is null)
             return 0;
 
+        var worldPos = _transform.GetWorldPosition(ent);
+        var tile = new Vector2i(
+            (int) MathF.Floor(worldPos.X),
+            (int) MathF.Floor(worldPos.Y));
+        if (viewer.VisibleZLevelsAboveMap != currentMapUid.Value.Owner ||
+            viewer.VisibleZLevelsAboveTile != tile)
+        {
+            return 0;
+        }
+
+        var maxVisibleLevels = Math.Min(viewer.VisibleZLevelsAbove, MaxZLevelsAboveRendering);
+        if (maxVisibleLevels == 0)
+            return 0;
+
         if (!TryMapUp(currentMapUid.Value, out var checkingMap))
             return 0;
 
-        var worldPos = _transform.GetWorldPosition(ent);
         var visibleLevels = 0;
 
-        for (var i = 1; i <= MaxZLevelsAboveRendering; i++)
+        for (var i = 1; i <= maxVisibleLevels; i++)
         {
             // No grid or no chunk at this position means there's simply nothing there (open space),
             // not an opaque roof, so it shouldn't block sight upward. Mirrors HasOpaqueAbove below.
@@ -74,7 +90,7 @@ public abstract partial class ClassicSharedZLevelsSystem
 
             visibleLevels++;
 
-            if (i == MaxZLevelsAboveRendering || !TryMapUp(checkingMap.AsNullable(), out checkingMap))
+            if (i == maxVisibleLevels || !TryMapUp(checkingMap.AsNullable(), out checkingMap))
                 break;
         }
 

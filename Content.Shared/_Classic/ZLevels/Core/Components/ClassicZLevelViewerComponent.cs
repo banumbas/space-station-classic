@@ -28,6 +28,15 @@ public sealed partial class ClassicZLevelViewerComponent : Component
     [DataField, AutoNetworkedField]
     public bool LookUp;
 
+    [AutoNetworkedField]
+    public byte VisibleZLevelsAbove;
+
+    [AutoNetworkedField]
+    public EntityUid? VisibleZLevelsAboveMap;
+
+    [AutoNetworkedField]
+    public Vector2i VisibleZLevelsAboveTile;
+
     #region Actions
 
     [DataField]
