@@ -75,6 +75,10 @@
     soundGunshot:
       path: /Audio/_Classic/Weapons/Guns/apls_shot.ogg
   - type: GunRequiresWield
+  - type: CursorOffsetRequiresWield
+  - type: EyeCursorOffset
+    maxOffset: 5
+    pvsIncrease: 0.5
   - type: Battery
     maxCharge: 900
     startingCharge: 900
