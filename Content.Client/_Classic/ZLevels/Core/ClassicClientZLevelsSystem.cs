@@ -6,6 +6,7 @@
 using System.Collections.Generic;
 using System.Numerics;
 using Content.Client._Classic.ZLevels.Core.Overlays;
+using Content.Shared._Classic.Sprite;
 using Content.Shared._Classic.ZLevels.Core.Components;
 using Content.Shared._Classic.ZLevels.Core.EntitySystems;
 using Content.Shared.Camera;
@@ -27,6 +28,10 @@ public sealed partial class ClassicClientZLevelsSystem : ClassicSharedZLevelsSys
     [Dependency] private IOverlayManager _overlay = default!;
     [Dependency] private IEyeManager _eye = default!;
 
+    internal readonly ClassicZLevelOpeningCache OpeningCache = new(
+        maxCachedChunksPerGrid: 1024,
+        maxCachedChunksTotal: 4096);
+
     /// <summary>
     /// Entities with a non-zero visual Z contribution found by the pre-animation pass.
     /// The post-animation pass consumes this list instead of running the same global
@@ -44,6 +49,18 @@ public sealed partial class ClassicClientZLevelsSystem : ClassicSharedZLevelsSys
         SubscribeLocalEvent<ClassicZPhysicsComponent, ComponentStartup>(OnStartup);
         SubscribeLocalEvent<ClassicZPhysicsComponent, AfterAutoHandleStateEvent>(OnAfterHandleState);
         SubscribeLocalEvent<ClassicZPhysicsComponent, GetEyeOffsetEvent>(OnEyeOffset);
+        SubscribeLocalEvent<GridRemovalEvent>(OnOpeningGridRemoved);
+    }
+
+    protected override void OnTileChanged(Entity<MapGridComponent> ent, ref TileChangedEvent args)
+    {
+        OpeningCache.InvalidateTiles(ent, args.Changes);
+        base.OnTileChanged(ent, ref args);
+    }
+
+    private void OnOpeningGridRemoved(GridRemovalEvent args)
+    {
+        OpeningCache.RemoveGrid(args.EntityUid);
     }
 
     private void OnEyeOffset(Entity<ClassicZPhysicsComponent> ent, ref GetEyeOffsetEvent args)
@@ -76,7 +93,9 @@ public sealed partial class ClassicClientZLevelsSystem : ClassicSharedZLevelsSys
         if (sprite.SnapCardinals)
             return;
 
-        ent.Comp.DrawDepthDefault = sprite.DrawDepth;
+        ent.Comp.DrawDepthDefault = TryComp<ClassicPerspectiveDepthComponent>(ent, out var perspective)
+            ? perspective.BaseDrawDepth
+            : sprite.DrawDepth;
         ent.Comp.SpriteOffsetDefault = sprite.Offset;
     }
 
@@ -97,6 +116,7 @@ public sealed partial class ClassicClientZLevelsSystem : ClassicSharedZLevelsSys
         VisualEntities.Clear();
         VisualEntitySet.Clear();
         PendingVisualEntities.Clear();
+        OpeningCache.Clear();
     }
 }
 
